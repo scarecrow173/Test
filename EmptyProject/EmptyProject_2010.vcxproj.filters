@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns:atg="http://atg.xbox.com" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8e114980-c1a3-4ada-ad7c-83caadf5daeb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{a43c5c25-0e86-4a20-b64a-883785ff74fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{fb596069-372c-4131-bbab-f84483841ed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utill">
+      <UniqueIdentifier>{2d13e532-aa90-4937-9911-172a7e337cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame">
+      <UniqueIdentifier>{cd7f6669-4aba-4440-9160-d101c6dfd5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Collision">
+      <UniqueIdentifier>{a52c70db-814d-4caf-bfbf-55e210bff1f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Sound">
+      <UniqueIdentifier>{e24a2244-217f-47c5-a416-623a03870a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\UI">
+      <UniqueIdentifier>{f10de150-516b-45b1-bdfd-c064e3e97b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Scene">
+      <UniqueIdentifier>{9a007f41-bbc0-42ba-812b-d28e94c9f402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Graphics">
+      <UniqueIdentifier>{d7e55428-8127-4584-a64e-80d0677f1db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Object">
+      <UniqueIdentifier>{dd30e479-acf1-44e4-93f7-9da172684847}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXUT\Optional\directx.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <ClInclude Include="DXUT\Core\DXUT.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTenum.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Core\DXUTmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClCompile Include="DXUT\Core\DXUT.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTenum.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Core\DXUTmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClInclude Include="DXUT\Optional\DXUTcamera.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTgui.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTres.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\DXUTsettingsdlg.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\SDKmesh.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\Optional\SDKmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClCompile Include="DXUT\Optional\DXUTcamera.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTgui.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTres.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\SDKmesh.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\Optional\SDKmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <None Include="ClassDefault.txt">
+      <Filter>Source\Utill</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Source\CollisionBox.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionManager.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ICollisonObject.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionSphere.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SphereFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BoxFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRenderObject.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Title.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneNode.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RootNode.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Result.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stage2.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stage3.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stage1.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Loading.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AutoPerformance.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugUtill.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicsManager.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Colors.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MyMath.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SquareFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRenderer.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TriangleRenderer.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UseFixed.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowPolygonRenderer.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\INode.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlockSystem.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Block.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ball.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Wall.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputKeyboard.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Paddle.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Item.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CLInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </CLInclude>
+    <ResourceCompile Include="EmptyProject.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ClInclude Include="Source\Types.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DebugNew.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Layer.h">
+      <Filter>Source\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ICollisonObject.h">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionManager.h">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionBox.h">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionSphere.h">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SoundManager.h">
+      <Filter>Source\InGame\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Title.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage1.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneNode.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RootNode.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Result.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Loading.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoxFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SphereFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MyMath.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage2.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage3.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IRenderObject.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AutoPerformance.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DebugUtill.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GraphicsManager.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Elements.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Colors.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteTexture.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IShaderObject.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SquareFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IndexData.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IRenderer.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TriangleRenderer.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LineRenderer.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WindowPolygonRenderer.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UseFixed.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Paddle.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Block.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BlockSystem.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\INode.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Ball.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Wall.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InputKeyboard.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
