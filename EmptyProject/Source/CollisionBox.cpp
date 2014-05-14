@@ -20,10 +20,10 @@ using namespace Collision;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 CollisionBox::CollisionBox()
-	:	ICollisonObject()
-	,	m_Width		(Math::F32_MAX)
-	,	m_Height	(Math::F32_MAX)
-	,	m_Depth		(Math::F32_MAX)
+	:	ICollisonObject	()
+	,	m_Width			(Math::F32_MAX)
+	,	m_Height		(Math::F32_MAX)
+	,	m_Depth			(Math::F32_MAX)
 {
 }
 //-------------------------------------------------------------
@@ -74,8 +74,7 @@ bool CollisionBox::Check(CollisionBox* box)
 	
 	F32 t = GetTime(*box);
 
-	if (t >= 0 && t<= 1.f)
-		relativeSpeed *= t;
+	relativeSpeed *= (t >= 0 && t<= 1.f) ? t : 1.f;
 	
 	this->GetCollisionPos(max, min);
 	box->GetCollisionPos(otherMax, otherMin);

@@ -12,17 +12,12 @@
 #include "AutoPerformance.h"
 #include "Elements.h"
 #include "Colors.h"
-//#include "GraphicsManager.h"
 #include "BoxFactory.h"
 #include "SphereFactory.h"
 #include "SquareFactory.h"
-#include "TriangleRenderer.h"
-#include "UseFixed.h"
-#include "CollisionBox.h"
-#include "CollisionSphere.h"
+
 #include "bass.h"
-#include "InputKeyboard.h"
-#include "CSVReader.h"
+
 
 
 
@@ -117,7 +112,7 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	Count += 0.02f;
 	lLight.Position.x=0;
 	lLight.Position.z=10;
-	lLight.Direction = D3DXVECTOR3(cos(fTime), -(sin(fTime)), tan(fTime));
+	lLight.Direction = D3DXVECTOR3(cosf(fTime), -(sinf(fTime)), tanf(fTime));
     lLight.Type = D3DLIGHT_DIRECTIONAL; 
     lLight.Diffuse.r = 1.0f;
     lLight.Diffuse.g = 1.0f;
@@ -132,8 +127,6 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	DEBUG_PRINT_CHAR("/μs");
 	DEBUG_PRINT_FLOAT(fElapsedTime);
 	
-	int stop = 0;
-
 }
 
 
@@ -285,21 +278,15 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_mrg->m_Device = g_Device;
 	g_mrg->Initialize();
 	//DXUTGetD3D9Device()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	
-	
-	AK::Graphics::IndexData indexdata;
+	//AK::Graphics::IndexData indexdata;
 	//0.9005
 	//auto vec3 = AK::Math::ScreenToWorld(Vector2( 300, 100), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 
-	auto vec3 = AK::Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT - 50.f), 1000.f, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
+	//auto vec3 = AK::Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT - 50.f), 1000.f, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 
-
-
-	
 	g_mrg->SetView(view);
 	g_mrg->SetProjection(projction);
-
 	
 	BASS_Init(-1, 44100, 0, DXUTGetHWND(), 0);
 	HSTREAM streamHndle;
@@ -308,9 +295,10 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	//	テストコード
 	//=====================================================
+
 	// Start the render loop
     DXUTMainLoop();
-	U32 count = 0;
+//	U32 count = 0;
 
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();

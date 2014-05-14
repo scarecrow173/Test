@@ -68,25 +68,15 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	proj = GraphicsManager::GetInstance()->GetProjection();
 
 	//	�Ǎ쐬
-	//auto lv = Math::ScreenToWorld(Vector2(0.f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 lv(550.f, 0, 0);
-	//lv.x += 5.f;
-	//lv.z = 0.f;
+	F32	offset = 550.f;
+	Vector3 lv(offset, 0, 0);
 	
-	//auto rv	 = Math::ScreenToWorld(Vector2(WINDOW_WIDTH, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 rv(-550.f, 0, 0);
-	//rv.x -= 5.f;
-	//rv.z = 0.f;
+	Vector3 rv(-offset, 0, 0);
 	
-	//auto tv = Math::ScreenToWorld(Vector2(WINDOW_WIDTH *  0.5f, 0), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 tv(0.f, 550.f, 0.f);
-	//tv.y += 5.f;
-	//tv.z = 0.f;
-	
-	//auto bv = Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 bv(0.f, -550.f, 0.f);
-	//bv.y -= 5.f;
-	//bv.z = 0.f;
+	Vector3 tv(0.f, offset, 0.f);
+
+	Vector3 bv(0.f, -offset, 0.f);
+
 
 	Wall *left, *right, *top, *bottom;
 	

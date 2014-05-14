@@ -5,7 +5,7 @@
 //=======================================================================================
 #pragma once
 #include "GameObject.h"
-#include "../bass.h"
+#include "bass.h"
 #include "InputKeyboard.h"
 namespace AK
 {

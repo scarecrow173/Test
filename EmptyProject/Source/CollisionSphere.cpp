@@ -67,8 +67,7 @@ bool CollisionSphere::Check(CollisionBox* box)
 
 	F32 t = box->GetTime(*this);
 
-	if (t >= 0 && t<= 1.f)
-		relativeSpeed *= t;
+	relativeSpeed *= (t >= 0 && t<= 1.f) ? t : 1.f;
 
 	box->GetCollisionPos(max, min);
 

@@ -64,7 +64,6 @@ Item::Item(Paddle* parent, Vector3 pos, ITEM_TYPE type)
 
 	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), 0.5f, 0.5f, 0.5f);
 	m_Collison->SetGravity(true);
-	//parent->GetCollison()->PushCollisonList(m_Collison);
 	m_Collison->PushCollisonList(parent->GetCollison());
 }
 //-------------------------------------------------------------
@@ -105,7 +104,6 @@ void Item::Update()
 			break;
 		}
 		m_Renderer->SetActive(false);
-		//((Paddle*)m_Parent)->PushItem(this);
 	}
 
 	m_Position = m_Collison->GetPosition();

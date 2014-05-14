@@ -66,7 +66,7 @@ void BlockSystem::Start()
 bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader)
 {
 	assert(m_Ball);
-	//auto vec3 = AK::Math::ScreenToWorld(Vector2(((count % 8) * 75) + 50, (count / 8) * 50 + 50), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
+
 	Matrix view,proj;
 	view = GraphicsManager::GetInstance()->GetView();
 	proj = GraphicsManager::GetInstance()->GetProjection();
@@ -76,7 +76,7 @@ bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader
 	{
 		if (StageData.Data[i] == 0)
 			continue;
-		//auto vec3 = AK::Math::ScreenToWorld(Vector2(((i % StageData.row) * 75) + 50, (i / StageData.row) * 50 + 50), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+
 		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
 		Block* block = NEW Block(this, vec3, StageData.Data[i]);
 		this->AttachNode(block);

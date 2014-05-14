@@ -24,38 +24,42 @@ void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
     *q = b->GetPosition();
     F32 dist;
 	dist = D3DXVec3Dot(&d, &Vector3(1.f, 0.f, 0.f));
+	
+	F32 Width	= b->GetWidth()		* 0.5f;
+	F32 Height	= b->GetHeight()	* 0.5f;
+	F32 Depth	= b->GetDepth()		* 0.5f;
 
-	if(dist > b->GetWidth() * 0.5f)
+	if(dist > Width)
 	{
-		dist = b->GetWidth() * 0.5f;
+		dist = Width;
 	}
-	if(dist < -b->GetWidth() * 0.5f)
+	if(dist < -Width)
 	{
-		dist = -b->GetWidth() * 0.5f;
+		dist = -Width;
 	}
 	*q += dist * Vector3(1.f, 0.f, 0.f);
 
 	dist = D3DXVec3Dot(&d, &Vector3(0.f, 1.f, 0.f));
 
-	if(dist > b->GetHeight() * 0.5f)
+	if(dist > Height)
 	{
-		dist = b->GetHeight() * 0.5f;
+		dist = Height;
 	}
-	if(dist < -b->GetHeight() * 0.5f)
+	if(dist < -Height)
 	{
-		dist = -b->GetHeight() * 0.5f;
+		dist = -Height;
 	}
 	*q += dist * Vector3(0.f, 1.f, 0.f);
 
 	dist = D3DXVec3Dot(&d, &Vector3(0.f, 0.f, 1.f));
 
-	if(dist > b->GetDepth() * 0.5f)
+	if(dist > Depth)
 	{
-		dist = b->GetDepth() * 0.5f;
+		dist = Depth;
 	}
-	if(dist < -b->GetDepth() * 0.5f)
+	if(dist < -Depth)
 	{
-		dist = -b->GetDepth() * 0.5f;
+		dist = -Depth;
 	}
 	*q += dist * Vector3(0.f, 0.f, 1.f);
 

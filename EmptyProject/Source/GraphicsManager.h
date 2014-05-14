@@ -79,6 +79,7 @@ public:
 
 	bool	Initialize();
 	void	Draw();
+	
 	IDirect3DDevice9*		m_Device;
 private:
 
