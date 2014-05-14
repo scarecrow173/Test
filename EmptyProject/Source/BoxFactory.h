@@ -26,7 +26,7 @@ public:
 	static BoxFactory*	GetInstance();
 	
 	IndexData			CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color, std::vector<U32>& indexArray);
-
+	void				AllClear();
 private:
 	BoxFactory();
 	virtual ~BoxFactory();

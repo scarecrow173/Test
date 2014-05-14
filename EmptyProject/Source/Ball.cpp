@@ -39,9 +39,11 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	,	m_IsRespawn		(true)
 	,	m_Shader		(NULL)
 {
+	static const F32 RADIUS = 30.f;
+
 	std::vector<U32> indexSrc;
 	IndexData indexData;
-	indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), 0.2f, ARGBColors::Green, indexSrc);
+	indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), RADIUS, ARGBColors::Green, indexSrc);
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
@@ -54,7 +56,7 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collison = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), 0.2f);
+	m_Collison = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), RADIUS);
 	m_Collison->SetReflection(true);
 	m_Collison->SetReflectionFactor(1.1f);
 
@@ -66,21 +68,25 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	proj = GraphicsManager::GetInstance()->GetProjection();
 
 	//	�Ǎ쐬
-	auto lv = Math::ScreenToWorld(Vector2(0.f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	lv.x += 5.f;
-	lv.z = 0.f;
+	//auto lv = Math::ScreenToWorld(Vector2(0.f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 lv(550.f, 0, 0);
+	//lv.x += 5.f;
+	//lv.z = 0.f;
 	
-	auto rv	 = Math::ScreenToWorld(Vector2(WINDOW_WIDTH, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	rv.x -= 5.f;
-	rv.z = 0.f;
+	//auto rv	 = Math::ScreenToWorld(Vector2(WINDOW_WIDTH, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 rv(-550.f, 0, 0);
+	//rv.x -= 5.f;
+	//rv.z = 0.f;
 	
-	auto tv = Math::ScreenToWorld(Vector2(WINDOW_WIDTH *  0.5f, 0), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	tv.y += 5.f;
-	tv.z = 0.f;
+	//auto tv = Math::ScreenToWorld(Vector2(WINDOW_WIDTH *  0.5f, 0), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 tv(0.f, 550.f, 0.f);
+	//tv.y += 5.f;
+	//tv.z = 0.f;
 	
-	auto bv = Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	bv.y -= 5.f;
-	bv.z = 0.f;
+	//auto bv = Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 bv(0.f, -550.f, 0.f);
+	//bv.y -= 5.f;
+	//bv.z = 0.f;
 
 	Wall *left, *right, *top, *bottom;
 	
@@ -130,7 +136,7 @@ void Ball::Update()
 			{
 				AddDeathCount();
 				auto respawn = m_Paddle->GetPosition();
-				respawn.y += 2.f;
+				respawn.y += 110.f;
 				m_Collison->SetPosition(respawn);
 				m_Collison->SetSpeed(Vector3(0.f, 0.f, 0.f));
 				m_IsRespawn = true;
@@ -141,15 +147,15 @@ void Ball::Update()
 	}
 	if (m_IsRespawn && m_Keyboard.IsTrigger(KEY_BUTTON1))
 	{
-		Vector3 resSpeed(0.03f, 0.02f, 0.f);
-		resSpeed.x = m_Paddle->GetCollison()->GetSpeed().x > 0 ? 0.03f : -0.03f;
+		Vector3 resSpeed(10.f, 5.f, 0.f);
+		resSpeed.x = m_Paddle->GetCollison()->GetSpeed().x > 0 ? 10.f : -10.f;
 		m_Collison->SetSpeed(resSpeed);
 		m_IsRespawn = false;
 	}
 	if (m_IsRespawn)
 	{
 		auto respawn = m_Paddle->GetPosition();
-		respawn.y += 2.f;
+		respawn.y += 110.f;
 		m_Collison->SetPosition(respawn);
 	}
 	m_Position = m_Collison->GetPosition();

@@ -30,13 +30,13 @@ Wall::Wall(INode* parent, Vector3 pos, WALL_TYPE type)
 	{
 	case WALL_LEFT:
 	case WALL_RIGHT:
-		width	= 10.f;
-		height	= 50.f;
+		width	= 50.f;
+		height	= 1000.f;
 		break;
 	case WALL_TOP:
 	case WALL_BOTTOM:
-		width	= 50.f;
-		height	= 10.f;
+		width	= 1000.f;
+		height	= 50.f;
 		break;
 	default:
 		break;

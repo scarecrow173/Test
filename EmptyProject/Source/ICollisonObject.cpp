@@ -8,6 +8,8 @@
 //=======================================================================================
 #include "ICollisonObject.h"
 #include <algorithm>
+#include "CollisionBox.h"
+#include "CollisionSphere.h"
 using namespace AK;
 using namespace Collision;
 //=======================================================================================
@@ -16,6 +18,48 @@ using namespace Collision;
 U32	ICollisonObject::IDAssignment			= 0;
 const F32 ICollisonObject::GRAVITY_POWER	= 0.05f;
 
+void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
+{
+	D3DXVECTOR3 d = *p - b->GetPosition();
+    *q = b->GetPosition();
+    F32 dist;
+	dist = D3DXVec3Dot(&d, &Vector3(1.f, 0.f, 0.f));
+
+	if(dist > b->GetWidth() * 0.5f)
+	{
+		dist = b->GetWidth() * 0.5f;
+	}
+	if(dist < -b->GetWidth() * 0.5f)
+	{
+		dist = -b->GetWidth() * 0.5f;
+	}
+	*q += dist * Vector3(1.f, 0.f, 0.f);
+
+	dist = D3DXVec3Dot(&d, &Vector3(0.f, 1.f, 0.f));
+
+	if(dist > b->GetHeight() * 0.5f)
+	{
+		dist = b->GetHeight() * 0.5f;
+	}
+	if(dist < -b->GetHeight() * 0.5f)
+	{
+		dist = -b->GetHeight() * 0.5f;
+	}
+	*q += dist * Vector3(0.f, 1.f, 0.f);
+
+	dist = D3DXVec3Dot(&d, &Vector3(0.f, 0.f, 1.f));
+
+	if(dist > b->GetDepth() * 0.5f)
+	{
+		dist = b->GetDepth() * 0.5f;
+	}
+	if(dist < -b->GetDepth() * 0.5f)
+	{
+		dist = -b->GetDepth() * 0.5f;
+	}
+	*q += dist * Vector3(0.f, 0.f, 1.f);
+
+}
 bool CalcParticlePlaneAfterPos(
    Vector3* colliPos,
    Vector3* velo,
@@ -93,24 +137,21 @@ void ICollisonObject::Update(std::vector<ICollisonObject*>& collision)
 		{
 			m_IsHit = true;
 			collision.emplace_back(*it);
-			DEBUG_PRINT_CHAR("HIT!!");
+			auto v2 = m_Position;
+			auto box = dynamic_cast<CollisionBox*>(*it);
+			if (box)
+				ClosestPtPoint(&v2, box, &v1);
+			else
+				v1 = m_Position - (m_Position + (m_Speed * speedFactor));
+
+			(*it)->m_Normal = v1;
+			v1 = m_Position - v1;
+			m_Normal = v1;
+
 			F32 t = GetTime(*(*it));
 			speedFactor = (t >= 0.f && t <= 1.f) ? t : 1.f;
-
-			auto v2 = m_Position - (*it)->m_Position;
-			v1 = m_Position - (m_Position + (m_Speed * speedFactor));
-			if (abs(v2.x) > abs(v2.y))
-			{
-				v1.y = 0.f;
-				v1.z = 0.f;
-			}
-			else
-			{
-				v1.x = 0.f;
-				v1.z = 0.f;
-			}
+			
 			D3DXVec3Normalize(&v1, &v1);
-
 		}
 	}
 
@@ -125,23 +166,17 @@ void ICollisonObject::Update(std::vector<ICollisonObject*>& collision)
 	{
 		Vector3 velo = m_Speed;
 		
-		CalcParticlePlaneAfterPos(
-			&m_Position,
-			&velo,
-			1.1f,
-			speedFactor,
-			&v1,
-			&m_Position,
-			&m_Speed);
+		CalcParticlePlaneAfterPos(&m_Position, &velo, 1.1f, speedFactor,
+			&v1, &m_Position, &m_Speed);
 		
 		m_Speed.z = 0.0f;
-		if (abs(m_Speed.x) > 0.1f)
+		if (abs(m_Speed.x) > 15.f)
 		{
-			m_Speed.x = (m_Speed.x > 0.f) ? 0.1f : -0.1f;
+			m_Speed.x = (m_Speed.x > 0.f) ? 15.f : -15.f;
 		}
-		if (abs(m_Speed.y) > 0.1f)
+		if (abs(m_Speed.y) > 15.f)
 		{
-			m_Speed.y = (m_Speed.y > 0.f) ? 0.1f : -0.1f;
+			m_Speed.y = (m_Speed.y > 0.f) ? 15.f : -15.f;
 		}
 	}
 	m_IsHit = false;

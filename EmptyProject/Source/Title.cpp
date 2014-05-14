@@ -43,7 +43,7 @@ void Title::Update()
 SceneNode*	Title::ChangeScene()
 {
 	if (DXUTIsKeyDown('A'))
-		return NEW Stage1(m_Parent);
+		return NEW Stage1(m_Parent, 0);
 	return this;
 }
 //-------------------------------------------------------------

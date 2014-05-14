@@ -26,11 +26,14 @@ using namespace Collision;
 Paddle::Paddle(INode* parent, Vector3 pos)
 	:	GameObject	(parent, pos)
 	,	m_Item		(NULL)
-	,	m_Speed		(0.01f)
+	,	m_Speed		(3.f)
 {
+	static const F32 WIDTH	= 400.f;
+	static const F32 HEIGHT	= 80.f;
+
 	std::vector<U32> indexSrc;
 	IndexData indexData;
-	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(2.f, 0.5f, 0.5f), ARGBColors::Yellow, indexSrc);
+	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Yellow, indexSrc);
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
@@ -43,7 +46,7 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), 2.f, 0.5f, 0.5f);
+	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
 	m_Collison->SetReflection(true);
 	m_Collison->SetAttenuation(true);
 	m_Collison->SetAttenuationFactor(0.91f);

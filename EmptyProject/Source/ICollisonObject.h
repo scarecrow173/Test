@@ -55,7 +55,7 @@ public:
 	void	SetAttenuationFactor(F32 attenuation);
 	void	PushCollisonList(ICollisonObject* obj);
 	void	EraseCollisonList(ICollisonObject* obj);
-
+	Vector3		m_Normal;
 protected:
 	void AssertError();
 	virtual void _AssretError(){};
@@ -73,7 +73,7 @@ protected:
 	Vector3		m_CenterPos;
 	F32			m_ReflectionFactor;
 	F32			m_AttenuationFactor;
-	Vector3		m_Normal;
+
 	U32			m_ID;
 
 	std::vector<ICollisonObject*> m_CollisonList;

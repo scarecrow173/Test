@@ -6,6 +6,7 @@
 #pragma once
 #include "GameObject.h"
 #include "IndexData.h"
+#include "Elements.h"
 namespace AK
 {
 
@@ -18,7 +19,7 @@ namespace AK
 class Block : public GameObject
 {
 public:
-	Block(INode* parent, Vector3 pos);
+	Block(INode* parent, Vector3 pos, U32 lifeCount);
 	virtual ~Block();
 
 	void	Update();
@@ -29,8 +30,9 @@ public:
 protected:
 
 private:
-	U32					m_LifeCount;
-	Graphics::IndexData	m_IndexData;
+	U32						m_LifeCount;
+	Graphics::IndexData		m_IndexData;
+	Graphics::VertexARGB	m_Color;
 };
 //=======================================================================================
 //		inline method

@@ -207,6 +207,9 @@
     <ClCompile Include="Source\Item.cpp">
       <Filter>Source\InGame\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CSVReader.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -345,6 +348,9 @@
       <Filter>Source\InGame\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\InputKeyboard.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CSVReader.h">
       <Filter>Source\Utill</Filter>
     </ClInclude>
   </ItemGroup>

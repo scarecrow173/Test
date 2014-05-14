@@ -393,6 +393,7 @@
     <ClCompile Include="Source\CollisionManager.cpp" />
     <ClCompile Include="Source\CollisionSphere.cpp" />
     <ClCompile Include="Source\Colors.cpp" />
+    <ClCompile Include="Source\CSVReader.cpp" />
     <ClCompile Include="Source\DebugUtill.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GraphicsManager.cpp" />
@@ -427,6 +428,7 @@
     <ClInclude Include="Source\CollisionManager.h" />
     <ClInclude Include="Source\CollisionSphere.h" />
     <ClInclude Include="Source\Colors.h" />
+    <ClInclude Include="Source\CSVReader.h" />
     <ClInclude Include="Source\DebugNew.h" />
     <ClInclude Include="Source\DebugUtill.h" />
     <ClInclude Include="Source\Elements.h" />

@@ -29,6 +29,9 @@ public:
 	bool Check(ICollisonObject* obj);
 	bool Check(CollisionBox* box);
 	bool Check(CollisionSphere* sphere);
+	F32	 GetTime(ICollisonObject& obj);
+
+	F32	 GetRadius(){return m_Radius;}
 
 private:
 	void _AssretError();

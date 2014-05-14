@@ -22,6 +22,7 @@
 #include "CollisionSphere.h"
 #include "bass.h"
 #include "InputKeyboard.h"
+#include "CSVReader.h"
 
 
 
@@ -36,7 +37,6 @@ AK::Graphics::GraphicsManager* g_mrg = NULL;
 Matrix world,view, projction;
 
 std::vector<U32> indexSrc;
-
 
 //--------------------------------------------------------------------------------------
 // Rejects any D3D9 devices that aren't acceptable to the app by returning false
@@ -108,8 +108,6 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 #endif
 	AUTOPROFILE(0);
 	AK::Debug::UpdateDebugConsole();
-
-
 
 
 	//	テキトーにライトを設定
@@ -195,7 +193,40 @@ void CALLBACK OnD3D9DestroyDevice( void* pUserContext )
 
 }
 
+////////////////////////////////////////
+// 境界球をカメラに収めるView行列算出
+//
+// out    : ビュー行列（出力）
+// r      : 境界球半径
+// fovY   : 画角Y
+// aspect : アスペクト比
+// direct : カメラの向きベクトル
+// up     : カメラの上ベクトル
+// 戻り値 : ビュー行列
 
+D3DXMATRIX *getViewMatrixTakingSphereInCamera(
+    D3DXMATRIX* out,
+    const D3DXVECTOR3& center,
+    float r,
+    float fovY,
+    float aspect,
+    const D3DXVECTOR3& direct,
+    const D3DXVECTOR3& up
+) {
+    // fovYとfovXの小さい方をθとして選択
+    float theta = (aspect >= 1.0f) ? fovY : fovY * aspect;
+
+    // 引く距離を算出
+    float d = r / sin( theta / 2.0f );
+
+    // カメラ位置確定
+    D3DXVECTOR3 normDirect;
+    D3DXVec3Normalize( &normDirect, &direct );
+    D3DXVECTOR3 pos = center - normDirect * d;
+
+    // ビュー行列作成
+    return D3DXMatrixLookAtLH( out, &pos, &center, &up );
+}
 //--------------------------------------------------------------------------------------
 // Initialize everything and go into a render loop
 //--------------------------------------------------------------------------------------
@@ -242,9 +273,10 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_Device->GetViewport(&viewPort);
 	
 	D3DXMatrixIdentity(&world);
-	D3DXMatrixPerspectiveFovLH( &projction, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, 1.0f, 2000.0f);
-	D3DXMatrixLookAtLH( &view, &D3DXVECTOR3( 0, 0, 10), &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 1, 0) );
+	D3DXMatrixPerspectiveFovLH( &projction, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, 1.f, 2001.0f);
+	D3DXMatrixLookAtLH( &view, &D3DXVECTOR3( 0, 0, 500), &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 1, 0) );
 
+	getViewMatrixTakingSphereInCamera(&view, Vector3(0,0,0), 500.f, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, Vector3(0, 0, -1), Vector3(0, 1, 0));
 
 	g_Device->SetTransform(D3DTS_WORLD, &world);
 	g_Device->SetTransform(D3DTS_VIEW, &view);
@@ -260,11 +292,9 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	//0.9005
 	//auto vec3 = AK::Math::ScreenToWorld(Vector2( 300, 100), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 
-	auto vec3 = AK::Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT - 50.f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
+	auto vec3 = AK::Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT - 50.f), 1000.f, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 
-	Vector3 out;
-	Vector3 pos(0,0,0);
-	D3DXVec3Project(&out, &pos, &viewPort, &projction, &view, &world);
+
 
 	
 	g_mrg->SetView(view);

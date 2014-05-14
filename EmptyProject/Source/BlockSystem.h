@@ -29,7 +29,7 @@ public:
 	
 	void Update();
 	void Start();
-	bool CreateStageBlocks(U32 row, U32 column, Graphics::IShaderObject* shader);
+	bool CreateStageBlocks(std::string& filePath, Graphics::IShaderObject* shader);
 	bool Clear();
 
 	void DeleteBlock(Collision::ICollisonObject* obj);

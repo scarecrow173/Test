@@ -16,19 +16,28 @@
 #include "GraphicsManager.h"
 #include "UseFixed.h"
 #include "CollisionBox.h"
+#include "CSVReader.h"
+#include "BoxFactory.h"
+#include "SphereFactory.h"
 
 using namespace AK;
 using namespace Graphics;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-
+std::string	Stage1::StageDataPath[STAGE_MAX] = 
+{
+	"Assets/CSV/Stage/Stage01.csv",
+	"Assets/CSV/Stage/Stage02.csv",
+	"Assets/CSV/Stage/Stage03.csv",
+};
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Stage1::Stage1(INode* parent)
+Stage1::Stage1(INode* parent, U32 stageCount)
 	:	SceneNode	(parent)
 	,	m_IsEnd		(false)
+	,	m_StageCount(stageCount)
 	,	m_Shader	(NEW UseFixed())
 {}
 //-------------------------------------------------------------
@@ -38,6 +47,8 @@ Stage1::~Stage1()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	SAFE_DELETE(m_Shader);
+	BoxFactory::GetInstance()->AllClear();
+	SphereFactory::GetInstance()->AllClear();
 }
 //=======================================================================================
 //		public method
@@ -59,13 +70,10 @@ SceneNode*	Stage1::ChangeScene()
 	//if (++count % 300 == 0)
 	//	return NEW Stage2();
 
-	if (m_IsEnd)
+	if (m_IsEnd || (m_StageCount >= STAGE_MAX ))
 		return NEW Title(m_Parent);
 	if (m_BlockSystem->Clear())
-		return NEW Stage1(m_Parent);
-
-
-
+		return NEW Stage1(m_Parent, ++m_StageCount);
 	return this;
 }
 //-------------------------------------------------------------
@@ -84,21 +92,21 @@ bool Stage1::Initialize()
 	view = GraphicsManager::GetInstance()->GetView();
 	proj = GraphicsManager::GetInstance()->GetProjection();
 
-	auto paddlePos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT - 10.f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	//auto paddlePos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT - 10.f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 paddlePos(0.f, -400.f, 0.f);
 	Paddle* paddle = NEW Paddle(this, paddlePos);
 	
 	//	ボール作成
-	auto ballPos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	//auto ballPos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+	Vector3 ballPos(0.f, -250.f, 0.f);
 	Ball* ball = NEW Ball(this, ballPos, paddle);
 	
 	m_Shader->AddRenderer(paddle->GetRenderer());
 
-	//ball->GetCollison()->PushCollisonList(paddle->GetCollison());
-
 
 	m_Shader->AddRenderer(ball->GetRenderer());
 	m_BlockSystem->SetBall(ball);
-	m_BlockSystem->CreateStageBlocks( 8, 2, m_Shader);
+	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader);
 
 
 	ball->SetBlockSystem(m_BlockSystem);

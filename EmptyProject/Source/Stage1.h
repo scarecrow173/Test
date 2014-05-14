@@ -18,7 +18,7 @@ class BlockSystem;
 class Stage1: public SceneNode
 {
 public:
-	Stage1(INode* parent);
+	Stage1(INode* parent, U32 stageCount);
 	virtual ~Stage1();
 
 	void		Update();
@@ -29,9 +29,13 @@ public:
 protected:
 
 private:
+	static const U32			STAGE_MAX = 3;
+	
+	static std::string			StageDataPath[STAGE_MAX];
 	bool						m_IsEnd;
 	Graphics::IShaderObject*	m_Shader;
 	BlockSystem*				m_BlockSystem;
+	U32							m_StageCount;
 
 };
 

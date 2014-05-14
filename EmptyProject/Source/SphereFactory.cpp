@@ -63,6 +63,7 @@ void SphereFactory::Destroy()
 //---------------------------------------------------------------------------------------
 IndexData SphereFactory::CreateSphere(Vector3 vCenter, F32 radius, VertexARGB color, std::vector<U32>& indexArray)
 {
+	assert(GraphicsManager::SPHERE_NUM > m_SphereCount);
 	static U32 boxOffset		= (GraphicsManager::ONE_BOX_VERTEX_NUM * GraphicsManager::BOX_NUM);
 	U32	offset		= boxOffset + (m_SphereCount * GraphicsManager::ONE_SPHERE_VERTEX_NUM);
 	U32 count		= 0;
@@ -82,9 +83,14 @@ IndexData SphereFactory::CreateSphere(Vector3 vCenter, F32 radius, VertexARGB co
 			GraphicsManager::m_VertexBase[offset + count].position.y = y;
 			GraphicsManager::m_VertexBase[offset + count].position.z = z;
 			
-			GraphicsManager::m_VertexBase[offset + count].normal.x = x - vCenter.x;
-			GraphicsManager::m_VertexBase[offset + count].normal.y = y - vCenter.y;
-			GraphicsManager::m_VertexBase[offset + count].normal.z = z - vCenter.z;
+			Vector3 normal;
+			normal.x =  x - vCenter.x;
+			normal.y =  y - vCenter.y;
+			normal.z =  z - vCenter.z;
+			D3DXVec3Normalize(&normal, &normal);
+			GraphicsManager::m_VertexBase[offset + count].normal.x = normal.x;
+			GraphicsManager::m_VertexBase[offset + count].normal.y = normal.y;
+			GraphicsManager::m_VertexBase[offset + count].normal.z = normal.z;
 
 			GraphicsManager::m_VertexColor[offset + count]	= color;
 
@@ -117,6 +123,18 @@ IndexData SphereFactory::CreateSphere(Vector3 vCenter, F32 radius, VertexARGB co
 	out.face	= GraphicsManager::ONE_SPHERE_FACE_NUM;
 
 	return out;
+}
+//---------------------------------------------------------------------------------------
+//!	@brief		: 球作成
+//!	@param[in]	: 中心位置
+//!	@param[in]	: 半径
+//!	@param[in]	: 色
+//!	@param[in]	: インデックス格納先
+//!	@return		: インデックスデータ
+//---------------------------------------------------------------------------------------
+void SphereFactory::AllClear()
+{
+	m_SphereCount = 0;
 }
 //=======================================================================================
 //		protected method

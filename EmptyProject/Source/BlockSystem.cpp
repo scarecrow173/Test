@@ -11,6 +11,7 @@
 #include "Block.h"
 #include "GraphicsManager.h"
 #include "Ball.h"
+#include "CSVReader.h"
 
 using namespace AK;
 using namespace Collision;
@@ -62,19 +63,22 @@ void BlockSystem::Start()
 //!	@param[in]	: —ñ”
 //!	@return		: ì¬‚É¬Œ÷‚µ‚½‚ç true
 //-------------------------------------------------------------
-bool BlockSystem::CreateStageBlocks(U32 row, U32 column, IShaderObject* shader)
+bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader)
 {
 	assert(m_Ball);
 	//auto vec3 = AK::Math::ScreenToWorld(Vector2(((count % 8) * 75) + 50, (count / 8) * 50 + 50), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 	Matrix view,proj;
 	view = GraphicsManager::GetInstance()->GetView();
 	proj = GraphicsManager::GetInstance()->GetProjection();
+	auto StageData = CSVReader::ReadInteger(filePath);
 
-
-	for (int i = 0; i < row * column; ++i)
+	for (int i = 0; i < StageData.row * StageData.column; ++i)
 	{
-		auto vec3 = AK::Math::ScreenToWorld(Vector2(((i % row) * 75) + 50, (i / row) * 50 + 50), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-		Block* block = NEW Block(this, vec3);
+		if (StageData.Data[i] == 0)
+			continue;
+		//auto vec3 = AK::Math::ScreenToWorld(Vector2(((i % StageData.row) * 75) + 50, (i / StageData.row) * 50 + 50), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
+		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
+		Block* block = NEW Block(this, vec3, StageData.Data[i]);
 		this->AttachNode(block);
 		shader->AddRenderer(block->GetRenderer());
 		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());

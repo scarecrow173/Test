@@ -65,6 +65,8 @@ void BoxFactory::Destroy()
 //---------------------------------------------------------------------------------------
 IndexData BoxFactory::CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color, std::vector<U32>& indexArray)
 {	
+	assert(GraphicsManager::BOX_NUM > m_BoxCount);
+
 	F32 halfX = size.x * 0.5;
 	F32 halfY = size.y * 0.5;
 	F32 halfZ = size.z * 0.5;
@@ -113,9 +115,15 @@ IndexData BoxFactory::CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color,
 	//	法線
 	for (S32 iVertex = 0; iVertex < 8; ++iVertex)
 	{
-		GraphicsManager::m_VertexBase[offset + iVertex].normal.x = GraphicsManager::m_VertexBase[offset + iVertex].position.x - vCenter.x;
-		GraphicsManager::m_VertexBase[offset + iVertex].normal.y = GraphicsManager::m_VertexBase[offset + iVertex].position.y - vCenter.y;
-		GraphicsManager::m_VertexBase[offset + iVertex].normal.z = GraphicsManager::m_VertexBase[offset + iVertex].position.z - vCenter.z;
+		Vector3 normal;
+		normal.x = GraphicsManager::m_VertexBase[offset + iVertex].position.x - vCenter.x;
+		normal.y = GraphicsManager::m_VertexBase[offset + iVertex].position.y - vCenter.y;
+		normal.z = GraphicsManager::m_VertexBase[offset + iVertex].position.z - vCenter.z;
+		D3DXVec3Normalize(&normal, &normal);
+
+		GraphicsManager::m_VertexBase[offset + iVertex].normal.x = normal.x;//GraphicsManager::m_VertexBase[offset + iVertex].position.x - vCenter.x;
+		GraphicsManager::m_VertexBase[offset + iVertex].normal.y = normal.y;//GraphicsManager::m_VertexBase[offset + iVertex].position.y - vCenter.y;
+		GraphicsManager::m_VertexBase[offset + iVertex].normal.z = normal.z;//GraphicsManager::m_VertexBase[offset + iVertex].position.z - vCenter.z;
 		GraphicsManager::m_VertexColor[offset + iVertex] = color;
 		GraphicsManager::m_VertexInstance[offset + iVertex] = m_BoxCount;
 	}
@@ -170,16 +178,27 @@ IndexData BoxFactory::CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color,
 
 
 	IndexData out;
-	out.start	= offset;
+	out.start			= offset;
 	out.vertexNum		= 8;
-	out.face	= GraphicsManager::ONE_BOX_FACE_NUM;
+	out.face			= GraphicsManager::ONE_BOX_FACE_NUM;
 	
 
 	++m_BoxCount;
 
 	return out;
 }
-
+//---------------------------------------------------------------------------------------
+//!	@brief		: BOX作成
+//!	@param[in]	: 中心位置
+//!	@param[in]	: 大きさ
+//!	@param[in]	: 色
+//!	@param[in]	: インデックス格納先
+//!	@return		: インデックスデータ
+//---------------------------------------------------------------------------------------
+void BoxFactory::AllClear()
+{
+	m_BoxCount = 0;
+}
 //=======================================================================================
 //		protected method
 //=======================================================================================

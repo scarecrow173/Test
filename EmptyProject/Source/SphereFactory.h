@@ -27,7 +27,7 @@ public:
 	static SphereFactory*	GetInstance();
 
 	IndexData				CreateSphere(Vector3 vCenter, F32 radius, VertexARGB color, std::vector<U32>& indexArray);
-
+	void					AllClear();
 private:
 	SphereFactory();
 	virtual ~SphereFactory();
