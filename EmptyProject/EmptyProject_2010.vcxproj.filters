@@ -102,6 +102,10 @@
       <Filter>Source\Utill</Filter>
     </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Source\Spectrum.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

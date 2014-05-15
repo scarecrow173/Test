@@ -54,6 +54,8 @@ F32 AngleNormalize( F32 rad );
 // 2‚Ì‚×‚«æ
 S32 PowerofTwo( S32 num );
 bool isPowerofTwo( S32 num );
+//  Œë·‚ğl—¶‚µ‚½•‚“®¬”“_”“™”ä”»’è
+bool Equalf( F32 a, F32 b, F32 e = F32_ERROR );
 
 Vector3 ScreenToWorld(const Vector2 pos, F32 z, F32 screenWidth, F32 screenHeight, const Matrix& view, const Matrix& proj);
 Vector2 WorldToScreen(const Vector3 pos, S32 screenWidth, S32 screenHeight, const Matrix& viewProj);

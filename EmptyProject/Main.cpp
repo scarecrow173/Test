@@ -29,18 +29,18 @@ AK::RootNode* g_Root		= NULL;
 IDirect3DDevice9* g_Device	= NULL;
 //=====================================================
 //	テストコード
-AK::Graphics::GraphicsManager* g_mrg	= NULL;
+//AK::Graphics::GraphicsManager* g_mrg	= NULL;
 
 IDirect3DVertexBuffer9*		g_vBuf			= NULL;
 IDirect3DVertexBuffer9*		g_vCBuf			= NULL;
 AK::Graphics::VertexFloat3	g_VBO[1024];
 AK::Graphics::VertexARGB	g_Color[1024];
-const D3DVERTEXELEMENT9 g_VertexElemnt[] = {
-	{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-	{1, 0, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,0},
-	D3DDECL_END()
-};
-IDirect3DVertexDeclaration9*	g_VertexDeclaration = NULL;
+//const D3DVERTEXELEMENT9 g_VertexElemnt[] = {
+//	{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+//	{1, 0, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR,0},
+//	D3DDECL_END()
+//};
+//IDirect3DVertexDeclaration9*	g_VertexDeclaration = NULL;
 AK::Graphics::Spectrum spectrum;
 
 Matrix world,view, projction;
@@ -161,7 +161,8 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	BASS_ChannelGetData(handle, fft, BASS_DATA_FFT2048); // get the FFT data
 	for (S32 i = 0; i < 1024; ++i)
 	{
-		fft[i] = sqrt(fft[i]);
+		fft[i] = ((sqrt(fft[i]) * 3 * WINDOW_HEIGHT) * 5);
+		fft[i] = WINDOW_HEIGHT - (fft[i] > (WINDOW_HEIGHT * 0.9f) ? (WINDOW_HEIGHT * 0.9f) : fft[i]);
 
 	}
 	spectrum.Update(fft, 1024);
@@ -217,7 +218,7 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     HRESULT hr;
 
     // Clear the render target and the zbuffer 
-    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 45, 50, 170 ), 1.0f, 0 ) );
+    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 ) );
 
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
@@ -236,9 +237,9 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 		//memcpy(base, g_VBO, sizeof(AK::Graphics::VertexFloat3) * 1024);
 		//g_vBuf->Unlock();
 
-		Matrix world;
-		D3DXMatrixIdentity(&world);
-		g_Device->SetTransform(D3DTS_WORLD, &world);
+		//Matrix world;
+		//D3DXMatrixIdentity(&world);
+		//g_Device->SetTransform(D3DTS_WORLD, &world);
 		//g_Device->SetStreamSource(0, g_vBuf, 0, sizeof(AK::Graphics::VertexFloat3));
 		//g_Device->SetStreamSource(1, g_vCBuf, 0, sizeof(AK::Graphics::VertexARGB));
 		//g_Device->DrawPrimitive(D3DPT_LINESTRIP, 0, 512);
@@ -424,7 +425,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	AK::Sound::SoundManager::Create();
 	AK::Sound::SoundManager::GetInstance()->Initalize();
 	g_Root = AK::RootNode::Create();
-	g_mrg = AK::Graphics::GraphicsManager::Create();
+//	g_mrg = AK::Graphics::GraphicsManager::Create();
 	g_Device = DXUTGetD3D9Device();
 	//=====================================================
 	//	テストコード
@@ -441,7 +442,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_Device->SetTransform(D3DTS_VIEW, &view);
 	g_Device->SetTransform(D3DTS_PROJECTION, &projction);
 
-	g_mrg->m_Device = g_Device;
+//	g_mrg->m_Device = g_Device;
 	//g_mrg->Initialize();
 
 	//for (S32 i = 0; i < 1024; ++i)
@@ -495,8 +496,8 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	//auto vec3 = AK::Math::ScreenToWorld(Vector2( WINDOW_WIDTH *  0.5f, WINDOW_HEIGHT - 50.f), 1000.f, WINDOW_WIDTH, WINDOW_HEIGHT, view, projction);
 
-	g_mrg->SetView(view);
-	g_mrg->SetProjection(projction);
+//	g_mrg->SetView(view);
+//	g_mrg->SetProjection(projction);
 
 	
 	spectrum.CreateSpectrumData();
@@ -527,7 +528,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	AK::Graphics::BoxFactory::Destroy();
 	AK::Graphics::SphereFactory::Destroy();
 	AK::Graphics::SquareFactory::Destroy();
-	AK::Graphics::GraphicsManager::Destroy();
+	//AK::Graphics::GraphicsManager::Destroy();
 	
 
     // TODO: Perform any application-level cleanup here

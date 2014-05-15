@@ -14,9 +14,10 @@ namespace Graphics
 {
 struct SpectrumVertex
 {
-	F32 x,y,z,w;
-	DWORD color;
-	F32 u,v;
+	float x, y, z;	
+	float w;		
+	DWORD color;	
+	float u, v;
 };
 //=======================================================================================
 //!	@class	:	Spectrum
@@ -42,6 +43,7 @@ public:
 
 	LPDIRECT3DVERTEXBUFFER9		m_VertexBuffer;
 	LPDIRECT3DINDEXBUFFER9		m_IndexBuffer;
+	LPD3DXEFFECT				m_Effect;
 	LPDIRECT3DTEXTURE9			m_Texture;
 	DWORD						m_FVF;
 

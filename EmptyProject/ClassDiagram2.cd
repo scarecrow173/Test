@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AK::Debug::AutoPerformance" Collapsed="true">
+    <Position X="31.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAIAAAAEAAAAAAAAAEEAAAAAQAAAg=</HashCode>
+      <FileName>Source\AutoPerformance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::CSVReader" Collapsed="true">
+    <Position X="40.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAgAAAAAA=</HashCode>
+      <FileName>Source\CSVReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::INode" Collapsed="true">
+    <Position X="17.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAIBAACACIAAAEAAAEEIAAAAAIAIAQAAIAIQAAAA=</HashCode>
+      <FileName>Source\INode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Input" Collapsed="true">
+    <Position X="13" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYCAAAAA=</HashCode>
+      <FileName>Source\Input.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::InputKeyboard" Collapsed="true">
+    <Position X="13" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBBAAAAAQAAAAAAAAAAAAAAAAIAAAAAAAAYCAAAAA=</HashCode>
+      <FileName>Source\InputKeyboard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Layer" Collapsed="true">
+    <Position X="38.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Layer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Loading" Collapsed="true">
+    <Position X="4.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Source\Loading.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Result" Collapsed="true">
+    <Position X="6.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQAAAAAAAAQAAAAAAAAAAAAABAAAAgA=</HashCode>
+      <FileName>Source\Result.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::SceneNode" Collapsed="true">
+    <Position X="10" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Source\SceneNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::RootNode" Collapsed="true">
+    <Position X="17.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQQAAAAAAAAAIBAAAAAAAAABABAAEAIAAAAAAAAAAA=</HashCode>
+      <FileName>Source\RootNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::BlockSystem" Collapsed="true">
+    <Position X="20" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAAAAAACAAAAAACAAAAEAAgCAAAAAAEAAAEABAAAA=</HashCode>
+      <FileName>Source\BlockSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Stage1" Collapsed="true">
+    <Position X="8.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAACAAIAQAAQAAgAAAEAAEAAQAAAAAAAgAAAFAAgA=</HashCode>
+      <FileName>Source\Stage1.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Stage2" Collapsed="true">
+    <Position X="11" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAgAAgA=</HashCode>
+      <FileName>Source\Stage2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Stage3" Collapsed="true">
+    <Position X="13.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAgAAAQAAgA=</HashCode>
+      <FileName>Source\Stage3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Title" Collapsed="true">
+    <Position X="15.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAUAAAAAAAAAEAAQBAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Source\Title.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Paddle" Collapsed="true">
+    <Position X="26.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAABABAAAhEAAgACAAIAAAAAAAA=</HashCode>
+      <FileName>Source\Paddle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Ball" Collapsed="true">
+    <Position X="29" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgABMGAAAAgAAAABgAAAAAAAAEAIBEAQQCBAAIA=</HashCode>
+      <FileName>Source\Ball.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Block" Collapsed="true">
+    <Position X="31.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAACAAgAAAAAAAAAAAAAAAAAIgAAAAAAgAAAE=</HashCode>
+      <FileName>Source\Block.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::GameObject" Collapsed="true">
+    <Position X="26.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAQCAAAAAAgAAAAAAAAAAAACAAAAAAAQIAAAA=</HashCode>
+      <FileName>Source\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Item" Collapsed="true">
+    <Position X="22.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Item.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Wall" Collapsed="true">
+    <Position X="24.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAAAAAAAAAAAAAAAAACAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Wall.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Collision::CollisionBox" Collapsed="true">
+    <Position X="11" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAIAAgAAAAAAAAJAAAAAAJCIAQAAgCAAAAAAEBAAQQ=</HashCode>
+      <FileName>Source\CollisionBox.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Collision::CollisionSphere" Collapsed="true">
+    <Position X="13.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAgAAAAIAAAIIAAAAAAAAAAAAAEAAAAAAAgAAAA=</HashCode>
+      <FileName>Source\CollisionSphere.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Collision::ICollisonObject" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQUCABgAAqCAAgiKEAAAABAAgUkQAgAABABEAMgAgEY=</HashCode>
+      <FileName>Source\ICollisonObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Sound::SoundManager" Collapsed="true">
+    <Position X="40.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAQAAAQQAQIAAaAEAAAAABAFAAEEIAAAAgAgAgAA=</HashCode>
+      <FileName>Source\SoundManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::IShaderObject" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAgAAEAQAEAAAAAAACAAAAAAAAQAAAAI=</HashCode>
+      <FileName>Source\IShaderObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::BoxFactory" Collapsed="true">
+    <Position X="31.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAABAAAAAAAAAAAABABAAEAKAAAAAAAAAgA=</HashCode>
+      <FileName>Source\BoxFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::SphereFactory" Collapsed="true">
+    <Position X="44" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAQAACAAAAAAAAAAAABABgAEAKAAAAAAAAAAA=</HashCode>
+      <FileName>Source\SphereFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::SquareFactory" Collapsed="true">
+    <Position X="31.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAQAAAgAAAABABAAEAIAAAgAAAAAAA=</HashCode>
+      <FileName>Source\SquareFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::GraphicsManager" Collapsed="true">
+    <Position X="37" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SSAAASEQZAAAA8AAACAQACAABABiQdAZAACDDlACAgA=</HashCode>
+      <FileName>Source\GraphicsManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::LineRenderer" Collapsed="true">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAoAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\LineRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::IRenderer" Collapsed="true">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAQMAAACwAAkAAAAAAAAAAAAAJIIAAJGIAAAAA=</HashCode>
+      <FileName>Source\IRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::Spectrum" Collapsed="true">
+    <Position X="42.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAQEAAAAgAAAAAAAAAEEACACAAAAAAAAAAAEBA=</HashCode>
+      <FileName>Source\Spectrum.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::TriangleRenderer" Collapsed="true">
+    <Position X="5.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEgAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\TriangleRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::UseFixed" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACEAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\UseFixed.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AK::Graphics::WindowPolygonRenderer" Collapsed="true">
+    <Position X="7.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\WindowPolygonRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="AK::CSVData&lt;T&gt;" Collapsed="true">
+    <Position X="38.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACQAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\CSVReader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::ARGBColors" Collapsed="true">
+    <Position X="37" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAQAAAAAAgAAABAAAAAABAAAAAAAAAAAADAAAAA=</HashCode>
+      <FileName>Source\Colors.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::RGBAColors" Collapsed="true">
+    <Position X="42.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAQAAAAAAgAAABAAAAAABAAAAAAAAAAAADAAAAA=</HashCode>
+      <FileName>Source\Colors.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexFloat2" Collapsed="true">
+    <Position X="38.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Elements.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexFloat3" Collapsed="true">
+    <Position X="40.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Elements.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexFloat4" Collapsed="true">
+    <Position X="42.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Elements.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexARGB" Collapsed="true">
+    <Position X="35.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Elements.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexRGBA" Collapsed="true">
+    <Position X="44" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Elements.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::VertexBaseData" Collapsed="true">
+    <Position X="37" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\GraphicsManager.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::IndexData" Collapsed="true">
+    <Position X="40.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAiAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\IndexData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AK::Graphics::SpectrumVertex" Collapsed="true">
+    <Position X="33.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAABpgAQAAAAA=</HashCode>
+      <FileName>Source\Spectrum.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="Vector3" Collapsed="true">
+    <Position X="35.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\MyMath.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Vector2" Collapsed="true">
+    <Position X="33.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\MyMath.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Matrix" Collapsed="true">
+    <Position X="33.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\MyMath.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="S8" Collapsed="true">
+    <Position X="40.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="S16" Collapsed="true">
+    <Position X="35.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="S32" Collapsed="true">
+    <Position X="37" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="S64" Collapsed="true">
+    <Position X="38.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="U8" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="U16" Collapsed="true">
+    <Position X="42.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="U32" Collapsed="true">
+    <Position X="44" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="U64" Collapsed="true">
+    <Position X="45.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="F32" Collapsed="true">
+    <Position X="37" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="F64" Collapsed="true">
+    <Position X="38.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Byte" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Types.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="AK::INPUT_KEY" Collapsed="true">
+    <Position X="42.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAACAQAAAAAAAIAAABAgAABAAAAAAABAAA=</HashCode>
+      <FileName>Source\Input.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AK::ITEM_TYPE" Collapsed="true">
+    <Position X="44" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAgAAAAAAAAgAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Item.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AK::WALL_TYPE" Collapsed="true">
+    <Position X="40.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAgAAAAAAAAAAAQAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Wall.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="メイリオ" Size="9" />
+</ClassDiagram>
