@@ -23,6 +23,7 @@ RootNode::RootNode()
 	,	m_NowScene	(NULL)
 {
 	m_NowScene = NEW Title(this);
+	m_NowScene->Initialize();
 	AttachNode(m_NowScene);
 
 }

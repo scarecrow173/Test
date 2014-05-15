@@ -50,8 +50,11 @@ bool InputKeyboard::IsTrigger(INPUT_KEY key)
 	case KEY_BUTTON1:
 		return (m_KeyState & 0x10) && ((m_BeforeKeyState & 0x10) == 0x00);
 	case KEY_BUTTON2:
+		return (m_KeyState & 0x20) && ((m_BeforeKeyState & 0x20) == 0x00);
 	case KEY_BUTTON3:
+		return (m_KeyState & 0x40) && ((m_BeforeKeyState & 0x40) == 0x00);
 	case KEY_BUTTON4:
+		return (m_KeyState & 0x80) && ((m_BeforeKeyState & 0x80) == 0x00);
 	default:
 		return false;
 	}
@@ -77,8 +80,11 @@ bool InputKeyboard::IsKeyDown(INPUT_KEY key)
 	case KEY_BUTTON1:
 		return (m_KeyState & 0x10);
 	case KEY_BUTTON2:
+		return (m_KeyState & 0x20);
 	case KEY_BUTTON3:
+		return (m_KeyState & 0x40);
 	case KEY_BUTTON4:
+		return (m_KeyState & 0x80);
 	default:
 		return false;
 	}
@@ -103,8 +109,11 @@ bool InputKeyboard::IsKeyRelease(INPUT_KEY key)
 	case KEY_BUTTON1:
 		return ((m_KeyState & 0x10) == 0x00) && (m_BeforeKeyState & 0x10);
 	case KEY_BUTTON2:
+		return ((m_KeyState & 0x20) == 0x00) && (m_BeforeKeyState & 0x20);
 	case KEY_BUTTON3:
+		return ((m_KeyState & 0x40) == 0x00) && (m_BeforeKeyState & 0x40);
 	case KEY_BUTTON4:
+		return ((m_KeyState & 0x80) == 0x00) && (m_BeforeKeyState & 0x80);
 	default:
 		return false;
 	}
@@ -123,6 +132,9 @@ void InputKeyboard::Update()
 	m_KeyState |= DXUTIsKeyDown(VK_LEFT)	? 0x04 : 0x00;
 	m_KeyState |= DXUTIsKeyDown(VK_RIGHT)	? 0x08 : 0x00;
 	m_KeyState |= DXUTIsKeyDown(VK_SPACE)	? 0x10 : 0x00;
+	m_KeyState |= DXUTIsKeyDown('1')		? 0x20 : 0x00;
+	m_KeyState |= DXUTIsKeyDown('2')		? 0x40 : 0x00;
+	m_KeyState |= DXUTIsKeyDown('3')		? 0x80 : 0x00;
 
 }
 //=======================================================================================

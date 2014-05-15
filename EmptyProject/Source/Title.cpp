@@ -9,16 +9,23 @@
 #include "Title.h"
 #include "DebugUtill.h"
 #include "Stage1.h"
+#include "SoundManager.h"
+
 using namespace AK;
+using namespace Sound;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
+static const U32 TITLE_BGM_NUM = 2;
+
 
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 Title::Title(INode* parent)
-	:	SceneNode	(parent)
+	:	SceneNode		(parent)
+	,	m_IsEnd			(false)
+	,	m_FadeVolume	(1.f)
 {}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -42,8 +49,18 @@ void Title::Update()
 //-------------------------------------------------------------
 SceneNode*	Title::ChangeScene()
 {
-	if (DXUTIsKeyDown('A'))
+	if ((!m_IsEnd) && DXUTIsKeyDown('A'))
+		m_IsEnd = true;
+
+	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, m_FadeVolume);
+
+
+	if (m_FadeVolume < 0.f)
+	{
+		SoundManager::GetInstance()->PauseBGM(TITLE_BGM_NUM);
 		return NEW Stage1(m_Parent, 0);
+	}
 	return this;
 }
 //-------------------------------------------------------------
@@ -52,6 +69,8 @@ SceneNode*	Title::ChangeScene()
 //-------------------------------------------------------------
 bool Title::Initialize()
 {
+	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, 1.f);
+	SoundManager::GetInstance()->PlayBGM(TITLE_BGM_NUM, TRUE);
 	return true;
 }
 //=======================================================================================

@@ -205,8 +205,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 //-------------------------------------------------------------
 bool GraphicsManager::Initialize()
 {
-	m_Device->CreateVertexDeclaration(VertexElemnt, &VertexDeclaration);
-	m_Device->SetVertexDeclaration(VertexDeclaration);
+	//m_Device->CreateVertexDeclaration(VertexElemnt, &VertexDeclaration);
+	//m_Device->SetVertexDeclaration(VertexDeclaration);
 	return true;
 }
 //-------------------------------------------------------------

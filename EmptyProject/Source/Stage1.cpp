@@ -19,9 +19,12 @@
 #include "CSVReader.h"
 #include "BoxFactory.h"
 #include "SphereFactory.h"
+#include "SoundManager.h"
+
 
 using namespace AK;
 using namespace Graphics;
+using namespace Sound;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
@@ -31,12 +34,15 @@ std::string	Stage1::StageDataPath[STAGE_MAX] =
 	"Assets/CSV/Stage/Stage02.csv",
 	"Assets/CSV/Stage/Stage03.csv",
 };
+static const U32 STAGE_BGM_NUM	= 3;
+static const U32 CLEAR_JINGLE	= 7;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 Stage1::Stage1(INode* parent, U32 stageCount)
 	:	SceneNode	(parent)
 	,	m_IsEnd		(false)
+	,	m_FadeVolume(1.f)
 	,	m_StageCount(stageCount)
 	,	m_Shader	(NEW UseFixed())
 {}
@@ -70,10 +76,24 @@ SceneNode*	Stage1::ChangeScene()
 	//if (++count % 300 == 0)
 	//	return NEW Stage2();
 
-	if (m_IsEnd || (m_StageCount >= STAGE_MAX ))
-		return NEW Title(m_Parent);
-	if (m_BlockSystem->Clear())
-		return NEW Stage1(m_Parent, ++m_StageCount);
+	//if (m_IsEnd || (m_StageCount >= STAGE_MAX)){}
+		//return NEW Title(m_Parent);
+	if (!m_IsEnd && m_BlockSystem->Clear())
+	{
+		SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
+		m_IsEnd = true;
+	}
+		//return NEW Stage1(m_Parent, ++m_StageCount);
+
+	SetActive(!m_IsEnd);
+	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
+
+	if (m_FadeVolume < 0.f && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
+	{
+		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
+		return (m_StageCount >= STAGE_MAX) ? (SceneNode*)(NEW Title(m_Parent)) : (m_BlockSystem->Clear()) ? (SceneNode*)(NEW Stage1(m_Parent, ++m_StageCount)) : (SceneNode*)(NEW Title(m_Parent));
+	}
 	return this;
 }
 //-------------------------------------------------------------
@@ -82,6 +102,8 @@ SceneNode*	Stage1::ChangeScene()
 //-------------------------------------------------------------
 bool Stage1::Initialize()
 {
+	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
+	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	m_BlockSystem = NEW BlockSystem(this);
@@ -117,7 +139,7 @@ bool Stage1::Initialize()
 	AttachNode(m_BlockSystem);
 	AttachNode(ball);
 
-
+	
 	return true;
 }
 //-------------------------------------------------------------

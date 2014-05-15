@@ -210,6 +210,12 @@
     <ClCompile Include="Source\CSVReader.cpp">
       <Filter>Source\Utill</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SoundManager.cpp">
+      <Filter>Source\InGame\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spectrum.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -352,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Source\CSVReader.h">
       <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Spectrum.h">
+      <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

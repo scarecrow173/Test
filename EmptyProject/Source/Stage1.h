@@ -33,6 +33,7 @@ private:
 	
 	static std::string			StageDataPath[STAGE_MAX];
 	bool						m_IsEnd;
+	F32							m_FadeVolume;
 	Graphics::IShaderObject*	m_Shader;
 	BlockSystem*				m_BlockSystem;
 	U32							m_StageCount;

@@ -24,7 +24,8 @@ public:
 	bool		Initialize();
 
 private:
-
+	bool		m_IsEnd;
+	F32			m_FadeVolume;
 };
 
 

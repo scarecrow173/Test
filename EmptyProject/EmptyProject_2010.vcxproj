@@ -413,6 +413,8 @@
     <ClCompile Include="Source\Result.cpp" />
     <ClCompile Include="Source\RootNode.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
+    <ClCompile Include="Source\SoundManager.cpp" />
+    <ClCompile Include="Source\Spectrum.cpp" />
     <ClCompile Include="Source\SphereFactory.cpp" />
     <ClCompile Include="Source\SquareFactory.cpp" />
     <ClCompile Include="Source\Stage1.cpp" />
@@ -456,6 +458,7 @@
     <ClInclude Include="Source\RootNode.h" />
     <ClInclude Include="Source\SceneNode.h" />
     <ClInclude Include="Source\SoundManager.h" />
+    <ClInclude Include="Source\Spectrum.h" />
     <ClInclude Include="Source\SphereFactory.h" />
     <ClInclude Include="Source\SquareFactory.h" />
     <ClInclude Include="Source\Stage1.h" />
