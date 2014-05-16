@@ -39,7 +39,6 @@ public:
 
 private:
 	U32							m_DeathCount;
-	HSTREAM						m_StreamHndle;
 	BlockSystem*				m_BlockSystem;
 	Collision::ICollisonObject* m_BottomLine;
 	Paddle*						m_Paddle;

@@ -5,6 +5,8 @@
 //=======================================================================================
 #pragma once
 #include "SceneNode.h"
+#include "IRenderer.h"
+#include "IShaderObject.h"
 namespace AK
 {
 //=======================================================================================
@@ -26,6 +28,9 @@ public:
 private:
 	bool		m_IsEnd;
 	F32			m_FadeVolume;
+	std::vector<Graphics::IRenderer*>	m_TitleBlock;
+	Graphics::IShaderObject*			m_Shader;
+	F32									m_Floating;
 };
 
 

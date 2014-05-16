@@ -18,6 +18,7 @@
 #include "Paddle.h"
 #include "Item.h"
 #include "IShaderObject.h"
+#include "SoundManager.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -43,7 +44,7 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 
 	std::vector<U32> indexSrc;
 	IndexData indexData;
-	indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), RADIUS, ARGBColors::Green, indexSrc);
+	indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), RADIUS, ARGBColors::Magenta, indexSrc);
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
@@ -60,8 +61,6 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	m_Collison->SetReflection(true);
 	m_Collison->SetReflectionFactor(1.1f);
 
-	
-	m_StreamHndle = BASS_StreamCreateFile(FALSE, "Assets/Sound/SE/se_maoudamashii_battle17.mp3", 0, 0, 0);
 	
 	Matrix view, proj;
 	view = GraphicsManager::GetInstance()->GetView();
@@ -108,9 +107,7 @@ Ball::~Ball()
 //=======================================================================================
 
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: XV
 //-------------------------------------------------------------
 void Ball::Update()
 {
@@ -130,9 +127,9 @@ void Ball::Update()
 				m_Collison->SetPosition(respawn);
 				m_Collison->SetSpeed(Vector3(0.f, 0.f, 0.f));
 				m_IsRespawn = true;
+				Sound::SoundManager::GetInstance()->PlaySE(0,TRUE);
 			}
 			m_BlockSystem->DeleteBlock(*it);
-			BASS_ChannelPlay(m_StreamHndle, FALSE);
 		}		
 	}
 	if (m_IsRespawn && m_Keyboard.IsTrigger(KEY_BUTTON1))

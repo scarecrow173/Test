@@ -127,9 +127,6 @@
     <ClCompile Include="Source\BoxFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IRenderObject.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Title.cpp">
       <Filter>Source\InGame\Scene</Filter>
     </ClCompile>
@@ -170,9 +167,6 @@
       <Filter>Source\Utill</Filter>
     </ClCompile>
     <ClCompile Include="Source\SquareFactory.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IRenderer.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\TriangleRenderer.cpp">
@@ -287,9 +281,6 @@
     </ClInclude>
     <ClInclude Include="Source\Stage3.h">
       <Filter>Source\InGame\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IRenderObject.h">
-      <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\AutoPerformance.h">
       <Filter>Source\Utill</Filter>

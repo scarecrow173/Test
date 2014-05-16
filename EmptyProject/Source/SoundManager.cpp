@@ -20,20 +20,23 @@ SoundManager*	SoundManager::m_Instance = NULL;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 SoundManager::SoundManager()
+	:	m_BGMNum	(0)
+	,	m_SENum		(0)
 {}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
 SoundManager::~SoundManager()
-{}
+{
+	BASS_Free();
+}
 //=======================================================================================
 //		public method
 //=======================================================================================
 
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス生成
+//!	@return		: インスタンス
 //-------------------------------------------------------------
 SoundManager* SoundManager::Create()
 {
@@ -44,18 +47,14 @@ SoundManager* SoundManager::Create()
 	return m_Instance;
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス削除
 //-------------------------------------------------------------
 void SoundManager::Destroy()
 {
 	SAFE_DELETE(m_Instance);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス削除
 //-------------------------------------------------------------
 bool SoundManager::Initalize()
 {
@@ -63,27 +62,30 @@ bool SoundManager::Initalize()
 	return LoadSEList() && LoadBGMList();
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: SE再生
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
 void SoundManager::PlaySE(U32 streamNum, BOOL restart)
 {
 	assert(m_SEList.size() > streamNum);
+	m_SENum = streamNum;
 	BASS_ChannelPlay(m_SEList[streamNum], restart);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: BGM再生
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
 void SoundManager::PlayBGM(U32 streamNum, BOOL restart)
 {
 	assert(m_BGMList.size() > streamNum);
+	PauseBGM(m_BGMNum);
+	m_BGMNum = streamNum;
 	BASS_ChannelPlay(m_BGMList[streamNum], restart);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: 停止
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
@@ -93,7 +95,7 @@ void SoundManager::PauseSE(U32 streamNum)
 	BASS_ChannelPause(m_SEList[streamNum]);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: 停止
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
@@ -103,7 +105,7 @@ void SoundManager::PauseBGM(U32 streamNum)
 	BASS_ChannelPause(m_BGMList[streamNum]);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: ボリューム変更
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
@@ -113,7 +115,7 @@ void SoundManager::SetVolumeSE(U32 streamNum, F32 volume)
 	BASS_ChannelSetAttribute(m_BGMList[streamNum], BASS_ATTRIB_VOL, volume);
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: ボリューム変更
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
@@ -122,27 +124,7 @@ void SoundManager::SetVolumeBGM(U32 streamNum, F32 volume)
 	assert(m_BGMList.size() > streamNum);
 	
 	BASS_ChannelSetAttribute(m_BGMList[streamNum], BASS_ATTRIB_VOL, volume);
-}
-////-------------------------------------------------------------
-////!	@brief		: example
-////!	@param[in]	: example
-////!	@return		: example
-////-------------------------------------------------------------
-//void SoundManager::StopSE(U32 streamNum)
-//{
-//	assert(m_SEList.size() > streamNum);
-//	BASS_ChannelStop(m_SEList[streamNum]);
-//}
-////-------------------------------------------------------------
-////!	@brief		: example
-////!	@param[in]	: example
-////!	@return		: example
-////-------------------------------------------------------------
-//void SoundManager::StopBGM(U32 streamNum)
-//{
-//	assert(m_BGMList.size() > streamNum);
-//	BASS_ChannelStop(m_BGMList[streamNum]);
-//}							
+}					
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

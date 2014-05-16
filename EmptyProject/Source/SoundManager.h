@@ -50,7 +50,9 @@ public:
 	bool	IsActiveBGM(U32 streamNum);
 
 	HSTREAM GetStreamHandle(U32 streamNum) { return m_BGMList[streamNum]; }
-	
+	HSTREAM GetStreamHandleSE(U32 streamNum) { return m_SEList[streamNum]; }
+	U32						m_BGMNum;
+	U32						m_SENum;
 protected:
 
 private:
@@ -68,6 +70,7 @@ private:
 
 	std::vector<HSTREAM>	m_SEList;
 	std::vector<HSTREAM>	m_BGMList;
+	
 
 };
 //=======================================================================================

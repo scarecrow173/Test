@@ -79,6 +79,7 @@ bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader
 
 		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
 		Block* block = NEW Block(this, vec3, StageData.Data[i]);
+		block->SetSEHandle((i % StageData.row) + 1);
 		this->AttachNode(block);
 		shader->AddRenderer(block->GetRenderer());
 		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());

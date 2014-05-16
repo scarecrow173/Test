@@ -58,7 +58,7 @@ public:
 	static const U32 ONE_LINE_VERTEX_NUM		= 20;
 	static const U32 SQUARE_VERTEX_NUM			= 4;
 	static const U32 SQUARE_NUM					= 10;
-	static const U32 BOX_NUM					= 50;
+	static const U32 BOX_NUM					= 500;
 	static const U32 SPHERE_NUM					= 4;
 	static const U32 VERTEX_NUM					= (ONE_BOX_VERTEX_NUM * BOX_NUM) + (ONE_SPHERE_VERTEX_NUM * SPHERE_NUM) + (SQUARE_NUM * SQUARE_VERTEX_NUM) + (ONE_LINE_VERTEX_NUM * LINE_NUM);
 	static const U32 INSTACE_NUM				= 50;

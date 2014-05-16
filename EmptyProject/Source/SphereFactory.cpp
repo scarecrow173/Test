@@ -84,9 +84,9 @@ IndexData SphereFactory::CreateSphere(Vector3 vCenter, F32 radius, VertexARGB co
 			GraphicsManager::m_VertexBase[offset + count].position.z = z;
 			
 			Vector3 normal;
-			normal.x =  x - vCenter.x;
-			normal.y =  y - vCenter.y;
-			normal.z =  z - vCenter.z;
+			normal.x = vCenter.x - x;
+			normal.y = vCenter.y - y;
+			normal.z = vCenter.z - z;
 			D3DXVec3Normalize(&normal, &normal);
 			GraphicsManager::m_VertexBase[offset + count].normal.x = normal.x;
 			GraphicsManager::m_VertexBase[offset + count].normal.y = normal.y;

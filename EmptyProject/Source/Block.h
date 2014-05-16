@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "IndexData.h"
 #include "Elements.h"
+#include "SoundManager.h"
 namespace AK
 {
 
@@ -25,6 +26,7 @@ public:
 	void	Update();
 	void	Start();
 	bool	Death();
+	void	SetSEHandle(U32 handle);
 
 
 protected:
@@ -33,6 +35,7 @@ private:
 	U32						m_LifeCount;
 	Graphics::IndexData		m_IndexData;
 	Graphics::VertexARGB	m_Color;
+	U32						m_SEHandle;
 };
 //=======================================================================================
 //		inline method

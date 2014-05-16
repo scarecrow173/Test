@@ -51,9 +51,9 @@ void Spectrum::CreateSpectrumData()
 
 	//std::vector<U32> index;
 	
-	const U32 windowWidth	= WINDOW_WIDTH;
+	const U32 windowWidth	= WINDOW_WIDTH + 150;
 	const U32 windowHeight	= WINDOW_HEIGHT;
-	const F32 sideOffset	= 0.05f;
+	const F32 sideOffset	= 0.0f;
 	const F32 topOffset		= 0.1f;
 	const F32 margin		= 0.001f;
 	const U32 divisionNum	= 64;
@@ -164,14 +164,17 @@ void Spectrum::CreateSpectrumData()
 //-------------------------------------------------------------
 void Spectrum::Draw()
 {
-	//LPDIRECT3DVERTEXBUFFER9 oldBuf;
-	//UINT oldNum = 0;
-	//UINT oldStride = 0;
-	//DXUTGetD3D9Device()->GetStreamSource(0, &oldBuf, &oldNum, &oldStride);
 
-	//LPDIRECT3DVERTEXDECLARATION9 olddel;
-	//DXUTGetD3D9Device()->GetVertexDeclaration(&olddel);
-	//DXUTGetD3D9Device()->SetVertexDeclaration(NULL);
+	LPDIRECT3DVERTEXBUFFER9 oldBuf;
+	UINT oldNum = 0;
+	UINT oldStride = 0;
+	DXUTGetD3D9Device()->GetStreamSource(0, &oldBuf, &oldNum, &oldStride);
+	LPDIRECT3DINDEXBUFFER9 oldIndexBuf;
+	DXUTGetD3D9Device()->GetIndices(&oldIndexBuf);
+
+	LPDIRECT3DVERTEXDECLARATION9 olddel;
+	DXUTGetD3D9Device()->GetVertexDeclaration(&olddel);
+	DXUTGetD3D9Device()->SetVertexDeclaration(NULL);
 
 	//DXUTGetD3D9Device()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_Effect->Begin(0,0);
@@ -179,15 +182,16 @@ void Spectrum::Draw()
 	DXUTGetD3D9Device()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));
 	DXUTGetD3D9Device()->SetFVF(m_FVF);
 	DXUTGetD3D9Device()->SetIndices(m_IndexBuffer);
-	DXUTGetD3D9Device()->SetTexture(0, m_Texture);
+	//DXUTGetD3D9Device()->SetTexture(0, m_Texture);
 	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 	DXUTGetD3D9Device()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_Vertex.size(), 0, m_Index.size() / 3);
 	//DXUTGetD3D9Device()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
 
-
-	//DXUTGetD3D9Device()->SetStreamSource(0, oldBuf, oldNum, oldStride);
-	//DXUTGetD3D9Device()->SetVertexDeclaration(olddel);
+	DXUTGetD3D9Device()->SetFVF(NULL);
+	DXUTGetD3D9Device()->SetStreamSource(0, oldBuf, oldNum, oldStride);
+	DXUTGetD3D9Device()->SetIndices(oldIndexBuf);
+	DXUTGetD3D9Device()->SetVertexDeclaration(olddel);
 	m_Effect->EndPass();
 	m_Effect->End();
 }
@@ -198,6 +202,7 @@ void Spectrum::Draw()
 //-------------------------------------------------------------
 void Spectrum::Update(F32* data, U32 size)
 {
+
 	const U32 div = size / 64;
 	F32 FData[64];
 	for (U32 i = 0; i < 64; ++i)

@@ -33,7 +33,7 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 
 	std::vector<U32> indexSrc;
 	IndexData indexData;
-	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Yellow, indexSrc);
+	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());

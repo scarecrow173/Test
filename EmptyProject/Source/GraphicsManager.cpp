@@ -67,9 +67,8 @@ GraphicsManager::~GraphicsManager()
 //		public method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス作成
+//!	@return		: インスタンス
 //-------------------------------------------------------------
 GraphicsManager* GraphicsManager::Create()
 {
@@ -79,11 +78,9 @@ GraphicsManager* GraphicsManager::Create()
 	m_Instance = NEW GraphicsManager();
 	return m_Instance;
 }
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//!	@brief		: インスタンス削除
+//---------------------------------------------------------------------------------------
 void GraphicsManager::Destroy()
 {
 	SAFE_DELETE(m_Instance);
@@ -205,8 +202,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 //-------------------------------------------------------------
 bool GraphicsManager::Initialize()
 {
-	//m_Device->CreateVertexDeclaration(VertexElemnt, &VertexDeclaration);
-	//m_Device->SetVertexDeclaration(VertexDeclaration);
+	m_Device->CreateVertexDeclaration(VertexElemnt, &VertexDeclaration);
+	m_Device->SetVertexDeclaration(VertexDeclaration);
 	return true;
 }
 //-------------------------------------------------------------

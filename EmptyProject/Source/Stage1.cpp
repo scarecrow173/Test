@@ -35,7 +35,7 @@ std::string	Stage1::StageDataPath[STAGE_MAX] =
 	"Assets/CSV/Stage/Stage03.csv",
 };
 static const U32 STAGE_BGM_NUM	= 3;
-static const U32 CLEAR_JINGLE	= 7;
+static const U32 CLEAR_JINGLE	= 9;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -81,6 +81,7 @@ SceneNode*	Stage1::ChangeScene()
 	if (!m_IsEnd && m_BlockSystem->Clear())
 	{
 		SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
+		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
 		m_IsEnd = true;
 	}
 		//return NEW Stage1(m_Parent, ++m_StageCount);

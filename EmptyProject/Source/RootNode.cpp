@@ -34,9 +34,8 @@ RootNode::~RootNode()
 {
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス作成
+//!	@return		: インスタンス
 //-------------------------------------------------------------
 RootNode*	RootNode::Create()
 {
@@ -48,9 +47,7 @@ RootNode*	RootNode::Create()
 	
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: インスタンス削除
 //-------------------------------------------------------------
 void RootNode::Destroy()
 {

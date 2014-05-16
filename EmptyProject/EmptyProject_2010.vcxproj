@@ -405,11 +405,9 @@
     <ClCompile Include="Source\ICollisonObject.cpp" />
     <ClCompile Include="Source\INode.cpp" />
     <ClCompile Include="Source\InputKeyboard.cpp" />
-    <ClCompile Include="Source\IRenderObject.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Loading.cpp" />
     <ClCompile Include="Source\MyMath.cpp" />
-    <ClCompile Include="Source\IRenderer.cpp" />
     <ClCompile Include="Source\Paddle.cpp" />
     <ClCompile Include="Source\Result.cpp" />
     <ClCompile Include="Source\RootNode.cpp" />
@@ -446,7 +444,6 @@
     <ClInclude Include="Source\INode.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\InputKeyboard.h" />
-    <ClInclude Include="Source\IRenderObject.h" />
     <ClInclude Include="Source\IShaderObject.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Layer.h" />

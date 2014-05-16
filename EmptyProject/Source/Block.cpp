@@ -14,6 +14,7 @@
 #include <algorithm>
 
 
+
 using namespace AK;
 using namespace Graphics;
 using namespace Collision;
@@ -30,6 +31,7 @@ using namespace Collision;
 Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	:	GameObject	(parent, pos)
 	,	m_LifeCount	(lifeCount)
+	,	m_SEHandle		(0)
 {
 	static const F32 WIDTH	= 100.f;
 	static const F32 HEIGHT	= 50.f;
@@ -88,6 +90,7 @@ void Block::Start()
 //-------------------------------------------------------------
 bool Block::Death()
 {
+	Sound::SoundManager::GetInstance()->PlaySE(m_SEHandle, TRUE);
 	if (--m_LifeCount == 0)
 	{
 		m_Renderer->SetActive(false);
@@ -100,6 +103,15 @@ bool Block::Death()
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	return false;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void Block::SetSEHandle(U32 handle)
+{
+	m_SEHandle = handle;
 }
 //=======================================================================================
 //		protected method
