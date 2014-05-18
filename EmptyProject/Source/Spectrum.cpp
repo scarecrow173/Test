@@ -64,37 +64,37 @@ void Spectrum::CreateSpectrumData()
 	{
 		SpectrumVertex Spectrum[4];
 
-		Spectrum[3].x	= (sideOffset + (onePanelSizeX * ((i / 4) + 1) - (margin * 0.5f))) * windowWidth;
-		Spectrum[3].y	= 0.98f * windowHeight;
-		Spectrum[3].z	= 0.f;
-		Spectrum[3].w	= 1.f;
-		Spectrum[3].u	= (1.f + 0.5f) / (float)windowWidth;//1.f;
-		Spectrum[3].v	= (1.f + 0.5f) / (float)windowHeight;//0.f;
-		Spectrum[3].color	= 0x0000FF00;
+		Spectrum[0].x	= (sideOffset + (onePanelSizeX * (i / 4)) + (margin * 0.5f)) * windowWidth;
+		Spectrum[0].y	= (topOffset) * windowHeight;
+		Spectrum[0].z	= 0.f;
+		Spectrum[0].w	= 1.f;
+		Spectrum[0].u	= 0;//(0.f + 0.5f) / (float)windowWidth;//0.f;
+		Spectrum[0].v	= 0;//(0.f + 0.5f) / (float)windowHeight;//1.f;
+		Spectrum[0].color	= 0x00FF0000;
 
 		Spectrum[1].x	= (sideOffset + (onePanelSizeX * ((i / 4) + 1) - (margin * 0.5f))) * windowWidth;
 		Spectrum[1].y	= (topOffset) * windowHeight;
 		Spectrum[1].z	= 0.f;
 		Spectrum[1].w	= 1.f;
-		Spectrum[1].u	= (1.f + 0.5f) / (float)windowWidth;
-		Spectrum[1].v	= (0.f + 0.5f) / (float)windowHeight;//1.f;
+		Spectrum[1].u	= 1;//(1.f + 0.5f) / (float)windowWidth;
+		Spectrum[1].v	= 0;//(0.f + 0.5f) / (float)windowHeight;//1.f;
 		Spectrum[1].color	= 0x00FF0000;
 
 		Spectrum[2].x	= (sideOffset + (onePanelSizeX * (i / 4)) + (margin * 0.5f)) * windowWidth;
 		Spectrum[2].y	= 0.98f * windowHeight;
 		Spectrum[2].z	= 0.f;
 		Spectrum[2].w	= 1.f;
-		Spectrum[2].u	= (0.f + 0.5f) / (float)windowWidth;//0.f;
-		Spectrum[2].v	= (1.f + 0.5f) / (float)windowHeight;//0.f;
+		Spectrum[2].u	= 0;//(0.f + 0.5f) / (float)windowWidth;//0.f;
+		Spectrum[2].v	= 1;//(1.f + 0.5f) / (float)windowHeight;//0.f;
 		Spectrum[2].color	= 0x0000FF00;
 
-		Spectrum[0].x	= (sideOffset + (onePanelSizeX * (i / 4)) + (margin * 0.5f)) * windowWidth;
-		Spectrum[0].y	= (topOffset) * windowHeight;
-		Spectrum[0].z	= 0.f;
-		Spectrum[0].w	= 1.f;
-		Spectrum[0].u	= (0.f + 0.5f) / (float)windowWidth;//0.f;
-		Spectrum[0].v	= (0.f + 0.5f) / (float)windowHeight;//1.f;
-		Spectrum[0].color	= 0x00FF0000;
+		Spectrum[3].x	= (sideOffset + (onePanelSizeX * ((i / 4) + 1) - (margin * 0.5f))) * windowWidth;
+		Spectrum[3].y	= 0.98f * windowHeight;
+		Spectrum[3].z	= 0.f;
+		Spectrum[3].w	= 1.f;
+		Spectrum[3].u	= 0;//(1.f + 0.5f) / (float)windowWidth;//1.f;
+		Spectrum[3].v	= 0;//(1.f + 0.5f) / (float)windowHeight;//0.f;
+		Spectrum[3].color	= 0x0000FF00;
 
 		m_Vertex.push_back(Spectrum[0]);
 		m_Vertex.push_back(Spectrum[1]);
@@ -182,11 +182,13 @@ void Spectrum::Draw()
 	DXUTGetD3D9Device()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));
 	DXUTGetD3D9Device()->SetFVF(m_FVF);
 	DXUTGetD3D9Device()->SetIndices(m_IndexBuffer);
-	//DXUTGetD3D9Device()->SetTexture(0, m_Texture);
+	DXUTGetD3D9Device()->SetTexture(0, m_Texture);
 	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 	DXUTGetD3D9Device()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_Vertex.size(), 0, m_Index.size() / 3);
 	//DXUTGetD3D9Device()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
+
+	DXUTGetD3D9Device()->SetTexture(0, NULL);
 
 	DXUTGetD3D9Device()->SetFVF(NULL);
 	DXUTGetD3D9Device()->SetStreamSource(0, oldBuf, oldNum, oldStride);
@@ -216,11 +218,12 @@ void Spectrum::Update(F32* data, U32 size)
 	for (U32 i = 0; i < m_Vertex.size(); i += 4)
 	{
 		m_Vertex[i].y = m_Vertex[i+1].y = FData[i/4];
-		static const DWORD src = 0x0000FF00;
-		static const DWORD dst = 0x00FF0000;
-		//FData[i/4] + WINDOW_HEIGHT;
-		Math::LinearInterpolation(&m_Vertex[i].color, src, dst, 1.f - (FData[i/4] / WINDOW_HEIGHT));
-		m_Vertex[i + 1].color = m_Vertex[i].color;
+		m_Vertex[i].v = m_Vertex[i+1].v = m_Vertex[i+1].y / 480;
+		//static const DWORD src = 0x0000FF00;
+		//static const DWORD dst = 0x00FF0000;
+		////FData[i/4] + WINDOW_HEIGHT;
+		//Math::LinearInterpolation(&m_Vertex[i].color, src, dst, 1.f - (FData[i/4] / WINDOW_HEIGHT));
+		//m_Vertex[i + 1].color = m_Vertex[i].color;
 	}
 
 	m_VertexBuffer->Lock(0, NULL, (void**)&data, 0);
