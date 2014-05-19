@@ -38,10 +38,8 @@ SquareFactory::~SquareFactory()
 //---------------------------------------------------------------------------------------
 SquareFactory* SquareFactory::Create()
 {
-	if (m_Instance)
-		return m_Instance;
-
-	m_Instance = NEW SquareFactory();
+	if (!m_Instance)
+		m_Instance = NEW SquareFactory();
 	return m_Instance;
 }
 //---------------------------------------------------------------------------------------
@@ -60,7 +58,7 @@ void SquareFactory::Destroy()
 //!	@param[in]	: インデックス格納先
 //!	@return		: インデックスデータ
 //-------------------------------------------------------------
-IndexData SquareFactory::CreateSquare(Vector3 vCenter, Vector2 size, VertexARGB color, std::vector<U32>& indexArray)
+IndexData SquareFactory::CreateSquare(const Vector3 vCenter, const Vector2 size, const VertexARGB color, std::vector<U32>& indexArray)
 {
 	static const U32 BaseOffset	=	(GraphicsManager::BOX_NUM * GraphicsManager::ONE_BOX_VERTEX_NUM) + (GraphicsManager::SPHERE_NUM * GraphicsManager::ONE_SPHERE_VERTEX_NUM);
 	U32	offset	= BaseOffset + (m_SquareCount * 4);

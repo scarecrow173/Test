@@ -21,9 +21,9 @@ public:
 	Title(INode* parent);
 	virtual ~Title();
 
-	void Update();
-	SceneNode*	ChangeScene();
-	bool		Initialize();
+	virtual void		Update();
+	virtual SceneNode*	ChangeScene();
+	virtual bool		Initialize();
 
 private:
 	bool		m_IsEnd;

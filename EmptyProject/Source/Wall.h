@@ -26,7 +26,7 @@ public:
 	Wall(INode* parent, Vector3 pos, WALL_TYPE type);
 	virtual ~Wall();
 
-	void Update();
+	virtual void Update();
 
 protected:
 

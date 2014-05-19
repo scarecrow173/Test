@@ -40,10 +40,8 @@ SphereFactory::~SphereFactory()
 //---------------------------------------------------------------------------------------
 SphereFactory* SphereFactory::Create()
 {
-	if (m_Instance)
-		return m_Instance;
-
-	m_Instance = NEW SphereFactory();
+	if (!m_Instance)
+		m_Instance = NEW SphereFactory();
 	return m_Instance;
 }
 //---------------------------------------------------------------------------------------
@@ -61,7 +59,7 @@ void SphereFactory::Destroy()
 //!	@param[in]	: インデックス格納先
 //!	@return		: インデックスデータ
 //---------------------------------------------------------------------------------------
-IndexData SphereFactory::CreateSphere(Vector3 vCenter, F32 radius, VertexARGB color, std::vector<U32>& indexArray)
+IndexData SphereFactory::CreateSphere(const Vector3 vCenter, const F32 radius, const VertexARGB color, std::vector<U32>& indexArray)
 {
 	assert(GraphicsManager::SPHERE_NUM > m_SphereCount);
 	static U32 boxOffset		= (GraphicsManager::ONE_BOX_VERTEX_NUM * GraphicsManager::BOX_NUM);

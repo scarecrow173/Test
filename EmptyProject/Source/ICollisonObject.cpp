@@ -279,7 +279,7 @@ F32	ICollisonObject::GetAttenuationFactor()	const
 //!	@brief		: activeフラグセット
 //!	@param[in]	: activeフラグ
 //-------------------------------------------------------------
-void ICollisonObject::SetActive(bool active)
+void ICollisonObject::SetActive(const bool active)
 {
 	m_IsActive = active;
 }
@@ -287,7 +287,7 @@ void ICollisonObject::SetActive(bool active)
 //!	@brief		: gravityフラグセット
 //!	@param[in]	: gravityフラグ
 //-------------------------------------------------------------
-void ICollisonObject::SetGravity(bool gravity)
+void ICollisonObject::SetGravity(const bool gravity)
 {
 	m_IsGravity = gravity;
 }
@@ -295,7 +295,7 @@ void ICollisonObject::SetGravity(bool gravity)
 //!	@brief		: reflectionフラグセット
 //!	@param[in]	: reflectionフラグ
 //-------------------------------------------------------------
-void ICollisonObject::SetReflection(bool reflection)
+void ICollisonObject::SetReflection(const bool reflection)
 {
 	m_IsReflection = reflection;
 }
@@ -303,7 +303,7 @@ void ICollisonObject::SetReflection(bool reflection)
 //!	@brief		: reflectionフラグセット
 //!	@param[in]	: reflectionフラグ
 //-------------------------------------------------------------
-void ICollisonObject::SetAttenuation(bool attenuation)
+void ICollisonObject::SetAttenuation(const bool attenuation)
 {
 	m_IsAttenuation = attenuation;
 }
@@ -311,7 +311,7 @@ void ICollisonObject::SetAttenuation(bool attenuation)
 //!	@brief		: 速度セット
 //!	@param[in]	: 速度
 //-------------------------------------------------------------
-void ICollisonObject::SetSpeed(Vector3 speed)
+void ICollisonObject::SetSpeed(const Vector3 speed)
 {
 	m_Speed = speed;
 }
@@ -319,7 +319,7 @@ void ICollisonObject::SetSpeed(Vector3 speed)
 //!	@brief		: 座標セット
 //!	@param[in]	: 座標
 //-------------------------------------------------------------
-void ICollisonObject::SetPosition(Vector3 position)
+void ICollisonObject::SetPosition(const Vector3 position)
 {
 	m_Position = position;
 }
@@ -327,7 +327,7 @@ void ICollisonObject::SetPosition(Vector3 position)
 //!	@brief		: 反射係数セット
 //!	@param[in]	: 反射係数
 //-------------------------------------------------------------
-void ICollisonObject::SetReflectionFactor(F32 reflection)
+void ICollisonObject::SetReflectionFactor(const F32 reflection)
 {
 	m_ReflectionFactor = reflection;
 }
@@ -335,7 +335,7 @@ void ICollisonObject::SetReflectionFactor(F32 reflection)
 //!	@brief		: 反射係数セット
 //!	@param[in]	: 反射係数
 //-------------------------------------------------------------
-void ICollisonObject::SetAttenuationFactor(F32 attenuation)
+void ICollisonObject::SetAttenuationFactor(const F32 attenuation)
 {
 	m_AttenuationFactor = attenuation;
 }
@@ -354,7 +354,7 @@ void ICollisonObject::PushCollisonList(ICollisonObject* obj)
 //!	@brief		: コリジョンペア削除
 //!	@param[in]	: 削除したいコリジョン
 //-------------------------------------------------------------
-void ICollisonObject::EraseCollisonList(ICollisonObject* obj)
+void ICollisonObject::EraseCollisonList(const ICollisonObject* obj)
 {
 	auto it = std::find(m_CollisonList.begin(), m_CollisonList.end(), obj);
 

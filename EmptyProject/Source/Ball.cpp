@@ -191,7 +191,7 @@ void Ball::SubDeathCount()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-U32 Ball::GetDeathCount()
+U32 Ball::GetDeathCount() const
 {
 	return m_DeathCount;
 }
@@ -209,17 +209,17 @@ void Ball::SetBottomLine(Collision::ICollisonObject* bottomLine)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Ball::PopItem(Vector3 pos)
-{
-	assert(m_Shader);
-	if (std::rand() % 2 != 0)
-		return;
-	S32 r = std::rand() % 4;
-	Item* pop = NEW Item(m_Paddle, pos, (ITEM_TYPE)r);
-	m_Shader->AddRenderer(pop->GetRenderer());
-	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
-	GraphicsManager::GetInstance()->SetAllStreamSource();
-}
+//void Ball::PopItem(Vector3 pos)
+//{
+//	assert(m_Shader);
+//	if (std::rand() % 2 == 0)
+//		return;
+//	S32 r = std::rand() % 4;
+//	Item* pop = NEW Item(m_Paddle, pos, (ITEM_TYPE)r);
+//	m_Shader->AddRenderer(pop->GetRenderer());
+//	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
+//	GraphicsManager::GetInstance()->SetAllStreamSource();
+//}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

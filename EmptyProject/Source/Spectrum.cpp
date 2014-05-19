@@ -92,8 +92,8 @@ void Spectrum::CreateSpectrumData()
 		Spectrum[3].y	= 0.98f * windowHeight;
 		Spectrum[3].z	= 0.f;
 		Spectrum[3].w	= 1.f;
-		Spectrum[3].u	= 0;//(1.f + 0.5f) / (float)windowWidth;//1.f;
-		Spectrum[3].v	= 0;//(1.f + 0.5f) / (float)windowHeight;//0.f;
+		Spectrum[3].u	= 1;//(1.f + 0.5f) / (float)windowWidth;//1.f;
+		Spectrum[3].v	= 1;//(1.f + 0.5f) / (float)windowHeight;//0.f;
 		Spectrum[3].color	= 0x0000FF00;
 
 		m_Vertex.push_back(Spectrum[0]);
@@ -202,7 +202,7 @@ void Spectrum::Draw()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Spectrum::Update(F32* data, U32 size)
+void Spectrum::Update(const F32* data, const U32 size)
 {
 
 	const U32 div = size / 64;
@@ -218,52 +218,18 @@ void Spectrum::Update(F32* data, U32 size)
 	for (U32 i = 0; i < m_Vertex.size(); i += 4)
 	{
 		m_Vertex[i].y = m_Vertex[i+1].y = FData[i/4];
-		m_Vertex[i].v = m_Vertex[i+1].v = m_Vertex[i+1].y / 480;
-		//static const DWORD src = 0x0000FF00;
-		//static const DWORD dst = 0x00FF0000;
-		////FData[i/4] + WINDOW_HEIGHT;
-		//Math::LinearInterpolation(&m_Vertex[i].color, src, dst, 1.f - (FData[i/4] / WINDOW_HEIGHT));
-		//m_Vertex[i + 1].color = m_Vertex[i].color;
+		//m_Vertex[i+2].v = m_Vertex[i+3].v = m_Vertex[i].y / 480;
+		static const DWORD src = 0x0000FF00;
+		static const DWORD dst = 0x00FF0000;
+		//FData[i/4] + WINDOW_HEIGHT;
+		Math::LinearInterpolation(&m_Vertex[i].color, src, dst, 1.f - (FData[i/4] / WINDOW_HEIGHT));
+		m_Vertex[i + 1].color = m_Vertex[i].color;
 	}
-
-	m_VertexBuffer->Lock(0, NULL, (void**)&data, 0);
-	memcpy(data, &m_Vertex[0], sizeof(SpectrumVertex) * m_Vertex.size());
+	SpectrumVertex* vertexData;
+	m_VertexBuffer->Lock(0, NULL, (void**)&vertexData, 0);
+	memcpy(vertexData, &m_Vertex[0], sizeof(SpectrumVertex) * m_Vertex.size());
 	m_VertexBuffer->Unlock();
 }
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-//void Spectrum::UV()
-//{
-//	std::vector<VertexFloat2> l_pos;
-//
-//	const U32 divisionNum	= 64;
-//	const U32 vertexNum		= divisionNum * 4;
-//
-//	for (U32 i = 0; i < vertexNum; i += 4)
-//	{
-//		VertexFloat2 uv[4];
-//
-//		uv[0].u = 1.f;
-//		uv[0].v = 0.f;
-//
-//		uv[1].u = 1.f;
-//		uv[1].v = 1.f;
-//
-//		uv[2].u = 0.f;
-//		uv[2].v = 0.f;
-//
-//		uv[3].u = 0.f;
-//		uv[3].v = 1.f;
-//
-//		l_pos.push_back(uv[0]);
-//		l_pos.push_back(uv[1]);
-//		l_pos.push_back(uv[2]);
-//		l_pos.push_back(uv[3]);
-//	}
-//}
 //=======================================================================================
 //		protected method
 //=======================================================================================

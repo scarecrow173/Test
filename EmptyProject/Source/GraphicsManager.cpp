@@ -72,10 +72,8 @@ GraphicsManager::~GraphicsManager()
 //-------------------------------------------------------------
 GraphicsManager* GraphicsManager::Create()
 {
-	if (m_Instance)
-		return m_Instance;
-
-	m_Instance = NEW GraphicsManager();
+	if (!m_Instance)
+		m_Instance = NEW GraphicsManager();
 	return m_Instance;
 }
 //---------------------------------------------------------------------------------------
@@ -101,7 +99,7 @@ void GraphicsManager::AddShaderObject(IShaderObject* shader)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void GraphicsManager::EraseShaderObject(IShaderObject* shader)
+void GraphicsManager::EraseShaderObject(const IShaderObject* shader)
 {
 	auto it = std::find(m_ShaderList.begin(), m_ShaderList.end(), shader);
 	if (it == m_ShaderList.end())
@@ -251,7 +249,7 @@ void GraphicsManager::ChangeColor(U32 min, U32 max, VertexARGB color)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void GraphicsManager::SetView(Matrix& view)
+void GraphicsManager::SetView(const Matrix& view)
 {
 	m_View = view;
 }
@@ -260,7 +258,7 @@ void GraphicsManager::SetView(Matrix& view)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void GraphicsManager::SetProjection(Matrix& projction)
+void GraphicsManager::SetProjection(const Matrix& projction)
 {
 	m_Projection = projction;
 }

@@ -111,18 +111,30 @@ bool Title::Initialize()
 	m_Shader = NEW UseFixed();
 	m_Shader->Initilize();
 
-	auto data = CSVReader::ReadInteger("Assets/CSV/Title/Title.csv");
-
+	//CSVData<S32> data;
+	//CSVReader::ReadInteger("Assets/CSV/Title/Title.csv", data);
+#ifdef _CSVREADER_MODE_01
+	CSVReader<S32> data(std::string("Assets/CSV/Title/Title.csv"));
 	U32 widthNum	= data.Data[0];
 	U32 heightNum	= data.Data[1];
-
+#else
+	CSVReader data;
+	data.Load("Assets/CSV/Title/Title.csv");
+	U32 widthNum	= data[0].GetInteger();
+	U32 heightNum	= data[1].GetInteger();
+#endif
 	F32 blockWhidth	= 1000.f / widthNum;
 	F32 blockHeight	= 1000.f / heightNum;
 
 	for (U32 i = 0; i < widthNum * heightNum; ++i)
 	{
+#ifdef _CSVREADER_MODE_01
 		if (data.Data[i+2] == 0)
 			continue;
+#else
+		if (data[i+2].GetInteger() == 0)
+			continue;
+#endif
 		
 		VertexARGB color = ARGBColors::Red;
 		std::vector<U32>	index;
@@ -139,12 +151,9 @@ bool Title::Initialize()
 
 		Matrix mat;
 		Vector3 pos;
-		//pos.x = 500.f - (((i) % heightNum) * (blockHeight));
-		//pos.y = 500.f - (((i) / widthNum) * (blockWhidth));
 
 		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f));
 		pos.y = 500.f - ((i / widthNum) * (blockHeight) + (blockHeight * 0.5f));
-
 		pos.z = 0.f;
 
 		D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);

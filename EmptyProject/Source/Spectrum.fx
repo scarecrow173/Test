@@ -24,8 +24,8 @@ PS_INPUT SpectrumVS( VS_INPUT In)
 }
 float4 SpectrumPS(PS_INPUT In) : COLOR
 {
-	//return In.color; 
-	return tex2D(tex0, In.Tex);// * In.color;
+	return In.color; 
+	//return tex2D(tex0, In.Tex);// * In.color;
 }
 
 technique Spectrum

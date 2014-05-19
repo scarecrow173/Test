@@ -9,7 +9,7 @@ namespace AK
 namespace Debug
 {
 
-#define TRACE(x)		Trace(x, __FILE__, __LINE__)
+#define TRACE(x,y)		AK::Debug::Trace(x, y, __FILE__, __LINE__)
 
 #if defined(DEBUG) || defined(_DEBUG)
 #define DEBUG_PRINT_INT(x)		printf("%d\n", x)
@@ -34,9 +34,10 @@ namespace Debug
 #define RANGE_CHACK_MESSAGE_EX(x,y,z)
 #endif
 
-	void Trace(const char* _str, const char* _fileName, int _line);
-	void Trace(const wchar_t* _str, const char* _fileName, int _line);
+	void Trace(U32 level, const char* _str, const char* _fileName, S32 _line);
+	void Trace(U32 level, const wchar_t* _str, const char* _fileName, S32 _line);
 	void TraceEx( LPCSTR pszFormat, ...);
+	void SetTraceLevel(U32 level);
 
 	void CreateDebugConsole();
 	void DestoryDebugConsole();

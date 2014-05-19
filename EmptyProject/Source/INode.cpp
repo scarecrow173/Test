@@ -72,7 +72,7 @@ INode* INode::DetachNode(U32 findHandle)
 //!	@brief		: Activeフラグの取得
 //!	@return		: アクティブならtrue
 //-------------------------------------------------------------
-bool INode::GetActive()
+bool INode::GetActive() const
 {
 	return m_IsActive;
 }
@@ -90,7 +90,7 @@ void INode::SetActive(bool active)
 //!	@brief		: ノードのハンドルを取得
 //!	@return		: ハンドル
 //-------------------------------------------------------------
-U32	INode::GetHandle()
+U32	INode::GetHandle() const
 {
 	return m_Handle;
 }
@@ -98,7 +98,7 @@ U32	INode::GetHandle()
 //!	@brief		: ノードのハンドルを取得
 //!	@return		: ハンドル
 //-------------------------------------------------------------
-INode* INode::GetParent()
+INode* INode::GetParent() const
 {
 	return m_Parent;
 }

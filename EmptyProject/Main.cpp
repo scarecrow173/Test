@@ -6,6 +6,7 @@
 #pragma comment (lib, "bass.lib")
 #include "DXUT.h"
 
+
 #include "resource.h"
 #include "RootNode.h"
 #include "DebugUtill.h"
@@ -42,9 +43,8 @@ Matrix world,view, projction;
 bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat,
                                       bool bWindowed, void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"IsD3D9DeviceAcceptable\n");
-#endif
+	TRACE(0, "IsD3D9DeviceAcceptable\n");
+
     // Typically want to skip back buffer formats that don't support alpha blending
     IDirect3D9* pD3D = DXUTGetD3D9Object();
     if( FAILED( pD3D->CheckDeviceFormat( pCaps->AdapterOrdinal, pCaps->DeviceType,
@@ -61,9 +61,8 @@ bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, 
 //--------------------------------------------------------------------------------------
 bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"ModifyDeviceSettings\n");
-#endif
+	TRACE(0, "ModifyDeviceSettings\n");
+
     return true;
 }
 
@@ -75,9 +74,7 @@ bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* p
 HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                      void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"OnD3D9CreateDevice\n");
-#endif
+	TRACE(0,L"OnD3D9CreateDevice\n");
     return S_OK;
 }
 
@@ -89,9 +86,9 @@ HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURF
 HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                     void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"OnD3D9ResetDevice\n");
-#endif
+
+	TRACE(0,L"OnD3D9ResetDevice\n");
+
     return S_OK;
 }
 
@@ -101,9 +98,8 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 //--------------------------------------------------------------------------------------
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"OnFrameMove\n");
-#endif
+	TRACE(0,L"OnFrameMove\n");
+
 	AUTOPROFILE(0);
 	AK::Debug::UpdateDebugConsole();
 //	keyboard.Update();
@@ -165,9 +161,9 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, float fElapsedTime, void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"OnD3D9FrameRender\n");
-#endif
+
+	TRACE(0, L"OnD3D9FrameRender\n");
+
     HRESULT hr;
 
     // Clear the render target and the zbuffer										 0, 45, 50, 170
@@ -204,9 +200,8 @@ LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D9LostDevice( void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"OnD3D9LostDevice\n");
-#endif
+	TRACE(0, L"OnD3D9LostDevice\n");
+
 }
 
 
@@ -215,9 +210,9 @@ void CALLBACK OnD3D9LostDevice( void* pUserContext )
 //--------------------------------------------------------------------------------------
 void CALLBACK OnD3D9DestroyDevice( void* pUserContext )
 {
-#ifdef __MY_DEBUG_STR_USE_
+
 	OutputDebugString(L"OnD3D9DestroyDevice\n");
-#endif
+
 
 }
 
@@ -260,10 +255,10 @@ D3DXMATRIX *getViewMatrixTakingSphereInCamera(
 //--------------------------------------------------------------------------------------
 INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 {
-#ifdef __MY_DEBUG_STR_USE_
-	OutputDebugString(L"wWinMain\n");
-#endif
-    // Enable run-time memory check for debug builds.
+
+	TRACE(0, L"wWinMain\n");
+
+	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif

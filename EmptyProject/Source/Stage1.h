@@ -21,11 +21,11 @@ public:
 	Stage1(INode* parent, U32 stageCount);
 	virtual ~Stage1();
 
-	void		Update();
-	SceneNode*	ChangeScene();
-	bool		Initialize();
-	bool		IsEnd();
-	void		SetEnd(bool end);
+	virtual void		Update();
+	virtual SceneNode*	ChangeScene();
+	virtual bool		Initialize();
+	bool				IsEnd() const;
+	void				SetEnd(const bool end);
 protected:
 
 private:

@@ -63,15 +63,17 @@ void BlockSystem::Start()
 //!	@param[in]	: —ñ”
 //!	@return		: ì¬‚É¬Œ÷‚µ‚½‚ç true
 //-------------------------------------------------------------
-bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader)
+bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* shader)
 {
 	assert(m_Ball);
 
 	Matrix view,proj;
 	view = GraphicsManager::GetInstance()->GetView();
 	proj = GraphicsManager::GetInstance()->GetProjection();
-	auto StageData = CSVReader::ReadInteger(filePath);
-
+	//CSVData<S32> StageData;
+	//CSVReader::ReadInteger(filePath.c_str(), StageData);
+#ifdef _CSVREADER_MODE_01
+	CSVReader<S32> StageData(filePath);
 	for (int i = 0; i < StageData.row * StageData.column; ++i)
 	{
 		if (StageData.Data[i] == 0)
@@ -85,6 +87,25 @@ bool BlockSystem::CreateStageBlocks(std::string& filePath, IShaderObject* shader
 		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());
 		m_BlockList.push_back(block);
 	}
+#else
+	CSVReader StageData;
+	StageData.Load(filePath.c_str());
+	for (S32 i = 0; i < StageData.row * StageData.column; ++i)
+	{
+		if (StageData[i].GetInteger() == 0)
+			continue;
+
+		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
+		Block* block = NEW Block(this, vec3, StageData[i].GetInteger());
+		block->SetSEHandle((i % StageData.row) + 1);
+		this->AttachNode(block);
+		shader->AddRenderer(block->GetRenderer());
+		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());
+		m_BlockList.push_back(block);
+	}
+
+#endif
+
 
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
@@ -115,7 +136,7 @@ void BlockSystem::DeleteBlock(ICollisonObject* obj)
 		{
 			if ((*it)->Death())
 			{
-				m_Ball->PopItem((*it)->GetPosition());
+				//m_Ball->PopItem((*it)->GetPosition());
 				it = m_BlockList.erase(it);
 				continue;
 			}

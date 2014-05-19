@@ -23,10 +23,10 @@ public:
 	Block(INode* parent, Vector3 pos, U32 lifeCount);
 	virtual ~Block();
 
-	void	Update();
-	void	Start();
+	virtual void	Update();
+	virtual void	Start();
 	bool	Death();
-	void	SetSEHandle(U32 handle);
+	void	SetSEHandle(const U32 handle);
 
 
 protected:

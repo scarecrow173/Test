@@ -44,7 +44,7 @@ Item::Item(Paddle* parent, Vector3 pos, ITEM_TYPE type)
 
 	//	TODO:
 	//	コリジョン作成	: ○
-	//	アイテム効果	: ×
+	//	アイテム効果	: ○
 	//	表示			: ○
 
 	std::vector<U32> indexSrc;
@@ -88,21 +88,7 @@ void Item::Update()
 
 	for (auto it = l_list.begin(); it != l_list.end(); ++it)
 	{
-		switch(m_Type)
-		{
-		case ITEM_TYPE::EXTEND_PADLLE:
-			break;
-		case ITEM_TYPE::POWER_UP:
-			break;
-		case ITEM_TYPE::SPEED_DOWN:
-			((Paddle*)m_Parent)->SetSpeed(((Paddle*)m_Parent)->GetSpeed() * 0.95f);
-			break;
-		case ITEM_TYPE::SPEED_UP:
-			((Paddle*)m_Parent)->SetSpeed(((Paddle*)m_Parent)->GetSpeed() * 1.05f);
-			break;
-		default:
-			break;
-		}
+		ItemAffect(FindGameObject(*it));
 		m_Renderer->SetActive(false);
 	}
 
@@ -118,6 +104,33 @@ void Item::Update()
 //-------------------------------------------------------------
 void Item::Start()
 {
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void Item::ItemAffect(GameObject* obj)
+{
+	if (!obj)
+		return;
+	//ICollisonObject* collison = obj->GetCollison();
+
+	switch(m_Type)
+	{
+	case ITEM_TYPE::EXTEND_PADLLE:
+		break;
+	case ITEM_TYPE::POWER_UP:
+		break;
+	case ITEM_TYPE::SPEED_DOWN:
+		//collison->SetSpeed(collison->GetSpeed() * 0.95f);
+		break;
+	case ITEM_TYPE::SPEED_UP:
+		//collison->SetSpeed(collison->GetSpeed() * 1.05f);
+		break;
+	default:
+		break;
+	}
 }
 //=======================================================================================
 //		protected method

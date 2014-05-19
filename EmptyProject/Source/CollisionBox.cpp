@@ -138,7 +138,7 @@ void CollisionBox::GetCollisionPos(Vector3& max, Vector3& min)
 //!	@brief		: 幅取得
 //!	@return		: 幅
 //-------------------------------------------------------------
-F32	CollisionBox::GetWidth()
+F32	CollisionBox::GetWidth() const
 {
 	return m_Width;
 }
@@ -146,7 +146,7 @@ F32	CollisionBox::GetWidth()
 //!	@brief		: 高さ取得
 //!	@return		: 高さ
 //-------------------------------------------------------------
-F32	CollisionBox::GetHeight()
+F32	CollisionBox::GetHeight() const
 {
 	return m_Height;
 }
@@ -154,7 +154,7 @@ F32	CollisionBox::GetHeight()
 //!	@brief		: 奥行き取得
 //!	@return		: 奥行き
 //-------------------------------------------------------------
-F32	CollisionBox::GetDepth()
+F32	CollisionBox::GetDepth() const
 {
 	return m_Depth;
 }
@@ -162,7 +162,7 @@ F32	CollisionBox::GetDepth()
 //!	@brief		: 中心位置取得
 //!	@return		: 中心位置
 //-------------------------------------------------------------
-Vector3	CollisionBox::GetCenter()
+Vector3	CollisionBox::GetCenter() const
 {
 	return m_CenterPos;
 }
@@ -170,7 +170,7 @@ Vector3	CollisionBox::GetCenter()
 //!	@brief		: 幅のセット
 //!	@param[in]	: 幅
 //-------------------------------------------------------------
-void CollisionBox::SetWidth(F32 width)
+void CollisionBox::SetWidth(const F32 width)
 {
 	m_Width = width;
 }
@@ -178,7 +178,7 @@ void CollisionBox::SetWidth(F32 width)
 //!	@brief		: 高さセット
 //!	@param[in]	: 高さ
 //-------------------------------------------------------------
-void CollisionBox::SetHeight(F32 height)
+void CollisionBox::SetHeight(const F32 height)
 {
 	m_Height = height;
 }
@@ -186,7 +186,7 @@ void CollisionBox::SetHeight(F32 height)
 //!	@brief		: 奥行きセット
 //!	@param[in]	: 奥行き
 //-------------------------------------------------------------
-void CollisionBox::SetDepth(F32 depth)
+void CollisionBox::SetDepth(const F32 depth)
 {
 	m_Depth = depth;
 }
@@ -194,7 +194,7 @@ void CollisionBox::SetDepth(F32 depth)
 //!	@brief		: 中心位置セット
 //!	@param[in]	: 中心位置
 //-------------------------------------------------------------
-void CollisionBox::SetCenter(Vector3 center)
+void CollisionBox::SetCenter(const Vector3 center)
 {
 	m_CenterPos = center;
 }

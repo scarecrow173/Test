@@ -24,7 +24,7 @@ public:
 	virtual ~IShaderObject(){ if (m_Effect) SAFE_RELEASE(m_Effect); m_Renderer.clear(); };
 
 	void AddRenderer(IRenderer* renderer);
-	void EraseRenderer(IRenderer* renderer);
+	void EraseRenderer(const IRenderer* renderer);
 
 	virtual bool Initilize()PURE;
 	virtual void Draw()PURE;
@@ -54,7 +54,7 @@ inline void IShaderObject::AddRenderer(IRenderer* renderer)
 //!	@brief		: レンダラー削除
 //!	@param[in]	: 削除したいレンダラー
 //-------------------------------------------------------------
-inline void IShaderObject::EraseRenderer(IRenderer* renderer)
+inline void IShaderObject::EraseRenderer(const IRenderer* renderer)
 {
 	auto it = std::find(m_Renderer.begin(), m_Renderer.end(), renderer);
 

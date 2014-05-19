@@ -25,15 +25,15 @@ public:
 
 	bool	Initialize(IDirect3DDevice9* device);
 	void	AddIndex(std::vector<U32>& add);
-	void	PopIndex(U32 start, U32 end);
+	void	PopIndex(const U32 start, const U32 end);
 	void	ReCreateIndexBuffer();
-	void	UpdateIndexData(IndexData data);
+	void	UpdateIndexData(const IndexData data);
 	
 	void	SetWorld(const Matrix& world);
 	Matrix	GetWorld() const;
 
-	bool	IsActive();
-	void	SetActive(bool active);
+	bool	IsActive() const;
+	void	SetActive(const bool active);
 
 	virtual void	Draw() PURE;
 	
@@ -77,7 +77,7 @@ inline void	IRenderer::AddIndex(std::vector<U32>& add)
 //!	@param[in]	: 外したい初めの値
 //!	@param[in]	: 外したい終わりの値
 //-------------------------------------------------------------
-inline void	IRenderer::PopIndex(U32 start, U32 end)
+inline void	IRenderer::PopIndex(const U32 start, const U32 end)
 {
 	auto it		= m_Index.begin();
 	auto eIt	= m_Index.end();
@@ -109,7 +109,7 @@ inline void IRenderer::ReCreateIndexBuffer()
 //!	@brief		: インデックスデータ更新
 //!	@param[in]	: インデックスデータ
 //-------------------------------------------------------------
-inline void IRenderer::UpdateIndexData(IndexData data)
+inline void IRenderer::UpdateIndexData(const IndexData data)
 {
 	m_IndexData.start = min(m_IndexData.start, data.start);
 	m_IndexData.face += data.face;
@@ -134,7 +134,7 @@ inline Matrix IRenderer::GetWorld() const
 //!	@brief		: ワールドの取得
 //!	@return		: ワールド
 //-------------------------------------------------------------
-inline bool IRenderer::IsActive()
+inline bool IRenderer::IsActive() const
 {
 	return m_IsActive;
 }
@@ -142,7 +142,7 @@ inline bool IRenderer::IsActive()
 //!	@brief		: ワールドの取得
 //!	@return		: ワールド
 //-------------------------------------------------------------
-inline void IRenderer::SetActive(bool active)
+inline void IRenderer::SetActive(const bool active)
 {
 	m_IsActive = active;
 }

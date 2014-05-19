@@ -26,7 +26,7 @@ public:
 	static void				Destroy();
 	static SphereFactory*	GetInstance();
 
-	IndexData				CreateSphere(Vector3 vCenter, F32 radius, VertexARGB color, std::vector<U32>& indexArray);
+	IndexData				CreateSphere(const Vector3 vCenter, const F32 radius, const VertexARGB color, std::vector<U32>& indexArray);
 	void					AllClear();
 private:
 	SphereFactory();

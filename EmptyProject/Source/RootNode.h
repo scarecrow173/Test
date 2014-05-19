@@ -24,7 +24,7 @@ public:
 	static RootNode*	GetInstance();
 
 
-	void				Update();
+	virtual void		Update();
 	
 
 private:

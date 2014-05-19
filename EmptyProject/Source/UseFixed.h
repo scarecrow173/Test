@@ -22,8 +22,8 @@ public:
 	UseFixed();
 	virtual ~UseFixed();
 
-	bool Initilize();
-	void Draw();
+	virtual bool Initilize();
+	virtual void Draw();
 };
 //=======================================================================================
 //		inline method

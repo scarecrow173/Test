@@ -25,7 +25,7 @@ public:
 	static void			Destroy();
 	static BoxFactory*	GetInstance();
 	
-	IndexData			CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color, std::vector<U32>& indexArray);
+	IndexData			CreateBox(const Vector3 vCenter, const Vector3 size, const VertexARGB color, std::vector<U32>& indexArray);
 	void				AllClear();
 private:
 	BoxFactory();

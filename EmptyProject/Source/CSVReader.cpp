@@ -13,35 +13,39 @@ using namespace AK;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-
+//template<typename T>
+//CSVReader<T>::CSVReader(std::string& filePath)
+//{
+//	Read(filePath.c_str(), Data);
+//}
 
 //=======================================================================================
 //		public method
 //=======================================================================================
-
+#ifdef _CSVREADER_MODE_01
 //-------------------------------------------------------------
 //!	@brief		: CSVÇêÆêîÇ∆ÇµÇƒì«Ç›çûÇﬁ
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-CSVData<S32> CSVReader::ReadInteger(std::string filePath)
+void CSVReader<S32>::Read(const char* filePath, std::vector<S32>& out)
 {
-	CSVData<S32> out;
+
 	std::string str;
 	std::ifstream ifs(filePath);
 	S32 num;
 	U32 rowCount	= 0;
-	out.column		= 0;
-	out.row			= 0;
+	column		= 0;
+	row			= 0;
 
 	if( !ifs ) 
 	{
 		std::cout << "Error:Input data file not found" << std::endl; 
-		return out;
+		return ;
 	}
 	while( std::getline( ifs, str ) )
 	{
-		++out.column;
+		++column;
 		std::string token;
  
 		std::istringstream stream( str );
@@ -51,13 +55,14 @@ CSVData<S32> CSVReader::ReadInteger(std::string filePath)
 			std::stringstream ss;
 			ss << token;
 			ss >> num;
-			out.Data.push_back(num);
+			out.push_back(num);
+			
 			++rowCount;
 		}
-		out.row = out.row < rowCount ? rowCount : out.row;
+		row = row < rowCount ? rowCount : row;
 		rowCount = 0;
 	}
-	return out;
+
 
 }
 //-------------------------------------------------------------
@@ -65,24 +70,23 @@ CSVData<S32> CSVReader::ReadInteger(std::string filePath)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-CSVData<F32> CSVReader::ReadFloat(std::string filePath)
+void CSVReader<F32>::Read(const char* filePath, std::vector<F32>& out)
 {
-	CSVData<F32> out;
 	std::string str;
 	std::ifstream ifs(filePath);
 	F32 num;
 	U32 rowCount	= 0;
-	out.column		= 0;
-	out.row			= 0;
+	column		= 0;
+	row			= 0;
 
-	if( !ifs ) 
+	if( !ifs )
 	{
 		std::cout << "Error:Input data file not found" << std::endl; 
-		return out;
+		return ;
 	}
 	while( std::getline( ifs, str ) )
 	{
-		++out.column;
+		++column;
 		std::string token;
  
 		std::istringstream stream( str );
@@ -92,49 +96,49 @@ CSVData<F32> CSVReader::ReadFloat(std::string filePath)
 			std::stringstream ss;
 			ss << token;
 			ss >> num;
-			out.Data.push_back(num);
+			out.push_back(num);
+			
 			++rowCount;
 		}
-		out.row = out.row < rowCount ? rowCount : out.row;
+		row = row < rowCount ? rowCount : row;
 		rowCount = 0;
 	}
-	return out;
+
 }
 //-------------------------------------------------------------
 //!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-CSVData<std::string> CSVReader::ReadString(std::string filePath)
+void CSVReader<std::string>::Read(const char* filePath, std::vector<std::string>& out)
 {
-	CSVData<std::string> out;
 	std::string str;
 	std::ifstream ifs(filePath);
 	U32 rowCount	= 0;
-	out.column		= 0;
-	out.row			= 0;
+	column		= 0;
+	row			= 0;
 
 	if( !ifs ) 
 	{
 		std::cout << "Error:Input data file not found" << std::endl; 
-		return out;
+		return;
 	}
 	while( std::getline( ifs, str ) )
 	{
-		++out.column;
+		++column;
 		std::string token;
  
 		std::istringstream stream( str );
  
 		while( std::getline( stream, token, ',' ) ) 
 		{
-			out.Data.push_back(token);
+			out.push_back(token);
+			
 			++rowCount;
 		}
-		out.row = out.row < rowCount ? rowCount : out.row;
+		row = row < rowCount ? rowCount : row;
 		rowCount = 0;
 	}
-	return out;
 }
 //=======================================================================================
 //		protected method
@@ -143,7 +147,128 @@ CSVData<std::string> CSVReader::ReadString(std::string filePath)
 //=======================================================================================
 //		private method
 //=======================================================================================
+#else
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void CSVReader::Load(const char* filePath)
+{
+	std::string str;
+	std::ifstream ifs(filePath);
+	U32 rowCount	= 0;
+	column		= 0;
+	row			= 0;
 
+	if( !ifs ) 
+	{
+		std::cout << "Error:Input data file not found" << std::endl; 
+		return;
+	}
+	while( std::getline( ifs, str ) )
+	{
+		++column;
+		std::string token;
+ 
+		std::istringstream stream( str );
+ 
+		while( std::getline( stream, token, ',' ) ) 
+		{
+			Impl* data = NEW Impl();
+			data->SetData(token);
+			Data.push_back(data);
+			++rowCount;
+		}
+		row = row < rowCount ? rowCount : row;
+		rowCount = 0;
+	}
+}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+CSVReader::Impl::Impl()
+	:	m_IsType	(0) 
+	,	str			(0)
+{}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+CSVReader::Impl::~Impl()
+{
+	if (m_IsType == DataTypeString)
+		SAFE_DELETE_ARRAY(str);
+}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void CSVReader::Impl::SetData(std::string& data)
+{
+
+	if(data.find_first_not_of("-0123456789 \t") == std::string::npos)
+	{
+		m_IsType = DataTypeInteger;
+		S32 num;
+		std::stringstream ss;
+		ss << data;
+		ss >> num;
+		integer = num;
+	}
+	else if(data.find_first_not_of("-0123456789. Ee\t") == std::string::npos)
+	{
+		m_IsType = DataTypeDecimal;
+		std::stringstream ss;
+		F32 num;
+		ss << data;
+		ss >> num;
+		decimal = num;
+	}
+	else
+	{
+		m_IsType = DataTypeString;
+		str = NEW char[data.size() + 1];
+		memcpy((void*)str, data.c_str(), sizeof(char) * (data.size() + 1));
+
+	}
+			
+}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+S32	CSVReader::Impl::GetInteger() const
+{
+	assert(m_IsType == DataTypeInteger);
+	return integer;
+}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+F32	CSVReader::Impl::GetDecimal() const
+{
+	assert(m_IsType == DataTypeDecimal);
+	return decimal;
+}
+//-------------------------------------------------------------
+//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+const char*	CSVReader::Impl::GetString() const
+{
+	assert(m_IsType == DataTypeString);
+	return str;
+}
+#endif
 //===============================================================
 //	End of File
 //===============================================================

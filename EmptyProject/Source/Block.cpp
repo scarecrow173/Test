@@ -109,7 +109,7 @@ bool Block::Death()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Block::SetSEHandle(U32 handle)
+void Block::SetSEHandle(const U32 handle)
 {
 	m_SEHandle = handle;
 }

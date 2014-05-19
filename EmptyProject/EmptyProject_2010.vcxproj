@@ -424,6 +424,7 @@
     <ClCompile Include="Source\UseFixed.cpp" />
     <ClCompile Include="Source\Wall.cpp" />
     <ClCompile Include="Source\WindowPolygonRenderer.cpp" />
+    <ClInclude Include="Source\Affecter.h" />
     <ClInclude Include="Source\AutoPerformance.h" />
     <ClInclude Include="Source\Ball.h" />
     <ClInclude Include="Source\Block.h" />

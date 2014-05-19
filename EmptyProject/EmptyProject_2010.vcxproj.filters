@@ -357,6 +357,9 @@
     <ClInclude Include="Source\Spectrum.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Affecter.h">
+      <Filter>Source\InGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

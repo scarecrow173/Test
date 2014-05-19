@@ -26,15 +26,15 @@ public:
 	virtual ~Ball();
 
 	
-	void Update();
-	void Start();
+	virtual void Update();
+	virtual void Start();
 
 	void SetBlockSystem(BlockSystem* system);
 	void SetBottomLine(Collision::ICollisonObject* bottomLine);
 	void AddDeathCount();
 	void SubDeathCount();
-	U32	 GetDeathCount();
-	void PopItem(Vector3 pos);
+	U32	 GetDeathCount() const;
+//	void PopItem(Vector3 pos);
 	void SetShader(Graphics::IShaderObject* shader);
 
 private:

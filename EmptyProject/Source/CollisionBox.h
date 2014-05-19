@@ -33,15 +33,15 @@ public:
 	void	GetCollisionPos(Vector3& max, Vector3& min);
 
 
-	F32		GetWidth();
-	F32		GetHeight();
-	F32		GetDepth();
-	Vector3	GetCenter();
+	F32		GetWidth()	const;
+	F32		GetHeight()	const;
+	F32		GetDepth()	const;
+	Vector3	GetCenter()	const;
 
-	void	SetWidth(F32 width);
-	void	SetHeight(F32 height);
-	void	SetDepth(F32 depth);
-	void	SetCenter(Vector3 center);
+	void	SetWidth(const F32 width);
+	void	SetHeight(const F32 height);
+	void	SetDepth(const F32 depth);
+	void	SetCenter(const Vector3 center);
 
 private:
 	void	_AssretError();

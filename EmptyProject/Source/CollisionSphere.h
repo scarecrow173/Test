@@ -31,7 +31,7 @@ public:
 	bool Check(CollisionSphere* sphere);
 	F32	 GetTime(ICollisonObject& obj);
 
-	F32	 GetRadius(){return m_Radius;}
+	F32	 GetRadius() const {return m_Radius;}
 
 private:
 	void _AssretError();

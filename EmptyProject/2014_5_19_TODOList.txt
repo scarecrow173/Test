@@ -1,0 +1,42 @@
+TODO:
+1・TRACEにレベルをつけてレベル別にログ出力できるように改善	: ○
+2・CSVDataのデータ構造見直し						: △（要コード整理）
+4・ノードのツリー構造改善（再設計）					: 進行中
+3・関数単位見直し								: 未着手
+5・vectorのコピーが発生する場所を変更				: ○
+6・constつける。一時変数にも						: ○
+7・デバイスのリリース見直し							: 未着手
+8・アイテムの出現をブロックへ移行						: 未着手
+9・SceneNodeからいろいろな情報を取得できるように変更		: 未着手
+
+
+
+変更ファイル:
+・INode
+	const
+・CSVReader
+	２パターン作成どっちが使い勝手がいいか
+	vectorのコピーはなくなったはず
+・GraphicsManager
+	シングルトンCreate変更
+・BoxFactory
+	シングルトンCreate変更
+・SphereFactory
+	シングルトンCreate変更
+・RootNode
+	シングルトンCreate変更
+	オーバーライドメソッドにvirtual
+・Input
+	const
+・InputKeyboad
+	const
+	オーバーライドメソッドにvirtual
+・Stage1
+	オーバーライドメソッドにvirtual
+・Title
+	オーバーライドメソッドにvirtual
+・SceneNode
+	オーバーライドメソッドにvirtual
+・GameObject
+	const
+	Collisonからゲームオブジェクトを検索できるように変更

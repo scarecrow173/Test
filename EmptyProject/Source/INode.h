@@ -25,10 +25,10 @@ public:
 	void	AttachNode(INode* node);
 	INode*	DetachNode(U32 findHandle);
 	INode*	FindNode(U32 findHandle);
-	bool	GetActive();
+	bool	GetActive()	const;
 	void	SetActive(bool active);
-	U32		GetHandle();
-	INode*	GetParent();
+	U32		GetHandle() const;
+	INode*	GetParent() const;
 
 	void	UpdateChild();
 	virtual void	Update()	PURE;

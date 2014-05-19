@@ -35,7 +35,7 @@ public:
 	//void UV();
 
 	void Draw();
-	void Update(F32* data, U32 size);
+	void Update(const F32* data, const U32 size);
 
 	std::vector<SpectrumVertex>	m_Vertex;
 	std::vector<U32>			m_Index;

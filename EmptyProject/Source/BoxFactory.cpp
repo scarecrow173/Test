@@ -41,10 +41,8 @@ BoxFactory::~BoxFactory()
 //---------------------------------------------------------------------------------------
 BoxFactory* BoxFactory::Create()
 {
-	if (m_Instance)
-		return m_Instance;
-
-	m_Instance = NEW BoxFactory();
+	if (!m_Instance)
+		m_Instance = NEW BoxFactory();
 	return m_Instance;
 }
 //---------------------------------------------------------------------------------------
@@ -63,7 +61,7 @@ void BoxFactory::Destroy()
 //!	@param[in]	: インデックス格納先
 //!	@return		: インデックスデータ
 //---------------------------------------------------------------------------------------
-IndexData BoxFactory::CreateBox(Vector3 vCenter, Vector3 size, VertexARGB color, std::vector<U32>& indexArray)
+IndexData BoxFactory::CreateBox(const Vector3 vCenter, const Vector3 size, const VertexARGB color, std::vector<U32>& indexArray)
 {	
 	assert(GraphicsManager::BOX_NUM > m_BoxCount);
 

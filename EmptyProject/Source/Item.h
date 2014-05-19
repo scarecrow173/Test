@@ -28,8 +28,10 @@ public:
 	Item(Paddle* parent, Vector3 pos, ITEM_TYPE type);
 	virtual ~Item();
 
-	void	Update();
-	void	Start();
+	virtual void	Update();
+	virtual void	Start();
+
+	void	ItemAffect(GameObject* obj);
 
 protected:
 

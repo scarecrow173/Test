@@ -21,9 +21,9 @@ public:
 	SceneNode(INode* parent) : INode(parent) {};
 	virtual ~SceneNode(){};
 
-	void				Update()PURE;
-	virtual SceneNode*	ChangeScene()PURE;
-	virtual bool		Initialize() PURE;
+	virtual void		Update()		PURE;
+	virtual SceneNode*	ChangeScene()	PURE;
+	virtual bool		Initialize()	PURE;
 
 protected:
 

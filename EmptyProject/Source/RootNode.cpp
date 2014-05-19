@@ -39,10 +39,8 @@ RootNode::~RootNode()
 //-------------------------------------------------------------
 RootNode*	RootNode::Create()
 {
-	if (m_Instance)
-		return m_Instance;
-
-	m_Instance = NEW RootNode();
+	if (!m_Instance)
+		m_Instance = NEW RootNode();
 	return m_Instance;
 	
 }

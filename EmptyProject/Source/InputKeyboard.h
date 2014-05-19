@@ -20,10 +20,10 @@ public:
 	InputKeyboard();
 	virtual ~InputKeyboard();
 
-	bool IsTrigger(INPUT_KEY key);
-	bool IsKeyDown(INPUT_KEY key);
-	bool IsKeyRelease(INPUT_KEY key);
-	void Update();
+	virtual bool IsTrigger(INPUT_KEY key)	const;
+	virtual bool IsKeyDown(INPUT_KEY key)	const;
+	virtual bool IsKeyRelease(INPUT_KEY key)const;
+	virtual void Update();
 
 private:
 	U8	m_KeyState;

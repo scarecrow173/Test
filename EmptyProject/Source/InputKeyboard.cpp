@@ -35,7 +35,7 @@ InputKeyboard::~InputKeyboard()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-bool InputKeyboard::IsTrigger(INPUT_KEY key)
+bool InputKeyboard::IsTrigger(INPUT_KEY key) const
 {
 	switch(key)
 	{
@@ -65,7 +65,7 @@ bool InputKeyboard::IsTrigger(INPUT_KEY key)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-bool InputKeyboard::IsKeyDown(INPUT_KEY key)
+bool InputKeyboard::IsKeyDown(INPUT_KEY key) const
 {
 	switch(key)
 	{
@@ -94,7 +94,7 @@ bool InputKeyboard::IsKeyDown(INPUT_KEY key)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-bool InputKeyboard::IsKeyRelease(INPUT_KEY key)
+bool InputKeyboard::IsKeyRelease(INPUT_KEY key) const
 {
 	switch(key)
 	{

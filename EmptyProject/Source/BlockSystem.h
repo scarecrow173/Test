@@ -27,9 +27,9 @@ public:
 	virtual ~BlockSystem();
 
 	
-	void Update();
-	void Start();
-	bool CreateStageBlocks(std::string& filePath, Graphics::IShaderObject* shader);
+	virtual void Update();
+	virtual void Start();
+	bool CreateStageBlocks(const std::string& filePath, Graphics::IShaderObject* shader);
 	bool Clear();
 
 	void DeleteBlock(Collision::ICollisonObject* obj);

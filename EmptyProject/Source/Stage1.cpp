@@ -147,7 +147,7 @@ bool Stage1::Initialize()
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-bool Stage1::IsEnd()
+bool Stage1::IsEnd() const
 {
 	return m_IsEnd;
 }
@@ -155,7 +155,7 @@ bool Stage1::IsEnd()
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-void Stage1::SetEnd(bool end)
+void Stage1::SetEnd(const bool end)
 {
 	m_IsEnd = end;
 }

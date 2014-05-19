@@ -45,16 +45,16 @@ public:
 	F32		GetReflectionFactor()	const;
 	F32		GetAttenuationFactor()	const;
 
-	void	SetActive(bool active);
-	void	SetGravity(bool gravity);
-	void	SetReflection(bool reflection);
-	void	SetAttenuation(bool attenuation);
-	void	SetSpeed(Vector3 speed);
-	void	SetPosition(Vector3 position);
-	void	SetReflectionFactor(F32 reflection);
-	void	SetAttenuationFactor(F32 attenuation);
+	void	SetActive(const bool active);
+	void	SetGravity(const bool gravity);
+	void	SetReflection(const bool reflection);
+	void	SetAttenuation(const bool attenuation);
+	void	SetSpeed(const Vector3 speed);
+	void	SetPosition(const Vector3 position);
+	void	SetReflectionFactor(const F32 reflection);
+	void	SetAttenuationFactor(const F32 attenuation);
 	void	PushCollisonList(ICollisonObject* obj);
-	void	EraseCollisonList(ICollisonObject* obj);
+	void	EraseCollisonList(const ICollisonObject* obj);
 	Vector3		m_Normal;
 protected:
 	void AssertError();

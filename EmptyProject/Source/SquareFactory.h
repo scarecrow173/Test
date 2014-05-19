@@ -25,7 +25,7 @@ public:
 	static void				Destroy();
 	static SquareFactory*	GetInstance();
 	
-	IndexData				CreateSquare(Vector3 vCenter, Vector2 size, VertexARGB color, std::vector<U32>& indexArray);
+	IndexData				CreateSquare(const Vector3 vCenter, const Vector2 size, const VertexARGB color, std::vector<U32>& indexArray);
 
 private:
 	SquareFactory();

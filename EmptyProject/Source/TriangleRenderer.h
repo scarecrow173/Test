@@ -21,7 +21,7 @@ public:
 	TriangleRenderer();
 	virtual ~TriangleRenderer();
 
-	void Draw();
+	virtual void Draw();
 
 protected:
 

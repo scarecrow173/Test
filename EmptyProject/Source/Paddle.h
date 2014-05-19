@@ -21,10 +21,10 @@ public:
 	Paddle(INode* parent, Vector3 pos);
 	virtual ~Paddle();
 
-	void	Update();
-	void	Start();
+	virtual void	Update();
+	virtual void	Start();
 	void	PushItem(Item* item);
-	void	SetSpeed(F32 speed);
+	void	SetSpeed(const F32 speed);
 	F32		GetSpeed();
 protected:
 

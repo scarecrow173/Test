@@ -23,9 +23,10 @@ public:
 	GameObject(INode* parent, Vector3 pos);
 	virtual ~GameObject();
 
-	Vector3							GetPosition();
-	Collision::ICollisonObject*		GetCollison();
-	Graphics::IRenderer*			GetRenderer();
+	GameObject*						FindGameObject(Collision::ICollisonObject* collison);
+	Vector3							GetPosition() const;
+	Collision::ICollisonObject*		GetCollison() const;
+	Graphics::IRenderer*			GetRenderer() const;
 	
 
 protected:
@@ -58,11 +59,30 @@ inline GameObject::~GameObject()
 		SAFE_DELETE(m_Renderer);
 }
 //-------------------------------------------------------------
+//!	@brief		: CollisonÇ©ÇÁåüçı
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+inline GameObject*	GameObject::FindGameObject(Collision::ICollisonObject* collison)
+{
+	if (m_Collison == collison)
+		return this;
+	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
+	{
+		auto obj = dynamic_cast<GameObject*>(*it);
+		if (!obj)
+			continue;
+		if (obj->GetCollison() == collison)
+			return (obj);
+	}
+	return NULL;
+}
+//-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Vector3	GameObject::GetPosition()
+inline Vector3	GameObject::GetPosition() const
 {
 	return m_Position;
 }
@@ -71,7 +91,7 @@ inline Vector3	GameObject::GetPosition()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Collision::ICollisonObject*	GameObject::GetCollison()
+inline Collision::ICollisonObject*	GameObject::GetCollison() const
 {
 	return m_Collison;
 }
@@ -80,7 +100,7 @@ inline Collision::ICollisonObject*	GameObject::GetCollison()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Graphics::IRenderer* GameObject::GetRenderer()
+inline Graphics::IRenderer* GameObject::GetRenderer() const
 {
 	return m_Renderer;
 }

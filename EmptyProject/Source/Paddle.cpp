@@ -110,7 +110,7 @@ void Paddle::PushItem(Item* item)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Paddle::SetSpeed(F32 speed)
+void Paddle::SetSpeed(const F32 speed)
 {
 	m_Speed = speed;
 }

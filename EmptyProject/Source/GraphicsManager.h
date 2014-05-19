@@ -66,14 +66,14 @@ public:
 
 
 	void	AddShaderObject(IShaderObject* shader);
-	void	EraseShaderObject(IShaderObject* shader);
+	void	EraseShaderObject(const IShaderObject* shader);
 	bool	ReCreateVertexBuffer();
 	void	SetAllStreamSource();
 
 	void	ChangeColor(U32 min, U32 max, VertexARGB color);
 	
-	void	SetView(Matrix& view);
-	void	SetProjection(Matrix& projction);
+	void	SetView(const Matrix& view);
+	void	SetProjection(const Matrix& projction);
 	Matrix	GetView();
 	Matrix	GetProjection();
 
