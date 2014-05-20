@@ -5,10 +5,16 @@
 //=======================================================================================
 #pragma once
 #include "SceneNode.h"
+#include "MyMath.h"
 namespace AK
 {
 namespace Graphics{class IShaderObject;}; 
 class BlockSystem;
+class Ball;
+class Wall;
+class Paddle;
+class Item;
+class ItemSystem;
 //=======================================================================================
 //!	@class	:	Stage1
 //!	@brief	:	Stage1ÉVÅ[Éì
@@ -24,19 +30,48 @@ public:
 	virtual void		Update();
 	virtual SceneNode*	ChangeScene();
 	virtual bool		Initialize();
-	bool				IsEnd() const;
+
+	void				PopItem(Vector3 pos);
+
+	
+	bool				IsEnd()							const;
+	const Paddle*		GetPaddle(const U32 id = 0)		const;
+	const Wall*			GetWall(const U32 id)			const;
+	Ball*				GetBall(const U32 id = 0)		const;
+	const Item*			GetItem(const U32 id = 0)		const;
 	void				SetEnd(const bool end);
-protected:
+	void				SetPaddle(Paddle* paddle, const U32 id = 0);
+	void				SetWall(Wall* wall, const U32 id);
+	void				SetBall(Ball* ball, const U32 id = 0);
 
 private:
-	static const U32			STAGE_MAX = 3;
-	
+	void				StageClear();
+	void				FadeScene();
+
+	bool				CreateWall();
+	bool				CreateBall();
+	bool				CreatePadle();
+	bool				CreateBlock();
+
+
+
+	static const U32			STAGE_MAX	= 3;
+	static const U32			PADDLE_NUM	= 1;
+	static const U32			WALL_NUM	= 4;
+	static const U32			BALL_NUM	= 1;
+
 	static std::string			StageDataPath[STAGE_MAX];
 	bool						m_IsEnd;
 	F32							m_FadeVolume;
 	Graphics::IShaderObject*	m_Shader;
-	BlockSystem*				m_BlockSystem;
 	U32							m_StageCount;
+
+	BlockSystem*				m_BlockSystem;
+	Paddle*						m_Paddle[PADDLE_NUM];
+	Wall*						m_Wall[WALL_NUM];
+	ItemSystem*					m_ItemSystem;
+	Ball*						m_Ball[BALL_NUM];
+
 
 };
 

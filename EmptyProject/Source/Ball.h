@@ -10,6 +10,7 @@
 namespace AK
 {
 namespace Graphics { class IShaderObject;};
+namespace Collision{ class ICollisionObject; }
 class BlockSystem;
 class Paddle;
 
@@ -30,22 +31,33 @@ public:
 	virtual void Start();
 
 	void SetBlockSystem(BlockSystem* system);
-	void SetBottomLine(Collision::ICollisonObject* bottomLine);
+	void SetBottomLine(Collision::ICollisionObject* bottomLine);
 	void AddDeathCount();
 	void SubDeathCount();
 	U32	 GetDeathCount() const;
-//	void PopItem(Vector3 pos);
 	void SetShader(Graphics::IShaderObject* shader);
+	void SetPowerup(const bool powerup);
+	bool IsPowerup() const;
+
+
 
 private:
-	U32							m_DeathCount;
-	BlockSystem*				m_BlockSystem;
-	Collision::ICollisonObject* m_BottomLine;
-	Paddle*						m_Paddle;
-	InputKeyboard				m_Keyboard;
-	Graphics::IShaderObject*	m_Shader;
+	bool Death(Collision::ICollisionObject* obj);
+	void Respawn();
+	void Launch();
+	void Move();
+	void Powerup();
+	
+	U32								m_DeathCount;
+	BlockSystem*					m_BlockSystem;
+	Collision::ICollisionObject*	m_BottomLine;
+	Paddle*							m_Paddle;
+	InputKeyboard					m_Keyboard;
+	Graphics::IShaderObject*		m_Shader;
 
-	bool						m_IsRespawn;
+	bool							m_IsRespawn;
+	bool							m_IsPowerup;
+	U32								m_PowerupCount;
 };
 //=======================================================================================
 //		inline method

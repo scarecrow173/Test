@@ -12,38 +12,6 @@
 //#define _CSVREADER_MODE_01
 namespace AK
 {
-template <typename T>
-struct CSVData
-{
-	U32 column;
-	U32 row;
-	std::vector<T> Data;
-};
-
-//=======================================================================================
-//!	@class	:	CSVReader
-//!	@brief	:	example
-//!	@par	:	example
-//!	@note	:	example
-//=======================================================================================
-#ifdef _CSVREADER_MODE_01
-template <typename T>
-class CSVReader
-{
-public:
-	CSVReader(std::string& filePath)
-	{
-		Read(filePath.c_str(), Data);
-	}
-	void		Read(const char* filePath, std::vector<S32>& out);
-	void		Read(const char* filePath, std::vector<F32>& out);
-	void		Read(const char* filePath, std::vector<std::string>& out);
-	U32 column;
-	U32 row;
-	std::vector<T> Data;
-};
-//template <typename T>
-#else
 class CSVReader
 {
 	class Impl
@@ -84,7 +52,6 @@ private:
 	std::vector<Impl*> Data;
 
 };
-#endif
 //=======================================================================================
 //		inline method
 //=======================================================================================

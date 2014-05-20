@@ -6,13 +6,13 @@
 #pragma once
 #include "INode.h"
 #include "MyMath.h"
-#include "ICollisonObject.h"
+#include "ICollisionObject.h"
 #include "IRenderer.h"
 namespace AK
 {
 
 //=======================================================================================
-//!	@class	:	Sample
+//!	@class	:	GameObject
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
@@ -23,16 +23,17 @@ public:
 	GameObject(INode* parent, Vector3 pos);
 	virtual ~GameObject();
 
-	GameObject*						FindGameObject(Collision::ICollisonObject* collison);
 	Vector3							GetPosition() const;
-	Collision::ICollisonObject*		GetCollison() const;
+	Collision::ICollisionObject*		GetCollision() const;
 	Graphics::IRenderer*			GetRenderer() const;
+
+	virtual	void					Affect(GameObject* obj){};
 	
 
 protected:
 
 	Vector3							m_Position;
-	Collision::ICollisonObject*		m_Collison;
+	Collision::ICollisionObject*		m_Collision;
 	Graphics::IRenderer*			m_Renderer;
 };
 //=======================================================================================
@@ -44,7 +45,7 @@ protected:
 inline GameObject::GameObject(INode* parent, Vector3 pos)
 	:	INode		(parent)
 	,	m_Position (pos)
-	,	m_Collison (NULL)
+	,	m_Collision (NULL)
 	,	m_Renderer (NULL)
 {}
 //-------------------------------------------------------------
@@ -52,31 +53,13 @@ inline GameObject::GameObject(INode* parent, Vector3 pos)
 //-------------------------------------------------------------	
 inline GameObject::~GameObject()
 {
-	if (m_Collison)
-		SAFE_DELETE(m_Collison);
+	if (m_Collision)
+		SAFE_DELETE(m_Collision);
 
 	if (m_Renderer)
 		SAFE_DELETE(m_Renderer);
 }
-//-------------------------------------------------------------
-//!	@brief		: CollisonÇ©ÇÁåüçı
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-inline GameObject*	GameObject::FindGameObject(Collision::ICollisonObject* collison)
-{
-	if (m_Collison == collison)
-		return this;
-	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
-	{
-		auto obj = dynamic_cast<GameObject*>(*it);
-		if (!obj)
-			continue;
-		if (obj->GetCollison() == collison)
-			return (obj);
-	}
-	return NULL;
-}
+
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
@@ -91,9 +74,9 @@ inline Vector3	GameObject::GetPosition() const
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Collision::ICollisonObject*	GameObject::GetCollison() const
+inline Collision::ICollisionObject*	GameObject::GetCollision() const
 {
-	return m_Collison;
+	return m_Collision;
 }
 //-------------------------------------------------------------
 //!	@brief		: example

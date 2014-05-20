@@ -55,7 +55,7 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
+	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -84,9 +84,7 @@ void Block::Start()
 {
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 死亡時
 //-------------------------------------------------------------
 bool Block::Death()
 {
@@ -94,7 +92,7 @@ bool Block::Death()
 	if (--m_LifeCount == 0)
 	{
 		m_Renderer->SetActive(false);
-		m_Collison->SetActive(false);
+		m_Collision->SetActive(false);
 		return true;
 	}
 	auto col = m_Color.color >> 4;
@@ -105,9 +103,7 @@ bool Block::Death()
 	return false;
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 死んだときになるSEのハンドルをセット
 //-------------------------------------------------------------
 void Block::SetSEHandle(const U32 handle)
 {

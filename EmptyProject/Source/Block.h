@@ -25,11 +25,11 @@ public:
 
 	virtual void	Update();
 	virtual void	Start();
+
 	bool	Death();
 	void	SetSEHandle(const U32 handle);
 
 
-protected:
 
 private:
 	U32						m_LifeCount;

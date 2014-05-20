@@ -13,141 +13,12 @@ using namespace AK;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-//template<typename T>
-//CSVReader<T>::CSVReader(std::string& filePath)
-//{
-//	Read(filePath.c_str(), Data);
-//}
+
 
 //=======================================================================================
 //		public method
 //=======================================================================================
-#ifdef _CSVREADER_MODE_01
-//-------------------------------------------------------------
-//!	@brief		: CSVÇêÆêîÇ∆ÇµÇƒì«Ç›çûÇﬁ
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void CSVReader<S32>::Read(const char* filePath, std::vector<S32>& out)
-{
 
-	std::string str;
-	std::ifstream ifs(filePath);
-	S32 num;
-	U32 rowCount	= 0;
-	column		= 0;
-	row			= 0;
-
-	if( !ifs ) 
-	{
-		std::cout << "Error:Input data file not found" << std::endl; 
-		return ;
-	}
-	while( std::getline( ifs, str ) )
-	{
-		++column;
-		std::string token;
- 
-		std::istringstream stream( str );
- 
-		while( std::getline( stream, token, ',' ) ) 
-		{
-			std::stringstream ss;
-			ss << token;
-			ss >> num;
-			out.push_back(num);
-			
-			++rowCount;
-		}
-		row = row < rowCount ? rowCount : row;
-		rowCount = 0;
-	}
-
-
-}
-//-------------------------------------------------------------
-//!	@brief		: CSVÇïÇìÆè¨êîÇ∆ÇµÇƒì«Ç›çûÇﬁ
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void CSVReader<F32>::Read(const char* filePath, std::vector<F32>& out)
-{
-	std::string str;
-	std::ifstream ifs(filePath);
-	F32 num;
-	U32 rowCount	= 0;
-	column		= 0;
-	row			= 0;
-
-	if( !ifs )
-	{
-		std::cout << "Error:Input data file not found" << std::endl; 
-		return ;
-	}
-	while( std::getline( ifs, str ) )
-	{
-		++column;
-		std::string token;
- 
-		std::istringstream stream( str );
- 
-		while( std::getline( stream, token, ',' ) ) 
-		{
-			std::stringstream ss;
-			ss << token;
-			ss >> num;
-			out.push_back(num);
-			
-			++rowCount;
-		}
-		row = row < rowCount ? rowCount : row;
-		rowCount = 0;
-	}
-
-}
-//-------------------------------------------------------------
-//!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void CSVReader<std::string>::Read(const char* filePath, std::vector<std::string>& out)
-{
-	std::string str;
-	std::ifstream ifs(filePath);
-	U32 rowCount	= 0;
-	column		= 0;
-	row			= 0;
-
-	if( !ifs ) 
-	{
-		std::cout << "Error:Input data file not found" << std::endl; 
-		return;
-	}
-	while( std::getline( ifs, str ) )
-	{
-		++column;
-		std::string token;
- 
-		std::istringstream stream( str );
- 
-		while( std::getline( stream, token, ',' ) ) 
-		{
-			out.push_back(token);
-			
-			++rowCount;
-		}
-		row = row < rowCount ? rowCount : row;
-		rowCount = 0;
-	}
-}
-//=======================================================================================
-//		protected method
-//=======================================================================================
-
-//=======================================================================================
-//		private method
-//=======================================================================================
-#else
 //-------------------------------------------------------------
 //!	@brief		: CSVÇï∂éöóÒÇ∆ÇµÇƒì«Ç›çûÇﬁ
 //!	@param[in]	: example
@@ -268,7 +139,13 @@ const char*	CSVReader::Impl::GetString() const
 	assert(m_IsType == DataTypeString);
 	return str;
 }
-#endif
+//=======================================================================================
+//		protected method
+//=======================================================================================
+
+//=======================================================================================
+//		private method
+//=======================================================================================
 //===============================================================
 //	End of File
 //===============================================================

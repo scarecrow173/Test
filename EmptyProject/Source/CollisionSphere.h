@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "ICollisonObject.h"
+#include "ICollisionObject.h"
 #include "DebugUtill.h"
 namespace AK
 {
@@ -16,7 +16,7 @@ namespace Collision
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class CollisionSphere : public ICollisonObject
+class CollisionSphere : public ICollisionObject
 {
 public:
 	friend CollisionBox;
@@ -26,10 +26,10 @@ public:
 
 	virtual ~CollisionSphere();
 	
-	bool Check(ICollisonObject* obj);
+	bool Check(ICollisionObject* obj);
 	bool Check(CollisionBox* box);
 	bool Check(CollisionSphere* sphere);
-	F32	 GetTime(ICollisonObject& obj);
+	F32	 GetTime(ICollisionObject& obj);
 
 	F32	 GetRadius() const {return m_Radius;}
 

@@ -115,9 +115,6 @@
     <ClCompile Include="Source\CollisionManager.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ICollisonObject.cpp">
-      <Filter>Source\InGame\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CollisionSphere.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
@@ -214,6 +211,12 @@
     <ClCompile Include="Source\Spectrum.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ItemSystem.cpp">
+      <Filter>Source\InGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ICollisionObject.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -230,9 +233,6 @@
     </ClInclude>
     <ClInclude Include="Source\Layer.h">
       <Filter>Source\InGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ICollisonObject.h">
-      <Filter>Source\InGame\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\CollisionManager.h">
       <Filter>Source\InGame\Collision</Filter>
@@ -359,6 +359,12 @@
     </ClInclude>
     <ClInclude Include="Source\Affecter.h">
       <Filter>Source\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ItemSystem.h">
+      <Filter>Source\InGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ICollisionObject.h">
+      <Filter>Source\InGame\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

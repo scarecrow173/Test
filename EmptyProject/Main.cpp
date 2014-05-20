@@ -255,6 +255,7 @@ D3DXMATRIX *getViewMatrixTakingSphereInCamera(
 //--------------------------------------------------------------------------------------
 INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 {
+	AK::Debug::SetTraceLevel(2);
 
 	TRACE(0, L"wWinMain\n");
 

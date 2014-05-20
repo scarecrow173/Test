@@ -7,6 +7,7 @@
 //!	@note	:	example
 //=======================================================================================
 #include "INode.h"
+#include "GameObject.h"
 #include <algorithm>
 using namespace AK;
 //=======================================================================================
@@ -80,7 +81,7 @@ bool INode::GetActive() const
 //!	@brief		: アクティブを切り替える。m_IsActiveがtrueでないとUpdate()されない
 //!	@param[in]	: フラグ
 //-------------------------------------------------------------
-void INode::SetActive(bool active)
+void INode::SetActive(const bool active)
 {
 	m_IsActive = active;
 	if (active)
@@ -133,6 +134,28 @@ INode* INode::FindNode(U32 findHandle)
 		out = (*it)->FindNode(findHandle);
 		if (out != NULL)
 			return out;
+	}
+	return NULL;
+}
+//-------------------------------------------------------------
+//!	@brief		: ノード検索(現在のノードの子になっていれば検索可能)
+//!	@param[in]	: 検索したいノードのハンドル
+//!	@return		: 検索成功ならノードのポインタ。失敗ならNULL
+//-------------------------------------------------------------
+GameObject*	INode::FindNode(Collision::ICollisionObject* collison)
+{
+	GameObject* thisPointer = dynamic_cast<GameObject*>(this);
+	if (thisPointer && thisPointer->GetCollision() == collison)
+		return thisPointer;
+
+
+	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
+	{
+		auto obj = dynamic_cast<GameObject*>(*it);
+		if (!obj)
+			continue;
+		if (obj->GetCollision() == collison)
+			return (obj);
 	}
 	return NULL;
 }

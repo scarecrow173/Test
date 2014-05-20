@@ -13,6 +13,7 @@
 #include "CollisionBox.h"
 #include "Colors.h"
 
+
 using namespace AK;
 using namespace Graphics;
 using namespace Collision;
@@ -24,32 +25,15 @@ using namespace Collision;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Item::Item(Paddle* parent, Vector3 pos, ITEM_TYPE type)
+Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
 	:	GameObject(parent, pos)
 	,	m_Type	(type)
 {
-	//switch(m_Type)
-	//{
-	//case ITEM_TYPE::EXTEND_PADLLE:
-	//	break;
-	//case ITEM_TYPE::POWER_UP:
-	//	break;
-	//case ITEM_TYPE::SPEED_DOWN:
-	//	break;
-	//case ITEM_TYPE::SPEED_UP:
-	//	break;
-	//default:
-	//	break;
-	//}
-
-	//	TODO:
-	//	コリジョン作成	: ○
-	//	アイテム効果	: ○
-	//	表示			: ○
-
+	static const F32 WIDTH	= 100.f;
+	static const F32 HEIGHT	= 50.f;
 	std::vector<U32> indexSrc;
 	IndexData indexData;
-	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(0.5f, 0.5f, 0.5f), ARGBColors::Magenta, indexSrc);
+	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
@@ -62,9 +46,8 @@ Item::Item(Paddle* parent, Vector3 pos, ITEM_TYPE type)
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), 0.5f, 0.5f, 0.5f);
-	m_Collison->SetGravity(true);
-	m_Collison->PushCollisonList(parent->GetCollison());
+	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
+	m_Collision->SetGravity(true);
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -76,26 +59,19 @@ Item::~Item()
 //=======================================================================================
 
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 更新（衝突していたら効果発動）
 //-------------------------------------------------------------
 void Item::Update()
 {
-	std::vector<ICollisonObject*> l_list;
+	TRACE(1,"Item::Update");
+	std::vector<ICollisionObject*> l_list;
 	
-	m_Collison->Update(l_list);
+	m_Collision->Update(l_list);
 
 	for (auto it = l_list.begin(); it != l_list.end(); ++it)
-	{
-		ItemAffect(FindGameObject(*it));
-		m_Renderer->SetActive(false);
-	}
+		ItemAffect(m_Parent->GetParent()->FindNode(*it));
+	Move();
 
-	m_Position = m_Collison->GetPosition();
-	Matrix t;
-	D3DXMatrixTranslation(&t, m_Position.x, m_Position.y, m_Position.z);
-	m_Renderer->SetWorld(t);
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -106,31 +82,20 @@ void Item::Start()
 {
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: アイテムが当たるもの
 //-------------------------------------------------------------
-void Item::ItemAffect(GameObject* obj)
+void Item::AddCollision(ICollisionObject* collison)
 {
-	if (!obj)
-		return;
-	//ICollisonObject* collison = obj->GetCollison();
+	TRACE(1,"Item::AddCollision");
+	m_Collision->PushCollisionList(collison);
+}
 
-	switch(m_Type)
-	{
-	case ITEM_TYPE::EXTEND_PADLLE:
-		break;
-	case ITEM_TYPE::POWER_UP:
-		break;
-	case ITEM_TYPE::SPEED_DOWN:
-		//collison->SetSpeed(collison->GetSpeed() * 0.95f);
-		break;
-	case ITEM_TYPE::SPEED_UP:
-		//collison->SetSpeed(collison->GetSpeed() * 1.05f);
-		break;
-	default:
-		break;
-	}
+//-------------------------------------------------------------
+//!	@brief		: アイテムタイプを取得（これで効果を判断する）
+//-------------------------------------------------------------
+ITEM_TYPE Item::GetType() const
+{
+	return m_Type;
 }
 //=======================================================================================
 //		protected method
@@ -139,7 +104,30 @@ void Item::ItemAffect(GameObject* obj)
 //=======================================================================================
 //		private method
 //=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: 効果発動
+//!	@param[in]	: 発動相手
+//-------------------------------------------------------------
+void Item::ItemAffect(GameObject* obj)
+{
+	TRACE(1,"Item::ItemAffect");
+	if (!obj)
+		return;
 
+	obj->Affect(this);
+	m_Renderer->SetActive(false);
+	SetActive(false);
+}
+//-------------------------------------------------------------
+//!	@brief		: 移動のみ
+//-------------------------------------------------------------
+void Item::Move()
+{
+	m_Position = m_Collision->GetPosition();
+	Matrix t;
+	D3DXMatrixTranslation(&t, m_Position.x, m_Position.y, m_Position.z);
+	m_Renderer->SetWorld(t);
+}
 //===============================================================
 //	End of File
 //===============================================================

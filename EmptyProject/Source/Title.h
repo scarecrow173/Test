@@ -26,6 +26,14 @@ public:
 	virtual bool		Initialize();
 
 private:
+	void				StartFade();
+	void				FadeScene();
+
+	void				LoadTitleBlock();
+	void				MoveBlock();
+
+
+
 	bool		m_IsEnd;
 	F32			m_FadeVolume;
 	std::vector<Graphics::IRenderer*>	m_TitleBlock;

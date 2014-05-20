@@ -25,17 +25,21 @@ enum ITEM_TYPE
 class Item : public GameObject
 {
 public:
-	Item(Paddle* parent, Vector3 pos, ITEM_TYPE type);
+	Item(INode* parent, Vector3 pos, ITEM_TYPE type);
 	virtual ~Item();
 
 	virtual void	Update();
 	virtual void	Start();
 
-	void	ItemAffect(GameObject* obj);
+	void		AddCollision(Collision::ICollisionObject* collison);
+	ITEM_TYPE	GetType() const;
 
-protected:
 
 private:
+	void		ItemAffect(GameObject* obj);
+	void		Move();
+
+
 	ITEM_TYPE	m_Type;
 
 };

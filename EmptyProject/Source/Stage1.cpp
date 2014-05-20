@@ -20,6 +20,9 @@
 #include "BoxFactory.h"
 #include "SphereFactory.h"
 #include "SoundManager.h"
+#include "Wall.h"
+#include "Item.h"
+#include "ItemSystem.h"
 
 
 using namespace AK;
@@ -40,12 +43,23 @@ static const U32 CLEAR_JINGLE	= 9;
 //!	@brief		: ÉRÉìÉXÉgÉâÉNÉ^
 //-------------------------------------------------------------
 Stage1::Stage1(INode* parent, U32 stageCount)
-	:	SceneNode	(parent)
-	,	m_IsEnd		(false)
-	,	m_FadeVolume(1.f)
-	,	m_StageCount(stageCount)
-	,	m_Shader	(NEW UseFixed())
-{}
+	:	SceneNode		(parent)
+	,	m_IsEnd			(false)
+	,	m_FadeVolume	(1.f)
+	,	m_StageCount	(stageCount)
+	,	m_Shader		(NEW UseFixed())
+	,	m_BlockSystem	(NULL)
+	,	m_ItemSystem	(NULL)
+{
+	for (S32 i = 0; i < PADDLE_NUM; ++i)
+		m_Paddle[i] = NULL;
+
+	for (S32 i = 0; i < WALL_NUM; ++i)
+		m_Wall[i] = NULL;
+	
+	for (S32 i = 0; i < BALL_NUM; ++i)
+		m_Ball[i] = NULL;
+}
 //-------------------------------------------------------------
 //!	@brief		: ÉfÉXÉgÉâÉNÉ^
 //-------------------------------------------------------------
@@ -64,7 +78,9 @@ Stage1::~Stage1()
 //-------------------------------------------------------------
 void Stage1::Update()
 {
+	TRACE(1,"Stage1::Update");
 	DEBUG_PRINT_CHAR("STAGE_01");
+
 }
 //-------------------------------------------------------------
 //!	@brief		: ÉVÅ[ÉìïœçX
@@ -72,23 +88,9 @@ void Stage1::Update()
 //-------------------------------------------------------------
 SceneNode*	Stage1::ChangeScene()
 {
-	//static U32 count = 0;
-	//if (++count % 300 == 0)
-	//	return NEW Stage2();
-
-	//if (m_IsEnd || (m_StageCount >= STAGE_MAX)){}
-		//return NEW Title(m_Parent);
-	if (!m_IsEnd && m_BlockSystem->Clear())
-	{
-		SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
-		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
-		m_IsEnd = true;
-	}
-		//return NEW Stage1(m_Parent, ++m_StageCount);
-
-	SetActive(!m_IsEnd);
-	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
-	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
+	TRACE(1,"Stage1::ChangeScene");
+	StageClear();
+	FadeScene();
 
 	if (m_FadeVolume < 0.f && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
 	{
@@ -103,45 +105,45 @@ SceneNode*	Stage1::ChangeScene()
 //-------------------------------------------------------------
 bool Stage1::Initialize()
 {
+	TRACE(1,"Stage1::Initialize");
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
 
+	CreatePadle();
+	CreateBall();
+	CreateBlock();
+	CreateWall();
+
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
-	m_BlockSystem = NEW BlockSystem(this);
+
+	m_ItemSystem = NEW ItemSystem(this);
 	
-
-
-	Matrix view,proj;
-	view = GraphicsManager::GetInstance()->GetView();
-	proj = GraphicsManager::GetInstance()->GetProjection();
-
-	//auto paddlePos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT - 10.f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 paddlePos(0.f, -400.f, 0.f);
-	Paddle* paddle = NEW Paddle(this, paddlePos);
-	
-	//	É{Å[ÉãçÏê¨
-	//auto ballPos = Math::ScreenToWorld(Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.5f), 0.9005, WINDOW_WIDTH, WINDOW_HEIGHT, view, proj);
-	Vector3 ballPos(0.f, -250.f, 0.f);
-	Ball* ball = NEW Ball(this, ballPos, paddle);
-	
-	m_Shader->AddRenderer(paddle->GetRenderer());
-
-
-	m_Shader->AddRenderer(ball->GetRenderer());
-	m_BlockSystem->SetBall(ball);
-	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader);
-
-
-	ball->SetBlockSystem(m_BlockSystem);
-	ball->SetShader(m_Shader);
-
-	
-
 	AttachNode(m_BlockSystem);
-	AttachNode(ball);
+	AttachNode(m_Ball[0]);
 
 	
 	return true;
+}
+
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::PopItem(Vector3 pos)
+{
+	TRACE(1,"Stage1::PopItem");
+	assert(m_Shader);
+	if (std::rand() % 4 != 0)
+		return;
+	S32 r = std::rand() % 4;
+	Item* pop = NEW Item(m_ItemSystem, pos, (ITEM_TYPE)r);
+	m_Shader->AddRenderer(pop->GetRenderer());
+	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
+	GraphicsManager::GetInstance()->SetAllStreamSource();
+	m_ItemSystem->AddItem(pop);
+
+	for (U32 i = 0; i < PADDLE_NUM; ++i)
+		pop->AddCollision(m_Paddle[i]->GetCollision());
 }
 //-------------------------------------------------------------
 //!	@brief		: èâä˙âª
@@ -159,6 +161,71 @@ void Stage1::SetEnd(const bool end)
 {
 	m_IsEnd = end;
 }
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+const Paddle* Stage1::GetPaddle(const U32 id)	const
+{
+	assert(id < PADDLE_NUM);
+	assert(m_Paddle[id]);
+	return m_Paddle[id];
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+const Wall*	Stage1::GetWall(const U32 id) const
+{
+	assert(id < WALL_NUM);
+	assert(m_Wall[id]);
+	return m_Wall[id];
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+Ball*	Stage1::GetBall(const U32 id) const
+{
+	assert(id < BALL_NUM);
+	assert(m_Ball[id]);
+	return m_Ball[id];
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+const Item*	Stage1::GetItem(const U32 id) const
+{
+	return m_ItemSystem->GetItem(id);
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::SetPaddle(Paddle* paddle, const U32 id)
+{
+	assert(id < PADDLE_NUM);
+	m_Paddle[id] = paddle;
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::SetWall(Wall* wall, const U32 id)
+{
+	assert(id < WALL_NUM);
+	m_Wall[id] = wall;
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::SetBall(Ball* ball, const U32 id)
+{
+	assert(id < BALL_NUM);
+	m_Ball[id] = ball;
+}
 //=======================================================================================
 //		protected method
 //=======================================================================================
@@ -166,7 +233,98 @@ void Stage1::SetEnd(const bool end)
 //=======================================================================================
 //		private method
 //=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::StageClear()
+{
+	if (m_IsEnd || !m_BlockSystem->Clear())
+		return;
+	SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
+	SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
+	m_IsEnd = true;
+	SetActive(!m_IsEnd);
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+void Stage1::FadeScene()
+{
+	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+bool Stage1::CreateWall()
+{
+	//	ï«çÏê¨
+	const F32 offset = 550.f;
+	const Vector3 lv(offset, 0, 0);
+	const Vector3 rv(-offset, 0, 0);
+	const Vector3 tv(0.f, offset, 0.f);
+	const Vector3 bv(0.f, -offset, 0.f);
 
+	
+	m_Wall[WALL_LEFT]	= NEW Wall(this, lv, WALL_LEFT);
+	m_Wall[WALL_RIGHT]	= NEW Wall(this, rv, WALL_RIGHT);
+	m_Wall[WALL_TOP]	= NEW Wall(this, tv, WALL_TOP);
+	m_Wall[WALL_BOTTOM]	= NEW Wall(this, bv, WALL_BOTTOM);
+
+	for (S32 i = 0; i < BALL_NUM; ++i)
+	{
+		m_Ball[i]->GetCollision()->PushCollisionList(m_Wall[WALL_LEFT]->GetCollision());
+		m_Ball[i]->GetCollision()->PushCollisionList(m_Wall[WALL_RIGHT]->GetCollision());
+		m_Ball[i]->GetCollision()->PushCollisionList(m_Wall[WALL_TOP]->GetCollision());
+		m_Ball[i]->GetCollision()->PushCollisionList(m_Wall[WALL_BOTTOM]->GetCollision());
+		m_Ball[i]->SetBottomLine(m_Wall[WALL_BOTTOM]->GetCollision());
+
+
+		m_Ball[i]->GetCollision()->PushCollisionList(m_Paddle[0]->GetCollision());
+		m_Paddle[0]->GetCollision()->PushCollisionList(m_Wall[WALL_LEFT]->GetCollision());
+		m_Paddle[0]->GetCollision()->PushCollisionList(m_Wall[WALL_RIGHT]->GetCollision());
+	}
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+bool Stage1::CreateBall()
+{
+	//	É{Å[ÉãçÏê¨
+	const Vector3 ballPos(0.f, -250.f, 0.f);
+	m_Ball[0] = NEW Ball(this, ballPos, m_Paddle[0]);
+	m_Ball[0]->SetShader(m_Shader);
+	m_Shader->AddRenderer(m_Ball[0]->GetRenderer());
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+bool Stage1::CreatePadle()
+{
+	const Vector3 paddlePos(0.f, -400.f, 0.f);
+	m_Paddle[0] = NEW Paddle(this, paddlePos);
+	m_Shader->AddRenderer(m_Paddle[0]->GetRenderer());
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: èâä˙âª
+//!	@return		: ê¨å˜(true),é∏îs(false)
+//-------------------------------------------------------------
+bool Stage1::CreateBlock()
+{
+ 	m_BlockSystem = NEW BlockSystem(this);
+	m_Ball[0]->SetBlockSystem(m_BlockSystem);
+	m_BlockSystem->SetBall(m_Ball[0]);
+	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader);
+	return true;
+}
 //===============================================================
 //	End of File
 //===============================================================

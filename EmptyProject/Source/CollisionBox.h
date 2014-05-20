@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "ICollisonObject.h"
+#include "ICollisionObject.h"
 #include "MyMath.h"
 #include "DebugUtill.h"
 namespace AK
@@ -17,7 +17,7 @@ namespace Collision
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class CollisionBox : public ICollisonObject
+class CollisionBox : public ICollisionObject
 {
 public:
 	friend CollisionSphere;
@@ -26,7 +26,7 @@ public:
 	CollisionBox(Vector3 positon, Vector3 center, Vector3 speed, F32 width, F32 height, F32 depth);
 	virtual ~CollisionBox();
 
-	bool	Check(ICollisonObject* obj);
+	bool	Check(ICollisionObject* obj);
 	bool	Check(CollisionBox* box);
 	bool	Check(CollisionSphere* sphere);
 

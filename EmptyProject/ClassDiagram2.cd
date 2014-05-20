@@ -161,11 +161,11 @@
       <FileName>Source\CollisionSphere.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AK::Collision::ICollisonObject" Collapsed="true">
+  <Class Name="AK::Collision::ICollisionObject" Collapsed="true">
     <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IQUCABgAAqCAAgiKEAAAABAAgUkQAgAABABEAMgAgEY=</HashCode>
-      <FileName>Source\ICollisonObject.h</FileName>
+      <FileName>Source\ICollisionObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AK::Sound::SoundManager" Collapsed="true">

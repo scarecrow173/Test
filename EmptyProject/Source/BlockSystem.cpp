@@ -7,11 +7,12 @@
 //!	@note	:	example
 //=======================================================================================
 #include "BlockSystem.h"
-#include "ICollisonObject.h"
+#include "ICollisionObject.h"
 #include "Block.h"
 #include "GraphicsManager.h"
 #include "Ball.h"
 #include "CSVReader.h"
+#include "Stage1.h"
 
 using namespace AK;
 using namespace Collision;
@@ -39,13 +40,11 @@ BlockSystem::~BlockSystem()
 //		public method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 更新
 //-------------------------------------------------------------
 void BlockSystem::Update()
 {
-
+	TRACE(1, "BlockSystem::Update");
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -70,24 +69,7 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* 
 	Matrix view,proj;
 	view = GraphicsManager::GetInstance()->GetView();
 	proj = GraphicsManager::GetInstance()->GetProjection();
-	//CSVData<S32> StageData;
-	//CSVReader::ReadInteger(filePath.c_str(), StageData);
-#ifdef _CSVREADER_MODE_01
-	CSVReader<S32> StageData(filePath);
-	for (int i = 0; i < StageData.row * StageData.column; ++i)
-	{
-		if (StageData.Data[i] == 0)
-			continue;
 
-		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
-		Block* block = NEW Block(this, vec3, StageData.Data[i]);
-		block->SetSEHandle((i % StageData.row) + 1);
-		this->AttachNode(block);
-		shader->AddRenderer(block->GetRenderer());
-		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());
-		m_BlockList.push_back(block);
-	}
-#else
 	CSVReader StageData;
 	StageData.Load(filePath.c_str());
 	for (S32 i = 0; i < StageData.row * StageData.column; ++i)
@@ -100,11 +82,9 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* 
 		block->SetSEHandle((i % StageData.row) + 1);
 		this->AttachNode(block);
 		shader->AddRenderer(block->GetRenderer());
-		m_Ball->GetCollison()->PushCollisonList(block->GetCollison());
+		m_Ball->GetCollision()->PushCollisionList(block->GetCollision());
 		m_BlockList.push_back(block);
 	}
-
-#endif
 
 
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
@@ -121,34 +101,32 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* 
 bool BlockSystem::Clear()
 {
 	return m_BlockList.empty();
-	//return m_Children.empty();
 }
 //-------------------------------------------------------------
 //!	@brief		: ブロックの削除
 //!	@param[in]	: 削除したいブロックのコリジョン
 //-------------------------------------------------------------
-void BlockSystem::DeleteBlock(ICollisonObject* obj)
+bool BlockSystem::DeleteBlock(ICollisionObject* obj)
 {
+	bool isBlock = false;
 	auto it = m_BlockList.begin();
 	while (it != m_BlockList.end())
 	{
-		if (obj == (*it)->GetCollison())
+		if (obj == (*it)->GetCollision())
 		{
+			isBlock = true;
 			if ((*it)->Death())
 			{
-				//m_Ball->PopItem((*it)->GetPosition());
+				((Stage1*)m_Parent)->PopItem((*it)->GetPosition());
+				(*it)->SetActive(false);
 				it = m_BlockList.erase(it);
 				continue;
 			}
 		}
 		++it;
 	}
-	//	案2 : Castが多いからなし
-	//for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
-	//{
-	//	if (obj == ((Block*)(*it))->GetCollison())
-	//		((Block*)(*it))->Death();
-	//}
+	return isBlock;
+
 }
 //-------------------------------------------------------------
 //!	@brief		: ボールのコリジョンをセット(このボールにブロックのコリジョンがアタッチされる)

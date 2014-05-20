@@ -62,18 +62,9 @@ Title::~Title()
 void Title::Update()
 {
 	DEBUG_PRINT_CHAR("TITLE");
-	
-	m_Floating += 0.2f;
-	F32 value = sin(m_Floating);
 
-	auto it = m_TitleBlock.begin();
-	while (it != m_TitleBlock.end())
-	{
-		Matrix mat = (*it)->GetWorld();
-		mat._42 += m_IsEnd ? -15.f : value;
-		(*it)->SetWorld(mat);
-		++it;
-	}
+	MoveBlock();
+
 	keyboard.Update();
 }
 //-------------------------------------------------------------
@@ -82,15 +73,9 @@ void Title::Update()
 //-------------------------------------------------------------
 SceneNode*	Title::ChangeScene()
 {
-	if ((!m_IsEnd) && keyboard.IsTrigger(KEY_BUTTON1))
-	{
-		m_IsEnd = true;
-		SoundManager::GetInstance()->PlaySE(11, TRUE);
-	}
 
-	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
-	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, m_FadeVolume);
-
+	StartFade();
+	FadeScene();
 
 	if (m_FadeVolume < 0.f)
 	{
@@ -111,30 +96,54 @@ bool Title::Initialize()
 	m_Shader = NEW UseFixed();
 	m_Shader->Initilize();
 
-	//CSVData<S32> data;
-	//CSVReader::ReadInteger("Assets/CSV/Title/Title.csv", data);
-#ifdef _CSVREADER_MODE_01
-	CSVReader<S32> data(std::string("Assets/CSV/Title/Title.csv"));
-	U32 widthNum	= data.Data[0];
-	U32 heightNum	= data.Data[1];
-#else
+	LoadTitleBlock();
+	
+	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
+	GraphicsManager::GetInstance()->SetAllStreamSource();
+	return true;
+}
+//=======================================================================================
+//		protected method
+//=======================================================================================
+
+//=======================================================================================
+//		private method
+//=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: タイトル用ブロック読み込み
+//-------------------------------------------------------------
+void Title::StartFade()
+{
+	if (m_IsEnd || !keyboard.IsTrigger(KEY_BUTTON1))
+		return ;
+	m_IsEnd = true;
+	SoundManager::GetInstance()->PlaySE(11, TRUE);
+}
+//-------------------------------------------------------------
+//!	@brief		: タイトル用ブロック読み込み
+//-------------------------------------------------------------
+void Title::FadeScene()
+{
+	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, m_FadeVolume);
+}
+//-------------------------------------------------------------
+//!	@brief		: タイトル用ブロック読み込み
+//-------------------------------------------------------------
+void Title::LoadTitleBlock()
+{
 	CSVReader data;
 	data.Load("Assets/CSV/Title/Title.csv");
 	U32 widthNum	= data[0].GetInteger();
 	U32 heightNum	= data[1].GetInteger();
-#endif
 	F32 blockWhidth	= 1000.f / widthNum;
 	F32 blockHeight	= 1000.f / heightNum;
 
 	for (U32 i = 0; i < widthNum * heightNum; ++i)
 	{
-#ifdef _CSVREADER_MODE_01
-		if (data.Data[i+2] == 0)
-			continue;
-#else
 		if (data[i+2].GetInteger() == 0)
 			continue;
-#endif
 		
 		VertexARGB color = ARGBColors::Red;
 		std::vector<U32>	index;
@@ -162,19 +171,24 @@ bool Title::Initialize()
 		m_Shader->AddRenderer(render);
 	}
 
-	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
-	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
-	GraphicsManager::GetInstance()->SetAllStreamSource();
-	return true;
 }
-//=======================================================================================
-//		protected method
-//=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: ブロックを動かす
+//-------------------------------------------------------------
+void Title::MoveBlock()
+{
+	m_Floating += 0.2f;
+	F32 value = sin(m_Floating);
 
-//=======================================================================================
-//		private method
-//=======================================================================================
-
+	auto it = m_TitleBlock.begin();
+	while (it != m_TitleBlock.end())
+	{
+		Matrix mat = (*it)->GetWorld();
+		mat._42 += m_IsEnd ? -15.f : value;
+		(*it)->SetWorld(mat);
+		++it;
+	}
+}
 //===============================================================
 //	End of File
 //===============================================================

@@ -16,7 +16,7 @@ enum WALL_TYPE
 };
 //=======================================================================================
 //!	@class	:	Wall
-//!	@brief	:	example
+//!	@brief	:	•Ç
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
@@ -27,8 +27,6 @@ public:
 	virtual ~Wall();
 
 	virtual void Update();
-
-protected:
 
 private:
 	WALL_TYPE m_type;

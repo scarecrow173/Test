@@ -12,6 +12,9 @@
 #include "TriangleRenderer.h"
 #include "CollisionBox.h"
 #include "Colors.h"
+#include "Item.h"
+#include "Stage1.h"
+#include "Ball.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -27,6 +30,7 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	:	GameObject	(parent, pos)
 	,	m_Item		(NULL)
 	,	m_Speed		(3.f)
+	,	m_Size		(1.f, 1.f, 1.f)
 {
 	static const F32 WIDTH	= 400.f;
 	static const F32 HEIGHT	= 80.f;
@@ -46,10 +50,10 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collison = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
-	m_Collison->SetReflection(true);
-	m_Collison->SetAttenuation(true);
-	m_Collison->SetAttenuationFactor(0.91f);
+	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
+	m_Collision->SetReflection(true);
+	m_Collision->SetAttenuation(true);
+	m_Collision->SetAttenuationFactor(0.91f);
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -61,29 +65,18 @@ Paddle::~Paddle()
 //=======================================================================================
 
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 更新
 //-------------------------------------------------------------
 void Paddle::Update()
 {
+	TRACE(1, "Paddle::Update");
 	m_Keyboard.Update();
-	Vector3 speed = m_Collison->GetSpeed();
 
-	if (m_Keyboard.IsKeyDown(KEY_LEFT))
-		speed.x += m_Speed;
-	if (m_Keyboard.IsKeyDown(KEY_RIGHT))
-		speed.x -= m_Speed;
+	std::vector<ICollisionObject*> l_list;
+	m_Collision->Update(l_list);
 
-	m_Collison->SetSpeed(speed);
+	Move();
 
-	std::vector<ICollisonObject*> l_list;
-	m_Collison->Update(l_list);
-
-	m_Position = m_Collison->GetPosition();
-	Matrix t;
-	D3DXMatrixTranslation(&t, m_Position.x, m_Position.y, m_Position.z);
-	m_Renderer->SetWorld(t);
 
 }
 //-------------------------------------------------------------
@@ -95,31 +88,53 @@ void Paddle::Start()
 {
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 効果付け
+//!	@param[in]	: 効果オブジェクト
 //-------------------------------------------------------------
-void Paddle::PushItem(Item* item)
+void Paddle::Affect(GameObject* obj)
 {
-	//if (m_Item)
-	//	SAFE_DELETE(m_Item);
-	//m_Item = item;
+	Item* item = dynamic_cast<Item*>(obj);
+	if (!item)
+		return;
+	CollisionBox* box = static_cast<CollisionBox*>(m_Collision);
+	Ball* ball = static_cast<Stage1*>(m_Parent)->GetBall();
+	const F32 width = box->GetWidth();
+	Vector3 pos		= box->GetPosition();
+
+	switch (item->GetType())
+	{
+	case POWER_UP:
+		ball->SetPowerup(true);
+		break;
+	case SPEED_UP:
+		m_Speed *= 1.1f;
+		break;
+	case SPEED_DOWN:
+		m_Speed *= 0.9f;
+		break;
+	case EXTEND_PADLLE:
+		m_Size.x *= 1.1f;
+		pos.x -= ((width - width * 1.1f) * 0.5f);
+		box->SetPosition(pos);
+		box->SetWidth(width * 1.1f);
+		break;
+	default:
+		break;
+	}
+
 }
 //-------------------------------------------------------------
-//!	@brief		: example
+//!	@brief		: 左右の移動値セット（上下には動かない）
 //!	@param[in]	: example
-//!	@return		: example
 //-------------------------------------------------------------
 void Paddle::SetSpeed(const F32 speed)
 {
 	m_Speed = speed;
 }
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 移動値取得
 //-------------------------------------------------------------
-F32	Paddle::GetSpeed()
+F32	Paddle::GetSpeed() const
 {
 	return m_Speed;
 }
@@ -130,7 +145,26 @@ F32	Paddle::GetSpeed()
 //=======================================================================================
 //		private method
 //=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: マトリクスで移動と拡大率変更
+//-------------------------------------------------------------
+void Paddle::Move()
+{
+	Vector3 speed = m_Collision->GetSpeed();
 
+	if (m_Keyboard.IsKeyDown(KEY_LEFT))
+		speed.x += m_Speed;
+	if (m_Keyboard.IsKeyDown(KEY_RIGHT))
+		speed.x -= m_Speed;
+
+	m_Collision->SetSpeed(speed);
+
+	m_Position = m_Collision->GetPosition();
+	Matrix translation, scale;
+	D3DXMatrixTranslation(&translation, m_Position.x, m_Position.y, m_Position.z);
+	D3DXMatrixScaling(&scale, m_Size.x, m_Size.y, m_Size.z);
+	m_Renderer->SetWorld(scale * translation);
+}
 //===============================================================
 //	End of File
 //===============================================================

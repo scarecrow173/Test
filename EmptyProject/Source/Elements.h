@@ -9,6 +9,7 @@ namespace AK
 {
 namespace Graphics
 {
+#pragma warning(disable:4201)
 //=======================================================================================
 //!	@class	:	VERTEX_FLOAT2
 //!	@brief	:	F32‚ğ2‚Â‚Á‚Ä‚¢‚é\‘¢‘Ì

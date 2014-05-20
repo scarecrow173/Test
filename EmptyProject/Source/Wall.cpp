@@ -42,7 +42,7 @@ Wall::Wall(INode* parent, Vector3 pos, WALL_TYPE type)
 		break;
 	}
 
-	m_Collison = NEW CollisionBox(pos, Vector3(0, 0, 0), Vector3(0, 0, 0), width, height, 50.f);
+	m_Collision = NEW CollisionBox(pos, Vector3(0, 0, 0), Vector3(0, 0, 0), width, height, 50.f);
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -56,12 +56,11 @@ Wall::~Wall()
 //=======================================================================================
 
 //-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
+//!	@brief		: 更新
 //-------------------------------------------------------------
 void Wall::Update()
 {
+	TRACE(1, "Paddle::Update");
 }
 //=======================================================================================
 //		protected method

@@ -10,7 +10,7 @@ namespace AK
 {
 
 namespace Graphics{ class IShaderObject; };
-namespace Collision{ class ICollisonObject; };
+namespace Collision{ class ICollisionObject; };
 class Block;
 class Ball;
 
@@ -32,7 +32,7 @@ public:
 	bool CreateStageBlocks(const std::string& filePath, Graphics::IShaderObject* shader);
 	bool Clear();
 
-	void DeleteBlock(Collision::ICollisonObject* obj);
+	bool DeleteBlock(Collision::ICollisionObject* obj);
 	void SetBall(Ball* ball);
 	
 

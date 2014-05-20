@@ -9,6 +9,8 @@
 
 namespace AK
 {
+namespace Collision{ class ICollisionObject; };
+class GameObject;
 //=======================================================================================
 //!	@class	:	INode
 //!	@brief	:	ノードのインターフェース
@@ -22,13 +24,15 @@ public:
 	virtual ~INode();
 
 	
-	void	AttachNode(INode* node);
-	INode*	DetachNode(U32 findHandle);
-	INode*	FindNode(U32 findHandle);
-	bool	GetActive()	const;
-	void	SetActive(bool active);
-	U32		GetHandle() const;
-	INode*	GetParent() const;
+	void		AttachNode(INode* node);
+	INode*		DetachNode(U32 findHandle);
+	INode*		FindNode(U32 findHandle);
+	GameObject*	FindNode(Collision::ICollisionObject* collison);
+
+	bool		GetActive()	const;
+	void		SetActive(const bool active);
+	U32			GetHandle() const;
+	INode*		GetParent() const;
 
 	void	UpdateChild();
 	virtual void	Update()	PURE;

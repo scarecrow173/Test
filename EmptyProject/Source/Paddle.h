@@ -23,15 +23,19 @@ public:
 
 	virtual void	Update();
 	virtual void	Start();
-	void	PushItem(Item* item);
-	void	SetSpeed(const F32 speed);
-	F32		GetSpeed();
-protected:
+	virtual void	Affect(GameObject* obj);
+	void			SetSpeed(const F32 speed);
+	F32				GetSpeed() const;
+
 
 private:
+	void			Move();
+
+
 	InputKeyboard	m_Keyboard;
 	Item*			m_Item;
 	F32				m_Speed;
+	Vector3			m_Size;
 
 
 };

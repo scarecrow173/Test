@@ -159,16 +159,6 @@ bool SoundManager::IsActiveBGM(U32 streamNum)
 bool SoundManager::LoadSEList()
 {
 
-#ifdef _CSVREADER_MODE_01
-	CSVReader<std::string> SEList(std::string("Assets/CSV/SoundList/SEList.csv"));
-	
-	for (auto it = SEList.Data.begin(); it != SEList.Data.end(); ++it)
-	{
-		auto handle = BASS_StreamCreateFile(FALSE, (*it).c_str(), 0, 0, BASS_SAMPLE_FLOAT);
-		assert(handle);
-		m_SEList.push_back(handle);
-	}
-#else
 	CSVReader SEList;
 	SEList.Load("Assets/CSV/SoundList/SEList.csv");	
 	for (auto i = 0; i < SEList.column * SEList.row; ++i)
@@ -177,7 +167,6 @@ bool SoundManager::LoadSEList()
 		assert(handle);
 		m_SEList.push_back(handle);
 	}
-#endif
 	return true;
 }
 //-------------------------------------------------------------
@@ -187,18 +176,6 @@ bool SoundManager::LoadSEList()
 //-------------------------------------------------------------
 bool SoundManager::LoadBGMList()
 {
-	//CSVData<std::string> BGMList;
-	//CSVReader::ReadString("Assets/CSV/SoundList/BGMList.csv", BGMList);
-
-#ifdef _CSVREADER_MODE_01
-	CSVReader<std::string> BGMList(std::string("Assets/CSV/SoundList/BGMList.csv"));
-	for (auto it = BGMList.Data.begin(); it != BGMList.Data.end(); ++it)
-	{
-		auto handle = BASS_StreamCreateFile(FALSE, (*it).c_str(), 0, 0, BASS_SAMPLE_FLOAT | BASS_SAMPLE_LOOP);
-		assert(handle);
-		m_BGMList.push_back(handle);
-	}
-#else
 	CSVReader BGMList;
 	BGMList.Load("Assets/CSV/SoundList/BGMList.csv");	
 	for (auto i = 0; i < BGMList.column * BGMList.row; ++i)
@@ -207,7 +184,6 @@ bool SoundManager::LoadBGMList()
 		assert(handle);
 		m_BGMList.push_back(handle);
 	}
-#endif
 	return true;
 }
 //===============================================================

@@ -12,7 +12,7 @@
 //namespace Cllision
 //{
 //
-//class ICollisonObject;
+//class ICollisionObject;
 //
 ////=======================================================================================
 ////!	@class	:	CollisionManager
@@ -28,7 +28,7 @@
 //	void				Destroy();
 //	CollisionManager*	GetInstance();
 //
-//	void EntryObject(ICollisonObject* obj);
+//	void EntryObject(ICollisionObject* obj);
 //
 //private:
 //	CollisionManager();

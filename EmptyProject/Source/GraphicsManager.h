@@ -71,6 +71,7 @@ public:
 	void	SetAllStreamSource();
 
 	void	ChangeColor(U32 min, U32 max, VertexARGB color);
+
 	
 	void	SetView(const Matrix& view);
 	void	SetProjection(const Matrix& projction);
