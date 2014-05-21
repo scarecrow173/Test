@@ -167,7 +167,6 @@ void Stage1::SetEnd(const bool end)
 //-------------------------------------------------------------
 const Paddle* Stage1::GetPaddle(const U32 id)	const
 {
-	assert(id < PADDLE_NUM);
 	assert(m_Paddle[id]);
 	return m_Paddle[id];
 }
@@ -177,7 +176,6 @@ const Paddle* Stage1::GetPaddle(const U32 id)	const
 //-------------------------------------------------------------
 const Wall*	Stage1::GetWall(const U32 id) const
 {
-	assert(id < WALL_NUM);
 	assert(m_Wall[id]);
 	return m_Wall[id];
 }
@@ -187,7 +185,6 @@ const Wall*	Stage1::GetWall(const U32 id) const
 //-------------------------------------------------------------
 Ball*	Stage1::GetBall(const U32 id) const
 {
-	assert(id < BALL_NUM);
 	assert(m_Ball[id]);
 	return m_Ball[id];
 }
@@ -205,7 +202,6 @@ const Item*	Stage1::GetItem(const U32 id) const
 //-------------------------------------------------------------
 void Stage1::SetPaddle(Paddle* paddle, const U32 id)
 {
-	assert(id < PADDLE_NUM);
 	m_Paddle[id] = paddle;
 }
 //-------------------------------------------------------------
@@ -214,7 +210,6 @@ void Stage1::SetPaddle(Paddle* paddle, const U32 id)
 //-------------------------------------------------------------
 void Stage1::SetWall(Wall* wall, const U32 id)
 {
-	assert(id < WALL_NUM);
 	m_Wall[id] = wall;
 }
 //-------------------------------------------------------------
@@ -223,7 +218,6 @@ void Stage1::SetWall(Wall* wall, const U32 id)
 //-------------------------------------------------------------
 void Stage1::SetBall(Ball* ball, const U32 id)
 {
-	assert(id < BALL_NUM);
 	m_Ball[id] = ball;
 }
 //=======================================================================================

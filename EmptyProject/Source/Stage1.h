@@ -6,6 +6,8 @@
 #pragma once
 #include "SceneNode.h"
 #include "MyMath.h"
+#include "SafeArray.h"
+
 namespace AK
 {
 namespace Graphics{class IShaderObject;}; 
@@ -55,22 +57,22 @@ private:
 
 
 
-	static const U32			STAGE_MAX	= 3;
-	static const U32			PADDLE_NUM	= 1;
-	static const U32			WALL_NUM	= 4;
-	static const U32			BALL_NUM	= 1;
+	static const U32				STAGE_MAX	= 3;
+	static const U32				PADDLE_NUM	= 1;
+	static const U32				WALL_NUM	= 4;
+	static const U32				BALL_NUM	= 1;
 
-	static std::string			StageDataPath[STAGE_MAX];
-	bool						m_IsEnd;
-	F32							m_FadeVolume;
-	Graphics::IShaderObject*	m_Shader;
-	U32							m_StageCount;
+	static std::string				StageDataPath[STAGE_MAX];
+	bool							m_IsEnd;
+	F32								m_FadeVolume;
+	Graphics::IShaderObject*		m_Shader;
+	U32								m_StageCount;
 
-	BlockSystem*				m_BlockSystem;
-	Paddle*						m_Paddle[PADDLE_NUM];
-	Wall*						m_Wall[WALL_NUM];
-	ItemSystem*					m_ItemSystem;
-	Ball*						m_Ball[BALL_NUM];
+	BlockSystem*					m_BlockSystem;
+	SafeArray<Paddle*, PADDLE_NUM> 	m_Paddle;
+	SafeArray<Wall*, WALL_NUM>		m_Wall;
+	ItemSystem*						m_ItemSystem;
+	SafeArray<Ball*, BALL_NUM>		m_Ball;
 
 
 };

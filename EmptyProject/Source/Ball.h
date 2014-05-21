@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include "bass.h"
 #include "InputKeyboard.h"
+#include "IState.h"
 namespace AK
 {
 namespace Graphics { class IShaderObject;};
@@ -30,14 +31,17 @@ public:
 	virtual void Update();
 	virtual void Start();
 
-	void SetBlockSystem(BlockSystem* system);
-	void SetBottomLine(Collision::ICollisionObject* bottomLine);
-	void AddDeathCount();
-	void SubDeathCount();
-	U32	 GetDeathCount() const;
-	void SetShader(Graphics::IShaderObject* shader);
-	void SetPowerup(const bool powerup);
-	bool IsPowerup() const;
+	void							SetBlockSystem(BlockSystem* system);
+	void							SetBottomLine(Collision::ICollisionObject* bottomLine);
+	Collision::ICollisionObject*	GetBottomLine() const;
+	void							AddDeathCount();
+	void							SubDeathCount();
+	U32								GetDeathCount()		const;
+	void							SetShader(Graphics::IShaderObject* shader);
+	void							SetPowerup(const bool powerup);
+	bool							IsPowerup()			const;
+	Paddle*							GetPaddle()			const;
+	BlockSystem*					GetBlockSystem()	const;
 
 
 
@@ -45,7 +49,7 @@ private:
 	bool Death(Collision::ICollisionObject* obj);
 	void Respawn();
 	void Launch();
-	void Move();
+	void UpdateMatrix();
 	void Powerup();
 	
 	U32								m_DeathCount;
@@ -58,6 +62,8 @@ private:
 	bool							m_IsRespawn;
 	bool							m_IsPowerup;
 	U32								m_PowerupCount;
+
+	IState<Ball>*					m_State;
 };
 //=======================================================================================
 //		inline method

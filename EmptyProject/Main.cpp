@@ -20,7 +20,8 @@
 #include "SoundManager.h"
 #include "bass.h"
 #include "Spectrum.h"
-
+#include "WindowPolygonRenderer.h"
+#include "SafeArray.h"
 
 
 
@@ -34,6 +35,9 @@ AK::Graphics::GraphicsManager* g_mrg	= NULL;
 AK::Graphics::Spectrum spectrum;
 
 Matrix world,view, projction;
+AK::Graphics::WindowPolygonRenderer g_w;
+AK::SafeArray<int, 5> test;
+
 
 
 
@@ -98,6 +102,9 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 //--------------------------------------------------------------------------------------
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
+	g_w.CreatePolygon(1,2);
+
+
 	TRACE(0,L"OnFrameMove\n");
 
 	AUTOPROFILE(0);

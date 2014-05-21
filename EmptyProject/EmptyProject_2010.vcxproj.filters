@@ -39,6 +39,12 @@
     <Filter Include="Source\InGame\Object">
       <UniqueIdentifier>{dd30e479-acf1-44e4-93f7-9da172684847}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\InGame\Object\State">
+      <UniqueIdentifier>{fc4b49d8-6787-4a9e-b173-51025c7ce2cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\InGame\Object\State\BallState">
+      <UniqueIdentifier>{352f39ba-057a-4c5f-a5ff-5e8d59787789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -217,6 +223,18 @@
     <ClCompile Include="Source\ICollisionObject.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BallStateLaunchStandby.cpp">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BallStateActive.cpp">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BallStateDead.cpp">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BallStateLaunch.cpp">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -365,6 +383,27 @@
     </ClInclude>
     <ClInclude Include="Source\ICollisionObject.h">
       <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SafeArray.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IState.h">
+      <Filter>Source\InGame\Object\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BallStateActive.h">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BallStateLaunchStandby.h">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BallStateDead.h">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BallStateLaunch.h">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BallStatePenetration.h">
+      <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

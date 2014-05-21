@@ -19,6 +19,7 @@
 #include "Item.h"
 #include "IShaderObject.h"
 #include "SoundManager.h"
+#include "BallStateLaunchStandby.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -41,6 +42,7 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	,	m_IsPowerup		(false)
 	,	m_Shader		(NULL)
 	,	m_PowerupCount	(0)
+	,	m_State			(NEW BallStateLaunchStandby())
 {
 	static const F32 RADIUS = 30.f;
 
@@ -79,27 +81,17 @@ Ball::~Ball()
 //-------------------------------------------------------------
 void Ball::Update()
 {
-	m_Keyboard.Update();
-	Powerup();
 
-	std::vector<ICollisionObject*> l_list;
-	
-	const Vector3 before = m_Collision->GetSpeed();
-	m_Collision->Update(l_list);
-
-	if (!l_list.empty())
+	m_State->InputAction(this);
+	auto nextState = m_State->TransitionAction();
+	if (nextState != m_State)
 	{
-		for (auto it = l_list.begin(); it != l_list.end(); ++it)
-		{
-			Death(*it);
-			if (m_BlockSystem->DeleteBlock(*it) && m_IsPowerup)
-				m_Collision->SetSpeed(before);
-			TRACE(1, "Ball::Update");
-		}		
+		m_State->ExitAction(this);
+		SAFE_DELETE(m_State);
+		m_State = nextState;
+		m_State->EntryAction(this);
 	}
-	Launch();
-	Respawn();
-	Move();
+	UpdateMatrix();
 
 	TRACE(1, "Ball::Update.End");
 }
@@ -148,6 +140,13 @@ void Ball::SetBottomLine(Collision::ICollisionObject* bottomLine)
 	m_BottomLine = bottomLine;
 }
 //-------------------------------------------------------------
+//!	@brief		: 死亡ライン取得
+//-------------------------------------------------------------
+ICollisionObject* Ball::GetBottomLine() const
+{
+	return m_BottomLine;
+}
+//-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
@@ -175,6 +174,24 @@ void Ball::SetPowerup(const bool powerup)
 bool Ball::IsPowerup() const
 {
 	return m_IsPowerup;
+}
+//-------------------------------------------------------------
+//!	@brief		: パワーアップフラグセット
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+Paddle*	Ball::GetPaddle() const
+{
+	return m_Paddle;
+}
+//-------------------------------------------------------------
+//!	@brief		: パワーアップフラグセット
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+BlockSystem* Ball::GetBlockSystem() const
+{
+	return m_BlockSystem;
 }
 //=======================================================================================
 //		protected method
@@ -228,7 +245,7 @@ void Ball::Launch()
 //-------------------------------------------------------------
 //!	@brief		: 動き（移動のみ）
 //-------------------------------------------------------------
-void Ball::Move()
+void Ball::UpdateMatrix()
 {
 	m_Position = m_Collision->GetPosition();
 	Matrix mat;

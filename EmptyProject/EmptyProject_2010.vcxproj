@@ -391,6 +391,10 @@
   <ItemGroup>
     <ClCompile Include="Source\AutoPerformance.cpp" />
     <ClCompile Include="Source\Ball.cpp" />
+    <ClCompile Include="Source\BallStateActive.cpp" />
+    <ClCompile Include="Source\BallStateDead.cpp" />
+    <ClCompile Include="Source\BallStateLaunch.cpp" />
+    <ClCompile Include="Source\BallStateLaunchStandby.cpp" />
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BlockSystem.cpp" />
     <ClCompile Include="Source\BoxFactory.cpp" />
@@ -428,6 +432,11 @@
     <ClInclude Include="Source\Affecter.h" />
     <ClInclude Include="Source\AutoPerformance.h" />
     <ClInclude Include="Source\Ball.h" />
+    <ClInclude Include="Source\BallStateDead.h" />
+    <ClInclude Include="Source\BallStateLaunch.h" />
+    <ClInclude Include="Source\BallStateLaunchStandby.h" />
+    <ClInclude Include="Source\BallStateActive.h" />
+    <ClInclude Include="Source\BallStatePenetration.h" />
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\BlockSystem.h" />
     <ClInclude Include="Source\BoxFactory.h" />
@@ -457,6 +466,7 @@
     <ClInclude Include="Source\Paddle.h" />
     <ClInclude Include="Source\Result.h" />
     <ClInclude Include="Source\RootNode.h" />
+    <ClInclude Include="Source\SafeArray.h" />
     <ClInclude Include="Source\SceneNode.h" />
     <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\Spectrum.h" />
@@ -465,6 +475,7 @@
     <ClInclude Include="Source\Stage1.h" />
     <ClInclude Include="Source\Stage2.h" />
     <ClInclude Include="Source\Stage3.h" />
+    <ClInclude Include="Source\IState.h" />
     <ClInclude Include="Source\Title.h" />
     <ClInclude Include="Source\TriangleRenderer.h" />
     <ClInclude Include="Source\Types.h" />

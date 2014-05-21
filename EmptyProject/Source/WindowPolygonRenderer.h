@@ -5,13 +5,20 @@
 //=======================================================================================
 #pragma once
 #include "IRenderer.h"
+#include "Elements.h"
 namespace AK
 {
 namespace Graphics
 {
+struct WindowVertex
+{
+	VertexFloat4	pos;
+	VertexARGB		color;				
+	VertexFloat2	uv;
+};
 //=======================================================================================
 //!	@class	:	WindowPolygonRenderer
-//!	@brief	:	example
+//!	@brief	:	こいつだけ特別。自分で頂点バッファ作ったりする。
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
@@ -21,12 +28,17 @@ public:
 	WindowPolygonRenderer();
 	virtual ~WindowPolygonRenderer();
 
-	void Draw();
-	//	こいつだけ特別
-	//	自分で頂点バッファ作ったりする。
+	virtual void Draw();
+
+	void	CreatePolygon(const U32 divisionWidth = 1, const U32 divisionHeight = 1);
+
 
 private:
 
+	std::vector<WindowVertex>	m_Vertex;
+
+	LPDIRECT3DVERTEXBUFFER9		m_VertexBuffer;
+	LPD3DXEFFECT				m_Effect;
 
 };
 //=======================================================================================
