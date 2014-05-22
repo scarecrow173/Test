@@ -84,7 +84,7 @@ void BallStateActive::ExitAction(Ball* stateUser)
 IState<Ball>* BallStateActive::TransitionAction()
 {
 	if (m_NextState & NEXT_DEAD)
-		return NEW BallStateLaunchStandby();//BallStateDead();
+		return NEW BallStateDead();
 	return this;
 }
 //-------------------------------------------------------------

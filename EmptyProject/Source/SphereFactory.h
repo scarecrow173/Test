@@ -7,6 +7,8 @@
 #include "GraphicsManager.h"
 #include "IndexData.h"
 #include <vector>
+#include <hash_map>
+#include <string>
 namespace AK
 {
 namespace Graphics
@@ -27,6 +29,7 @@ public:
 	static SphereFactory*	GetInstance();
 
 	IndexData				CreateSphere(const Vector3 vCenter, const F32 radius, const VertexARGB color, std::vector<U32>& indexArray);
+	IRenderer*				CreateSphere(const std::string& name, const VertexARGB color);
 	void					AllClear();
 private:
 	SphereFactory();
@@ -34,7 +37,7 @@ private:
 
 	static SphereFactory*	m_Instance;
 	U32						m_SphereCount;
-
+	std::hash_map<const std::string, IRenderer*>	m_BoxResouce;
 
 };
 //=======================================================================================

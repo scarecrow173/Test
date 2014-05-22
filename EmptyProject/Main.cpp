@@ -116,8 +116,9 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
     memset(&lLight1, 0, sizeof(D3DLIGHT9));
 	static F32 Count	= 0;
 	Count				+= 0.02f;
-	lLight1.Position.x	= 0;
-	lLight1.Position.z	= 1000;
+	/*
+	//lLight1.Position.x	= 0;
+	//lLight1.Position.z	= 1000;
 	lLight1.Direction	= D3DXVECTOR3(0, 0.2, -1);
     lLight1.Type		= D3DLIGHT_DIRECTIONAL; 
     lLight1.Diffuse.r	= 1.0f;
@@ -125,17 +126,21 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
     lLight1.Diffuse.b	= 1.0f;
 	DXUTGetD3D9Device()->SetLight(0, &lLight1);
 	DXUTGetD3D9Device()->LightEnable(0, true);
-
+	*/
 	memset(&lLight2, 0, sizeof(D3DLIGHT9));
-	lLight2.Position.x	= 0;
-	lLight2.Position.z	= 1000;
-	lLight2.Direction	= D3DXVECTOR3(0, -0.2, -1);
+	//lLight2.Position.x	= 0;
+	//lLight2.Position.z	= 1;
+	//lLight2.Position.y	= 0;
+	lLight2.Direction	= D3DXVECTOR3(0, 0.f, -1);
     lLight2.Type		= D3DLIGHT_DIRECTIONAL; 
     lLight2.Diffuse.r	= 1.0f;
     lLight2.Diffuse.g	= 1.0f;
     lLight2.Diffuse.b	= 1.0f;
 	DXUTGetD3D9Device()->SetLight(1, &lLight2);
 	DXUTGetD3D9Device()->LightEnable(1, true);
+
+	DXUTGetD3D9Device()->SetRenderState( D3DRS_LIGHTING, TRUE );   // ”­“dŠ‚ð‰ñ‚·I
+	DXUTGetD3D9Device()->SetRenderState( D3DRS_AMBIENT, 0xFF2F2F2F);   // ¢‚Ì’†‚ð‚¿‚å‚Á‚Æ”’‚­Æ‚ç‚·
 
 	auto handle = AK::Sound::SoundManager::GetInstance()->GetStreamHandle(AK::Sound::SoundManager::GetInstance()->m_BGMNum);
 	auto handle2 = AK::Sound::SoundManager::GetInstance()->GetStreamHandleSE(AK::Sound::SoundManager::GetInstance()->m_SENum);
@@ -174,7 +179,7 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     HRESULT hr;
 
     // Clear the render target and the zbuffer										 0, 45, 50, 170
-    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
+    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 45, 50, 170), 1.0f, 0 ) );
 
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
@@ -329,17 +334,17 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	material.Ambient.g = 1.0f;
 	material.Ambient.b = 1.0f;
 
-	material.Specular.a = 1.0;
-	material.Specular.r = 1.0;
-	material.Specular.g = 1.0;
-	material.Specular.b = 1.0;
+	material.Specular.a = 1.0f;
+	material.Specular.r = 0.4f;
+	material.Specular.g = 0.4f;
+	material.Specular.b = 0.4f;
 
 	material.Emissive.a = 0.0f;
-	material.Emissive.r = 0.0f;
-	material.Emissive.g = 0.0f;
-	material.Emissive.b = 0.0f;
+	material.Emissive.r = 0.1f;
+	material.Emissive.g = 0.1f;
+	material.Emissive.b = 0.1f;
 
-	material.Power = 0.0f;
+	material.Power = 1000.f;
 
 	g_Device->SetMaterial(&material);
 

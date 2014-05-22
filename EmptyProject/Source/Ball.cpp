@@ -44,24 +44,26 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	,	m_PowerupCount	(0)
 	,	m_State			(NEW BallStateLaunchStandby())
 {
-	static const F32 RADIUS = 30.f;
+	m_Radius = 30.f;
 
-	std::vector<U32> indexSrc;
-	IndexData indexData;
-	indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), RADIUS, ARGBColors::Magenta, indexSrc);
+	//std::vector<U32> indexSrc;
+	//IndexData indexData;
+	//indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), m_Radius, ARGBColors::Magenta, indexSrc);
 
-	m_Renderer = NEW TriangleRenderer();
+	m_Renderer = SphereFactory::GetInstance()->CreateSphere("Ball", ARGBColors::Magenta);/*NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
 	m_Renderer->AddIndex(indexSrc);
 	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(indexData);
+	m_Renderer->UpdateIndexData(indexData);*/
 	
-	Matrix mat;
-	D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
+	Matrix trans, scale, mat;
+	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
+	D3DXMatrixScaling(&scale, m_Radius, m_Radius, m_Radius);
+	D3DXMatrixMultiply(&mat, &scale, &trans);
 
 	m_Renderer->SetWorld(mat);
 
-	m_Collision = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), RADIUS);
+	m_Collision = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), m_Radius);
 	m_Collision->SetReflection(true);
 	m_Collision->SetReflectionFactor(1.1f);
 
@@ -248,8 +250,12 @@ void Ball::Launch()
 void Ball::UpdateMatrix()
 {
 	m_Position = m_Collision->GetPosition();
-	Matrix mat;
-	D3DXMatrixTranslation(&mat, m_Position.x, m_Position.y, m_Position.z);
+	
+	Matrix trans, scale, mat;
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+	D3DXMatrixScaling(&scale, m_Radius, m_Radius, m_Radius);
+	D3DXMatrixMultiply(&mat, &scale, &trans);
+
 	m_Renderer->SetWorld(mat);
 }
 //-------------------------------------------------------------

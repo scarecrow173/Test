@@ -8,6 +8,7 @@
 //=======================================================================================
 
 #include "BallStateDead.h"
+#include "BallStateLaunchStandby.h"
 using namespace AK;
 
 //=======================================================================================
@@ -19,7 +20,6 @@ using namespace AK;
 //-------------------------------------------------------------
 BallStateDead::BallStateDead()
 {
-	EntryAction();
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -37,7 +37,7 @@ BallStateDead::~BallStateDead()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::EntryAction()
+void BallStateDead::EntryAction(Ball* stateUser)
 {
 }
 //-------------------------------------------------------------
@@ -53,7 +53,7 @@ void BallStateDead::InputAction(Ball* stateUser)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::ExitAction()
+void BallStateDead::ExitAction(Ball* stateUser)
 {
 }
 //-------------------------------------------------------------
@@ -63,7 +63,7 @@ void BallStateDead::ExitAction()
 //-------------------------------------------------------------
 IState<Ball>* BallStateDead::TransitionAction()
 {
-	return this;
+	return NEW BallStateLaunchStandby();
 }
 //=======================================================================================
 //		protected method

@@ -41,6 +41,10 @@ WindowPolygonRenderer::~WindowPolygonRenderer()
 void WindowPolygonRenderer::Draw()
 {
 }
+IRenderer* WindowPolygonRenderer::Clone()
+{
+	return NULL;
+}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

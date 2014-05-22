@@ -22,6 +22,7 @@ public:
 	virtual ~TriangleRenderer();
 
 	virtual void Draw();
+	virtual IRenderer* Clone();
 
 protected:
 

@@ -20,9 +20,9 @@ public:
 	BallStateDead();
 	virtual ~BallStateDead();
 
-	virtual void			EntryAction();
+	virtual void			EntryAction(Ball* stateUser);
 	virtual void			InputAction(Ball* stateUser);
-	virtual void			ExitAction();
+	virtual void			ExitAction(Ball* stateUser);
 	virtual IState<Ball>*	TransitionAction();
 
 protected:

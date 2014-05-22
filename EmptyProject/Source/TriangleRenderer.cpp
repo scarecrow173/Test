@@ -50,7 +50,17 @@ void TriangleRenderer::Draw()
 		0, 
 		m_IndexData.face);
 }
-
+//-------------------------------------------------------------
+//!	@brief		: ŽOŠpŒ`•`‰æ
+//-------------------------------------------------------------
+IRenderer* TriangleRenderer::Clone()
+{
+	TriangleRenderer* clone = NEW TriangleRenderer();
+	clone->m_IndexBuffer	= m_IndexBuffer;
+	clone->m_IndexData		= m_IndexData;
+	clone->m_Device			= m_Device;
+	return clone;
+}
 
 //=======================================================================================
 //		protected method

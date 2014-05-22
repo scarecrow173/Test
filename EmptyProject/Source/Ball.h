@@ -62,6 +62,7 @@ private:
 	bool							m_IsRespawn;
 	bool							m_IsPowerup;
 	U32								m_PowerupCount;
+	F32								m_Radius;
 
 	IState<Ball>*					m_State;
 };

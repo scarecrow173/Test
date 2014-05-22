@@ -28,12 +28,18 @@ public:
 	void	PopIndex(const U32 start, const U32 end);
 	void	ReCreateIndexBuffer();
 	void	UpdateIndexData(const IndexData data);
+	IndexData GetIndexData() const;
 	
 	void	SetWorld(const Matrix& world);
 	Matrix	GetWorld() const;
 
 	bool	IsActive() const;
 	void	SetActive(const bool active);
+
+	void	SetIndexBuffer(IDirect3DIndexBuffer9** swap);
+	IDirect3DIndexBuffer9* GetIndexBuffer() const;
+
+	virtual IRenderer* Clone() PURE;
 
 	virtual void	Draw() PURE;
 	
@@ -100,6 +106,7 @@ inline void IRenderer::ReCreateIndexBuffer()
 		SAFE_RELEASE(m_IndexBuffer);
 
 	DXUTGetD3D9Device()->CreateIndexBuffer(sizeof(U32) * m_Index.size(), 0, D3DFMT_INDEX32, D3DPOOL_MANAGED, &m_IndexBuffer, 0);
+
 	U32* index;
 	m_IndexBuffer->Lock(0, sizeof(U32) * m_Index.size(), (void**)&index, 0);
 	memcpy(index, &m_Index[0], sizeof(U32) * m_Index.size());
@@ -145,6 +152,20 @@ inline bool IRenderer::IsActive() const
 inline void IRenderer::SetActive(const bool active)
 {
 	m_IsActive = active;
+}
+
+inline void	IRenderer::SetIndexBuffer(IDirect3DIndexBuffer9** swap)
+{
+	assert(!m_IndexBuffer);
+	m_IndexBuffer = *swap;
+}
+inline 	IDirect3DIndexBuffer9* IRenderer::GetIndexBuffer() const
+{
+	return m_IndexBuffer;
+}
+inline 	IndexData IRenderer::GetIndexData() const
+{
+	return m_IndexData;
 }
 
 };

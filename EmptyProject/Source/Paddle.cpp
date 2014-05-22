@@ -35,18 +35,23 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	static const F32 WIDTH	= 400.f;
 	static const F32 HEIGHT	= 80.f;
 
-	std::vector<U32> indexSrc;
-	IndexData indexData;
-	indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
+	//std::vector<U32> indexSrc;
+	//IndexData indexData;
+	//indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
 
-	m_Renderer = NEW TriangleRenderer();
+	m_Renderer = BoxFactory::GetInstance()->CreateBox("BOX", ARGBColors::Magenta);/*NEW TriangleRenderer();
 	m_Renderer->Initialize(DXUTGetD3D9Device());
 	m_Renderer->AddIndex(indexSrc);
 	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(indexData);
+	m_Renderer->UpdateIndexData(indexData);*/
 
-	Matrix mat;
-	D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
+	m_Size.x = WIDTH;
+	m_Size.y = HEIGHT;
+	m_Size.z = 50.f;
+
+	Matrix trans, scale, mat;
+	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
+	D3DXMatrixScaling(&scale, m_Size.x, m_Size.y, m_Size.z);
 
 	m_Renderer->SetWorld(mat);
 

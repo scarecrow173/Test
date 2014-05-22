@@ -41,18 +41,19 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	m_Color.color = 0x00FF0000;
 	m_Color.color = m_Color.color >> m_LifeCount;
 
-	m_IndexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), m_Color, indexSrc);
+	//m_IndexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), m_Color, indexSrc);
 
-	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->Initialize(DXUTGetD3D9Device());
-	m_Renderer->AddIndex(indexSrc);
-	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(m_IndexData);
+	m_Renderer = BoxFactory::GetInstance()->CreateBox("BOX", m_Color);//NEW TriangleRenderer();
+	//m_Renderer->Initialize(DXUTGetD3D9Device());
+	//m_Renderer->AddIndex(indexSrc);
+	//m_Renderer->ReCreateIndexBuffer();
+	//m_Renderer->UpdateIndexData(m_IndexData);
 
 	
-	Matrix mat;
+	Matrix mat, scale;
 	D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
-
+	D3DXMatrixScaling(&scale, WIDTH, HEIGHT, 50.f);
+	D3DXMatrixMultiply(&mat, &scale, &mat);
 	m_Renderer->SetWorld(mat);
 
 	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
