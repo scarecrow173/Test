@@ -22,7 +22,8 @@
 #include "Spectrum.h"
 #include "WindowPolygonRenderer.h"
 #include "SafeArray.h"
-
+#include "ReferCountType.h"
+#include "ResourceManager.h"
 
 
 //#define __MY_DEBUG_STR_USE_
@@ -36,8 +37,6 @@ AK::Graphics::Spectrum spectrum;
 
 Matrix world,view, projction;
 AK::Graphics::WindowPolygonRenderer g_w;
-AK::SafeArray<int, 5> test;
-
 
 
 
@@ -143,10 +142,8 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	DXUTGetD3D9Device()->SetRenderState( D3DRS_AMBIENT, 0xFF2F2F2F);   // ¢‚Ì’†‚ð‚¿‚å‚Á‚Æ”’‚­Æ‚ç‚·
 
 	auto handle = AK::Sound::SoundManager::GetInstance()->GetStreamHandle(AK::Sound::SoundManager::GetInstance()->m_BGMNum);
-	auto handle2 = AK::Sound::SoundManager::GetInstance()->GetStreamHandleSE(AK::Sound::SoundManager::GetInstance()->m_SENum);
 
 	F32 fft[1024];
-	F32 fft2[1024];
 	BASS_ChannelGetData(handle, fft, BASS_DATA_FFT2048); // get the FFT data
 	for (S32 i = 0; i < 1024; ++i)
 	{
@@ -247,7 +244,8 @@ D3DXMATRIX *getViewMatrixTakingSphereInCamera(
     float aspect,
     const D3DXVECTOR3& direct,
     const D3DXVECTOR3& up
-) {
+) 
+{
     // fovY‚ÆfovX‚Ì¬‚³‚¢•û‚ðƒÆ‚Æ‚µ‚Ä‘I‘ð
     float theta = (aspect >= 1.0f) ? fovY : fovY * aspect;
 
@@ -298,18 +296,19 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	AK::Debug::CreateDebugConsole();
 	
-	AK::Graphics::BoxFactory::Create();
-	AK::Graphics::SphereFactory::Create();
-	AK::Graphics::SquareFactory::Create();
+
 	AK::Sound::SoundManager::Create();
 	AK::Sound::SoundManager::GetInstance()->Initalize();
 	
 	g_mrg = AK::Graphics::GraphicsManager::Create();
 	g_Device = DXUTGetD3D9Device();
-	g_mrg->m_Device = g_Device;
+	g_mrg->SetD3DDevice9(&g_Device);
 	g_mrg->Initialize();
+
+	AK::Graphics::ResourceManager::Create();
+
 	g_Root = AK::RootNode::Create();
-	
+
 	
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixPerspectiveFovLH( &projction, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, 1.f, 2001.0f);
@@ -366,9 +365,8 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();
-	AK::Graphics::BoxFactory::Destroy();
-	AK::Graphics::SphereFactory::Destroy();
-	AK::Graphics::SquareFactory::Destroy();
+	AK::Graphics::ResourceManager::Destroy();
+
 	AK::Graphics::GraphicsManager::Destroy();
 	BASS_Free();
 

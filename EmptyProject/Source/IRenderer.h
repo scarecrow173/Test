@@ -7,6 +7,8 @@
 #include <vector>
 #include "IndexData.h"
 #include "MyMath.h"
+#include "IResource.h"
+//#include "GraphicsManager.h"
 namespace AK
 {
 namespace Graphics
@@ -17,13 +19,13 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class IRenderer
+class IRenderer : public IResource
 {
 public:
-	IRenderer() : m_IndexBuffer	(NULL), m_Device (NULL), m_IsActive (true) { m_IndexData.start = UINT_MAX; m_IndexData.face = 0; };
-	virtual ~IRenderer() { if (m_Device)	SAFE_RELEASE(m_Device); };
+	IRenderer() : m_IndexBuffer	(NULL),  m_IsActive (true) { m_IndexData.start = UINT_MAX; m_IndexData.face = 0; };
+	virtual ~IRenderer() {  };
 
-	bool	Initialize(IDirect3DDevice9* device);
+	bool	Initialize();
 	void	AddIndex(std::vector<U32>& add);
 	void	PopIndex(const U32 start, const U32 end);
 	void	ReCreateIndexBuffer();
@@ -39,15 +41,12 @@ public:
 	void	SetIndexBuffer(IDirect3DIndexBuffer9** swap);
 	IDirect3DIndexBuffer9* GetIndexBuffer() const;
 
-	virtual IRenderer* Clone() PURE;
-
 	virtual void	Draw() PURE;
 	
 protected:
 	virtual bool	InnerInitialize() { return true; };
 
 	std::vector<U32>		m_Index;
-	IDirect3DDevice9*		m_Device;
 	IDirect3DIndexBuffer9*	m_IndexBuffer;
 	IndexData				m_IndexData;
 	Matrix					m_World;
@@ -65,9 +64,8 @@ protected:
 //!	@param[in]	: デバイス
 //!	@return		: 成功(true),失敗(false)
 //-------------------------------------------------------------
-inline bool IRenderer::Initialize(IDirect3DDevice9* device)
+inline bool IRenderer::Initialize()
 {
-	m_Device = device;
 	return InnerInitialize();
 }
 //-------------------------------------------------------------

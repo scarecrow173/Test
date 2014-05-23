@@ -10,6 +10,7 @@
 #include "Spectrum.h"
 #include "Elements.h"
 #include "MyMath.h"
+#include "GraphicsManager.h"
 using namespace AK;
 using namespace Graphics;
 
@@ -47,7 +48,7 @@ Spectrum::~Spectrum()
 void Spectrum::CreateSpectrumData()
 {
 
-	D3DXCreateTextureFromFile(DXUTGetD3D9Device(), L"Assets/Texture/spectrum.png", &m_Texture);
+	D3DXCreateTextureFromFile(GraphicsManager::GetInstance()->GetD3DDevice(), L"Assets/Texture/spectrum.png", &m_Texture);
 
 	//std::vector<U32> index;
 	
@@ -110,7 +111,7 @@ void Spectrum::CreateSpectrumData()
 		m_Index.push_back(i + 1);
 	}
 
-	if (FAILED(DXUTGetD3D9Device()->CreateVertexBuffer(
+	if (FAILED(GraphicsManager::GetInstance()->GetD3DDevice()->CreateVertexBuffer(
 		sizeof(SpectrumVertex) * m_Vertex.size(), 
 		D3DUSAGE_WRITEONLY, 
 		m_FVF, 
@@ -119,7 +120,7 @@ void Spectrum::CreateSpectrumData()
 		0)))
 		return;
 
-	if (FAILED(DXUTGetD3D9Device()->CreateIndexBuffer(
+	if (FAILED(GraphicsManager::GetInstance()->GetD3DDevice()->CreateIndexBuffer(
 		sizeof(SpectrumVertex) * m_Vertex.size(), 
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX32,
@@ -142,7 +143,7 @@ void Spectrum::CreateSpectrumData()
 
 	LPD3DXBUFFER wError = NULL;
 	HRESULT hr = D3DXCreateEffectFromFile(
-		DXUTGetD3D9Device(),
+		GraphicsManager::GetInstance()->GetD3DDevice(),
 		L"Source/Spectrum.fx",
 		NULL,
 		NULL,
@@ -168,32 +169,32 @@ void Spectrum::Draw()
 	LPDIRECT3DVERTEXBUFFER9 oldBuf;
 	UINT oldNum = 0;
 	UINT oldStride = 0;
-	DXUTGetD3D9Device()->GetStreamSource(0, &oldBuf, &oldNum, &oldStride);
+	GraphicsManager::GetInstance()->GetD3DDevice()->GetStreamSource(0, &oldBuf, &oldNum, &oldStride);
 	LPDIRECT3DINDEXBUFFER9 oldIndexBuf;
-	DXUTGetD3D9Device()->GetIndices(&oldIndexBuf);
+	GraphicsManager::GetInstance()->GetD3DDevice()->GetIndices(&oldIndexBuf);
 
 	LPDIRECT3DVERTEXDECLARATION9 olddel;
-	DXUTGetD3D9Device()->GetVertexDeclaration(&olddel);
-	DXUTGetD3D9Device()->SetVertexDeclaration(NULL);
+	GraphicsManager::GetInstance()->GetD3DDevice()->GetVertexDeclaration(&olddel);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(NULL);
 
-	//DXUTGetD3D9Device()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_Effect->Begin(0,0);
 	m_Effect->BeginPass(0);
-	DXUTGetD3D9Device()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));
-	DXUTGetD3D9Device()->SetFVF(m_FVF);
-	DXUTGetD3D9Device()->SetIndices(m_IndexBuffer);
-	DXUTGetD3D9Device()->SetTexture(0, m_Texture);
-	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	//DXUTGetD3D9Device()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	DXUTGetD3D9Device()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_Vertex.size(), 0, m_Index.size() / 3);
-	//DXUTGetD3D9Device()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetFVF(m_FVF);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(m_IndexBuffer);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, m_Texture);
+	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_Vertex.size(), 0, m_Index.size() / 3);
+	//GraphicsManager::GetInstance()->GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
 
-	DXUTGetD3D9Device()->SetTexture(0, NULL);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, NULL);
 
-	DXUTGetD3D9Device()->SetFVF(NULL);
-	DXUTGetD3D9Device()->SetStreamSource(0, oldBuf, oldNum, oldStride);
-	DXUTGetD3D9Device()->SetIndices(oldIndexBuf);
-	DXUTGetD3D9Device()->SetVertexDeclaration(olddel);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetFVF(NULL);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetStreamSource(0, oldBuf, oldNum, oldStride);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(oldIndexBuf);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(olddel);
 	m_Effect->EndPass();
 	m_Effect->End();
 }

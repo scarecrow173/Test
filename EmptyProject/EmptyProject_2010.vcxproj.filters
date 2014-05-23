@@ -235,6 +235,9 @@
     <ClCompile Include="Source\BallStateLaunch.cpp">
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ResourceManager.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -404,6 +407,15 @@
     </ClInclude>
     <ClInclude Include="Source\BallStatePenetration.h">
       <Filter>Source\InGame\Object\State\BallState</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ReferCountType.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IResource.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceManager.h">
+      <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

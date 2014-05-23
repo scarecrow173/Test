@@ -34,14 +34,60 @@ namespace Debug
 #define RANGE_CHACK_MESSAGE_EX(x,y,z)
 #endif
 
-	void Trace(U32 level, const char* _str, const char* _fileName, S32 _line);
-	void Trace(U32 level, const wchar_t* _str, const char* _fileName, S32 _line);
+	void __Trace(const char* str);
+	void __Trace(const wchar_t* str);
+	template<typename T>
+	void Trace(U32 level, T _str, const char* _fileName, S32 _line);
 	void TraceEx( LPCSTR pszFormat, ...);
-	void SetTraceLevel(U32 level);
+	inline void SetTraceLevel(U32 level);
 
 	void CreateDebugConsole();
 	void DestoryDebugConsole();
 	void UpdateDebugConsole();
+
+//=======================================================================================
+//		inline method
+//=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+static U32		TraceLevel	= 0;
+template<typename T>
+inline void Trace(U32 level, T _str, const char* _fileName, S32 _line)
+{
+#if defined(DEBUG) || defined(_DEBUG)
+	if (level < TraceLevel)
+		return;
+	char numToStr[5];
+	char levelToStr[5];
+	sprintf_s(numToStr, "%d", _line);
+	sprintf_s(levelToStr, "%d", level);
+	OutputDebugStringA("FILENAME : ");
+	OutputDebugStringA(_fileName);
+	OutputDebugStringA("\nLINE : ");
+	OutputDebugStringA(numToStr);
+	OutputDebugStringA("\n");
+	OutputDebugStringA("LEVEL : ");
+	OutputDebugStringA(levelToStr);
+	OutputDebugStringA("\n");
+	__Trace(_str);
+	OutputDebugStringA("\n");
+
+#endif
+};
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+inline void SetTraceLevel(U32 level)
+{
+#if defined(DEBUG) || defined(_DEBUG)
+	TraceLevel = level;
+#endif
+};
 };
 };
 

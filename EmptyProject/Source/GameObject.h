@@ -10,7 +10,8 @@
 #include "IRenderer.h"
 namespace AK
 {
-
+class Ball;
+class Item;
 //=======================================================================================
 //!	@class	:	GameObject
 //!	@brief	:	example
@@ -27,13 +28,14 @@ public:
 	Collision::ICollisionObject*		GetCollision() const;
 	Graphics::IRenderer*			GetRenderer() const;
 
-	virtual	void					Affect(GameObject* obj){};
-	
+	virtual	void					Affect(GameObject* obj);
+	virtual Ball*					DownCastBall();
+	virtual Item*					DownCastItem();
 
 protected:
 
 	Vector3							m_Position;
-	Collision::ICollisionObject*		m_Collision;
+	Collision::ICollisionObject*	m_Collision;
 	Graphics::IRenderer*			m_Renderer;
 };
 //=======================================================================================
@@ -87,7 +89,31 @@ inline Graphics::IRenderer* GameObject::GetRenderer() const
 {
 	return m_Renderer;
 }
-
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+inline void GameObject::Affect(GameObject* obj)
+{}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+inline Ball* GameObject::DownCastBall()
+{
+	return NULL;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+inline Item* GameObject::DownCastItem()
+{
+	return NULL;
+}
 };
 //===============================================================
 //	End of File

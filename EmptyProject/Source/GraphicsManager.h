@@ -12,13 +12,6 @@ namespace AK
 {
 namespace Graphics
 {
-enum PRIMITIVE_TYPE
-{
-	PRIMITIVE_BOX = 0,
-	PRIMITIVE_SPHERE,
-	PRIMITIVE_LINE,
-	PRIMITIVE_SQUARE
-};
 struct VertexBaseData
 {
 	VertexFloat3 position;
@@ -78,10 +71,13 @@ public:
 	Matrix	GetView();
 	Matrix	GetProjection();
 
+	void	SetD3DDevice9(IDirect3DDevice9** device);
+	IDirect3DDevice9* GetD3DDevice() const;
+
 	bool	Initialize();
 	void	Draw();
 	
-	IDirect3DDevice9*		m_Device;
+	
 private:
 
 	GraphicsManager();
@@ -89,7 +85,7 @@ private:
 
 	static GraphicsManager*			m_Instance;
 	
-	//IDirect3DDevice9*		m_Device;
+	IDirect3DDevice9*			m_Device;
 
 	static VertexBaseData			m_VertexBase[VERTEX_NUM];
 	static VertexARGB				m_VertexColor[VERTEX_NUM];
@@ -123,6 +119,22 @@ inline GraphicsManager* GraphicsManager::GetInstance()
 {
 	assert(m_Instance);
 	return m_Instance;
+}
+//-------------------------------------------------------------
+//!	@brief		: インスタンス取得
+//!	@return		: インスタンス
+//-------------------------------------------------------------
+inline void	GraphicsManager::SetD3DDevice9(IDirect3DDevice9** device)
+{
+	m_Device = *device;
+}
+//-------------------------------------------------------------
+//!	@brief		: インスタンス取得
+//!	@return		: インスタンス
+//-------------------------------------------------------------
+inline IDirect3DDevice9* GraphicsManager::GetD3DDevice() const
+{
+	return m_Device;
 }
 };
 };

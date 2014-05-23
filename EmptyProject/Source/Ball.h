@@ -30,10 +30,11 @@ public:
 	
 	virtual void Update();
 	virtual void Start();
+	virtual Ball* DownCastBall();
 
 	void							SetBlockSystem(BlockSystem* system);
 	void							SetBottomLine(Collision::ICollisionObject* bottomLine);
-	Collision::ICollisionObject*	GetBottomLine() const;
+	Collision::ICollisionObject*	GetBottomLine()		const;
 	void							AddDeathCount();
 	void							SubDeathCount();
 	U32								GetDeathCount()		const;

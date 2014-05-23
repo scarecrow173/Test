@@ -7,6 +7,7 @@
 //!	@note	:	example
 //=======================================================================================
 #include "TriangleRenderer.h"
+#include "GraphicsManager.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -37,12 +38,11 @@ void TriangleRenderer::Draw()
 	if (!m_IsActive)
 		return;
 
-	assert(m_Device);
 	assert(m_IndexBuffer);
-	m_Device->SetTransform(D3DTS_WORLD, &m_World);
-	m_Device->SetIndices(m_IndexBuffer);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &m_World);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(m_IndexBuffer);
 	//	TODO:ŠeŽíˆø”‚ð‚¿‚á‚ñ‚ÆÝ’è
-	m_Device->DrawIndexedPrimitive(
+	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(
 		D3DPT_TRIANGLELIST, 
 		0,
 		m_IndexData.start,
@@ -58,7 +58,8 @@ IRenderer* TriangleRenderer::Clone()
 	TriangleRenderer* clone = NEW TriangleRenderer();
 	clone->m_IndexBuffer	= m_IndexBuffer;
 	clone->m_IndexData		= m_IndexData;
-	clone->m_Device			= m_Device;
+	clone->m_RefCounter		= m_RefCounter;
+
 	return clone;
 }
 

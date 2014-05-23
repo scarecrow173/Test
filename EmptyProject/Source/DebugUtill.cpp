@@ -7,12 +7,11 @@
 //!	@note	:	example
 //=======================================================================================
 #include "DebugUtill.h"
-//#include <debugapi.h>
 #include <wincon.h>
 #include <map>
 #if defined(DEBUG) || defined(_DEBUG)
 bool	isConsole	= false;
-U32		TraceLevel	= 0;
+
 #endif
 namespace AK{
 namespace Debug
@@ -22,55 +21,18 @@ namespace Debug
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Trace(U32 level, const char* _str, const char* _fileName, S32 _line)
+void __Trace(const char* str)
 {
-#if defined(DEBUG) || defined(_DEBUG)
-	if (level < TraceLevel)
-		return;
-	char numToStr[5];
-	char levelToStr[5];
-#pragma warning(disable:4996)
-	sprintf(numToStr, "%d", _line);
-	sprintf(levelToStr, "%d", level);
-	OutputDebugStringA("FILENAME : ");
-	OutputDebugStringA(_fileName);
-	OutputDebugStringA("\nLINE : ");
-	OutputDebugStringA(numToStr);
-	OutputDebugStringA("\n");
-	OutputDebugStringA("LEVEL : ");
-	OutputDebugStringA(levelToStr);
-	OutputDebugStringA("\n");
-	OutputDebugStringA(_str);
-	OutputDebugStringA("\n");
-
-#endif
+	OutputDebugStringA(str);
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Trace(U32 level, const wchar_t* _str, const char* _fileName, S32 _line)
+void __Trace(const wchar_t* str)
 {
-#if defined(DEBUG) || defined(_DEBUG)
-	if (level < TraceLevel)
-		return;
-	char numToStr[5];
-	char levelToStr[5];
-#pragma warning(disable:4996)
-	sprintf(numToStr, "%d", _line);
-	sprintf(levelToStr, "%d", level);
-	OutputDebugStringA("FILENAME : ");
-	OutputDebugStringA(_fileName);
-	OutputDebugStringA("\nLINE : ");
-	OutputDebugStringA(numToStr);
-	OutputDebugStringA("\n");
-	OutputDebugStringA("LEVEL : ");
-	OutputDebugStringA(levelToStr);
-	OutputDebugStringA("\n");
-	OutputDebugStringW(_str);
-	OutputDebugStringW(L"\n");
-#endif
+	OutputDebugStringW(str);
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -85,16 +47,6 @@ void TraceEx( LPCSTR pszFormat, ...)
     vsprintf( pszBuf, pszFormat, argp);
     va_end(argp);
     OutputDebugStringA( pszBuf);
-#endif
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//-------------------------------------------------------------
-void SetTraceLevel(U32 level)
-{
-#if defined(DEBUG) || defined(_DEBUG)
-	TraceLevel = level;
 #endif
 }
 //-------------------------------------------------------------

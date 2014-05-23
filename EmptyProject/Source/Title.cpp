@@ -16,6 +16,7 @@
 #include "Colors.h"
 #include "TriangleRenderer.h"
 #include "UseFixed.h"
+#include "ResourceManager.h"
 
 using namespace AK;
 using namespace Sound;
@@ -44,7 +45,7 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	SAFE_DELETE(m_Shader);
-	BoxFactory::GetInstance()->AllClear();
+	//BoxFactory::GetInstance()->AllClear();
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -145,27 +146,20 @@ void Title::LoadTitleBlock()
 		if (data[i+2].GetInteger() == 0)
 			continue;
 		
-		VertexARGB color = ARGBColors::Red;
-		std::vector<U32>	index;
-		IndexData			indexData;
-		indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0,0,0), Vector3(blockWhidth, blockHeight, 32.f), color, index);
-
-		TriangleRenderer* render = NEW TriangleRenderer();
-		render->Initialize(DXUTGetD3D9Device());
-		render->AddIndex(index);
-		render->ReCreateIndexBuffer();
-		render->UpdateIndexData(indexData);
+		TriangleRenderer* render = (TriangleRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);//NEW TriangleRenderer();
 
 		m_TitleBlock.push_back(render);
 
-		Matrix mat;
+		Matrix mat, trans, scale;
 		Vector3 pos;
 
 		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f));
 		pos.y = 500.f - ((i / widthNum) * (blockHeight) + (blockHeight * 0.5f));
 		pos.z = 0.f;
 
-		D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
+		D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
+		D3DXMatrixScaling(&scale, blockWhidth, blockHeight, 32.f);
+		D3DXMatrixMultiply(&mat, &scale, &trans);
 		render->SetWorld(mat);
 
 		m_Shader->AddRenderer(render);

@@ -33,7 +33,8 @@ public:
 	virtual bool Check(CollisionBox* obj)	PURE;
 	virtual bool Check(CollisionSphere* obj)PURE;
 	virtual F32	 GetTime(ICollisionObject& obj);
-
+	virtual CollisionBox*		DownCastCollisionBox()		PURE;
+	virtual CollisionSphere*	DownCastCollisionSphere()	PURE;
 	
 
 	bool	IsActive()				const;
@@ -44,6 +45,8 @@ public:
 	Vector3 GetPosition()			const;
 	F32		GetReflectionFactor()	const;
 	F32		GetAttenuationFactor()	const;
+
+
 
 	void	SetActive(const bool active);
 	void	SetGravity(const bool gravity);

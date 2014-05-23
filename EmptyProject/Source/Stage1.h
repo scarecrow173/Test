@@ -36,11 +36,11 @@ public:
 	void				PopItem(Vector3 pos);
 
 	
-	bool				IsEnd()							const;
-	const Paddle*		GetPaddle(const U32 id = 0)		const;
-	const Wall*			GetWall(const U32 id)			const;
-	Ball*				GetBall(const U32 id = 0)		const;
-	const Item*			GetItem(const U32 id = 0)		const;
+	bool				IsEnd()								const;
+	const Paddle*		GetPaddle(const U32 index = 0)		const;
+	const Wall*			GetWall(const U32 index)			const;
+	Ball*				GetBall(const U32 index = 0)		const;
+	const Item*			GetItem(const U32 index = 0)		const;
 	void				SetEnd(const bool end);
 	void				SetPaddle(Paddle* paddle, const U32 id = 0);
 	void				SetWall(Wall* wall, const U32 id);

@@ -10,12 +10,13 @@
 #include <hash_map>
 #include <string>
 #include <iostream>
+#include "ReferCountType.h"
 
 namespace AK
 {
 namespace Graphics
 {
-//class GraphicsManager;
+class ResourceManager;
 //=======================================================================================
 //!	@class	:	BoxFactory
 //!	@brief	:	example
@@ -25,34 +26,25 @@ namespace Graphics
 class BoxFactory
 {
 public:
-	static BoxFactory*	Create();
-	static void			Destroy();
-	static BoxFactory*	GetInstance();
-	
-	IndexData			CreateBox(const Vector3 vCenter, const Vector3 size, const VertexARGB color, std::vector<U32>& indexArray);
-	IRenderer*			CreateBox(const std::string& name, const VertexARGB color);
-	void				AllClear();
+	friend ResourceManager;
+
 private:
 	BoxFactory();
 	virtual ~BoxFactory();
 
+	IRenderer*			CreateBox();
+
+	void				AllClear();
+
+
 	static BoxFactory*	m_Instance;
 	U32					m_BoxCount;
 
-	std::hash_map<const std::string, IRenderer*>	m_BoxResouce;
+	//std::hash_map<const std::string, ReferCountType<IRenderer>>	m_BoxResouce;
 };
 //=======================================================================================
 //	inline method
 //=======================================================================================
-//-------------------------------------------------------------
-//!	@brief		: インスタンス取得
-//!	@return		: インスタンス
-//-------------------------------------------------------------
-inline BoxFactory* BoxFactory::GetInstance()
-{
-	assert(m_Instance);
-	return m_Instance;
-}
 };
 };
 //===============================================================

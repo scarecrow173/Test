@@ -11,6 +11,7 @@
 #include "TriangleRenderer.h"
 #include "Colors.h"
 #include "CollisionBox.h"
+#include "ResourceManager.h"
 #include <algorithm>
 
 
@@ -41,13 +42,8 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	m_Color.color = 0x00FF0000;
 	m_Color.color = m_Color.color >> m_LifeCount;
 
-	//m_IndexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), m_Color, indexSrc);
+	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);
 
-	m_Renderer = BoxFactory::GetInstance()->CreateBox("BOX", m_Color);//NEW TriangleRenderer();
-	//m_Renderer->Initialize(DXUTGetD3D9Device());
-	//m_Renderer->AddIndex(indexSrc);
-	//m_Renderer->ReCreateIndexBuffer();
-	//m_Renderer->UpdateIndexData(m_IndexData);
 
 	
 	Matrix mat, scale;

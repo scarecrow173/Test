@@ -30,6 +30,7 @@ public:
 
 	virtual void	Update();
 	virtual void	Start();
+	virtual Item*	DownCastItem();
 
 	void		AddCollision(Collision::ICollisionObject* collison);
 	ITEM_TYPE	GetType() const;

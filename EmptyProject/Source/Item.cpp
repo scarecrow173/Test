@@ -12,6 +12,7 @@
 #include "TriangleRenderer.h"
 #include "CollisionBox.h"
 #include "Colors.h"
+#include "ResourceManager.h"
 
 
 using namespace AK;
@@ -31,15 +32,8 @@ Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
 {
 	static const F32 WIDTH	= 100.f;
 	static const F32 HEIGHT	= 50.f;
-	//std::vector<U32> indexSrc;
-	//IndexData indexData;
-	//indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
 
-	m_Renderer = BoxFactory::GetInstance()->CreateBox("BOX", ARGBColors::Magenta);/* NEW TriangleRenderer();
-	m_Renderer->Initialize(DXUTGetD3D9Device());
-	m_Renderer->AddIndex(indexSrc);
-	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(indexData);*/
+	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;
@@ -84,6 +78,15 @@ void Item::Update()
 //-------------------------------------------------------------
 void Item::Start()
 {
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+Item*	Item::DownCastItem()
+{
+	return this;
 }
 //-------------------------------------------------------------
 //!	@brief		: ƒAƒCƒeƒ€‚ª“–‚½‚é‚à‚Ì

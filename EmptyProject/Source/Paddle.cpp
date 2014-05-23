@@ -15,6 +15,7 @@
 #include "Item.h"
 #include "Stage1.h"
 #include "Ball.h"
+#include "ResourceManager.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -35,15 +36,8 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	static const F32 WIDTH	= 400.f;
 	static const F32 HEIGHT	= 80.f;
 
-	//std::vector<U32> indexSrc;
-	//IndexData indexData;
-	//indexData = BoxFactory::GetInstance()->CreateBox(Vector3(0, 0, 0), Vector3(WIDTH, HEIGHT, 50.f), ARGBColors::Magenta, indexSrc);
+	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);//BoxFactory::GetInstance()->CreateBox("BOX", ARGBColors::Magenta);
 
-	m_Renderer = BoxFactory::GetInstance()->CreateBox("BOX", ARGBColors::Magenta);/*NEW TriangleRenderer();
-	m_Renderer->Initialize(DXUTGetD3D9Device());
-	m_Renderer->AddIndex(indexSrc);
-	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(indexData);*/
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;
@@ -98,10 +92,10 @@ void Paddle::Start()
 //-------------------------------------------------------------
 void Paddle::Affect(GameObject* obj)
 {
-	Item* item = dynamic_cast<Item*>(obj);
+	Item* item = obj->DownCastItem();
 	if (!item)
 		return;
-	CollisionBox* box = static_cast<CollisionBox*>(m_Collision);
+	CollisionBox* box = m_Collision->DownCastCollisionBox();
 	Ball* ball = static_cast<Stage1*>(m_Parent)->GetBall();
 	const F32 width = box->GetWidth();
 	Vector3 pos		= box->GetPosition();

@@ -67,8 +67,8 @@ Stage1::~Stage1()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	SAFE_DELETE(m_Shader);
-	BoxFactory::GetInstance()->AllClear();
-	SphereFactory::GetInstance()->AllClear();
+	//BoxFactory::GetInstance()->AllClear();
+	//SphereFactory::GetInstance()->AllClear();
 }
 //=======================================================================================
 //		public method
@@ -165,60 +165,60 @@ void Stage1::SetEnd(const bool end)
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-const Paddle* Stage1::GetPaddle(const U32 id)	const
+const Paddle* Stage1::GetPaddle(const U32 index)	const
 {
-	assert(m_Paddle[id]);
-	return m_Paddle[id];
+	assert(m_Paddle[index]);
+	return m_Paddle[index];
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-const Wall*	Stage1::GetWall(const U32 id) const
+const Wall*	Stage1::GetWall(const U32 index) const
 {
-	assert(m_Wall[id]);
-	return m_Wall[id];
+	assert(m_Wall[index]);
+	return m_Wall[index];
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-Ball*	Stage1::GetBall(const U32 id) const
+Ball*	Stage1::GetBall(const U32 index) const
 {
-	assert(m_Ball[id]);
-	return m_Ball[id];
+	assert(m_Ball[index]);
+	return m_Ball[index];
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-const Item*	Stage1::GetItem(const U32 id) const
+const Item*	Stage1::GetItem(const U32 index) const
 {
-	return m_ItemSystem->GetItem(id);
+	return m_ItemSystem->GetItem(index);
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-void Stage1::SetPaddle(Paddle* paddle, const U32 id)
+void Stage1::SetPaddle(Paddle* paddle, const U32 index)
 {
-	m_Paddle[id] = paddle;
+	m_Paddle[index] = paddle;
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-void Stage1::SetWall(Wall* wall, const U32 id)
+void Stage1::SetWall(Wall* wall, const U32 index)
 {
-	m_Wall[id] = wall;
+	m_Wall[index] = wall;
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
 //!	@return		: ¬Œ÷(true),¸”s(false)
 //-------------------------------------------------------------
-void Stage1::SetBall(Ball* ball, const U32 id)
+void Stage1::SetBall(Ball* ball, const U32 index)
 {
-	m_Ball[id] = ball;
+	m_Ball[index] = ball;
 }
 //=======================================================================================
 //		protected method

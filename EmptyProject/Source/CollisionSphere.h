@@ -26,10 +26,12 @@ public:
 
 	virtual ~CollisionSphere();
 	
-	bool Check(ICollisionObject* obj);
-	bool Check(CollisionBox* box);
-	bool Check(CollisionSphere* sphere);
-	F32	 GetTime(ICollisionObject& obj);
+	virtual bool Check(ICollisionObject* obj);
+	virtual bool Check(CollisionBox* box);
+	virtual bool Check(CollisionSphere* sphere);
+	virtual F32	 GetTime(ICollisionObject& obj);
+	virtual CollisionBox*		DownCastCollisionBox();
+	virtual CollisionSphere*	DownCastCollisionSphere();
 
 	F32	 GetRadius() const {return m_Radius;}
 

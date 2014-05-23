@@ -20,6 +20,7 @@
 #include "IShaderObject.h"
 #include "SoundManager.h"
 #include "BallStateLaunchStandby.h"
+#include "ResourceManager.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -45,16 +46,8 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	,	m_State			(NEW BallStateLaunchStandby())
 {
 	m_Radius = 30.f;
+	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Ball", PRIMITIVE_SPHERE);//SphereFactory::GetInstance()->CreateSphere("Ball", ARGBColors::Magenta);
 
-	//std::vector<U32> indexSrc;
-	//IndexData indexData;
-	//indexData = SphereFactory::GetInstance()->CreateSphere(Vector3(0, 0, 0), m_Radius, ARGBColors::Magenta, indexSrc);
-
-	m_Renderer = SphereFactory::GetInstance()->CreateSphere("Ball", ARGBColors::Magenta);/*NEW TriangleRenderer();
-	m_Renderer->Initialize(DXUTGetD3D9Device());
-	m_Renderer->AddIndex(indexSrc);
-	m_Renderer->ReCreateIndexBuffer();
-	m_Renderer->UpdateIndexData(indexData);*/
 	
 	Matrix trans, scale, mat;
 	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
@@ -104,6 +97,15 @@ void Ball::Update()
 //-------------------------------------------------------------
 void Ball::Start()
 {}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+Ball* Ball::DownCastBall()
+{
+	return this;
+}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

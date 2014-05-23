@@ -414,6 +414,7 @@
     <ClCompile Include="Source\Loading.cpp" />
     <ClCompile Include="Source\MyMath.cpp" />
     <ClCompile Include="Source\Paddle.cpp" />
+    <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\Result.cpp" />
     <ClCompile Include="Source\RootNode.cpp" />
     <ClCompile Include="Source\SceneNode.cpp" />
@@ -455,6 +456,7 @@
     <ClInclude Include="Source\INode.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\InputKeyboard.h" />
+    <ClInclude Include="Source\IResource.h" />
     <ClInclude Include="Source\IShaderObject.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\ItemSystem.h" />
@@ -464,6 +466,8 @@
     <ClInclude Include="Source\MyMath.h" />
     <ClInclude Include="Source\IRenderer.h" />
     <ClInclude Include="Source\Paddle.h" />
+    <ClInclude Include="Source\ReferCountType.h" />
+    <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Result.h" />
     <ClInclude Include="Source\RootNode.h" />
     <ClInclude Include="Source\SafeArray.h" />
