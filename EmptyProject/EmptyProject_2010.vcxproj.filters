@@ -124,9 +124,6 @@
     <ClCompile Include="Source\CollisionSphere.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SphereFactory.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BoxFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
@@ -236,6 +233,12 @@
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceManager.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpherePool.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SphereFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -408,13 +411,46 @@
     <ClInclude Include="Source\BallStatePenetration.h">
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ReferCountType.h">
-      <Filter>Source\Utill</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IResource.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceManager.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ReferenceCounter.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RefCountedObject.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RefCountedObjectPtr.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourceData.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Singleton.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BufferResource.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TransformObject.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoxPool.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PrimitivePool.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IPrimitiveFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpherePool.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TEST_PrimitivePool_defind.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

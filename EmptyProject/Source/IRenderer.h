@@ -8,7 +8,9 @@
 #include "IndexData.h"
 #include "MyMath.h"
 #include "IResource.h"
-//#include "GraphicsManager.h"
+#include "BufferResource.h"
+#include "RefCountedObjectPtr.h"
+#include "TransformObject.h"
 namespace AK
 {
 namespace Graphics
@@ -22,38 +24,32 @@ namespace Graphics
 class IRenderer : public IResource
 {
 public:
-	IRenderer() : m_IndexBuffer	(NULL),  m_IsActive (true) { m_IndexData.start = UINT_MAX; m_IndexData.face = 0; };
+	IRenderer() : m_BufferResource	(NULL), m_Transform (NEW TransformObject()),  m_IsActive (true) { /*m_IndexData.start = UINT_MAX; m_IndexData.face = 0;*/ };
 	virtual ~IRenderer() {  };
 
-	bool	Initialize();
-	void	AddIndex(std::vector<U32>& add);
-	void	PopIndex(const U32 start, const U32 end);
-	void	ReCreateIndexBuffer();
-	void	UpdateIndexData(const IndexData data);
-	IndexData GetIndexData() const;
-	
-	void	SetWorld(const Matrix& world);
-	Matrix	GetWorld() const;
+	bool		Initialize();
 
-	bool	IsActive() const;
-	void	SetActive(const bool active);
+	bool		IsActive() const;
+	void		SetActive(const bool active);
 
-	void	SetIndexBuffer(IDirect3DIndexBuffer9** swap);
-	IDirect3DIndexBuffer9* GetIndexBuffer() const;
+	void		SetBufferResource(RefCountedObjectPtr resource);
+	void		SetTransform(std::shared_ptr<TransformObject> transform);
+	std::shared_ptr<TransformObject> GetTransform() const;
+
+
+
 
 	virtual void	Draw() PURE;
-	
+
 protected:
 	virtual bool	InnerInitialize() { return true; };
 
-	std::vector<U32>		m_Index;
-	IDirect3DIndexBuffer9*	m_IndexBuffer;
-	IndexData				m_IndexData;
-	Matrix					m_World;
-	bool					m_IsActive;
+
+	std::shared_ptr<TransformObject>	m_Transform;
+	bool								m_IsActive;
+	RefCountedObjectPtr					m_BufferResource;
 	
-	//	Material	: 今はいらない
-	//	Texture		: 今はいらない
+
 
 };
 //=======================================================================================
@@ -69,101 +65,35 @@ inline bool IRenderer::Initialize()
 	return InnerInitialize();
 }
 //-------------------------------------------------------------
-//!	@brief		: インデックスの追加
-//!	@param[in]	: 追加したいインデックス
-//-------------------------------------------------------------
-inline void	IRenderer::AddIndex(std::vector<U32>& add)
-{
-	m_Index.insert(m_Index.end(), add.begin(), add.end());
-}
-//-------------------------------------------------------------
-//!	@brief		: 外したいインデックス(同じインデックスが複数あると全て外す)
-//!	@param[in]	: 外したい初めの値
-//!	@param[in]	: 外したい終わりの値
-//-------------------------------------------------------------
-inline void	IRenderer::PopIndex(const U32 start, const U32 end)
-{
-	auto it		= m_Index.begin();
-	auto eIt	= m_Index.end();
-	while (it != eIt)
-	{
-		if ((*it) >= start && (*it) <= end)
-		{
-			it = m_Index.erase(it);
-			continue;
-		}
-		 ++it;
-	}
-}
-//-------------------------------------------------------------
-//!	@brief		: インデックスバッファ再作成
-//-------------------------------------------------------------
-inline void IRenderer::ReCreateIndexBuffer()
-{
-	if(m_IndexBuffer)
-		SAFE_RELEASE(m_IndexBuffer);
-
-	DXUTGetD3D9Device()->CreateIndexBuffer(sizeof(U32) * m_Index.size(), 0, D3DFMT_INDEX32, D3DPOOL_MANAGED, &m_IndexBuffer, 0);
-
-	U32* index;
-	m_IndexBuffer->Lock(0, sizeof(U32) * m_Index.size(), (void**)&index, 0);
-	memcpy(index, &m_Index[0], sizeof(U32) * m_Index.size());
-	m_IndexBuffer->Unlock();
-}
-//-------------------------------------------------------------
-//!	@brief		: インデックスデータ更新
-//!	@param[in]	: インデックスデータ
-//-------------------------------------------------------------
-inline void IRenderer::UpdateIndexData(const IndexData data)
-{
-	m_IndexData.start = min(m_IndexData.start, data.start);
-	m_IndexData.face += data.face;
-}
-//-------------------------------------------------------------
-//!	@brief		: ワールドのセット
-//!	@param[in]	: ワールド
-//-------------------------------------------------------------
-inline void IRenderer::SetWorld(const Matrix& world)
-{
-	m_World = world;
-}
-//-------------------------------------------------------------
-//!	@brief		: ワールドの取得
-//!	@return		: ワールド
-//-------------------------------------------------------------
-inline Matrix IRenderer::GetWorld() const
-{
-	return m_World;
-}
-//-------------------------------------------------------------
-//!	@brief		: ワールドの取得
-//!	@return		: ワールド
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 inline bool IRenderer::IsActive() const
 {
 	return m_IsActive;
 }
 //-------------------------------------------------------------
-//!	@brief		: ワールドの取得
-//!	@return		: ワールド
+//!	@brief		: 
 //-------------------------------------------------------------
 inline void IRenderer::SetActive(const bool active)
 {
 	m_IsActive = active;
 }
-
-inline void	IRenderer::SetIndexBuffer(IDirect3DIndexBuffer9** swap)
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+inline void IRenderer::SetBufferResource(RefCountedObjectPtr resource)
 {
-	assert(!m_IndexBuffer);
-	m_IndexBuffer = *swap;
+	m_BufferResource = resource;
 }
-inline 	IDirect3DIndexBuffer9* IRenderer::GetIndexBuffer() const
+inline void IRenderer::SetTransform(std::shared_ptr<TransformObject> transform)
 {
-	return m_IndexBuffer;
+	assert(transform);
+	m_Transform = transform;
 }
-inline 	IndexData IRenderer::GetIndexData() const
+inline std::shared_ptr<TransformObject> IRenderer::GetTransform() const
 {
-	return m_IndexData;
+	return m_Transform;
 }
 
 };

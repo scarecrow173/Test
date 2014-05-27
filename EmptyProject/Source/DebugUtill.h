@@ -45,6 +45,10 @@ namespace Debug
 	void DestoryDebugConsole();
 	void UpdateDebugConsole();
 
+
+	void __setTraceLevel(U32 level);
+	U32	 GetTraceLevel();
+
 //=======================================================================================
 //		inline method
 //=======================================================================================
@@ -53,12 +57,15 @@ namespace Debug
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-static U32		TraceLevel	= 0;
+inline	void SetTraceLevel(U32 level)
+{
+	__setTraceLevel(level);
+}
 template<typename T>
 inline void Trace(U32 level, T _str, const char* _fileName, S32 _line)
 {
 #if defined(DEBUG) || defined(_DEBUG)
-	if (level < TraceLevel)
+	if (level < GetTraceLevel())
 		return;
 	char numToStr[5];
 	char levelToStr[5];
@@ -76,18 +83,8 @@ inline void Trace(U32 level, T _str, const char* _fileName, S32 _line)
 	OutputDebugStringA("\n");
 
 #endif
-};
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-inline void SetTraceLevel(U32 level)
-{
-#if defined(DEBUG) || defined(_DEBUG)
-	TraceLevel = level;
-#endif
-};
+}
+
 };
 };
 

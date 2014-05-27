@@ -8,6 +8,7 @@
 //=======================================================================================
 #include "BoxFactory.h"
 #include "TriangleRenderer.h"
+#include "BufferResource.h"
 
 
 using namespace AK;
@@ -45,7 +46,7 @@ BoxFactory::~BoxFactory()
 //!	@param[in]	: インデックス格納先
 //!	@return		: インデックスデータ
 //---------------------------------------------------------------------------------------
-IRenderer*	BoxFactory::CreateBox()
+BufferResource*	BoxFactory::CreatePrimitive()
 {
 	assert(GraphicsManager::BOX_NUM > m_BoxCount);	
 		
@@ -108,7 +109,7 @@ IRenderer*	BoxFactory::CreateBox()
 		GraphicsManager::m_VertexBase[offset + iVertex].normal.y = normal.y;
 		GraphicsManager::m_VertexBase[offset + iVertex].normal.z = normal.z;
 		GraphicsManager::m_VertexColor[offset + iVertex] = 0x00ffffff;
-		GraphicsManager::m_VertexInstance[offset + iVertex] = m_BoxCount;
+		GraphicsManager::m_VertexInstance[offset + iVertex] = (F32)m_BoxCount;
 	}
 
 	std::vector<U32> indexArray;
@@ -164,11 +165,11 @@ IRenderer*	BoxFactory::CreateBox()
 
 	IndexData indexData;
 	indexData.start			= offset;
-	indexData.vertexNum		= 8;
+	indexData.vertexNum		= 36;
 	indexData.face			= GraphicsManager::ONE_BOX_FACE_NUM;
 
-	IRenderer* newResouce = NEW TriangleRenderer();
-	newResouce->Initialize();
+
+	BufferResource* newResouce = NEW BufferResource();
 	newResouce->AddIndex(indexArray);
 	newResouce->ReCreateIndexBuffer();
 	newResouce->UpdateIndexData(indexData);

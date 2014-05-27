@@ -8,6 +8,7 @@
 //=======================================================================================
 #include "SphereFactory.h"
 #include "TriangleRenderer.h"
+#include "BufferResource.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -44,7 +45,7 @@ SphereFactory::~SphereFactory()
 //!	@param[in]	: インデックス格納先
 //!	@return		: インデックスデータ
 //---------------------------------------------------------------------------------------
-IRenderer* SphereFactory::CreateSphere()
+BufferResource* SphereFactory::CreatePrimitive()
 {
 	assert(GraphicsManager::SPHERE_NUM > m_SphereCount);
 	
@@ -113,8 +114,8 @@ IRenderer* SphereFactory::CreateSphere()
 	indexData.vertexNum		= GraphicsManager::ONE_SPHERE_VERTEX_NUM;
 	indexData.face	= GraphicsManager::ONE_SPHERE_FACE_NUM;
 
-	IRenderer* newResouce = NEW TriangleRenderer();
-	newResouce->Initialize();
+
+	BufferResource* newResouce = NEW BufferResource();
 	newResouce->AddIndex(indexArray);
 	newResouce->ReCreateIndexBuffer();
 	newResouce->UpdateIndexData(indexData);

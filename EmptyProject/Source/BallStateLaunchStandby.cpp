@@ -47,7 +47,7 @@ void BallStateLaunchStandby::EntryAction(Ball* stateUser)
 void BallStateLaunchStandby::InputAction(Ball* stateUser)
 {
 	m_Keyboard.Update();
-	auto respawn = stateUser->GetPaddle()->GetPosition();
+	auto respawn = stateUser->GetPaddle()->GetTransform()->GetTranslation();
 	respawn.y += 110.f;
 	stateUser->GetCollision()->SetPosition(respawn);
 }

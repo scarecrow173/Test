@@ -72,7 +72,7 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* 
 
 	CSVReader StageData;
 	StageData.Load(filePath.c_str());
-	for (S32 i = 0; i < StageData.row * StageData.column; ++i)
+	for (U32 i = 0; i < StageData.row * StageData.column; ++i)
 	{
 		if (StageData[i].GetInteger() == 0)
 			continue;
@@ -117,7 +117,7 @@ bool BlockSystem::DeleteBlock(ICollisionObject* obj)
 			isBlock = true;
 			if ((*it)->Death())
 			{
-				((Stage1*)m_Parent)->PopItem((*it)->GetPosition());
+				((Stage1*)m_Parent)->PopItem((*it)->GetTransform()->GetTranslation());
 				(*it)->SetActive(false);
 				it = m_BlockList.erase(it);
 				continue;

@@ -52,9 +52,9 @@ IRenderer* WindowPolygonRenderer::Clone()
 //-------------------------------------------------------------
 void WindowPolygonRenderer::CreatePolygon(const U32 divisionWidth, const U32 divisionHeight)
 {
-	const F32 ONE_WIDTH		= WINDOW_WIDTH / divisionWidth;
-	const F32 ONE_HEIGHT	= WINDOW_HEIGHT / divisionHeight;
-	const U32 POLYGON_NUM	= divisionWidth * divisionHeight;
+	const F32 ONE_WIDTH		= (F32)(WINDOW_WIDTH / divisionWidth);
+	const F32 ONE_HEIGHT	= (F32)(WINDOW_HEIGHT / divisionHeight);
+//	const U32 POLYGON_NUM	= divisionWidth * divisionHeight;
 
 	for (U32 iWidth = 0; iWidth < divisionWidth; ++iWidth)
 	{
@@ -66,51 +66,51 @@ void WindowPolygonRenderer::CreatePolygon(const U32 divisionWidth, const U32 div
 			vertex[0].pos.y = iHeight * ONE_HEIGHT;
 			vertex[0].pos.z = 0.f;
 			vertex[0].pos.w = 1.f;
-			vertex[0].uv.u	= iWidth / divisionWidth;
-			vertex[0].uv.v	= iHeight / divisionHeight;
-			vertex[0].color	= 0.f;
+			vertex[0].uv.u	= (F32)(iWidth / divisionWidth);
+			vertex[0].uv.v	= (F32)(iHeight / divisionHeight);
+			vertex[0].color	= 0;
 
 			// ‰Eã:1
 			vertex[1].pos.x = (iWidth + 1) * ONE_WIDTH;
 			vertex[1].pos.y = iHeight * ONE_HEIGHT;
 			vertex[1].pos.z = 0.f;
 			vertex[1].pos.w = 1.f;
-			vertex[1].uv.u	= (iWidth + 1) / divisionWidth;
-			vertex[1].uv.v	= iHeight / divisionHeight;
-			vertex[1].color	= 0.f;
+			vertex[1].uv.u	= (F32)((iWidth + 1) / divisionWidth);
+			vertex[1].uv.v	= (F32)(iHeight / divisionHeight);
+			vertex[1].color	= 0;
 
 			// ¶‰º:2
 			vertex[2].pos.x = iWidth * ONE_WIDTH;
 			vertex[2].pos.y = (iHeight + 1) * ONE_HEIGHT;
 			vertex[2].pos.z = 0.f;
 			vertex[2].pos.w = 1.f;
-			vertex[2].uv.u	= iWidth / divisionWidth;
-			vertex[2].uv.v	= (iHeight + 1) / divisionHeight;
-			vertex[2].color	= 0.f;
+			vertex[2].uv.u	= (F32)(iWidth / divisionWidth);
+			vertex[2].uv.v	= (F32)((iHeight + 1) / divisionHeight);
+			vertex[2].color	= 0;
 
 			// ‰E‰º:3
 			vertex[3].pos.x = (iWidth + 1) * ONE_WIDTH;
 			vertex[3].pos.y = (iHeight + 1) * ONE_HEIGHT;
 			vertex[3].pos.z = 0.f;
 			vertex[3].pos.w = 1.f;
-			vertex[3].uv.u	= (iWidth + 1) / divisionWidth;
-			vertex[3].uv.v	= (iHeight + 1) / divisionHeight;
-			vertex[3].color	= 0.f;
+			vertex[3].uv.u	= (F32)((iWidth + 1) / divisionWidth);
+			vertex[3].uv.v	= (F32)((iHeight + 1) / divisionHeight);
+			vertex[3].color	= 0;
 
 			m_Vertex.push_back(vertex[0]);
 			m_Vertex.push_back(vertex[1]);
 			m_Vertex.push_back(vertex[2]);
 			m_Vertex.push_back(vertex[3]);
 
-			const U32 count = (iWidth * (divisionHeight * 4)) + (iHeight * 4);
+//			const U32 count = (iWidth * (divisionHeight * 4)) + (iHeight * 4);
 
-			m_Index.push_back(count + 0);
-			m_Index.push_back(count + 1);
-			m_Index.push_back(count + 2);
+			//m_Index.push_back(count + 0);
+			//m_Index.push_back(count + 1);
+			//m_Index.push_back(count + 2);
 
-			m_Index.push_back(count + 3);
-			m_Index.push_back(count + 2);
-			m_Index.push_back(count + 1);
+			//m_Index.push_back(count + 3);
+			//m_Index.push_back(count + 2);
+			//m_Index.push_back(count + 1);
 		}
 
 	}

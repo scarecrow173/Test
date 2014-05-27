@@ -38,17 +38,23 @@ void TriangleRenderer::Draw()
 	if (!m_IsActive)
 		return;
 
-	assert(m_IndexBuffer);
-	GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &m_World);
-	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(m_IndexBuffer);
-	//	TODO:ŠeŽíˆø”‚ð‚¿‚á‚ñ‚ÆÝ’è
+	//assert(m_IndexBuffer);
+	BufferResource* resource = (BufferResource*)m_BufferResource.GetSharedObject();
+
+	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
+	const Matrix tmpWorld = m_Transform->GetTransform();
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(indexBuffer);
+	
+	IndexData drawData = resource->GetIndexData();
+
 	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(
 		D3DPT_TRIANGLELIST, 
 		0,
-		m_IndexData.start,
-		m_Index.size(),
+		drawData.start,
+		drawData.vertexNum,
 		0, 
-		m_IndexData.face);
+		drawData.face);
 }
 //-------------------------------------------------------------
 //!	@brief		: ŽOŠpŒ`•`‰æ
@@ -56,9 +62,9 @@ void TriangleRenderer::Draw()
 IRenderer* TriangleRenderer::Clone()
 {
 	TriangleRenderer* clone = NEW TriangleRenderer();
-	clone->m_IndexBuffer	= m_IndexBuffer;
-	clone->m_IndexData		= m_IndexData;
-	clone->m_RefCounter		= m_RefCounter;
+//	clone->m_IndexBuffer	= m_IndexBuffer;
+//	clone->m_IndexData		= m_IndexData;
+//	clone->m_RefCounter		= m_RefCounter;
 
 	return clone;
 }

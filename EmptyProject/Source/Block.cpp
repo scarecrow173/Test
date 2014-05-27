@@ -12,6 +12,7 @@
 #include "Colors.h"
 #include "CollisionBox.h"
 #include "ResourceManager.h"
+#include "BoxPool.h"
 #include <algorithm>
 
 
@@ -37,20 +38,15 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	static const F32 WIDTH	= 100.f;
 	static const F32 HEIGHT	= 50.f;
 
-	std::vector<U32> indexSrc;
-
 	m_Color.color = 0x00FF0000;
 	m_Color.color = m_Color.color >> m_LifeCount;
 
-	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);
+	m_Renderer = NEW TriangleRenderer();
+	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
 
+	m_Transform = std::make_shared<TransformObject>(pos, Vector3(WIDTH, HEIGHT, 50.f));
 
-	
-	Matrix mat, scale;
-	D3DXMatrixTranslation(&mat, pos.x, pos.y, pos.z);
-	D3DXMatrixScaling(&scale, WIDTH, HEIGHT, 50.f);
-	D3DXMatrixMultiply(&mat, &scale, &mat);
-	m_Renderer->SetWorld(mat);
+	m_Renderer->SetTransform(m_Transform);
 
 	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
 }

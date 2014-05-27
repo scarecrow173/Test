@@ -131,7 +131,7 @@ void SoundManager::SetVolumeBGM(U32 streamNum, F32 volume)
 bool SoundManager::IsActiveSE(U32 streamNum)
 {
 	assert(m_SEList.size() > streamNum);
-	return BASS_ChannelIsActive(m_SEList[streamNum]);	
+	return BASS_ChannelIsActive(m_SEList[streamNum]) != 0;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -142,7 +142,7 @@ bool SoundManager::IsActiveBGM(U32 streamNum)
 {
 	assert(m_BGMList.size() > streamNum);
 
-	return BASS_ChannelIsActive(m_BGMList[streamNum]);
+	return BASS_ChannelIsActive(m_BGMList[streamNum]) != 0;
 }
 //=======================================================================================
 //		protected method
@@ -161,7 +161,7 @@ bool SoundManager::LoadSEList()
 
 	CSVReader SEList;
 	SEList.Load("Assets/CSV/SoundList/SEList.csv");	
-	for (auto i = 0; i < SEList.column * SEList.row; ++i)
+	for (U32 i = 0; i < SEList.column * SEList.row; ++i)
 	{
 		auto handle = BASS_StreamCreateFile(FALSE, SEList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT);
 		assert(handle);
@@ -178,7 +178,7 @@ bool SoundManager::LoadBGMList()
 {
 	CSVReader BGMList;
 	BGMList.Load("Assets/CSV/SoundList/BGMList.csv");	
-	for (auto i = 0; i < BGMList.column * BGMList.row; ++i)
+	for (U32 i = 0; i < BGMList.column * BGMList.row; ++i)
 	{
 		auto handle = BASS_StreamCreateFile(FALSE, BGMList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT);
 		assert(handle);

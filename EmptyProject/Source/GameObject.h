@@ -8,6 +8,8 @@
 #include "MyMath.h"
 #include "ICollisionObject.h"
 #include "IRenderer.h"
+#include "RefCountedObjectPtr.h"
+#include "TransformObject.h"
 namespace AK
 {
 class Ball;
@@ -24,9 +26,10 @@ public:
 	GameObject(INode* parent, Vector3 pos);
 	virtual ~GameObject();
 
-	Vector3							GetPosition() const;
+	//Vector3							GetPosition() const;
+	std::shared_ptr<TransformObject>	GetTransform() const;
 	Collision::ICollisionObject*		GetCollision() const;
-	Graphics::IRenderer*			GetRenderer() const;
+	Graphics::IRenderer*				GetRenderer() const;
 
 	virtual	void					Affect(GameObject* obj);
 	virtual Ball*					DownCastBall();
@@ -34,9 +37,11 @@ public:
 
 protected:
 
-	Vector3							m_Position;
-	Collision::ICollisionObject*	m_Collision;
-	Graphics::IRenderer*			m_Renderer;
+	//Vector3								m_Position;
+	Collision::ICollisionObject*		m_Collision;
+	Graphics::IRenderer*				m_Renderer;
+	//RefCountedObjectPtr*				m_BufferResource;
+	std::shared_ptr<TransformObject>	m_Transform;
 };
 //=======================================================================================
 //		inline method
@@ -46,10 +51,13 @@ protected:
 //-------------------------------------------------------------
 inline GameObject::GameObject(INode* parent, Vector3 pos)
 	:	INode		(parent)
-	,	m_Position (pos)
+	//,	m_Position	(pos)
 	,	m_Collision (NULL)
-	,	m_Renderer (NULL)
-{}
+	,	m_Renderer	(NULL)
+	,	m_Transform	(std::make_shared<TransformObject>(pos))
+{
+	
+}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------	
@@ -67,9 +75,9 @@ inline GameObject::~GameObject()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Vector3	GameObject::GetPosition() const
+inline std::shared_ptr<TransformObject> GameObject::GetTransform() const
 {
-	return m_Position;
+	return m_Transform;
 }
 //-------------------------------------------------------------
 //!	@brief		: example

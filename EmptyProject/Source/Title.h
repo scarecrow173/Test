@@ -6,6 +6,7 @@
 #pragma once
 #include "SceneNode.h"
 #include "IRenderer.h"
+#include "RefCountedObjectPtr.h"
 #include "IShaderObject.h"
 namespace AK
 {

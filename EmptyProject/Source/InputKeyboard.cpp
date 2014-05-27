@@ -70,21 +70,21 @@ bool InputKeyboard::IsKeyDown(INPUT_KEY key) const
 	switch(key)
 	{
 	case KEY_UP:
-		return (m_KeyState & 0x01);
+		return (m_KeyState & 0x01) != 0;
 	case KEY_DOWN:
-		return (m_KeyState & 0x02);
+		return (m_KeyState & 0x02) != 0;
 	case KEY_LEFT:
-		return (m_KeyState & 0x04);
+		return (m_KeyState & 0x04) != 0;
 	case KEY_RIGHT:
-		return (m_KeyState & 0x08);
+		return (m_KeyState & 0x08) != 0;
 	case KEY_BUTTON1:
-		return (m_KeyState & 0x10);
+		return (m_KeyState & 0x10) != 0;
 	case KEY_BUTTON2:
-		return (m_KeyState & 0x20);
+		return (m_KeyState & 0x20) != 0;
 	case KEY_BUTTON3:
-		return (m_KeyState & 0x40);
+		return (m_KeyState & 0x40) != 0;
 	case KEY_BUTTON4:
-		return (m_KeyState & 0x80);
+		return (m_KeyState & 0x80) != 0;
 	default:
 		return false;
 	}

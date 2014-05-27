@@ -112,7 +112,7 @@ void Spectrum::CreateSpectrumData()
 	}
 
 	if (FAILED(GraphicsManager::GetInstance()->GetD3DDevice()->CreateVertexBuffer(
-		sizeof(SpectrumVertex) * m_Vertex.size(), 
+		(UINT)(sizeof(SpectrumVertex) * m_Vertex.size()), 
 		D3DUSAGE_WRITEONLY, 
 		m_FVF, 
 		D3DPOOL_MANAGED,
@@ -121,7 +121,7 @@ void Spectrum::CreateSpectrumData()
 		return;
 
 	if (FAILED(GraphicsManager::GetInstance()->GetD3DDevice()->CreateIndexBuffer(
-		sizeof(SpectrumVertex) * m_Vertex.size(), 
+		(UINT)(sizeof(SpectrumVertex) * m_Vertex.size()), 
 		D3DUSAGE_WRITEONLY,
 		D3DFMT_INDEX32,
 		D3DPOOL_MANAGED,
@@ -186,7 +186,7 @@ void Spectrum::Draw()
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, m_Texture);
 	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_Vertex.size(), 0, m_Index.size() / 3);
+	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, (UINT)m_Vertex.size(), 0, (UINT)m_Index.size() / 3);
 	//GraphicsManager::GetInstance()->GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, NULL);
@@ -211,7 +211,7 @@ void Spectrum::Update(const F32* data, const U32 size)
 	for (U32 i = 0; i < 64; ++i)
 	{
 		FData[i] = 0.f;
-		F32 center;
+//		F32 center;
 		for (U32 j = 0; j < div; ++j)
 			FData[i] = FData[i] < data[(div * i) + j] ? data[(div * i) + j] : FData[i];
 

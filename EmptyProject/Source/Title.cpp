@@ -17,6 +17,7 @@
 #include "TriangleRenderer.h"
 #include "UseFixed.h"
 #include "ResourceManager.h"
+#include "BoxPool.h"
 
 using namespace AK;
 using namespace Sound;
@@ -45,7 +46,6 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	SAFE_DELETE(m_Shader);
-	//BoxFactory::GetInstance()->AllClear();
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -146,8 +146,9 @@ void Title::LoadTitleBlock()
 		if (data[i+2].GetInteger() == 0)
 			continue;
 		
-		TriangleRenderer* render = (TriangleRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);//NEW TriangleRenderer();
-
+		TriangleRenderer* render = NEW TriangleRenderer();//ResourceManager::GetInstance()->GetResource("Box", PRIMITIVE_BOX);//NEW TriangleRenderer();
+		auto res = BoxPool::GetInstance()->GetPrimitive("Box");
+		render->SetBufferResource( res );
 		m_TitleBlock.push_back(render);
 
 		Matrix mat, trans, scale;
@@ -160,9 +161,11 @@ void Title::LoadTitleBlock()
 		D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
 		D3DXMatrixScaling(&scale, blockWhidth, blockHeight, 32.f);
 		D3DXMatrixMultiply(&mat, &scale, &trans);
-		render->SetWorld(mat);
+		//render->SetWorld(mat);
+		render->SetTransform(std::make_shared<TransformObject>(pos, Vector3(blockWhidth, blockHeight, 32.f)));
 
 		m_Shader->AddRenderer(render);
+
 	}
 
 }
@@ -177,9 +180,12 @@ void Title::MoveBlock()
 	auto it = m_TitleBlock.begin();
 	while (it != m_TitleBlock.end())
 	{
-		Matrix mat = (*it)->GetWorld();
-		mat._42 += m_IsEnd ? -15.f : value;
-		(*it)->SetWorld(mat);
+		auto mat = (*it)->GetTransform();
+		Vector3 move = mat->GetTranslation();
+		move.y += m_IsEnd ? -15.f : value;
+		//(*it)->SetTransform(mat);
+		mat->SetTranslation(move);
+		mat->UpdateTransform();
 		++it;
 	}
 }

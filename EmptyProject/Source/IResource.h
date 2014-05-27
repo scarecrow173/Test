@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "ReferCountType.h"
+#include "RefCountedObject.h"
 namespace AK
 {
 
@@ -14,46 +14,16 @@ namespace AK
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class IResource// : public ReferCountType<IResource>
+class IResource	: public RefCountedObject
 {
 public:
-	IResource();
-	//IResource(const IResource& );
-	virtual ~IResource();
-
 	virtual IResource* Clone() PURE;
 protected:
-	ReferCountType	m_RefCounter;
 
 };
 //=======================================================================================
 //		inline method
 //=======================================================================================
-//-------------------------------------------------------------
-//!	@brief		: コンストラクタ
-//!	@return		: インスタンス
-//-------------------------------------------------------------
-inline IResource::IResource()
-{
-	m_RefCounter.AddRef();
-}
-////-------------------------------------------------------------
-////!	@brief		: コピーコンストラクタ
-////!	@return		: インスタンス
-////-------------------------------------------------------------
-//inline IResource::IResource(const IResource& )
-//{
-//	
-//}
-//-------------------------------------------------------------
-//!	@brief		: デストラクタ
-//!	@return		: インスタンス
-//-------------------------------------------------------------
-inline IResource::~IResource()
-{
-	m_RefCounter.Release();
-}
-
 };
 //===============================================================
 //	End of File

@@ -38,7 +38,7 @@ public:
 
 private:
 	void		ItemAffect(GameObject* obj);
-	void		Move();
+	void		UpdateRendererMatrix();
 
 
 	ITEM_TYPE	m_Type;

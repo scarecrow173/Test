@@ -13,6 +13,7 @@
 #include "CollisionBox.h"
 #include "Colors.h"
 #include "ResourceManager.h"
+#include "BoxPool.h"
 
 
 using namespace AK;
@@ -33,16 +34,16 @@ Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
 	static const F32 WIDTH	= 100.f;
 	static const F32 HEIGHT	= 50.f;
 
-	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);
+	m_Renderer = NEW TriangleRenderer();
+	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;
 	m_Size.z = 50.f;
-	Matrix trans, scale, mat;
-	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
-	D3DXMatrixScaling(&scale, WIDTH, HEIGHT, 50.f);
-	D3DXMatrixMultiply(&mat, &scale, &trans);
-	m_Renderer->SetWorld(mat);
+
+	m_Transform = std::make_shared<TransformObject>(pos, m_Size);
+
+	m_Renderer->SetTransform(m_Transform);
 
 	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
 	m_Collision->SetGravity(true);
@@ -68,7 +69,7 @@ void Item::Update()
 
 	for (auto it = l_list.begin(); it != l_list.end(); ++it)
 		ItemAffect(m_Parent->GetParent()->FindNode(*it));
-	Move();
+	UpdateRendererMatrix();
 
 }
 //-------------------------------------------------------------
@@ -128,14 +129,12 @@ void Item::ItemAffect(GameObject* obj)
 //-------------------------------------------------------------
 //!	@brief		: ˆÚ“®‚Ì‚Ý
 //-------------------------------------------------------------
-void Item::Move()
+void Item::UpdateRendererMatrix()
 {
-	m_Position = m_Collision->GetPosition();
-	Matrix trans, scale, mat;
-	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	D3DXMatrixScaling(&scale, m_Size.x, m_Size.y, m_Size.z);
-	D3DXMatrixMultiply(&mat, &scale, &trans);
-	m_Renderer->SetWorld(mat);
+
+	m_Transform->SetTranslation(m_Collision->GetPosition());
+	m_Transform->SetScaling(m_Size);
+	m_Transform->UpdateTransform();
 }
 //===============================================================
 //	End of File

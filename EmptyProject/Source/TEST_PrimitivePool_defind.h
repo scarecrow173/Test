@@ -1,0 +1,1 @@
+#define __POOL__TEST_TYPE02__

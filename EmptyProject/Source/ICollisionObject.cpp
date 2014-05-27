@@ -23,7 +23,10 @@ void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
 	D3DXVECTOR3 d = *p - b->GetPosition();
     *q = b->GetPosition();
     F32 dist;
-	dist = D3DXVec3Dot(&d, &Vector3(1.f, 0.f, 0.f));
+
+	const Vector3 DIRECTION_X(1.f, 0.f, 0.f);
+	
+	dist = D3DXVec3Dot(&d, &DIRECTION_X);
 	
 	F32 Width	= b->GetWidth()		* 0.5f;
 	F32 Height	= b->GetHeight()	* 0.5f;
@@ -39,7 +42,8 @@ void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
 	}
 	*q += dist * Vector3(1.f, 0.f, 0.f);
 
-	dist = D3DXVec3Dot(&d, &Vector3(0.f, 1.f, 0.f));
+	const Vector3 DIRECTION_Y(0.f, 1.f, 0.f);
+	dist = D3DXVec3Dot(&d, &DIRECTION_Y);
 
 	if(dist > Height)
 	{
@@ -51,7 +55,8 @@ void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
 	}
 	*q += dist * Vector3(0.f, 1.f, 0.f);
 
-	dist = D3DXVec3Dot(&d, &Vector3(0.f, 0.f, 1.f));
+	const Vector3 DIRECTION_Z(0.f, 0.f, 1.f);
+	dist = D3DXVec3Dot(&d, &DIRECTION_Z);
 
 	if(dist > Depth)
 	{

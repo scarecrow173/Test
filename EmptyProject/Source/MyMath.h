@@ -109,7 +109,7 @@ inline void LinearInterpolation( T* Out, const T& src, const T& target, const F3
 	{
         *Out = target;
         *Out -= src;
-        *Out *= t;  //  Š„‡
+        *Out *= (T)t;  //  Š„‡
         *Out += src;
     }
 }

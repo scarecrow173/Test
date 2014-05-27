@@ -16,6 +16,7 @@
 #include "Stage1.h"
 #include "Ball.h"
 #include "ResourceManager.h"
+#include "BoxPool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -33,23 +34,21 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	,	m_Speed		(3.f)
 	,	m_Size		(1.f, 1.f, 1.f)
 {
-	static const F32 WIDTH	= 400.f;
-	static const F32 HEIGHT	= 80.f;
+	static const F32 PADDLE_WIDTH	= 400.f;
+	static const F32 PADDLE_HEIGHT	= 80.f;
 
-	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Box", PRIMITIVE_BOX);//BoxFactory::GetInstance()->CreateBox("BOX", ARGBColors::Magenta);
+	m_Renderer = NEW TriangleRenderer();
+	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
 
-
-	m_Size.x = WIDTH;
-	m_Size.y = HEIGHT;
+	m_Size.x = PADDLE_WIDTH;
+	m_Size.y = PADDLE_HEIGHT;
 	m_Size.z = 50.f;
 
-	Matrix trans, scale, mat;
-	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
-	D3DXMatrixScaling(&scale, m_Size.x, m_Size.y, m_Size.z);
+	m_Transform = std::make_shared<TransformObject>(pos, m_Size);
 
-	m_Renderer->SetWorld(mat);
+	m_Renderer->SetTransform(m_Transform);
 
-	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
+	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), PADDLE_WIDTH, PADDLE_HEIGHT, 50.f);
 	m_Collision->SetReflection(true);
 	m_Collision->SetAttenuation(true);
 	m_Collision->SetAttenuationFactor(0.91f);
@@ -158,11 +157,10 @@ void Paddle::Move()
 
 	m_Collision->SetSpeed(speed);
 
-	m_Position = m_Collision->GetPosition();
-	Matrix translation, scale;
-	D3DXMatrixTranslation(&translation, m_Position.x, m_Position.y, m_Position.z);
-	D3DXMatrixScaling(&scale, m_Size.x, m_Size.y, m_Size.z);
-	m_Renderer->SetWorld(scale * translation);
+	m_Transform->SetTranslation(m_Collision->GetPosition());
+	m_Transform->SetScaling(m_Size);
+
+	m_Transform->UpdateTransform();
 }
 //===============================================================
 //	End of File

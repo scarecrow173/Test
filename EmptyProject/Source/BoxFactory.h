@@ -10,29 +10,40 @@
 #include <hash_map>
 #include <string>
 #include <iostream>
-#include "ReferCountType.h"
-
+#include "ReferenceCounter.h"
+#include "IPrimitiveFactory.h"
+#include "TEST_PrimitivePool_defind.h"
 namespace AK
 {
+#ifdef __POOL__TEST_TYPE01__
+class BoxPool;
+#elif defined __POOL__TEST_TYPE02__
+template <class T>
+class PrimitivePool;
+#endif
 namespace Graphics
 {
 class ResourceManager;
+
 //=======================================================================================
 //!	@class	:	BoxFactory
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class BoxFactory
+class BoxFactory : public IPrimitiveFactory
 {
 public:
-	friend ResourceManager;
-
+#ifdef __POOL__TEST_TYPE01__
+	friend BoxPool;
+#elif defined __POOL__TEST_TYPE02__
+	friend PrimitivePool<BoxFactory>;
+#endif
 private:
 	BoxFactory();
 	virtual ~BoxFactory();
 
-	IRenderer*			CreateBox();
+	virtual BufferResource*		CreatePrimitive();
 
 	void				AllClear();
 
@@ -40,7 +51,6 @@ private:
 	static BoxFactory*	m_Instance;
 	U32					m_BoxCount;
 
-	//std::hash_map<const std::string, ReferCountType<IRenderer>>	m_BoxResouce;
 };
 //=======================================================================================
 //	inline method

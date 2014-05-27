@@ -22,7 +22,7 @@
 #include "Spectrum.h"
 #include "WindowPolygonRenderer.h"
 #include "SafeArray.h"
-#include "ReferCountType.h"
+#include "ReferenceCounter.h"
 #include "ResourceManager.h"
 
 
@@ -305,14 +305,17 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_mrg->SetD3DDevice9(&g_Device);
 	g_mrg->Initialize();
 
-	AK::Graphics::ResourceManager::Create();
 
 	g_Root = AK::RootNode::Create();
 
 	
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixPerspectiveFovLH( &projction, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, 1.f, 2001.0f);
-	D3DXMatrixLookAtLH( &view, &D3DXVECTOR3( 0, 0, 500), &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 1, 0) );
+
+	const Vector3 eye(0.f, 0.f, 500.f);
+	const Vector3 at(0.f, 0.f, 0.f);
+	const Vector3 up(0.f, 1.f, 0.f);
+	D3DXMatrixLookAtLH( &view, &eye, &at, &up );
 
 	getViewMatrixTakingSphereInCamera(&view, Vector3(0,0,0), 500.f, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, Vector3(0, 0, -1), Vector3(0, 1, 0));
 
@@ -365,7 +368,6 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();
-	AK::Graphics::ResourceManager::Destroy();
 
 	AK::Graphics::GraphicsManager::Destroy();
 	BASS_Free();

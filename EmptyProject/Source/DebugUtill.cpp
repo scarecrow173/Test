@@ -11,9 +11,10 @@
 #include <map>
 #if defined(DEBUG) || defined(_DEBUG)
 bool	isConsole	= false;
-
+static U32		TraceLevel	= 0;
 #endif
-namespace AK{
+namespace AK
+{
 namespace Debug
 {
 //-------------------------------------------------------------
@@ -42,7 +43,7 @@ void TraceEx( LPCSTR pszFormat, ...)
 {
 #if defined(DEBUG) || defined(_DEBUG)
     va_list	argp;
-    char pszBuf[ 256];
+    char pszBuf[256];
     va_start(argp, pszFormat);
     vsprintf( pszBuf, pszFormat, argp);
     va_end(argp);
@@ -89,6 +90,22 @@ void UpdateDebugConsole()
 	}
 #endif
 }
+//-------------------------------------------------------------
+//!	@brief		: トレースレベルせってい
+//-------------------------------------------------------------
+void __setTraceLevel(U32 level)
+{
+	TraceLevel = level;
+}
+//-------------------------------------------------------------
+//!	@brief		: トレースレベル取得
+//-------------------------------------------------------------
+U32	 GetTraceLevel()
+{
+	return TraceLevel;
+}
+
+
 };
 };
 

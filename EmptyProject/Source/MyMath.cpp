@@ -225,7 +225,8 @@ Vector3 ScreenToWorld(const Vector2 pos, F32 z, F32 screenWidth, F32 screenHeigh
 	D3DXMatrixInverse(&invVp, NULL, &invVp);
 
 	Matrix transform = invVp * invProj * invView;
-	D3DXVec3TransformCoord(&out, &Vector3(pos.x, pos.y, z), &transform);
+	const Vector3 tmpSrcPos(pos.x, pos.y, z);
+	D3DXVec3TransformCoord(&out, &tmpSrcPos, &transform);
 	return out;
 
 }

@@ -21,6 +21,8 @@
 #include "SoundManager.h"
 #include "BallStateLaunchStandby.h"
 #include "ResourceManager.h"
+#include "BoxPool.h"
+#include "SpherePool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -45,16 +47,15 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	,	m_PowerupCount	(0)
 	,	m_State			(NEW BallStateLaunchStandby())
 {
+
 	m_Radius = 30.f;
-	m_Renderer = (IRenderer*)ResourceManager::GetInstance()->GetResouce("Ball", PRIMITIVE_SPHERE);//SphereFactory::GetInstance()->CreateSphere("Ball", ARGBColors::Magenta);
+	m_Renderer = NEW TriangleRenderer();
+	m_Renderer->SetBufferResource(SpherePool::GetInstance()->GetPrimitive("Ball"));
 
-	
-	Matrix trans, scale, mat;
-	D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
-	D3DXMatrixScaling(&scale, m_Radius, m_Radius, m_Radius);
-	D3DXMatrixMultiply(&mat, &scale, &trans);
 
-	m_Renderer->SetWorld(mat);
+	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));
+
+	m_Renderer->SetTransform(m_Transform);
 
 	m_Collision = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), m_Radius);
 	m_Collision->SetReflection(true);
@@ -228,7 +229,7 @@ void Ball::Respawn()
 {
 	if (!m_IsRespawn)
 			return ;
-	auto respawn = m_Paddle->GetPosition();
+	auto respawn = m_Paddle->GetTransform()->GetTranslation();
 	respawn.y += 110.f;
 	m_Collision->SetPosition(respawn);
 }
@@ -251,14 +252,8 @@ void Ball::Launch()
 //-------------------------------------------------------------
 void Ball::UpdateMatrix()
 {
-	m_Position = m_Collision->GetPosition();
-	
-	Matrix trans, scale, mat;
-	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	D3DXMatrixScaling(&scale, m_Radius, m_Radius, m_Radius);
-	D3DXMatrixMultiply(&mat, &scale, &trans);
-
-	m_Renderer->SetWorld(mat);
+	m_Transform->SetTranslation(m_Collision->GetPosition());
+	m_Transform->UpdateTransform();
 }
 //-------------------------------------------------------------
 //!	@brief		: パワーアップ（現在は貫通。一定時間で解除）
