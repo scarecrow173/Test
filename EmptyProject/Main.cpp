@@ -24,7 +24,7 @@
 #include "SafeArray.h"
 #include "ReferenceCounter.h"
 #include "ResourceManager.h"
-
+#include "StringEncoder.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -37,7 +37,6 @@ AK::Graphics::Spectrum spectrum;
 
 Matrix world,view, projction;
 AK::Graphics::WindowPolygonRenderer g_w;
-
 
 
 //--------------------------------------------------------------------------------------
@@ -57,8 +56,6 @@ bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, 
 
     return true;
 }
-
-
 //--------------------------------------------------------------------------------------
 // Before a device is created, modify the device settings as needed
 //--------------------------------------------------------------------------------------
@@ -108,6 +105,9 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 
 	AUTOPROFILE(0);
 	AK::Debug::UpdateDebugConsole();
+
+	
+
 //	keyboard.Update();
 
 	//	テキトーにライトを設定
@@ -155,7 +155,7 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	spectrum.Update(fft, 1024);
 
 
-	g_Root->UpdateChild();
+	g_Root->UpdateNodeTree();
 
 
 	DEBUG_PRINT_INT(AK::Debug::AutoPerformance::m_ProfileList[0]);

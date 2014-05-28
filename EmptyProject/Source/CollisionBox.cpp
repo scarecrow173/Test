@@ -118,24 +118,6 @@ bool CollisionBox::Check(CollisionSphere* sphere)
 //!	@param[in]	: Å‘åˆÊ’uŠi”[æ
 //!	@param[in]	: Å¬ˆÊ’uŠi”[æ
 //-------------------------------------------------------------
-CollisionBox*		CollisionBox::DownCastCollisionBox()
-{
-	return this;
-}
-//-------------------------------------------------------------
-//!	@brief		: Å‘åˆÊ’u‚ğÅ¬ˆÊ’u‚ğæ“¾
-//!	@param[in]	: Å‘åˆÊ’uŠi”[æ
-//!	@param[in]	: Å¬ˆÊ’uŠi”[æ
-//-------------------------------------------------------------
-CollisionSphere*	CollisionBox::DownCastCollisionSphere()
-{
-	return NULL;
-}
-//-------------------------------------------------------------
-//!	@brief		: Å‘åˆÊ’u‚ğÅ¬ˆÊ’u‚ğæ“¾
-//!	@param[in]	: Å‘åˆÊ’uŠi”[æ
-//!	@param[in]	: Å¬ˆÊ’uŠi”[æ
-//-------------------------------------------------------------
 void CollisionBox::GetCollisionPos(Vector3& max, Vector3& min)
 {
 	AssertError();

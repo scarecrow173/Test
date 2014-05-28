@@ -106,7 +106,7 @@ INode* INode::GetParent() const
 //-------------------------------------------------------------
 //!	@brief		: 更新（親→子の順）
 //-------------------------------------------------------------
-void INode::UpdateChild()
+void INode::UpdateNodeTree()
 {
 	if (!m_IsActive)
 		return;
@@ -116,7 +116,7 @@ void INode::UpdateChild()
 	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
 	{
 		if ((*it)->m_IsActive)
-			(*it)->UpdateChild();
+			(*it)->UpdateNodeTree();
 	}
 }
 //-------------------------------------------------------------

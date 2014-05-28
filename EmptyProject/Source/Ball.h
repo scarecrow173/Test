@@ -27,10 +27,10 @@ public:
 	Ball(INode* parent, Vector3 pos, Paddle* paddle);
 	virtual ~Ball();
 
-	
+	//RTTI_GAMEOBJECT_IS_A(Ball);
+	RTTI_IS_A(GameObjectID::GameObjectID, Ball);
 	virtual void Update();
 	virtual void Start();
-	virtual Ball* DownCastBall();
 
 	void							SetBlockSystem(BlockSystem* system);
 	void							SetBottomLine(Collision::ICollisionObject* bottomLine);

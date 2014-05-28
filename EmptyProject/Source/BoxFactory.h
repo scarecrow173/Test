@@ -15,12 +15,7 @@
 #include "TEST_PrimitivePool_defind.h"
 namespace AK
 {
-#ifdef __POOL__TEST_TYPE01__
-class BoxPool;
-#elif defined __POOL__TEST_TYPE02__
-template <class T>
 class PrimitivePool;
-#endif
 namespace Graphics
 {
 class ResourceManager;
@@ -34,11 +29,7 @@ class ResourceManager;
 class BoxFactory : public IPrimitiveFactory
 {
 public:
-#ifdef __POOL__TEST_TYPE01__
-	friend BoxPool;
-#elif defined __POOL__TEST_TYPE02__
-	friend PrimitivePool<BoxFactory>;
-#endif
+	friend PrimitivePool;
 private:
 	BoxFactory();
 	virtual ~BoxFactory();

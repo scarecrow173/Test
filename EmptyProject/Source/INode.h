@@ -34,7 +34,7 @@ public:
 	U32			GetHandle() const;
 	INode*		GetParent() const;
 
-	void	UpdateChild();
+	void	UpdateNodeTree();
 	virtual void	Update()	PURE;
 	virtual void	Start();
 

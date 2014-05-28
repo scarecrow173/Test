@@ -26,6 +26,7 @@ public:
 	Wall(INode* parent, Vector3 pos, WALL_TYPE type);
 	virtual ~Wall();
 
+	RTTI_IS_A(GameObjectID::GameObjectID, Wall);
 	virtual void Update();
 
 private:

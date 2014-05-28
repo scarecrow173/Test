@@ -56,7 +56,7 @@ void RootNode::Destroy()
 //-------------------------------------------------------------
 void RootNode::Update()
 {
-	SceneNode* newScene = m_NowScene->ChangeScene();
+	SceneNode* newScene = m_NowScene->NextScene();
 	if (newScene != m_NowScene)
 	{
 		if (DetachNode(m_NowScene->GetHandle()))

@@ -16,7 +16,7 @@
 #include "Stage1.h"
 #include "Ball.h"
 #include "ResourceManager.h"
-#include "BoxPool.h"
+#include "PrimitivePool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -38,7 +38,7 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	static const F32 PADDLE_HEIGHT	= 80.f;
 
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01"));
 
 	m_Size.x = PADDLE_WIDTH;
 	m_Size.y = PADDLE_HEIGHT;
@@ -91,10 +91,10 @@ void Paddle::Start()
 //-------------------------------------------------------------
 void Paddle::Affect(GameObject* obj)
 {
-	Item* item = obj->DownCastItem();
+	Item* item = obj->IsA(GameObjectID::Item) ? static_cast<Item*>(obj) : NULL;
 	if (!item)
 		return;
-	CollisionBox* box = m_Collision->DownCastCollisionBox();
+	CollisionBox* box = m_Collision->IsA(CollisionID::CollisionBox) ? static_cast<CollisionBox*>(m_Collision) : NULL;
 	Ball* ball = static_cast<Stage1*>(m_Parent)->GetBall();
 	const F32 width = box->GetWidth();
 	Vector3 pos		= box->GetPosition();

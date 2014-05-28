@@ -40,7 +40,7 @@ void Stage3::Update()
 //!	@brief		: シーン変更
 //!	@return		: 変更時なら変更先ポインタ
 //-------------------------------------------------------------
-SceneNode*	Stage3::ChangeScene()
+SceneNode*	Stage3::NextScene()
 {
 	static U32 count = 0;
 	if (++count % 300 == 0)

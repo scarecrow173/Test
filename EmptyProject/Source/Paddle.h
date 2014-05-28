@@ -21,6 +21,7 @@ public:
 	Paddle(INode* parent, Vector3 pos);
 	virtual ~Paddle();
 
+	RTTI_IS_A(GameObjectID::GameObjectID, Paddle);
 	virtual void	Update();
 	virtual void	Start();
 	virtual void	Affect(GameObject* obj);

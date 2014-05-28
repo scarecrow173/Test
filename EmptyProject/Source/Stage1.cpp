@@ -45,6 +45,9 @@ static const U32 CLEAR_JINGLE	= 9;
 Stage1::Stage1(INode* parent, U32 stageCount)
 	:	SceneNode		(parent)
 	,	m_IsEnd			(false)
+	,	m_IsGameOver	(false)
+	,	m_IsStageClear	(false)
+	,	m_WillFadeOut	(false)
 	,	m_FadeVolume	(1.f)
 	,	m_StageCount	(stageCount)
 	,	m_Shader		(NEW UseFixed())
@@ -86,9 +89,9 @@ void Stage1::Update()
 //!	@brief		: シーン変更
 //!	@return		: 変更時なら変更先ポインタ
 //-------------------------------------------------------------
-SceneNode*	Stage1::ChangeScene()
+SceneNode*	Stage1::NextScene()
 {
-	TRACE(1,"Stage1::ChangeScene");
+	TRACE(1,"Stage1::NextScene");
 	StageClear();
 	FadeScene();
 

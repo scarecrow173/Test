@@ -22,7 +22,7 @@ public:
 	virtual ~Result();
 
 	void		Update();
-	SceneNode*	ChangeScene();
+	SceneNode*	NextScene();
 	bool		Initialize();
 
 protected:

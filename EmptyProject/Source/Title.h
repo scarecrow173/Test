@@ -23,20 +23,22 @@ public:
 	virtual ~Title();
 
 	virtual void		Update();
-	virtual SceneNode*	ChangeScene();
+	virtual SceneNode*	NextScene();
 	virtual bool		Initialize();
 
 private:
-	void				StartFade();
-	void				FadeScene();
+	void				CheckBeginFade();
+	void				FadeOutScene();
 
 	void				LoadTitleBlock();
-	void				MoveBlock();
+	void				FloatingBlock();
 
 
 
-	bool		m_IsEnd;
-	F32			m_FadeVolume;
+	bool								m_IsEnd;
+	bool								m_IsFading;
+
+	F32									m_FadeVolume;
 	std::vector<Graphics::IRenderer*>	m_TitleBlock;
 	Graphics::IShaderObject*			m_Shader;
 	F32									m_Floating;

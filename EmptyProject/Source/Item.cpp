@@ -13,7 +13,7 @@
 #include "CollisionBox.h"
 #include "Colors.h"
 #include "ResourceManager.h"
-#include "BoxPool.h"
+#include "PrimitivePool.h"
 
 
 using namespace AK;
@@ -35,7 +35,7 @@ Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
 	static const F32 HEIGHT	= 50.f;
 
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01"));
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;
@@ -80,15 +80,7 @@ void Item::Update()
 void Item::Start()
 {
 }
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-Item*	Item::DownCastItem()
-{
-	return this;
-}
+
 //-------------------------------------------------------------
 //!	@brief		: ƒAƒCƒeƒ€‚ª“–‚½‚é‚à‚Ì
 //-------------------------------------------------------------

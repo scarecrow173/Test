@@ -110,6 +110,38 @@
 #define WINDOW_WIDTH	640
 #define WINDOW_HEIGHT	480
 
+#define RTTI_IS_A_BASE(enumName, className)			\
+virtual bool IsA(enumName id)						\
+{													\
+													\
+	if (enumName##::##className == id)				\
+	{												\
+		return true;								\
+	}												\
+													\
+	return false;									\
+}													\
+virtual enumName GetID() const						\
+{													\
+	return enumName##::##className					\
+}													
+
+
+#define RTTI_IS_A(enumName, className)				\
+virtual bool IsA(enumName id)						\
+{													\
+	if (enumName##::##className == id)				\
+	{												\
+		return true;								\
+	}												\
+													\
+	return __super::IsA(id);						\
+}													\
+virtual enumName GetID() const						\
+{													\
+	return enumName##::##className;					\
+}													
+
 #if defined(DEBUG) || defined(_DEBUG)
 #ifndef V
 #define V(x)           { hr = (x); if( FAILED(hr) ) { DXUTTrace( __FILE__, (DWORD)__LINE__, hr, L#x, true ); } }

@@ -241,6 +241,9 @@
     <ClCompile Include="Source\SphereFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PrimitivePool.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -451,6 +454,9 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\TEST_PrimitivePool_defind.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StringEncoder.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

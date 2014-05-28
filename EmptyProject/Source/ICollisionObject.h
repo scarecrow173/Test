@@ -11,6 +11,18 @@ namespace AK
 {
 namespace Collision
 {
+namespace CollisionID
+{
+	enum CollisionID
+	{
+		ICollisionObject,
+		CollisionBox,
+		CollisionSphere,
+
+		NUM
+	};
+};
+
 class CollisionBox;
 class CollisionSphere;
 //=======================================================================================
@@ -28,13 +40,12 @@ public:
 
 	void Update(std::vector<ICollisionObject*>& collision);
 	void Update();
-	
+
+	RTTI_IS_A_BASE(CollisionID::CollisionID, ICollisionObject);
 	virtual bool Check(ICollisionObject* obj)PURE;
 	virtual bool Check(CollisionBox* obj)	PURE;
 	virtual bool Check(CollisionSphere* obj)PURE;
 	virtual F32	 GetTime(ICollisionObject& obj);
-	virtual CollisionBox*		DownCastCollisionBox()		PURE;
-	virtual CollisionSphere*	DownCastCollisionSphere()	PURE;
 	
 
 	bool	IsActive()				const;

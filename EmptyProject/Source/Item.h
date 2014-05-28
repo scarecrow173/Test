@@ -28,9 +28,9 @@ public:
 	Item(INode* parent, Vector3 pos, ITEM_TYPE type);
 	virtual ~Item();
 
+	RTTI_IS_A(GameObjectID::GameObjectID, Item);
 	virtual void	Update();
 	virtual void	Start();
-	virtual Item*	DownCastItem();
 
 	void		AddCollision(Collision::ICollisionObject* collison);
 	ITEM_TYPE	GetType() const;

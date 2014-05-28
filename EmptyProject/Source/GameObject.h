@@ -12,8 +12,20 @@
 #include "TransformObject.h"
 namespace AK
 {
-class Ball;
-class Item;
+namespace GameObjectID
+{
+	enum GameObjectID
+	{
+		GameObject,
+		Ball,
+		Block,
+		Item,
+		Paddle,
+		Wall,
+
+		NUM
+	};
+};
 //=======================================================================================
 //!	@class	:	GameObject
 //!	@brief	:	example
@@ -26,21 +38,18 @@ public:
 	GameObject(INode* parent, Vector3 pos);
 	virtual ~GameObject();
 
-	//Vector3							GetPosition() const;
 	std::shared_ptr<TransformObject>	GetTransform() const;
 	Collision::ICollisionObject*		GetCollision() const;
 	Graphics::IRenderer*				GetRenderer() const;
 
+	//RTTI_GAMEOBJECT_IS_A_BASE;
+	RTTI_IS_A_BASE(GameObjectID::GameObjectID, GameObject);
 	virtual	void					Affect(GameObject* obj);
-	virtual Ball*					DownCastBall();
-	virtual Item*					DownCastItem();
 
 protected:
 
-	//Vector3								m_Position;
 	Collision::ICollisionObject*		m_Collision;
 	Graphics::IRenderer*				m_Renderer;
-	//RefCountedObjectPtr*				m_BufferResource;
 	std::shared_ptr<TransformObject>	m_Transform;
 };
 //=======================================================================================
@@ -51,7 +60,6 @@ protected:
 //-------------------------------------------------------------
 inline GameObject::GameObject(INode* parent, Vector3 pos)
 	:	INode		(parent)
-	//,	m_Position	(pos)
 	,	m_Collision (NULL)
 	,	m_Renderer	(NULL)
 	,	m_Transform	(std::make_shared<TransformObject>(pos))
@@ -104,24 +112,6 @@ inline Graphics::IRenderer* GameObject::GetRenderer() const
 //-------------------------------------------------------------
 inline void GameObject::Affect(GameObject* obj)
 {}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-inline Ball* GameObject::DownCastBall()
-{
-	return NULL;
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-inline Item* GameObject::DownCastItem()
-{
-	return NULL;
-}
 };
 //===============================================================
 //	End of File

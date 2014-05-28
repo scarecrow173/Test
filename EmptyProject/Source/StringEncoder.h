@@ -1,59 +1,56 @@
 //=======================================================================================
-//!	@file	:	SphereFactory.h
+//!	@file	:	StringEncoder.h
 //!	@author	:	小山 瑛圭
-//!	@date	:	2014/5/01
+//!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "GraphicsManager.h"
-#include "IndexData.h"
-#include <vector>
-#include <hash_map>
 #include <string>
-#include "ReferenceCounter.h"
-#include "IPrimitiveFactory.h"
-#include "TEST_PrimitivePool_defind.h"
-
 namespace AK
 {
-class PrimitivePool;
-namespace Graphics
-{
 
-class ResourceManager;
 //=======================================================================================
-//!	@class	:	SphereFactory
+//!	@class	:	StringEncoder
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class SphereFactory : public IPrimitiveFactory
+//TODO : 現状は空白文字の削除と文字列の切り分けしかないので必要が出たら拡張する
+class StringEncoder
 {
 public:
-	friend PrimitivePool;
+	StringEncoder(){};
+	virtual ~StringEncoder(){};
 
 
-private:
-	SphereFactory();
-	virtual ~SphereFactory();
-
-	
-	virtual BufferResource*			CreatePrimitive();
-	void					AllClear();
-	
-	
-	
-	static SphereFactory*	m_Instance;
-	U32						m_SphereCount;
-
+public:
+	//空白文字削除
+	void DeleteSpace(std::string& buf)
+	{
+		size_t pos;
+		while((pos = buf.find_first_of(" 　\t")) != std::string::npos)
+		{
+			buf.erase(pos, 1);
+		}
+	}
+	//	切り分けのキーとなる文字列を元の文字列から削除するべきか？
+	//	stringのコピーはしょうがない？
+	std::string SplitFront(std::string& buf, const std::string& spritKey)
+	{
+		size_t pos;
+		std::string out;
+		if ((pos = buf.find_first_of(spritKey)) != std::string::npos)
+		{
+			 out = buf.substr(0, pos);
+			 buf.erase(0, pos + 1);
+		}
+		return out;
+	}
 };
 //=======================================================================================
-//	inline method
+//		inline method
 //=======================================================================================
 
 
-
-
-};
 };
 //===============================================================
 //	End of File

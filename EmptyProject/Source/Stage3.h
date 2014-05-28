@@ -22,7 +22,7 @@ public:
 	virtual ~Stage3();
 
 	void		Update();
-	SceneNode*	ChangeScene();
+	SceneNode*	NextScene();
 	bool		Initialize();
 
 protected:

@@ -26,12 +26,11 @@ public:
 
 	virtual ~CollisionSphere();
 	
+	RTTI_IS_A(CollisionID::CollisionID, CollisionBox);
 	virtual bool Check(ICollisionObject* obj);
 	virtual bool Check(CollisionBox* box);
 	virtual bool Check(CollisionSphere* sphere);
 	virtual F32	 GetTime(ICollisionObject& obj);
-	virtual CollisionBox*		DownCastCollisionBox();
-	virtual CollisionSphere*	DownCastCollisionSphere();
 
 	F32	 GetRadius() const {return m_Radius;}
 

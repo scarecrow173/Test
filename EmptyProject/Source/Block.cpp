@@ -42,7 +42,7 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	m_Color.color = m_Color.color >> m_LifeCount;
 
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(BoxPool::GetInstance()->GetPrimitive("Box"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01"));
 
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(WIDTH, HEIGHT, 50.f));
 

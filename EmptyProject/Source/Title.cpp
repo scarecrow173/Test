@@ -17,7 +17,7 @@
 #include "TriangleRenderer.h"
 #include "UseFixed.h"
 #include "ResourceManager.h"
-#include "BoxPool.h"
+#include "PrimitivePool.h"
 
 using namespace AK;
 using namespace Sound;
@@ -35,6 +35,7 @@ InputKeyboard keyboard;
 Title::Title(INode* parent)
 	:	SceneNode		(parent)
 	,	m_IsEnd			(false)
+	,	m_IsFading		(false)
 	,	m_FadeVolume	(1.f)
 	,	m_Shader		(NULL)
 	,	m_Floating		(0.0f)
@@ -63,26 +64,23 @@ Title::~Title()
 void Title::Update()
 {
 	DEBUG_PRINT_CHAR("TITLE");
-
-	MoveBlock();
-
+	
 	keyboard.Update();
+	CheckBeginFade();
+
+	FloatingBlock();
+
+	if (m_IsFading)
+		FadeOutScene();
 }
 //-------------------------------------------------------------
 //!	@brief		: シーン変更
 //!	@return		: 変更時なら変更先ポインタ
 //-------------------------------------------------------------
-SceneNode*	Title::ChangeScene()
+SceneNode*	Title::NextScene()
 {
-
-	StartFade();
-	FadeScene();
-
-	if (m_FadeVolume < 0.f)
-	{
-		SoundManager::GetInstance()->PauseBGM(TITLE_BGM_NUM);
+	if (m_IsEnd)
 		return NEW Stage1(m_Parent, 0);
-	}
 	return this;
 }
 //-------------------------------------------------------------
@@ -114,20 +112,27 @@ bool Title::Initialize()
 //-------------------------------------------------------------
 //!	@brief		: タイトル用ブロック読み込み
 //-------------------------------------------------------------
-void Title::StartFade()
+void Title::CheckBeginFade()
 {
-	if (m_IsEnd || !keyboard.IsTrigger(KEY_BUTTON1))
-		return ;
-	m_IsEnd = true;
+	if (m_IsFading || !keyboard.IsTrigger(KEY_BUTTON1))
+		return;
+	m_IsFading = true;
 	SoundManager::GetInstance()->PlaySE(11, TRUE);
 }
 //-------------------------------------------------------------
 //!	@brief		: タイトル用ブロック読み込み
 //-------------------------------------------------------------
-void Title::FadeScene()
+void Title::FadeOutScene()
 {
-	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	m_FadeVolume -= 0.01f;
+	
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, m_FadeVolume);
+
+	if (m_FadeVolume < 0.f)
+	{
+		m_IsEnd = true;
+		SoundManager::GetInstance()->PauseBGM(TITLE_BGM_NUM);
+	}
 }
 //-------------------------------------------------------------
 //!	@brief		: タイトル用ブロック読み込み
@@ -146,25 +151,19 @@ void Title::LoadTitleBlock()
 		if (data[i+2].GetInteger() == 0)
 			continue;
 		
-		TriangleRenderer* render = NEW TriangleRenderer();//ResourceManager::GetInstance()->GetResource("Box", PRIMITIVE_BOX);//NEW TriangleRenderer();
-		auto res = BoxPool::GetInstance()->GetPrimitive("Box");
-		render->SetBufferResource( res );
-		m_TitleBlock.push_back(render);
-
-		Matrix mat, trans, scale;
+		TriangleRenderer* render = NEW TriangleRenderer();
+		render->SetBufferResource( PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01") );
+		
 		Vector3 pos;
 
 		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f));
 		pos.y = 500.f - ((i / widthNum) * (blockHeight) + (blockHeight * 0.5f));
 		pos.z = 0.f;
 
-		D3DXMatrixTranslation(&trans, pos.x, pos.y, pos.z);
-		D3DXMatrixScaling(&scale, blockWhidth, blockHeight, 32.f);
-		D3DXMatrixMultiply(&mat, &scale, &trans);
-		//render->SetWorld(mat);
 		render->SetTransform(std::make_shared<TransformObject>(pos, Vector3(blockWhidth, blockHeight, 32.f)));
 
 		m_Shader->AddRenderer(render);
+		m_TitleBlock.push_back(render);
 
 	}
 
@@ -172,7 +171,7 @@ void Title::LoadTitleBlock()
 //-------------------------------------------------------------
 //!	@brief		: ブロックを動かす
 //-------------------------------------------------------------
-void Title::MoveBlock()
+void Title::FloatingBlock()
 {
 	m_Floating += 0.2f;
 	F32 value = sin(m_Floating);
@@ -180,12 +179,11 @@ void Title::MoveBlock()
 	auto it = m_TitleBlock.begin();
 	while (it != m_TitleBlock.end())
 	{
-		auto mat = (*it)->GetTransform();
-		Vector3 move = mat->GetTranslation();
-		move.y += m_IsEnd ? -15.f : value;
-		//(*it)->SetTransform(mat);
-		mat->SetTranslation(move);
-		mat->UpdateTransform();
+		auto transform = (*it)->GetTransform();
+		Vector3 pos = transform->GetTranslation();
+		pos.y += m_IsEnd ? -15.f : value;
+		transform->SetTranslation(pos);
+		transform->UpdateTransform();
 		++it;
 	}
 }

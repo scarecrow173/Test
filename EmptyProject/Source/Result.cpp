@@ -40,7 +40,7 @@ void Result::Update()
 //!	@brief		: シーン変更
 //!	@return		: 変更時なら変更先ポインタ
 //-------------------------------------------------------------
-SceneNode*	Result::ChangeScene()
+SceneNode*	Result::NextScene()
 {
 	static U32 count = 0;
 	if (++count % 300 == 0)

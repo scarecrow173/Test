@@ -21,8 +21,7 @@
 #include "SoundManager.h"
 #include "BallStateLaunchStandby.h"
 #include "ResourceManager.h"
-#include "BoxPool.h"
-#include "SpherePool.h"
+#include "PrimitivePool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -50,9 +49,7 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 
 	m_Radius = 30.f;
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(SpherePool::GetInstance()->GetPrimitive("Ball"));
-
-
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:SHPERE-Ball"));
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));
 
 	m_Renderer->SetTransform(m_Transform);
@@ -98,15 +95,6 @@ void Ball::Update()
 //-------------------------------------------------------------
 void Ball::Start()
 {}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-Ball* Ball::DownCastBall()
-{
-	return this;
-}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

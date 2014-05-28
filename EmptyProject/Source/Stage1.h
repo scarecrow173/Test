@@ -30,7 +30,7 @@ public:
 	virtual ~Stage1();
 
 	virtual void		Update();
-	virtual SceneNode*	ChangeScene();
+	virtual SceneNode*	NextScene();
 	virtual bool		Initialize();
 
 	void				PopItem(Vector3 pos);
@@ -64,6 +64,9 @@ private:
 
 	static std::string				StageDataPath[STAGE_MAX];
 	bool							m_IsEnd;
+	bool							m_IsGameOver;
+	bool							m_IsStageClear;
+	bool							m_WillFadeOut;
 	F32								m_FadeVolume;
 	Graphics::IShaderObject*		m_Shader;
 	U32								m_StageCount;
