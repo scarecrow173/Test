@@ -26,6 +26,7 @@ public:
 
 	RefCountedObject&		operator *();
 	RefCountedObject*		operator ->();
+	//RefCountedObject*		operator ->() const;
 
 
 	const RefCountedObject* GetSharedObject() const;
@@ -101,6 +102,13 @@ inline RefCountedObject* RefCountedObjectPtr::operator ->()
 {
 	return m_SharedObject;
 }
+//---------------------------------------------------------------------------------------
+//!	@brief		: 
+//---------------------------------------------------------------------------------------
+//inline RefCountedObject* RefCountedObjectPtr::operator ->() const
+//{
+//	return m_SharedObject;
+//}
 //---------------------------------------------------------------------------------------
 //!	@brief		: 
 //---------------------------------------------------------------------------------------

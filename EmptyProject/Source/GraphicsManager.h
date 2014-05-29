@@ -7,6 +7,7 @@
 #include "Elements.h"
 #include "MyMath.h"
 #include "IShaderObject.h"
+#include <map>
 
 namespace AK
 {

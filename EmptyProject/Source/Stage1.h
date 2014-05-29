@@ -66,7 +66,9 @@ private:
 	bool							m_IsEnd;
 	bool							m_IsGameOver;
 	bool							m_IsStageClear;
-	bool							m_WillFadeOut;
+	bool							m_IsGameClear;
+	bool							m_IsFading;
+	bool							m_IsFadeEnd;
 	F32								m_FadeVolume;
 	Graphics::IShaderObject*		m_Shader;
 	U32								m_StageCount;

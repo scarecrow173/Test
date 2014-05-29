@@ -19,6 +19,7 @@
 #include "ResourceManager.h"
 #include "PrimitivePool.h"
 
+
 using namespace AK;
 using namespace Sound;
 using namespace Graphics;
@@ -38,22 +39,29 @@ Title::Title(INode* parent)
 	,	m_IsFading		(false)
 	,	m_FadeVolume	(1.f)
 	,	m_Shader		(NULL)
+	,	m_FadeOutScreen	(NULL)
+	,	m_FadeOutRenderer(NULL)
 	,	m_Floating		(0.0f)
-{}
+{
+}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
 Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeOutScreen);
 	SAFE_DELETE(m_Shader);
+
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
 		SAFE_DELETE(*it);
 		it = m_TitleBlock.erase(it);
 	}
-
+	
+	SAFE_DELETE(m_FadeOutRenderer);
+	SAFE_DELETE(m_FadeOutScreen);
 }
 //=======================================================================================
 //		public method
@@ -94,10 +102,26 @@ bool Title::Initialize()
 
 	m_Shader = NEW UseFixed();
 	m_Shader->Initilize();
+	m_FadeOutScreen = NEW ScreenEffect();
+	m_FadeOutScreen->Initilize();
+
+	m_FadeOutRenderer = NEW WindowPolygonRenderer();
+	m_FadeOutRenderer->CreatePolygon();
+	m_FadeOutScreen->AddRenderer(m_FadeOutRenderer);
+
+	VertexFloat3 fadeColor;
+	fadeColor.m[0] = 1.f;
+	fadeColor.m[1] = 1.f;
+	fadeColor.m[2] = 1.f;
+	//fadeColor.m[3] = 0.f;
+	m_FadeOutScreen->SetFadeColor(fadeColor);
+	m_FadeOutScreen->SetFadeValue(0.f);
+	m_FadeOutScreen->SetActive(false);
 
 	LoadTitleBlock();
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	return true;
@@ -110,24 +134,27 @@ bool Title::Initialize()
 //		private method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: タイトル用ブロック読み込み
+//!	@brief		: 
 //-------------------------------------------------------------
 void Title::CheckBeginFade()
 {
 	if (m_IsFading || !keyboard.IsTrigger(KEY_BUTTON1))
 		return;
 	m_IsFading = true;
+	if (m_FadeOutScreen)
+		m_FadeOutScreen->SetActive(m_IsFading);
 	SoundManager::GetInstance()->PlaySE(11, TRUE);
 }
 //-------------------------------------------------------------
-//!	@brief		: タイトル用ブロック読み込み
+//!	@brief		: 
 //-------------------------------------------------------------
 void Title::FadeOutScene()
 {
 	m_FadeVolume -= 0.01f;
 	
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, m_FadeVolume);
-
+	if (m_FadeOutScreen)
+		m_FadeOutScreen->SetFadeValue(1.f - m_FadeVolume);
 	if (m_FadeVolume < 0.f)
 	{
 		m_IsEnd = true;

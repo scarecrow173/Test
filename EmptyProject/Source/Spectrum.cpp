@@ -178,6 +178,7 @@ void Spectrum::Draw()
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(NULL);
 
 	//GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_Effect->Begin(0,0);
 	m_Effect->BeginPass(0);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));

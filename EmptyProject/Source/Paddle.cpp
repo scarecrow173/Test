@@ -91,10 +91,10 @@ void Paddle::Start()
 //-------------------------------------------------------------
 void Paddle::Affect(GameObject* obj)
 {
-	Item* item = obj->IsA(GameObjectID::Item) ? static_cast<Item*>(obj) : NULL;
+	Item* item = RTTI_DYNAMIC_CAST(GameObjectID::Item, Item*, obj);
 	if (!item)
 		return;
-	CollisionBox* box = m_Collision->IsA(CollisionID::CollisionBox) ? static_cast<CollisionBox*>(m_Collision) : NULL;
+	CollisionBox* box = RTTI_DYNAMIC_CAST(CollisionID::CollisionBox, CollisionBox*, m_Collision);
 	Ball* ball = static_cast<Stage1*>(m_Parent)->GetBall();
 	const F32 width = box->GetWidth();
 	Vector3 pos		= box->GetPosition();

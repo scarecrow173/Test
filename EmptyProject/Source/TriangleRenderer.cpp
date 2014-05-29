@@ -43,9 +43,11 @@ void TriangleRenderer::Draw()
 
 	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
 	const Matrix tmpWorld = m_Transform->GetTransform();
+
+
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(indexBuffer);
-	
+
 	IndexData drawData = resource->GetIndexData();
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(

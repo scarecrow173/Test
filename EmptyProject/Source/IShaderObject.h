@@ -20,21 +20,34 @@ namespace Graphics
 class IShaderObject
 {
 public:
-	IShaderObject() : m_Effect (NULL), m_DrawStep (0){};
-	virtual ~IShaderObject(){ if (m_Effect) SAFE_RELEASE(m_Effect); m_Renderer.clear(); };
+	IShaderObject() : m_Effect (NULL), m_DrawStep (0), m_IsActive (true) {};
+	virtual ~IShaderObject()
+	{ 
+		SAFE_RELEASE(m_Effect); 
+		if (!m_Renderer.empty())
+		{
+			std::vector<IRenderer*> clear;
+			m_Renderer.swap(clear);
+		}
+	};
 
 	void AddRenderer(IRenderer* renderer);
 	void EraseRenderer(const IRenderer* renderer);
+	bool IsActive() const;
+	void SetActive(const bool active);
+
 
 	virtual bool Initilize()PURE;
 	virtual void Draw()PURE;
 
-
+	bool operator <(const IShaderObject& obj);
+	bool operator >(const IShaderObject& obj);
 
 protected:
 	ID3DXEffect*			m_Effect;
 	std::vector<IRenderer*>	m_Renderer;
 	U32						m_DrawStep;
+	bool					m_IsActive;
 };
 //=======================================================================================
 //		inline method
@@ -63,7 +76,36 @@ inline void IShaderObject::EraseRenderer(const IRenderer* renderer)
 
 	m_Renderer.erase(it);
 }
-
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: 
+//-------------------------------------------------------------
+inline bool IShaderObject::IsActive() const
+{
+	return m_IsActive;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: 
+//-------------------------------------------------------------
+inline void IShaderObject::SetActive(const bool active)
+{
+	m_IsActive = active;
+}
+//-------------------------------------------------------------
+//!	@brief		: ソートのため<演算子オーバーロード
+//-------------------------------------------------------------
+inline	bool IShaderObject::operator <(const IShaderObject& obj)
+{
+	return m_DrawStep < obj.m_DrawStep;
+}
+//-------------------------------------------------------------
+//!	@brief		: ソートのため>演算子オーバーロード
+//-------------------------------------------------------------
+inline	bool IShaderObject::operator >(const IShaderObject& obj)
+{
+	return m_DrawStep > obj.m_DrawStep;
+}
 
 };
 };

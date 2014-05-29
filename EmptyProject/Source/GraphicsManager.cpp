@@ -8,6 +8,7 @@
 //=======================================================================================
 
 #include "GraphicsManager.h"
+#include <functional>
 
 using namespace AK;
 using namespace Graphics;
@@ -29,6 +30,8 @@ const D3DVERTEXELEMENT9 VertexElemnt[] = {
 	D3DDECL_END()
 };
 IDirect3DVertexDeclaration9*	VertexDeclaration = NULL;
+
+
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -91,8 +94,12 @@ void GraphicsManager::Destroy()
 void GraphicsManager::AddShaderObject(IShaderObject* shader)
 {
 	auto it = std::find(m_ShaderList.begin(), m_ShaderList.end(), shader);
+	
 	if (it == m_ShaderList.end())
+	{
 		m_ShaderList.push_back(shader);
+		std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
+	}
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -211,9 +218,11 @@ bool GraphicsManager::Initialize()
 //-------------------------------------------------------------
 void GraphicsManager::Draw()
 {
+	
 	for (auto it = m_ShaderList.begin(); it != m_ShaderList.end(); ++it)
 	{
-		(*it)->Draw();
+		if ((*it)->IsActive())
+			(*it)->Draw();
 	}
 }
 

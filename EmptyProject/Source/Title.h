@@ -8,6 +8,8 @@
 #include "IRenderer.h"
 #include "RefCountedObjectPtr.h"
 #include "IShaderObject.h"
+#include "ScreenEffect.h"
+#include "WindowPolygonRenderer.h"
 namespace AK
 {
 //=======================================================================================
@@ -42,6 +44,9 @@ private:
 	std::vector<Graphics::IRenderer*>	m_TitleBlock;
 	Graphics::IShaderObject*			m_Shader;
 	F32									m_Floating;
+
+	Graphics::ScreenEffect*				m_FadeOutScreen;
+	Graphics::WindowPolygonRenderer*	m_FadeOutRenderer;
 };
 
 

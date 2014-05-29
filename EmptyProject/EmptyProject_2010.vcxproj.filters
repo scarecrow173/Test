@@ -112,6 +112,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="ClassDiagram2.cd" />
+    <None Include="Source\ScreenEffect.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -242,6 +245,12 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\PrimitivePool.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ScreenEffect.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TexturePool.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -457,6 +466,21 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\StringEncoder.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ScreenEffect.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TexturePool.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ITexture.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DefaultTexture.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CubeTexture.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

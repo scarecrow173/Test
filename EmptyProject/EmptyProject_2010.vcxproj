@@ -408,6 +408,7 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GraphicsManager.cpp" />
     <ClCompile Include="Source\PrimitivePool.cpp" />
+    <ClCompile Include="Source\ScreenEffect.cpp" />
     <ClCompile Include="Source\SphereFactory.cpp" />
     <ClCompile Include="Source\SpherePool.cpp" />
     <ClCompile Include="Source\ICollisionObject.cpp" />
@@ -428,6 +429,7 @@
     <ClCompile Include="Source\Stage1.cpp" />
     <ClCompile Include="Source\Stage2.cpp" />
     <ClCompile Include="Source\Stage3.cpp" />
+    <ClCompile Include="Source\TexturePool.cpp" />
     <ClCompile Include="Source\Title.cpp" />
     <ClCompile Include="Source\TriangleRenderer.cpp" />
     <ClCompile Include="Source\UseFixed.cpp" />
@@ -450,12 +452,16 @@
     <ClInclude Include="Source\CollisionSphere.h" />
     <ClInclude Include="Source\Colors.h" />
     <ClInclude Include="Source\CSVReader.h" />
+    <ClInclude Include="Source\CubeTexture.h" />
     <ClInclude Include="Source\DebugNew.h" />
     <ClInclude Include="Source\DebugUtill.h" />
+    <ClInclude Include="Source\DefaultTexture.h" />
     <ClInclude Include="Source\Elements.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GraphicsManager.h" />
     <ClInclude Include="Source\BoxPool.h" />
+    <ClInclude Include="Source\ITexture.h" />
+    <ClInclude Include="Source\ScreenEffect.h" />
     <ClInclude Include="Source\SpherePool.h" />
     <ClInclude Include="Source\ICollisionObject.h" />
     <ClInclude Include="Source\IndexData.h" />
@@ -494,6 +500,7 @@
     <ClInclude Include="Source\IState.h" />
     <ClInclude Include="Source\StringEncoder.h" />
     <ClInclude Include="Source\TEST_PrimitivePool_defind.h" />
+    <ClInclude Include="Source\TexturePool.h" />
     <ClInclude Include="Source\Title.h" />
     <ClInclude Include="Source\TransformObject.h" />
     <ClInclude Include="Source\TriangleRenderer.h" />
@@ -529,6 +536,7 @@
     <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmesh.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmisc.cpp" />
+    <None Include="Source\ScreenEffect.fx" />
     <None Include="Source\Spectrum.fx" />
   </ItemGroup>
   <ItemGroup>

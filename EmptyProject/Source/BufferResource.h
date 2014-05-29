@@ -34,6 +34,8 @@ private:
 	std::vector<U32>		m_Index;
 	IDirect3DIndexBuffer9*	m_IndexBuffer;
 	Graphics::IndexData		m_IndexData;
+
+
 };
 //=======================================================================================
 //		inline method
@@ -114,10 +116,14 @@ inline 	Graphics::IndexData BufferResource::GetIndexData() const
 {
 	return m_IndexData;
 }
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
 inline IDirect3DIndexBuffer9*	BufferResource::GetIndexBuffer() const
 {
 	return m_IndexBuffer;
 }
+
 };
 //===============================================================
 //	End of File

@@ -35,11 +35,13 @@ public:
 
 
 private:
+	void CreateVertexBuffer();
+	void CreateBufferResouce(std::vector<U32>& indexSrc);
+
 
 	std::vector<WindowVertex>	m_Vertex;
 
 	LPDIRECT3DVERTEXBUFFER9		m_VertexBuffer;
-	LPD3DXEFFECT				m_Effect;
 
 };
 //=======================================================================================

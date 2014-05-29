@@ -123,9 +123,8 @@ virtual bool IsA(enumName id)						\
 }													\
 virtual enumName GetID() const						\
 {													\
-	return enumName##::##className					\
+	return enumName##::##className;					\
 }													
-
 
 #define RTTI_IS_A(enumName, className)				\
 virtual bool IsA(enumName id)						\
@@ -141,6 +140,10 @@ virtual enumName GetID() const						\
 {													\
 	return enumName##::##className;					\
 }													
+
+#define RTTI_DYNAMIC_CAST(enumType, castType, object) \
+	object->IsA(enumType) ? static_cast<castType>(object) : NULL;
+
 
 #if defined(DEBUG) || defined(_DEBUG)
 #ifndef V

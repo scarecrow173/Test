@@ -47,7 +47,9 @@ Stage1::Stage1(INode* parent, U32 stageCount)
 	,	m_IsEnd			(false)
 	,	m_IsGameOver	(false)
 	,	m_IsStageClear	(false)
-	,	m_WillFadeOut	(false)
+	,	m_IsGameClear	(false)
+	,	m_IsFading		(false)
+	,	m_IsFadeEnd		(false)
 	,	m_FadeVolume	(1.f)
 	,	m_StageCount	(stageCount)
 	,	m_Shader		(NEW UseFixed())
@@ -81,8 +83,17 @@ Stage1::~Stage1()
 //-------------------------------------------------------------
 void Stage1::Update()
 {
-	TRACE(1,"Stage1::Update");
 	DEBUG_PRINT_CHAR("STAGE_01");
+
+	m_IsStageClear = m_BlockSystem->Clear();
+
+	if (m_IsFading)
+		FadeScene();
+	else if (m_IsStageClear)
+		StageClear();
+
+	if (m_IsFadeEnd)
+		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
 
 }
 //-------------------------------------------------------------
@@ -91,15 +102,12 @@ void Stage1::Update()
 //-------------------------------------------------------------
 SceneNode*	Stage1::NextScene()
 {
-	TRACE(1,"Stage1::NextScene");
-	StageClear();
-	FadeScene();
+	if (m_IsGameOver || m_IsGameClear)
+		return NEW Title(m_Parent);
 
-	if (m_FadeVolume < 0.f && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
-	{
-		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
-		return (m_StageCount >= STAGE_MAX) ? (SceneNode*)(NEW Title(m_Parent)) : (m_BlockSystem->Clear()) ? (SceneNode*)(NEW Stage1(m_Parent, ++m_StageCount)) : (SceneNode*)(NEW Title(m_Parent));
-	}
+	if (m_IsFadeEnd && m_IsStageClear)
+		return NEW Stage1(m_Parent, ++m_StageCount);
+
 	return this;
 }
 //-------------------------------------------------------------
@@ -231,17 +239,20 @@ void Stage1::SetBall(Ball* ball, const U32 index)
 //		private method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: 初期化
+//!	@brief		: ステージをクリアした場合の
 //!	@return		: 成功(true),失敗(false)
 //-------------------------------------------------------------
 void Stage1::StageClear()
 {
-	if (m_IsEnd || !m_BlockSystem->Clear())
-		return;
 	SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
 	SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
-	m_IsEnd = true;
-	SetActive(!m_IsEnd);
+
+	for (auto iChild = m_Children.begin(); iChild != m_Children.end(); ++iChild)
+		(*iChild)->SetActive(false);
+	
+	m_IsFading = true;
+	
+	m_IsGameClear = m_StageCount >= STAGE_MAX;
 }
 //-------------------------------------------------------------
 //!	@brief		: 初期化
@@ -249,8 +260,11 @@ void Stage1::StageClear()
 //-------------------------------------------------------------
 void Stage1::FadeScene()
 {
-	m_FadeVolume -= m_IsEnd ? 0.01f : 0.f;
+	m_FadeVolume -= 0.01f;
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
+
+	if (m_FadeVolume < 0 && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
+		m_IsFadeEnd = true;
 }
 //-------------------------------------------------------------
 //!	@brief		: 初期化

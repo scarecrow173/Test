@@ -25,6 +25,7 @@
 #include "ReferenceCounter.h"
 #include "ResourceManager.h"
 #include "StringEncoder.h"
+#include "ScreenEffect.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -37,6 +38,7 @@ AK::Graphics::Spectrum spectrum;
 
 Matrix world,view, projction;
 AK::Graphics::WindowPolygonRenderer g_w;
+AK::Graphics::ScreenEffect* g_ScrrenEffect = NULL;
 
 
 //--------------------------------------------------------------------------------------
@@ -98,7 +100,7 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 //--------------------------------------------------------------------------------------
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
-	g_w.CreatePolygon(1,2);
+	
 
 
 	TRACE(0,L"OnFrameMove\n");
@@ -182,11 +184,13 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
 
-		spectrum.Draw();
+		spectrum.Draw();		
 
 		pd3dDevice->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
 		g_mrg->Draw();
+		g_ScrrenEffect->Draw();
+		
 
         V( pd3dDevice->EndScene() );
     }
@@ -272,6 +276,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	//_CrtSetBreakAlloc(642);
 #endif
 
     // Set the callback functions
@@ -361,7 +366,10 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	
 	spectrum.CreateSpectrumData();
 	
-
+	g_w.CreatePolygon(1,2);
+	g_ScrrenEffect = NEW AK::Graphics::ScreenEffect();
+	g_ScrrenEffect->Initilize();
+	g_ScrrenEffect->AddRenderer(&g_w);
 
 	// Start the render loop
     DXUTMainLoop();
