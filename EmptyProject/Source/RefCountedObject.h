@@ -19,7 +19,7 @@ class RefCountedObject
 public:
 	friend RefCountedObjectPtr;
 
-	RefCountedObject() : m_RefCount(0){};
+	RefCountedObject() : m_RefCount(0){/*AddRef();*/};
 
 
 
@@ -61,6 +61,8 @@ inline void RefCountedObject::SubRef()
 inline void RefCountedObject::Release()
 {
 	SubRef();
+	if (m_RefCount == 0)
+		delete this;
 }
 
 };

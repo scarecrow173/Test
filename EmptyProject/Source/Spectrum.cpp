@@ -35,6 +35,10 @@ Spectrum::Spectrum()
 //-------------------------------------------------------------
 Spectrum::~Spectrum()
 {
+	SAFE_RELEASE(m_Texture);
+	SAFE_RELEASE(m_VertexBuffer);
+	SAFE_RELEASE(m_IndexBuffer);
+	SAFE_RELEASE(m_Effect);
 }
 //=======================================================================================
 //		public method
@@ -156,6 +160,7 @@ void Spectrum::CreateSpectrumData()
 		::MessageBoxA( NULL, (LPCSTR)wError->GetBufferPointer(), "Error", MB_OK );	// Ž¸”s‚ÌŒ´ˆö‚ð•\Ž¦
 		wError->Release();
 	}
+	
 	m_Effect->SetTechnique(m_Effect->GetTechniqueByName("Spectrum"));
 }
 //-------------------------------------------------------------
@@ -170,9 +175,9 @@ void Spectrum::Draw()
 	UINT oldNum = 0;
 	UINT oldStride = 0;
 	GraphicsManager::GetInstance()->GetD3DDevice()->GetStreamSource(0, &oldBuf, &oldNum, &oldStride);
+	
 	LPDIRECT3DINDEXBUFFER9 oldIndexBuf;
 	GraphicsManager::GetInstance()->GetD3DDevice()->GetIndices(&oldIndexBuf);
-
 	LPDIRECT3DVERTEXDECLARATION9 olddel;
 	GraphicsManager::GetInstance()->GetD3DDevice()->GetVertexDeclaration(&olddel);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(NULL);
@@ -196,8 +201,15 @@ void Spectrum::Draw()
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetStreamSource(0, oldBuf, oldNum, oldStride);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(oldIndexBuf);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(olddel);
+
+
+	
 	m_Effect->EndPass();
 	m_Effect->End();
+
+	SAFE_RELEASE(oldBuf);
+	SAFE_RELEASE(oldIndexBuf);
+
 }
 //-------------------------------------------------------------
 //!	@brief		: example

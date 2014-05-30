@@ -71,11 +71,10 @@ inline GameObject::GameObject(INode* parent, Vector3 pos)
 //-------------------------------------------------------------	
 inline GameObject::~GameObject()
 {
-	if (m_Collision)
-		SAFE_DELETE(m_Collision);
+	SAFE_DELETE(m_Collision);
 
-	if (m_Renderer)
-		SAFE_DELETE(m_Renderer);
+	
+	SAFE_DELETE(m_Renderer);
 }
 
 //-------------------------------------------------------------

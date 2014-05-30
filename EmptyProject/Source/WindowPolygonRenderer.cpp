@@ -31,6 +31,7 @@ WindowPolygonRenderer::WindowPolygonRenderer()
 WindowPolygonRenderer::~WindowPolygonRenderer()
 {
 	SAFE_RELEASE(m_VertexBuffer);
+
 }
 //=======================================================================================
 //		public method
@@ -71,6 +72,10 @@ void WindowPolygonRenderer::Draw()
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(oldIndexBuf);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(olddel);
 
+
+	SAFE_RELEASE(oldBuf);
+	SAFE_RELEASE(oldIndexBuf);
+	SAFE_RELEASE(olddel);
 }
 //-------------------------------------------------------------
 //!	@brief		: example

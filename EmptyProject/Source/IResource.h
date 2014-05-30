@@ -14,7 +14,7 @@ namespace AK
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class IResource	: public RefCountedObject
+class IResource//	: public RefCountedObject
 {
 public:
 	virtual IResource* Clone() PURE;

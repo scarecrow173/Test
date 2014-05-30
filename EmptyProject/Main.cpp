@@ -26,6 +26,9 @@
 #include "ResourceManager.h"
 #include "StringEncoder.h"
 #include "ScreenEffect.h"
+#include "Material.h"
+#include "PrimitivePool.h"
+#include "MaterialPool.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -34,11 +37,10 @@ IDirect3DDevice9* g_Device	= NULL;
 
 AK::Graphics::GraphicsManager* g_mrg	= NULL;
 
-AK::Graphics::Spectrum spectrum;
+AK::Graphics::Spectrum* spectrum=NULL;
 
 Matrix world,view, projction;
-AK::Graphics::WindowPolygonRenderer g_w;
-AK::Graphics::ScreenEffect* g_ScrrenEffect = NULL;
+
 
 
 //--------------------------------------------------------------------------------------
@@ -154,7 +156,7 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 		fft[i] = WINDOW_HEIGHT - (fft[i] > (WINDOW_HEIGHT * 0.9f) ? (WINDOW_HEIGHT * 0.9f) : fft[i]);
 
 	}
-	spectrum.Update(fft, 1024);
+	spectrum->Update(fft, 1024);
 
 
 	g_Root->UpdateNodeTree();
@@ -184,12 +186,12 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
 
-		spectrum.Draw();		
+		spectrum->Draw();		
 
 		pd3dDevice->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
 		g_mrg->Draw();
-		g_ScrrenEffect->Draw();
+
 		
 
         V( pd3dDevice->EndScene() );
@@ -356,28 +358,33 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_Device->SetMaterial(&material);
 
 
+	AK::Graphics::Material mymaterial;
 
+	memcpy(&material, &mymaterial.m_Diffuse, sizeof(D3DMATERIAL9));
+
+	//ZeroMemory(&mymaterial, sizeof(AK::Graphics::Material));
 
 
 
 	g_mrg->SetView(view);
 	g_mrg->SetProjection(projction);
 
+	spectrum = NEW AK::Graphics::Spectrum();
+	spectrum->CreateSpectrumData();
 	
-	spectrum.CreateSpectrumData();
-	
-	g_w.CreatePolygon(1,2);
-	g_ScrrenEffect = NEW AK::Graphics::ScreenEffect();
-	g_ScrrenEffect->Initilize();
-	g_ScrrenEffect->AddRenderer(&g_w);
+
 
 	// Start the render loop
     DXUTMainLoop();
 
+	SAFE_DELETE(spectrum);
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();
+	AK::PrimitivePool::DestroySingleton();
+	AK::MaterialPool::DestroySingleton();
 
 	AK::Graphics::GraphicsManager::Destroy();
+	AK::Sound::SoundManager::Destroy();
 	BASS_Free();
 
     // TODO: Perform any application-level cleanup here

@@ -61,14 +61,14 @@ RefCountedObjectPtr TexturePool::GetTexture(const std::string& dataCode)
 	std::string dataType, textureType, name;
 	SplitDataPath(dataCode, dataType, textureType, name);
 
-	auto iCreator = m_TextureLoader.find(textureType);
+	//auto iCreator = m_TextureLoader.find(textureType);
 
-	//	ファクトリがm_TextureLoaderに登録されていなければアサートしてNULLのオブジェクト返す
-	if (iCreator == m_TextureLoader.end())
-	{
-		assert(0);	
-		return RefCountedObjectPtr(NULL);
-	}
+	////	ファクトリがm_TextureLoaderに登録されていなければアサートしてNULLのオブジェクト返す
+	//if (iCreator == m_TextureLoader.end())
+	//{
+	//	assert(0);	
+	//	return RefCountedObjectPtr(NULL);
+	//}
 
 	auto it = m_ManagedResouce.find(dataCode);
 	if (it != m_ManagedResouce.end())
@@ -89,18 +89,25 @@ RefCountedObjectPtr TexturePool::GetTexture(const std::string& dataCode)
 //---------------------------------------------------------------------------------------
 RefCountedObject* TexturePool::CreateTexture(const std::string& dataCode, const std::string& dataType, const std::string& textureType, const std::string& name)
 {
+	//まだリファクタリングできそうちょっと後回し
+	if (!(dataType == "file" || dataType == "data"))
+		return NULL;
+
 	if (dataType == "file")
 	{
+		auto iLoader = m_TextureLoader.find(textureType);
+		if (iLoader == m_TextureLoader.end())
+			return NULL;
 		m_ManagedResouce[dataCode] = m_TextureLoader[textureType](name);
 	}
 	else if (dataType == "data")
 	{
+		auto iCreator = m_TextureCreator.find(textureType);
+		if (iCreator == m_TextureCreator.end())
+			return NULL;
 		m_ManagedResouce[dataCode] = m_TextureCreator[textureType]();
 	}
-	else
-	{
-		assert(0);
-	}
+
 
 	return m_ManagedResouce[dataCode];
 }

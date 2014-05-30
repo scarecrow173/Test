@@ -9,6 +9,8 @@
 #include "DebugUtill.h"
 #include <wincon.h>
 #include <map>
+#include <string>
+#include <iostream>
 #if defined(DEBUG) || defined(_DEBUG)
 bool	isConsole	= false;
 static U32		TraceLevel	= 0;
@@ -34,6 +36,10 @@ void __Trace(const char* str)
 void __Trace(const wchar_t* str)
 {
 	OutputDebugStringW(str);
+}
+void __Trace(U32	num)
+{
+	__Trace(std::to_string((_ULonglong)num).c_str());
 }
 //-------------------------------------------------------------
 //!	@brief		: example

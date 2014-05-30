@@ -8,6 +8,7 @@
 //=======================================================================================
 #include "TriangleRenderer.h"
 #include "GraphicsManager.h"
+#include "Material.h"
 
 using namespace AK;
 using namespace Graphics;

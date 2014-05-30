@@ -17,6 +17,7 @@ namespace AK
 class RefCountedObjectPtr
 {
 public:
+	RefCountedObjectPtr();
 	explicit RefCountedObjectPtr(RefCountedObject* obj);
 	RefCountedObjectPtr(const RefCountedObjectPtr& src);
 	virtual ~RefCountedObjectPtr();
@@ -38,6 +39,13 @@ private:
 //=======================================================================================
 //		inline method
 //=======================================================================================
+//---------------------------------------------------------------------------------------
+//!	@brief		: コンストラクタ
+//---------------------------------------------------------------------------------------
+inline RefCountedObjectPtr::RefCountedObjectPtr()
+	:	m_SharedObject	(NULL)
+{
+}
 //---------------------------------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //---------------------------------------------------------------------------------------
@@ -63,6 +71,7 @@ inline RefCountedObjectPtr::RefCountedObjectPtr(const RefCountedObjectPtr& src)
 inline RefCountedObjectPtr::~RefCountedObjectPtr()
 {
 	SAFE_RELEASE(m_SharedObject);
+
 }
 //---------------------------------------------------------------------------------------
 //!	@brief		: 

@@ -7,6 +7,7 @@
 //!	@note	:	example
 //=======================================================================================
 
+#include "GraphicsManager.h"
 #include "UseFixed.h"
 using namespace AK;
 using namespace Graphics;
@@ -46,6 +47,11 @@ void UseFixed::Draw()
 {
 	for (auto it = m_Renderer.begin(); it != m_Renderer.end(); ++it)
 	{
+		D3DMATERIAL9 material;
+		ZeroMemory(&material, sizeof(D3DMATERIAL9));
+		if ((*it)->GetMaterial())
+			memcpy(&material, &(*it)->GetMaterial()->m_Diffuse, sizeof(D3DMATERIAL9));
+		GraphicsManager::GetInstance()->GetD3DDevice()->SetMaterial(&material);
 		(*it)->Draw();
 	}
 }

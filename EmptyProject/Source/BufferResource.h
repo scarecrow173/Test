@@ -89,8 +89,8 @@ inline void	BufferResource::PopIndex(const U32 start, const U32 end)
 //-------------------------------------------------------------
 inline void BufferResource::ReCreateIndexBuffer()
 {
-	if(m_IndexBuffer)
-		SAFE_RELEASE(m_IndexBuffer);
+	
+	SAFE_RELEASE(m_IndexBuffer);
 
 	DXUTGetD3D9Device()->CreateIndexBuffer((UINT)(sizeof(U32) * m_Index.size()), 0, D3DFMT_INDEX32, D3DPOOL_MANAGED, &m_IndexBuffer, 0);
 

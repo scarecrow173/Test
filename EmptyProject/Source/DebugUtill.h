@@ -36,6 +36,7 @@ namespace Debug
 
 	void __Trace(const char* str);
 	void __Trace(const wchar_t* str);
+	void __Trace(U32	num);
 	template<typename T>
 	void Trace(U32 level, T _str, const char* _fileName, S32 _line);
 	void TraceEx( LPCSTR pszFormat, ...);

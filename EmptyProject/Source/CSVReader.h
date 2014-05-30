@@ -38,6 +38,8 @@ class CSVReader
 
 	};
 public:
+	CSVReader();
+	virtual ~CSVReader();
 	void Load(const char* filePath);
 
 	U32 column;

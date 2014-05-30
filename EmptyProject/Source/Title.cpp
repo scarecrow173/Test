@@ -18,6 +18,7 @@
 #include "UseFixed.h"
 #include "ResourceManager.h"
 #include "PrimitivePool.h"
+#include "MaterialPool.h"
 
 
 using namespace AK;
@@ -181,6 +182,11 @@ void Title::LoadTitleBlock()
 		TriangleRenderer* render = NEW TriangleRenderer();
 		render->SetBufferResource( PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01") );
 		
+		auto materialPtr = MaterialPool::GetInstance()->GetMaterial("file:Default-Assets/CSV/Material/TestMaterial.csv");
+		auto material = (Material*)materialPtr.GetSharedObject();
+
+		render->SetMaterial(materialPtr);
+
 		Vector3 pos;
 
 		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f));

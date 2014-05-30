@@ -48,23 +48,27 @@ GraphicsManager::GraphicsManager()
 //-------------------------------------------------------------
 GraphicsManager::~GraphicsManager()
 {
-	U32 count=0;
+	auto it = m_ShaderList.begin();
+	while (it != m_ShaderList.end())
+	{
+		SAFE_DELETE(*it);
+		it = m_ShaderList.erase(it);
+	}
 
-	if (m_BaseBuffer)
-		SAFE_RELEASE(m_BaseBuffer);
 
-	if (m_ColorBuffer)
-		SAFE_RELEASE(m_ColorBuffer);
+	SAFE_RELEASE(m_BaseBuffer);
+
+
+	SAFE_RELEASE(m_ColorBuffer);
 	
-	if (m_UVBuffer)
-		SAFE_RELEASE(m_UVBuffer);
+
+	SAFE_RELEASE(m_UVBuffer);
 	
-	if (m_InstanceBuffer)
-		SAFE_RELEASE(m_InstanceBuffer);
 
-	if (m_Device)
-		count = m_Device->Release();
+	SAFE_RELEASE(m_InstanceBuffer);
 
+
+	SAFE_RELEASE(m_Device);
 }
 //=======================================================================================
 //		public method
@@ -122,8 +126,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 {
 	//assert(!(m_VertexCount >= VERTEX_NUM));
 
-	if (m_BaseBuffer)
-		SAFE_RELEASE(m_BaseBuffer);
+	
+	SAFE_RELEASE(m_BaseBuffer);
 		
 	//	座標バッファ作成
 	if (FAILED(m_Device->CreateVertexBuffer(
@@ -135,8 +139,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 		0)))
 		return false;
 	
-	if (m_ColorBuffer)
-		SAFE_RELEASE(m_ColorBuffer);
+	
+	SAFE_RELEASE(m_ColorBuffer);
 		
 	//	カラーバッファ作成
 	if (FAILED(m_Device->CreateVertexBuffer(
@@ -149,8 +153,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 		return false;
 
 
-	if (m_UVBuffer)
-		SAFE_RELEASE(m_UVBuffer);
+	
+	SAFE_RELEASE(m_UVBuffer);
 		
 	//	UVバッファ作成
 	if (FAILED(m_Device->CreateVertexBuffer(
@@ -163,8 +167,8 @@ bool GraphicsManager::ReCreateVertexBuffer()
 		return false;
 
 
-	if (m_InstanceBuffer)
-		SAFE_RELEASE(m_InstanceBuffer);
+	
+	SAFE_RELEASE(m_InstanceBuffer);
 
 	//	インスタンスIDバッファ作成
 	if (FAILED(m_Device->CreateVertexBuffer(

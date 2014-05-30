@@ -35,6 +35,11 @@ PrimitivePool::~PrimitivePool()
 		SAFE_DELETE(it->second);
 		it = m_PrimitiveCreator.erase(it);
 	}
+	auto iResouce = m_ManagedResouce.begin();
+	while (iResouce != m_ManagedResouce.end())
+	{
+		iResouce = m_ManagedResouce.erase(iResouce);
+	}
 }
 //=======================================================================================
 //		public method
@@ -61,10 +66,11 @@ RefCountedObjectPtr PrimitivePool::GetPrimitive(const std::string& dataCode)
 
 	auto it = m_ManagedResouce.find(dataCode);
 	if (it != m_ManagedResouce.end())
-		return RefCountedObjectPtr(it->second);
+		return it->second;
 
-	m_ManagedResouce[dataCode] = m_PrimitiveCreator[primiveType]->CreatePrimitive();
-	return RefCountedObjectPtr(m_ManagedResouce[dataCode]);
+	m_ManagedResouce[dataCode] = RefCountedObjectPtr(m_PrimitiveCreator[primiveType]->CreatePrimitive());
+	
+	return m_ManagedResouce[dataCode];
 }
 //---------------------------------------------------------------------------------------
 //!	@brief		: 

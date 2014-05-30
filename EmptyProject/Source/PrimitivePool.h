@@ -33,7 +33,7 @@ protected:
 
 	void SplitDataPath(std::string src, std::string& dataType, std::string& primitiveType/*, std::string& name*/);
 
-	std::hash_map<std::string, RefCountedObject*>					m_ManagedResouce;
+	std::hash_map<std::string, RefCountedObjectPtr>					m_ManagedResouce;
 	std::unordered_map<std::string, Graphics::IPrimitiveFactory*>	m_PrimitiveCreator;
 };
 
