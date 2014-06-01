@@ -9,8 +9,8 @@
 namespace AK
 {
 
-namespace Graphics{ class IShaderObject; };
-namespace Collision{ class ICollisionObject; };
+namespace Graphics	{	class IShaderObject;		};
+namespace Collision	{	class ICollisionObject;		};
 class Block;
 class Ball;
 
