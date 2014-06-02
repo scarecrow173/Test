@@ -43,7 +43,7 @@ void TriangleRenderer::Draw()
 	BufferResource* resource = (BufferResource*)m_BufferResource.GetSharedObject();
 
 	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
-	const Matrix tmpWorld = m_Transform->GetTransform();
+	//const Matrix tmpWorld = m_Transform->GetTransform();
 
 
 	//GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);

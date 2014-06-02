@@ -94,18 +94,11 @@ void PhongShader::Draw()
 			Material* material = (*it)->GetMaterial();
 			auto transform = (*it)->GetTransform();
 			Matrix world	= transform->GetTransform();
-			auto scale = transform->GetScaling();
-			Matrix mamat;
-			D3DXMatrixScaling(&mamat, scale.x, scale.y, scale.z);
-			//D3DXMatrixTranspose(&world,&world);
-			D3DXMatrixIdentity(&world);
-			D3DXMatrixMultiply(&world, &world, &mamat);
-			//D3DXMatrixTranspose(&world, &world);
-			//D3DXMatrixTranspose(&view, &view);
-			//D3DXMatrixTranspose(&proj, &proj);
 			m_Effect->SetMatrix(m_hWorld, &world);
 
 			m_Effect->SetValue(m_hMaterial, material, sizeof(Material));
+			m_Effect->CommitChanges();
+
 			(*it)->Draw();
 			Matrix mat;
 			m_Effect->GetMatrix(m_hWorld, &mat);

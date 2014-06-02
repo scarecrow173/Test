@@ -100,8 +100,8 @@ bool Title::Initialize()
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(TITLE_BGM_NUM, TRUE);
 
-	//m_Shader = NEW PhongShader();
-	m_Shader = NEW UseFixed();
+	m_Shader = NEW PhongShader();
+	//m_Shader = NEW UseFixed();
 
 	m_Shader->Initilize();
 	m_FadeOutScreen = NEW ScreenEffect();
