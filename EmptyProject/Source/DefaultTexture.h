@@ -25,7 +25,7 @@ public:
 	DefaultTexture();
 	virtual ~DefaultTexture();
 
-	RTTI_IS_A(TextureType::TextureType, DefaultTexture);
+	RTTI_IS_A(DefaultTexture);
 
 	LPDIRECT3DTEXTURE9	GetTexture() const;
 	void				SetTexture(const LPDIRECT3DTEXTURE9* texture);

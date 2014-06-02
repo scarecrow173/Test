@@ -21,6 +21,7 @@ public:
 	SceneNode(INode* parent) : INode(parent) {};
 	virtual ~SceneNode(){};
 
+	RTTI_IS_A(SceneNode);
 	virtual void		Update()		PURE;
 	virtual SceneNode*	NextScene()		PURE;
 	virtual bool		Initialize()	PURE;

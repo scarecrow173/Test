@@ -29,6 +29,7 @@ public:
 	Stage1(INode* parent, U32 stageCount);
 	virtual ~Stage1();
 
+	RTTI_IS_A(Stage1);
 	virtual void		Update();
 	virtual SceneNode*	NextScene();
 	virtual bool		Initialize();

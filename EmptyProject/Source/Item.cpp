@@ -12,8 +12,8 @@
 #include "TriangleRenderer.h"
 #include "CollisionBox.h"
 #include "Colors.h"
-#include "ResourceManager.h"
 #include "PrimitivePool.h"
+#include "MaterialPool.h"
 
 
 using namespace AK;
@@ -35,7 +35,8 @@ Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
 	static const F32 HEIGHT	= 50.f;
 
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
+	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;

@@ -15,8 +15,8 @@
 #include "Item.h"
 #include "Stage1.h"
 #include "Ball.h"
-#include "ResourceManager.h"
 #include "PrimitivePool.h"
+#include "MaterialPool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -38,8 +38,10 @@ Paddle::Paddle(INode* parent, Vector3 pos)
 	static const F32 PADDLE_HEIGHT	= 80.f;
 
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01"));
-
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
+	
+	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
+	
 	m_Size.x = PADDLE_WIDTH;
 	m_Size.y = PADDLE_HEIGHT;
 	m_Size.z = 50.f;
@@ -91,11 +93,16 @@ void Paddle::Start()
 //-------------------------------------------------------------
 void Paddle::Affect(GameObject* obj)
 {
-	Item* item = RTTI_DYNAMIC_CAST(GameObjectID::Item, Item*, obj);
-	if (!item)
+	Item* item			= RTTI_PTR_DYNAMIC_CAST(Item, obj);
+	CollisionBox* box	= RTTI_PTR_DYNAMIC_CAST(CollisionBox, m_Collision);
+	Stage1* stage		= RTTI_PTR_DYNAMIC_CAST(Stage1, m_Parent);
+
+	if ((!item) || (!box) || (!stage))
 		return;
-	CollisionBox* box = RTTI_DYNAMIC_CAST(CollisionID::CollisionBox, CollisionBox*, m_Collision);
-	Ball* ball = static_cast<Stage1*>(m_Parent)->GetBall();
+
+
+	Ball* ball = stage->GetBall();
+	
 	const F32 width = box->GetWidth();
 	Vector3 pos		= box->GetPosition();
 

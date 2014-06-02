@@ -35,11 +35,7 @@ PrimitivePool::~PrimitivePool()
 		SAFE_DELETE(it->second);
 		it = m_PrimitiveCreator.erase(it);
 	}
-	auto iResouce = m_ManagedResouce.begin();
-	while (iResouce != m_ManagedResouce.end())
-	{
-		iResouce = m_ManagedResouce.erase(iResouce);
-	}
+
 }
 //=======================================================================================
 //		public method
@@ -50,10 +46,10 @@ PrimitivePool::~PrimitivePool()
 //!	@param[in]	: 例: dataCode = "data				:	BOX		-	Box01"
 //!	@return		: 
 //---------------------------------------------------------------------------------------
-RefCountedObjectPtr PrimitivePool::GetPrimitive(const std::string& dataCode)
+RefCountedObjectPtr PrimitivePool::GetResource(const std::string& dataCode)
 {
-	std::string dataType, primiveType;
-	SplitDataPath(dataCode, dataType, primiveType/*, name*/);
+	std::string dataType, primiveType, name;
+	SplitDataPath(dataCode, dataType, primiveType, name);
 
 	auto iCreator = m_PrimitiveCreator.find(primiveType);
 	//	ファイル読み込みは未実装なのでアサートしてNULLのオブジェクトを返す
@@ -64,32 +60,15 @@ RefCountedObjectPtr PrimitivePool::GetPrimitive(const std::string& dataCode)
 		return RefCountedObjectPtr(NULL);
 	}
 
-	auto it = m_ManagedResouce.find(dataCode);
-	if (it != m_ManagedResouce.end())
+	auto it = m_ManagedResource.find(dataCode);
+	if (it != m_ManagedResource.end())
 		return it->second;
 
-	m_ManagedResouce[dataCode] = RefCountedObjectPtr(m_PrimitiveCreator[primiveType]->CreatePrimitive());
+	m_ManagedResource[dataCode] = RefCountedObjectPtr(m_PrimitiveCreator[primiveType]->CreatePrimitive());
 	
-	return m_ManagedResouce[dataCode];
+	return m_ManagedResource[dataCode];
 }
-//---------------------------------------------------------------------------------------
-//!	@brief		: 
-//!	@param[in]	: 
-//!	@return		: 
-//---------------------------------------------------------------------------------------
-void PrimitivePool::SplitDataPath(std::string src, std::string& dataType, std::string& primitiveType/*, std::string& name*/)
-{
-	static StringEncoder encoder;
 
-	encoder.DeleteSpace(src);
-	dataType		= encoder.SplitFront(src, ":");
-	primitiveType	= encoder.SplitFront(src, "-");
-	//name			= src;
-
-	assert(dataType			!= "");
-	assert(primitiveType	!= "");
-	//assert(name				!= "");
-}
 //=======================================================================================
 //		protected method
 //=======================================================================================

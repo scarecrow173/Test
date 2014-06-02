@@ -9,8 +9,8 @@
 namespace AK
 {
 
-namespace Graphics	{	class IShaderObject;		};
-namespace Collision	{	class ICollisionObject;		};
+namespace Graphics{ class IShaderObject; };
+namespace Collision{ class ICollisionObject; };
 class Block;
 class Ball;
 
@@ -26,7 +26,7 @@ public:
 	BlockSystem(INode* parent);
 	virtual ~BlockSystem();
 
-	
+	RTTI_IS_A(BlockSystem);
 	virtual void Update();
 	virtual void Start();
 	bool CreateStageBlocks(const std::string& filePath, Graphics::IShaderObject* shader);

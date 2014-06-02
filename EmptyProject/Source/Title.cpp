@@ -16,10 +16,9 @@
 #include "Colors.h"
 #include "TriangleRenderer.h"
 #include "UseFixed.h"
-#include "ResourceManager.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
-
+#include "PhongShader.h"
 
 using namespace AK;
 using namespace Sound;
@@ -101,7 +100,9 @@ bool Title::Initialize()
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(TITLE_BGM_NUM, TRUE);
 
+	//m_Shader = NEW PhongShader();
 	m_Shader = NEW UseFixed();
+
 	m_Shader->Initilize();
 	m_FadeOutScreen = NEW ScreenEffect();
 	m_FadeOutScreen->Initilize();
@@ -180,11 +181,11 @@ void Title::LoadTitleBlock()
 			continue;
 		
 		TriangleRenderer* render = NEW TriangleRenderer();
-		render->SetBufferResource( PrimitivePool::GetInstance()->GetPrimitive("data:BOX-Box01") );
+		render->SetBufferResource( PrimitivePool::GetInstance()->GetResource("data:BOX-Box01") );
 		
-		auto materialPtr = MaterialPool::GetInstance()->GetMaterial("file:Default-Assets/CSV/Material/TestMaterial.csv");
-		auto material = (Material*)materialPtr.GetSharedObject();
-
+		auto materialPtr = MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv");
+		//auto material = RTTI_PTR_DYNAMIC_CAST(Material, (materialPtr.GetSharedObject()));
+		
 		render->SetMaterial(materialPtr);
 
 		Vector3 pos;

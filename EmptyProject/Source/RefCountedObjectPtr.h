@@ -30,7 +30,7 @@ public:
 	//RefCountedObject*		operator ->() const;
 
 
-	const RefCountedObject* GetSharedObject() const;
+	RefCountedObject* const GetSharedObject() const;
 
 private:
 	RefCountedObject* m_SharedObject;
@@ -121,7 +121,7 @@ inline RefCountedObject* RefCountedObjectPtr::operator ->()
 //---------------------------------------------------------------------------------------
 //!	@brief		: 
 //---------------------------------------------------------------------------------------
-inline const RefCountedObject* RefCountedObjectPtr::GetSharedObject() const
+inline RefCountedObject* const RefCountedObjectPtr::GetSharedObject() const
 {
 	return m_SharedObject;
 }

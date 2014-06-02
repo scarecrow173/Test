@@ -28,7 +28,7 @@ public:
 	Item(INode* parent, Vector3 pos, ITEM_TYPE type);
 	virtual ~Item();
 
-	RTTI_IS_A(GameObjectID::GameObjectID, Item);
+	RTTI_IS_A(Item);
 	virtual void	Update();
 	virtual void	Start();
 

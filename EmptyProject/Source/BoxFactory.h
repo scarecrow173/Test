@@ -15,10 +15,10 @@
 #include "TEST_PrimitivePool_defind.h"
 namespace AK
 {
-class PrimitivePool;
+
 namespace Graphics
 {
-class ResourceManager;
+class PrimitivePool;
 
 //=======================================================================================
 //!	@class	:	BoxFactory

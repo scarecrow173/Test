@@ -31,7 +31,7 @@ namespace TextureType
 class ITexture : public RefCountedObject
 {
 public:
-	RTTI_IS_A_BASE(TextureType::TextureType, ITexture);
+	RTTI_IS_A(ITexture);
 
 	//virtual ITexture*	GetTexture() const PURE;
 	//virtual void		SetTexture(const ITexture* texture) PURE;

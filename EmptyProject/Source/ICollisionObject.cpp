@@ -147,7 +147,7 @@ void ICollisionObject::Update(std::vector<ICollisionObject*>& collision)
 			m_IsHit = true;
 			collision.emplace_back(*it);
 			auto v2 = m_Position;
-			auto box = dynamic_cast<CollisionBox*>(*it);
+			auto box = RTTI_PTR_DYNAMIC_CAST(CollisionBox, (*it));
 			if (box)
 				ClosestPtPoint(&v2, box, &v1);
 			else

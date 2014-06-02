@@ -115,6 +115,9 @@
     <None Include="Source\ScreenEffect.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Source\Phong.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -235,9 +238,6 @@
     <ClCompile Include="Source\BallStateLaunch.cpp">
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ResourceManager.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SpherePool.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
@@ -254,6 +254,21 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\MaterialPool.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourcePool.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DefaultTextureFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CubeTextureFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MaterialFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhongShader.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -429,9 +444,6 @@
     <ClInclude Include="Source\IResource.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ResourceManager.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ReferenceCounter.h">
       <Filter>Source\Utill</Filter>
     </ClInclude>
@@ -490,6 +502,27 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Material.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResourcePool.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ITextureFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DefaultTextureFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CubeTextureFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IMaterialFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MaterialFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhongShader.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

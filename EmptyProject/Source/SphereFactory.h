@@ -15,11 +15,11 @@
 
 namespace AK
 {
-class PrimitivePool;
+
 namespace Graphics
 {
 
-class ResourceManager;
+class PrimitivePool;
 //=======================================================================================
 //!	@class	:	SphereFactory
 //!	@brief	:	example

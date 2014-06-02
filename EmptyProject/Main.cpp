@@ -23,12 +23,12 @@
 #include "WindowPolygonRenderer.h"
 #include "SafeArray.h"
 #include "ReferenceCounter.h"
-#include "ResourceManager.h"
 #include "StringEncoder.h"
 #include "ScreenEffect.h"
 #include "Material.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
+#include "PhongShader.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -38,6 +38,8 @@ IDirect3DDevice9* g_Device	= NULL;
 AK::Graphics::GraphicsManager* g_mrg	= NULL;
 
 AK::Graphics::Spectrum* spectrum=NULL;
+
+AK::Graphics::PhongShader*	phong = NULL;
 
 Matrix world,view, projction;
 
@@ -186,7 +188,8 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
 
-		spectrum->Draw();		
+		spectrum->Draw();
+		//phong->Draw();
 
 		pd3dDevice->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
@@ -326,10 +329,22 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	getViewMatrixTakingSphereInCamera(&view, Vector3(0,0,0), 500.f, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, Vector3(0, 0, -1), Vector3(0, 1, 0));
 
+
+
 	g_Device->SetTransform(D3DTS_WORLD, &world);
 	g_Device->SetTransform(D3DTS_VIEW, &view);
 	g_Device->SetTransform(D3DTS_PROJECTION, &projction);
+	g_mrg->SetView(view);
+	g_mrg->SetProjection(projction);
 
+	g_Device->SetVertexShaderConstantF(0, world,		4);
+	g_Device->SetVertexShaderConstantF(4, view,			4);
+	g_Device->SetVertexShaderConstantF(8, projction,	4);
+
+	g_Device->SetVertexShaderConstantF(13, eye,	1);
+
+	const Vector3 LightDir(0, 0.f, -1);
+	g_Device->SetVertexShaderConstantF(12, LightDir, 1);
 	
 	D3DMATERIAL9 material;
 	
@@ -366,11 +381,12 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 
 
-	g_mrg->SetView(view);
-	g_mrg->SetProjection(projction);
+
 
 	spectrum = NEW AK::Graphics::Spectrum();
 	spectrum->CreateSpectrumData();
+	
+	//phong	= NEW AK::Graphics::PhongShader();
 	
 
 
@@ -380,8 +396,8 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	SAFE_DELETE(spectrum);
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();
-	AK::PrimitivePool::DestroySingleton();
-	AK::MaterialPool::DestroySingleton();
+	AK::Graphics::PrimitivePool::DestroySingleton();
+	AK::Graphics::MaterialPool::DestroySingleton();
 
 	AK::Graphics::GraphicsManager::Destroy();
 	AK::Sound::SoundManager::Destroy();

@@ -110,39 +110,75 @@
 #define WINDOW_WIDTH	640
 #define WINDOW_HEIGHT	480
 
-#define RTTI_IS_A_BASE(enumName, className)			\
-virtual bool IsA(enumName id)						\
+namespace RTTI_ID
+{
+enum RTTI_ID
+{
+	INode,
+	SceneNode,
+	RootNode,
+	Title,
+	Stage1,
+
+	BlockSystem,
+	ItemSystem,
+
+	GameObject,
+	Ball,
+	Block,
+	Item,
+	Paddle,
+	Wall,
+
+	ICollisionObject,
+	CollisionBox,
+	CollisionSphere,
+
+	RefCountedObject,
+	BufferResource,
+	IResource,
+	ITexture,
+	DefaultTexture,
+	CubeTexture,
+	Material,
+
+	RTTI_MAX_NUM
+
+};
+};
+#define RTTI_IS_A_BASE(className)					\
+virtual bool IsA(RTTI_ID::RTTI_ID id)				\
 {													\
 													\
-	if (enumName##::##className == id)				\
+	if (RTTI_ID##::##className == id)				\
 	{												\
 		return true;								\
 	}												\
 													\
 	return false;									\
 }													\
-virtual enumName GetID() const						\
+virtual RTTI_ID::RTTI_ID GetID() const				\
 {													\
-	return enumName##::##className;					\
+	return RTTI_ID##::##className;					\
 }													
 
-#define RTTI_IS_A(enumName, className)				\
-virtual bool IsA(enumName id)						\
+#define RTTI_IS_A(className)						\
+virtual bool IsA(RTTI_ID::RTTI_ID id)				\
 {													\
-	if (enumName##::##className == id)				\
+	if (RTTI_ID##::##className == id)				\
 	{												\
 		return true;								\
 	}												\
 													\
 	return __super::IsA(id);						\
 }													\
-virtual enumName GetID() const						\
+virtual RTTI_ID::RTTI_ID GetID() const				\
 {													\
-	return enumName##::##className;					\
+	return RTTI_ID##::##className;					\
 }													
 
-#define RTTI_DYNAMIC_CAST(enumType, castType, object) \
-	object->IsA(enumType) ? static_cast<castType>(object) : NULL;
+#define RTTI_PTR_DYNAMIC_CAST(className, object) \
+	object->IsA(RTTI_ID##::##className) ? static_cast<className##*>(object) : NULL;
 
 
 #if defined(DEBUG) || defined(_DEBUG)

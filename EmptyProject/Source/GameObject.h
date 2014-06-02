@@ -12,20 +12,7 @@
 #include "TransformObject.h"
 namespace AK
 {
-namespace GameObjectID
-{
-	enum GameObjectID
-	{
-		GameObject,
-		Ball,
-		Block,
-		Item,
-		Paddle,
-		Wall,
 
-		NUM
-	};
-};
 //=======================================================================================
 //!	@class	:	GameObject
 //!	@brief	:	example
@@ -43,7 +30,7 @@ public:
 	Graphics::IRenderer*				GetRenderer() const;
 
 	//RTTI_GAMEOBJECT_IS_A_BASE;
-	RTTI_IS_A_BASE(GameObjectID::GameObjectID, GameObject);
+	RTTI_IS_A(GameObject);
 	virtual	void					Affect(GameObject* obj);
 
 protected:

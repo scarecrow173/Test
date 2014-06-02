@@ -1,14 +1,18 @@
 //=======================================================================================
-//!	@file	:	Sample.cpp
+//!	@file	:	CubeTextureFactory.cpp
 //!	@brief	:	Sampleクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-#include "TriangleRenderer.h"
+
+#include "CubeTextureFactory.h"
+#include "CubeTexture.h"
 #include "GraphicsManager.h"
-#include "Material.h"
+
+#include <atlbase.h>
+#include <atlconv.h>
 
 using namespace AK;
 using namespace Graphics;
@@ -19,59 +23,52 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::TriangleRenderer()
-{
-}
+CubeTextureFactory::CubeTextureFactory()
+{}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::~TriangleRenderer()
-{
-}
+CubeTextureFactory::~CubeTextureFactory()
+{}
 //=======================================================================================
 //		public method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-void TriangleRenderer::Draw()
+ITexture* CubeTextureFactory::CreateTexture()
 {
-	if (!m_IsActive)
-		return;
+	CubeTexture* out = NEW CubeTexture();
 
-	//assert(m_IndexBuffer);
-	BufferResource* resource = (BufferResource*)m_BufferResource.GetSharedObject();
+	IDirect3DCubeTexture9* tex = NULL;
 
-	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
-	const Matrix tmpWorld = m_Transform->GetTransform();
+	out->SetTexture(&tex);
 
-
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);
-	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(indexBuffer);
-
-	IndexData drawData = resource->GetIndexData();
-
-	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(
-		D3DPT_TRIANGLELIST, 
-		0,
-		drawData.start,
-		drawData.vertexNum,
-		0, 
-		drawData.face);
+	return out;
 }
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-IRenderer* TriangleRenderer::Clone()
+ITexture* CubeTextureFactory::CreateTextureFromFile(const std::string& filePath)
 {
-	TriangleRenderer* clone = NEW TriangleRenderer();
-//	clone->m_IndexBuffer	= m_IndexBuffer;
-//	clone->m_IndexData		= m_IndexData;
-//	clone->m_RefCounter		= m_RefCounter;
+	CubeTexture* out = NEW CubeTexture();
 
-	return clone;
+	IDirect3DCubeTexture9* tex = NULL;
+
+	USES_CONVERSION;
+
+	D3DXCreateCubeTextureFromFile(
+		GraphicsManager::GetInstance()->GetD3DDevice(),
+		A2W(filePath.c_str()),
+		&tex);
+
+	out->SetTexture(&tex);
+	return out;
 }
-
 //=======================================================================================
 //		protected method
 //=======================================================================================

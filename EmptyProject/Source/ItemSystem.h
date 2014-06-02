@@ -26,7 +26,7 @@ public:
 	ItemSystem(INode* parent);
 	virtual ~ItemSystem();
 
-	
+	RTTI_IS_A(ItemSystem);
 	virtual void Update();
 	virtual void Start();
 	

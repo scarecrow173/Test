@@ -22,6 +22,7 @@ public:
 	BufferResource();
 	virtual ~BufferResource();
 
+	RTTI_IS_A(BufferResource);
 	void					AddIndex(std::vector<U32>& add);
 	void					PopIndex(const U32 start, const U32 end);
 	void					ReCreateIndexBuffer();

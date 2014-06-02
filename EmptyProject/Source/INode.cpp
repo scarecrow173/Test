@@ -144,14 +144,14 @@ INode* INode::FindNode(U32 findHandle)
 //-------------------------------------------------------------
 GameObject*	INode::FindNode(Collision::ICollisionObject* collison)
 {
-	GameObject* thisPointer = dynamic_cast<GameObject*>(this);
+	GameObject* thisPointer = RTTI_PTR_DYNAMIC_CAST(GameObject, (this));
 	if (thisPointer && thisPointer->GetCollision() == collison)
 		return thisPointer;
 
 
 	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
 	{
-		auto obj = dynamic_cast<GameObject*>(*it);
+		auto obj = RTTI_PTR_DYNAMIC_CAST(GameObject, (*it));
 		if (!obj)
 			continue;
 		if (obj->GetCollision() == collison)

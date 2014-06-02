@@ -41,7 +41,7 @@ public:
 	void Update(std::vector<ICollisionObject*>& collision);
 	void Update();
 
-	RTTI_IS_A_BASE(CollisionID::CollisionID, ICollisionObject);
+	RTTI_IS_A_BASE(ICollisionObject);
 	virtual bool Check(ICollisionObject* obj)PURE;
 	virtual bool Check(CollisionBox* obj)	PURE;
 	virtual bool Check(CollisionSphere* obj)PURE;

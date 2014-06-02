@@ -1,44 +1,26 @@
 //=======================================================================================
-//!	@file	:	Material.h
+//!	@file	:	ITextureFactory.h
 //!	@author	:	è¨éR âlå\
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "Elements.h"
-#include "RefCountedObject.h"
+#include "ITexture.h"
+
 namespace AK
 {
 namespace Graphics
 {
-typedef VertexFloat4 F32x4;
 //=======================================================================================
-//!	@class	:	Material
+//!	@class	:	ITextureFactory
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class Material : public RefCountedObject
+class ITextureFactory
 {
 public:
-	Material()
-	{
-		ZeroMemory(&m_Diffuse,			sizeof(F32x4)	);
-		ZeroMemory(&m_Ambient,			sizeof(F32x4)	);
-		ZeroMemory(&m_Specular,			sizeof(F32x4)	);
-		ZeroMemory(&m_Emissive,			sizeof(F32x4)	);
-		ZeroMemory(&m_SpecularPower,	sizeof(F32)		);
-	};
-
-	virtual ~Material(){};
-
-	RTTI_IS_A(Material);
-
-	F32x4	m_Diffuse;
-	F32x4	m_Ambient;
-	F32x4	m_Specular;
-	F32x4	m_Emissive;
-	F32		m_SpecularPower;
-
+	virtual ITexture* CreateTexture() PURE;
+	virtual ITexture* CreateTextureFromFile(const std::string& filePath) PURE;
 };
 //=======================================================================================
 //		inline method

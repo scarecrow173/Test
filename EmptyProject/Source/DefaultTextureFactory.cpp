@@ -1,14 +1,20 @@
 //=======================================================================================
-//!	@file	:	Sample.cpp
+//!	@file	:	DefaultTextureFactory.cpp
 //!	@brief	:	Sampleクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-#include "TriangleRenderer.h"
+
+#include "DefaultTextureFactory.h"
+
+#include "DefaultTexture.h"
 #include "GraphicsManager.h"
-#include "Material.h"
+
+#include <atlbase.h>
+#include <atlconv.h>
+
 
 using namespace AK;
 using namespace Graphics;
@@ -19,59 +25,52 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::TriangleRenderer()
-{
-}
+DefaultTextureFactory::DefaultTextureFactory()
+{}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::~TriangleRenderer()
-{
-}
+DefaultTextureFactory::~DefaultTextureFactory()
+{}
 //=======================================================================================
 //		public method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-void TriangleRenderer::Draw()
+ITexture* DefaultTextureFactory::CreateTexture()
 {
-	if (!m_IsActive)
-		return;
+	DefaultTexture* out = NEW DefaultTexture();
+	
+	IDirect3DTexture9* tex = NULL;
 
-	//assert(m_IndexBuffer);
-	BufferResource* resource = (BufferResource*)m_BufferResource.GetSharedObject();
+	out->SetTexture(&tex);
 
-	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
-	const Matrix tmpWorld = m_Transform->GetTransform();
-
-
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);
-	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(indexBuffer);
-
-	IndexData drawData = resource->GetIndexData();
-
-	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(
-		D3DPT_TRIANGLELIST, 
-		0,
-		drawData.start,
-		drawData.vertexNum,
-		0, 
-		drawData.face);
+	return out;
 }
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-IRenderer* TriangleRenderer::Clone()
+ITexture* DefaultTextureFactory::CreateTextureFromFile(const std::string& filePath)
 {
-	TriangleRenderer* clone = NEW TriangleRenderer();
-//	clone->m_IndexBuffer	= m_IndexBuffer;
-//	clone->m_IndexData		= m_IndexData;
-//	clone->m_RefCounter		= m_RefCounter;
+	DefaultTexture* out = NEW DefaultTexture();
+	
+	IDirect3DTexture9* tex = NULL;
 
-	return clone;
+	USES_CONVERSION;
+
+	D3DXCreateTextureFromFile(
+		GraphicsManager::GetInstance()->GetD3DDevice(),
+		A2W(filePath.c_str()),
+		&tex);
+
+	out->SetTexture(&tex);
+	return out;
 }
-
 //=======================================================================================
 //		protected method
 //=======================================================================================

@@ -4,15 +4,15 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include <hash_map>
-#include <unordered_map>
+#include "ResourcePool.h"
 #include "IPrimitiveFactory.h"
-#include "RefCountedObjectPtr.h"
 #include "BoxFactory.h"
 #include "SphereFactory.h"
 #include "Singleton.h"
 
 namespace AK
+{
+namespace Graphics
 {
 //=======================================================================================
 //!	@class	:	PrimitivePool
@@ -20,20 +20,18 @@ namespace AK
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class PrimitivePool : public Singleton<PrimitivePool>
+class PrimitivePool : public Singleton<PrimitivePool>, public ResourcePool
 {
 public:
 	friend Singleton<PrimitivePool>;
 
-	RefCountedObjectPtr GetPrimitive(const std::string& dataCode);
+	RefCountedObjectPtr GetResource(const std::string& dataCode);
 
 protected:
 	PrimitivePool();
 	virtual ~PrimitivePool();
 
-	void SplitDataPath(std::string src, std::string& dataType, std::string& primitiveType/*, std::string& name*/);
 
-	std::hash_map<std::string, RefCountedObjectPtr>					m_ManagedResouce;
 	std::unordered_map<std::string, Graphics::IPrimitiveFactory*>	m_PrimitiveCreator;
 };
 
@@ -41,7 +39,7 @@ protected:
 //		inline method
 //=======================================================================================
 
-
+};
 };
 //===============================================================
 //	End of File

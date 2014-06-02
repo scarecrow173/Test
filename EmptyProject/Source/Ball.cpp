@@ -20,8 +20,8 @@
 #include "IShaderObject.h"
 #include "SoundManager.h"
 #include "BallStateLaunchStandby.h"
-#include "ResourceManager.h"
 #include "PrimitivePool.h"
+#include "MaterialPool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -49,7 +49,9 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 
 	m_Radius = 30.f;
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetPrimitive("data:SHPERE-Ball"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:SHPERE-Ball"));
+	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
+	
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));
 
 	m_Renderer->SetTransform(m_Transform);

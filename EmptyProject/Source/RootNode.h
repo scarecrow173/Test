@@ -23,7 +23,7 @@ public:
 	static void			Destroy();
 	static RootNode*	GetInstance();
 
-
+	RTTI_IS_A(RootNode);
 	virtual void		Update();
 	
 

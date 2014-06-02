@@ -25,7 +25,7 @@ public:
 	CubeTexture();
 	virtual ~CubeTexture();
 
-	RTTI_IS_A(TextureType::TextureType, CubeTexture);
+	RTTI_IS_A(CubeTexture);
 
 	LPDIRECT3DCUBETEXTURE9	GetTexture() const;
 	void					SetTexture(const LPDIRECT3DCUBETEXTURE9* texture);

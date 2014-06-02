@@ -23,6 +23,7 @@ public:
 	INode(INode* parent);
 	virtual ~INode();
 
+	RTTI_IS_A_BASE(INode);
 	
 	void		AttachNode(INode* node);
 	INode*		DetachNode(U32 findHandle);

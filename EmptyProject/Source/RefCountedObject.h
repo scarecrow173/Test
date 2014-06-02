@@ -21,6 +21,7 @@ public:
 
 	RefCountedObject() : m_RefCount(0){/*AddRef();*/};
 
+	RTTI_IS_A_BASE(RefCountedObject);
 
 
 protected:

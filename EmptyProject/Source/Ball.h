@@ -28,7 +28,7 @@ public:
 	virtual ~Ball();
 
 	//RTTI_GAMEOBJECT_IS_A(Ball);
-	RTTI_IS_A(GameObjectID::GameObjectID, Ball);
+	RTTI_IS_A(Ball);
 	virtual void Update();
 	virtual void Start();
 

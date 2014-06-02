@@ -1,43 +1,35 @@
 //=======================================================================================
-//!	@file	:	Material.h
+//!	@file	:	ResourcePool.h
 //!	@author	:	è¨éR âlå\
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "Elements.h"
-#include "RefCountedObject.h"
+#include <hash_map>
+#include <unordered_map>
+#include "RefCountedObjectPtr.h"
 namespace AK
 {
 namespace Graphics
 {
-typedef VertexFloat4 F32x4;
+
 //=======================================================================================
-//!	@class	:	Material
+//!	@class	:	ResourcePool
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class Material : public RefCountedObject
+class ResourcePool
 {
 public:
-	Material()
-	{
-		ZeroMemory(&m_Diffuse,			sizeof(F32x4)	);
-		ZeroMemory(&m_Ambient,			sizeof(F32x4)	);
-		ZeroMemory(&m_Specular,			sizeof(F32x4)	);
-		ZeroMemory(&m_Emissive,			sizeof(F32x4)	);
-		ZeroMemory(&m_SpecularPower,	sizeof(F32)		);
-	};
+	virtual RefCountedObjectPtr GetResource(const std::string& dataCode) PURE;
 
-	virtual ~Material(){};
+protected:
+	ResourcePool();
+	virtual ~ResourcePool();
 
-	RTTI_IS_A(Material);
+	void SplitDataPath(std::string src, std::string& dataType, std::string& primitiveType, std::string& name);
 
-	F32x4	m_Diffuse;
-	F32x4	m_Ambient;
-	F32x4	m_Specular;
-	F32x4	m_Emissive;
-	F32		m_SpecularPower;
+	std::hash_map<std::string, RefCountedObjectPtr>					m_ManagedResource;
 
 };
 //=======================================================================================

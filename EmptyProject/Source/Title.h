@@ -24,6 +24,7 @@ public:
 	Title(INode* parent);
 	virtual ~Title();
 
+	RTTI_IS_A(Title);
 	virtual void		Update();
 	virtual SceneNode*	NextScene();
 	virtual bool		Initialize();

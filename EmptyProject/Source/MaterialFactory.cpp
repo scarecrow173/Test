@@ -1,15 +1,14 @@
 //=======================================================================================
-//!	@file	:	Sample.cpp
+//!	@file	:	MaterialFactory.cpp
 //!	@brief	:	Sampleクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-#include "TriangleRenderer.h"
-#include "GraphicsManager.h"
-#include "Material.h"
 
+#include "MaterialFactory.h"
+#include "CSVReader.h"
 using namespace AK;
 using namespace Graphics;
 //=======================================================================================
@@ -19,59 +18,83 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::TriangleRenderer()
-{
-}
+MaterialFactory::MaterialFactory()
+{}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-TriangleRenderer::~TriangleRenderer()
-{
-}
+MaterialFactory::~MaterialFactory()
+{}
 //=======================================================================================
 //		public method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-void TriangleRenderer::Draw()
+Material* MaterialFactory::CreateMaterial()
 {
-	if (!m_IsActive)
-		return;
+	Material* out = NEW  Material();
 
-	//assert(m_IndexBuffer);
-	BufferResource* resource = (BufferResource*)m_BufferResource.GetSharedObject();
+	out->m_Ambient.a = 1.f;
+	out->m_Ambient.r = 1.f;
+	out->m_Ambient.g = 1.f;
+	out->m_Ambient.b = 1.f;
 
-	IDirect3DIndexBuffer9* indexBuffer = resource->GetIndexBuffer();
-	const Matrix tmpWorld = m_Transform->GetTransform();
+	out->m_Diffuse.a = 1.f;
+	out->m_Diffuse.r = 1.f;
+	out->m_Diffuse.g = 1.f;
+	out->m_Diffuse.b = 1.f;
 
+	out->m_Emissive.a = 0.3f;
+	out->m_Emissive.r = 0.3f;
+	out->m_Emissive.g = 0.3f;
+	out->m_Emissive.b = 0.3f;
 
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetTransform(D3DTS_WORLD, &tmpWorld);
-	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(indexBuffer);
+	out->m_Specular.a = 0.3f;
+	out->m_Specular.r = 0.3f;
+	out->m_Specular.g = 0.3f;
+	out->m_Specular.b = 0.3f;
 
-	IndexData drawData = resource->GetIndexData();
+	out->m_SpecularPower = 0.3f;
 
-	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(
-		D3DPT_TRIANGLELIST, 
-		0,
-		drawData.start,
-		drawData.vertexNum,
-		0, 
-		drawData.face);
+	return out;
 }
 //-------------------------------------------------------------
-//!	@brief		: 三角形描画
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
 //-------------------------------------------------------------
-IRenderer* TriangleRenderer::Clone()
+Material* MaterialFactory::CreateMaterialFromFile(const std::string& filePath)
 {
-	TriangleRenderer* clone = NEW TriangleRenderer();
-//	clone->m_IndexBuffer	= m_IndexBuffer;
-//	clone->m_IndexData		= m_IndexData;
-//	clone->m_RefCounter		= m_RefCounter;
+	Material* out = NEW  Material();
+	CSVReader data;
+	data.Load(filePath.c_str());
+	out->m_Ambient.a = data[0].GetDecimal();
+	out->m_Ambient.r = data[1].GetDecimal();
+	out->m_Ambient.g = data[2].GetDecimal();
+	out->m_Ambient.b = data[3].GetDecimal();
 
-	return clone;
+	out->m_Diffuse.a = data[4].GetDecimal();
+	out->m_Diffuse.r = data[5].GetDecimal();
+	out->m_Diffuse.g = data[6].GetDecimal();
+	out->m_Diffuse.b = data[7].GetDecimal();
+
+	out->m_Emissive.a = data[8].GetDecimal();
+	out->m_Emissive.r = data[9].GetDecimal();
+	out->m_Emissive.g = data[10].GetDecimal();
+	out->m_Emissive.b = data[11].GetDecimal();
+
+	out->m_Specular.a = data[12].GetDecimal();
+	out->m_Specular.r = data[13].GetDecimal();
+	out->m_Specular.g = data[14].GetDecimal();
+	out->m_Specular.b = data[15].GetDecimal();
+
+	out->m_SpecularPower = data[16].GetDecimal();
+
+	return out;
 }
-
 //=======================================================================================
 //		protected method
 //=======================================================================================

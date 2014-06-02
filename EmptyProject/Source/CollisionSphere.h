@@ -26,7 +26,7 @@ public:
 
 	virtual ~CollisionSphere();
 	
-	RTTI_IS_A(CollisionID::CollisionID, CollisionBox);
+	RTTI_IS_A(CollisionBox);
 	virtual bool Check(ICollisionObject* obj);
 	virtual bool Check(CollisionBox* box);
 	virtual bool Check(CollisionSphere* sphere);
