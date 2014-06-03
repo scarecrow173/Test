@@ -18,7 +18,8 @@
 #include "UseFixed.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
-#include "PhongShader.h"
+#include "DefaultShader.h"
+#include "BlurFilter.h"
 
 using namespace AK;
 using namespace Sound;
@@ -100,8 +101,8 @@ bool Title::Initialize()
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(TITLE_BGM_NUM, TRUE);
 
-	m_Shader = NEW PhongShader();
-	//m_Shader = NEW UseFixed();
+	m_Shader = NEW DefaultShader();
+	//m_Shader = NEW UseFixed();CookTorrance
 
 	m_Shader->Initilize();
 	m_FadeOutScreen = NEW ScreenEffect();
@@ -121,8 +122,11 @@ bool Title::Initialize()
 	m_FadeOutScreen->SetActive(false);
 
 	LoadTitleBlock();
-	
-	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	BlurFilter* blur = NEW BlurFilter();
+	blur->Initilize();
+	blur->m_AffectedShaders.push_back(m_Shader);
+	GraphicsManager::GetInstance()->AddShaderObject(blur);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();

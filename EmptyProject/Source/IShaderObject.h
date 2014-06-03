@@ -30,7 +30,7 @@ public:
 			m_Renderer.swap(clear);
 		}
 	};
-
+	RTTI_IS_A_BASE(IShaderObject);
 	void AddRenderer(IRenderer* renderer);
 	void EraseRenderer(const IRenderer* renderer);
 	bool IsActive() const;

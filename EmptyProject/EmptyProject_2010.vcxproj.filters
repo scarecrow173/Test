@@ -115,7 +115,13 @@
     <None Include="Source\ScreenEffect.fx">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Source\Phong.fx">
+    <None Include="Source\ShadingMath.h">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Source\DefaultShaderPackage.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Source\BlurFilter.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -268,7 +274,10 @@
     <ClCompile Include="Source\MaterialFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PhongShader.cpp">
+    <ClCompile Include="Source\DefaultShader.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlurFilter.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -522,7 +531,10 @@
     <ClInclude Include="Source\MaterialFactory.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PhongShader.h">
+    <ClInclude Include="Source\DefaultShader.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BlurFilter.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

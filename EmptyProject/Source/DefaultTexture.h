@@ -69,7 +69,7 @@ inline LPDIRECT3DTEXTURE9 DefaultTexture::GetTexture() const
 //---------------------------------------------------------------------------------------
 inline void	DefaultTexture::SetTexture(const LPDIRECT3DTEXTURE9* texture)
 {
-	assert(*texture);
+	//assert(*texture);
 	m_Texture = *texture;
 }
 };

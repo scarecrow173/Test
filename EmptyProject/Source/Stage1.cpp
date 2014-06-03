@@ -23,6 +23,7 @@
 #include "Wall.h"
 #include "Item.h"
 #include "ItemSystem.h"
+#include "DefaultShader.h"
 
 
 using namespace AK;
@@ -52,7 +53,7 @@ Stage1::Stage1(INode* parent, U32 stageCount)
 	,	m_IsFadeEnd		(false)
 	,	m_FadeVolume	(1.f)
 	,	m_StageCount	(stageCount)
-	,	m_Shader		(NEW UseFixed())
+	,	m_Shader		(NULL)
 	,	m_BlockSystem	(NULL)
 	,	m_ItemSystem	(NULL)
 {
@@ -119,12 +120,16 @@ bool Stage1::Initialize()
 	TRACE(1,"Stage1::Initialize");
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
-
+	
+	m_Shader = NEW DefaultShader();
+	m_Shader->Initilize();
 	CreatePadle();
 	CreateBall();
 	CreateBlock();
 	CreateWall();
 
+	
+	
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 
 	m_ItemSystem = NEW ItemSystem(this);

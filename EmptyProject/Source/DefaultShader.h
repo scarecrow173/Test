@@ -1,5 +1,5 @@
 //=======================================================================================
-//!	@file	:	ScreenEffect.h
+//!	@file	:	DefaultShader.h
 //!	@author	:	è¨éR âlå\
 //!	@date	:	2014/4/28
 //=======================================================================================
@@ -11,35 +11,34 @@ namespace AK
 namespace Graphics
 {
 //=======================================================================================
-//!	@class	:	ScreenEffect
+//!	@class	:	DefaultShader
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class ScreenEffect : public IShaderObject
+class DefaultShader : public IShaderObject
 {
 public:
-	ScreenEffect();
-	virtual ~ScreenEffect();
+	DefaultShader();
+	virtual ~DefaultShader();
 
-	RTTI_IS_A(ScreenEffect);
+	RTTI_IS_A(DefaultShader);
 
 	virtual bool	Initilize();
 	virtual void	Draw();
 
-	F32				GetFadeValue() const;
-	VertexFloat3	GetFadeColor() const;
-	void			SetFadeValue(const F32 alpha);
-	void			SetFadeColor(const VertexFloat3& color);
-
-	void			Reset();
-protected:
-
+	void			SetShaderTechniqueByName(const std::string& techniqueName);
 private:
-	D3DXHANDLE		m_hFadeValue;
-	D3DXHANDLE		m_hFadeColor;
-	F32				m_FadeValue;
-	VertexFloat3	m_FadeColor;
+	D3DXHANDLE		m_hDiffuse;
+	D3DXHANDLE		m_hAmbient;
+	D3DXHANDLE		m_hSpecular;
+	D3DXHANDLE		m_hEmissive;
+	D3DXHANDLE		m_hPower;
+	D3DXHANDLE		m_hWorld;
+	D3DXHANDLE		m_hView;
+	D3DXHANDLE		m_hProjection;
+	D3DXHANDLE		m_hLightDir;
+	D3DXHANDLE		m_hEyePos;
 
 };
 //=======================================================================================

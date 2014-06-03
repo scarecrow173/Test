@@ -142,6 +142,11 @@ enum RTTI_ID
 	CubeTexture,
 	Material,
 
+	IShaderObject,
+	ScreenEffect,
+	DefaultShader,
+	BlurFilter,
+
 	RTTI_MAX_NUM
 
 };

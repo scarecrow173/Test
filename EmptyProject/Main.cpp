@@ -28,7 +28,8 @@
 #include "Material.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
-#include "PhongShader.h"
+#include "DefaultShader.h"
+#include "BlurFilter.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -39,7 +40,8 @@ AK::Graphics::GraphicsManager* g_mrg	= NULL;
 
 AK::Graphics::Spectrum* spectrum=NULL;
 
-AK::Graphics::PhongShader*	phong = NULL;
+AK::Graphics::DefaultShader*	phong	= NULL;
+AK::Graphics::BlurFilter*		blur	= NULL;
 
 Matrix world,view, projction;
 
@@ -117,8 +119,8 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 //	keyboard.Update();
 
 	//	テキトーにライトを設定
-	D3DLIGHT9 lLight1,lLight2;
-    memset(&lLight1, 0, sizeof(D3DLIGHT9));
+	//D3DLIGHT9 lLight1,lLight2;
+ //   memset(&lLight1, 0, sizeof(D3DLIGHT9));
 	static F32 Count	= 0;
 	Count				+= 0.02f;
 	/*
@@ -132,17 +134,17 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	DXUTGetD3D9Device()->SetLight(0, &lLight1);
 	DXUTGetD3D9Device()->LightEnable(0, true);
 	*/
-	memset(&lLight2, 0, sizeof(D3DLIGHT9));
-	//lLight2.Position.x	= 0;
-	//lLight2.Position.z	= 1;
-	//lLight2.Position.y	= 0;
-	lLight2.Direction	= D3DXVECTOR3(0, 0.f, -1);
-    lLight2.Type		= D3DLIGHT_DIRECTIONAL; 
-    lLight2.Diffuse.r	= 1.0f;
-    lLight2.Diffuse.g	= 1.0f;
-    lLight2.Diffuse.b	= 1.0f;
-	DXUTGetD3D9Device()->SetLight(1, &lLight2);
-	DXUTGetD3D9Device()->LightEnable(1, true);
+	//memset(&lLight2, 0, sizeof(D3DLIGHT9));
+	////lLight2.Position.x	= 0;
+	////lLight2.Position.z	= 1;
+	////lLight2.Position.y	= 0;
+	//lLight2.Direction	= D3DXVECTOR3(0, 0.f, -1);
+ //   lLight2.Type		= D3DLIGHT_DIRECTIONAL; 
+ //   lLight2.Diffuse.r	= 1.0f;
+ //   lLight2.Diffuse.g	= 1.0f;
+ //   lLight2.Diffuse.b	= 1.0f;
+	//DXUTGetD3D9Device()->SetLight(1, &lLight2);
+	//DXUTGetD3D9Device()->LightEnable(1, true);
 
 	DXUTGetD3D9Device()->SetRenderState( D3DRS_LIGHTING, TRUE );   // 発電所を回す！
 	DXUTGetD3D9Device()->SetRenderState( D3DRS_AMBIENT, 0xFF2F2F2F);   // 世の中をちょっと白く照らす
@@ -182,7 +184,7 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     HRESULT hr;
 
     // Clear the render target and the zbuffer										 0, 45, 50, 170
-    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 45, 50, 170), 1.0f, 0 ) );
+    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
 
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
@@ -316,7 +318,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_mrg->Initialize();
 
 
-	g_Root = AK::RootNode::Create();
+	
 
 	
 	D3DXMatrixIdentity(&world);
@@ -331,62 +333,64 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 
 
-	g_Device->SetTransform(D3DTS_WORLD, &world);
-	g_Device->SetTransform(D3DTS_VIEW, &view);
-	g_Device->SetTransform(D3DTS_PROJECTION, &projction);
+	//g_Device->SetTransform(D3DTS_WORLD, &world);
+	//g_Device->SetTransform(D3DTS_VIEW, &view);
+	//g_Device->SetTransform(D3DTS_PROJECTION, &projction);
 	g_mrg->SetView(view);
 	g_mrg->SetProjection(projction);
 
-	g_Device->SetVertexShaderConstantF(0, world,		4);
-	g_Device->SetVertexShaderConstantF(4, view,			4);
-	g_Device->SetVertexShaderConstantF(8, projction,	4);
+	g_Root = AK::RootNode::Create();
 
-	g_Device->SetVertexShaderConstantF(13, eye,	1);
+	//g_Device->SetVertexShaderConstantF(0, world,		4);
+	//g_Device->SetVertexShaderConstantF(4, view,			4);
+	//g_Device->SetVertexShaderConstantF(8, projction,	4);
 
-	const Vector3 LightDir(0, 0.f, -1);
-	g_Device->SetVertexShaderConstantF(12, LightDir, 1);
+	//g_Device->SetVertexShaderConstantF(13, eye,	1);
+
+	//const Vector3 LightDir(0, 0.f, -1);
+	//g_Device->SetVertexShaderConstantF(12, LightDir, 1);
 	
-	D3DMATERIAL9 material;
-	
-	material.Diffuse.a = 0.0f;
-	material.Diffuse.r = 1.0f;
-	material.Diffuse.g = 1.0f;
-	material.Diffuse.b = 1.0f;
+	//D3DMATERIAL9 material;
+	//
+	//material.Diffuse.a = 0.0f;
+	//material.Diffuse.r = 1.0f;
+	//material.Diffuse.g = 1.0f;
+	//material.Diffuse.b = 1.0f;
 
-	material.Ambient.a = 1.0f;
-	material.Ambient.r = 1.0f;
-	material.Ambient.g = 1.0f;
-	material.Ambient.b = 1.0f;
+	//material.Ambient.a = 1.0f;
+	//material.Ambient.r = 1.0f;
+	//material.Ambient.g = 1.0f;
+	//material.Ambient.b = 1.0f;
 
-	material.Specular.a = 1.0f;
-	material.Specular.r = 0.4f;
-	material.Specular.g = 0.4f;
-	material.Specular.b = 0.4f;
+	//material.Specular.a = 1.0f;
+	//material.Specular.r = 0.4f;
+	//material.Specular.g = 0.4f;
+	//material.Specular.b = 0.4f;
 
-	material.Emissive.a = 0.0f;
-	material.Emissive.r = 0.1f;
-	material.Emissive.g = 0.1f;
-	material.Emissive.b = 0.1f;
+	//material.Emissive.a = 0.0f;
+	//material.Emissive.r = 0.1f;
+	//material.Emissive.g = 0.1f;
+	//material.Emissive.b = 0.1f;
 
-	material.Power = 1000.f;
+	//material.Power = 1000.f;
 
-	g_Device->SetMaterial(&material);
+	//g_Device->SetMaterial(&material);
 
 
-	AK::Graphics::Material mymaterial;
+	//AK::Graphics::Material mymaterial;
 
-	memcpy(&material, &mymaterial.m_Diffuse, sizeof(D3DMATERIAL9));
+	//memcpy(&material, &mymaterial.m_Diffuse, sizeof(D3DMATERIAL9));
 
 	//ZeroMemory(&mymaterial, sizeof(AK::Graphics::Material));
 
-
-
+	//blur = NEW AK::Graphics::BlurFilter();
+	//blur->Initilize();
 
 
 	spectrum = NEW AK::Graphics::Spectrum();
 	spectrum->CreateSpectrumData();
 	
-	//phong	= NEW AK::Graphics::PhongShader();
+	//phong	= NEW AK::Graphics::DefaultShader();
 	
 
 

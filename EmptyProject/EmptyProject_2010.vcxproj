@@ -398,6 +398,7 @@
     <ClCompile Include="Source\BallStateLaunchStandby.cpp" />
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BlockSystem.cpp" />
+    <ClCompile Include="Source\BlurFilter.cpp" />
     <ClCompile Include="Source\BoxFactory.cpp" />
     <ClCompile Include="Source\CollisionBox.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
@@ -411,7 +412,7 @@
     <ClCompile Include="Source\GraphicsManager.cpp" />
     <ClCompile Include="Source\MaterialFactory.cpp" />
     <ClCompile Include="Source\MaterialPool.cpp" />
-    <ClCompile Include="Source\PhongShader.cpp" />
+    <ClCompile Include="Source\DefaultShader.cpp" />
     <ClCompile Include="Source\PrimitivePool.cpp" />
     <ClCompile Include="Source\ScreenEffect.cpp" />
     <ClCompile Include="Source\SphereFactory.cpp" />
@@ -473,7 +474,8 @@
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\MaterialFactory.h" />
     <ClInclude Include="Source\MaterialPool.h" />
-    <ClInclude Include="Source\PhongShader.h" />
+    <ClInclude Include="Source\DefaultShader.h" />
+    <ClInclude Include="Source\BlurFilter.h" />
     <ClInclude Include="Source\ScreenEffect.h" />
     <ClInclude Include="Source\SpherePool.h" />
     <ClInclude Include="Source\ICollisionObject.h" />
@@ -549,8 +551,10 @@
     <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmesh.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmisc.cpp" />
-    <None Include="Source\Phong.fx" />
+    <None Include="Source\BlurFilter.fx" />
+    <None Include="Source\DefaultShaderPackage.fx" />
     <None Include="Source\ScreenEffect.fx" />
+    <None Include="Source\ShadingMath.h" />
     <None Include="Source\Spectrum.fx" />
   </ItemGroup>
   <ItemGroup>

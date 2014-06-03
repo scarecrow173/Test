@@ -1,45 +1,52 @@
 //=======================================================================================
-//!	@file	:	ScreenEffect.h
+//!	@file	:	RadialBlur.h
 //!	@author	:	è¨éR âlå\
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
 #include "IShaderObject.h"
 #include "Elements.h"
+#include "DefaultTexture.h"
 namespace AK
 {
 namespace Graphics
 {
 //=======================================================================================
-//!	@class	:	ScreenEffect
+//!	@class	:	RadialBlur
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class ScreenEffect : public IShaderObject
+class BlurFilter : public IShaderObject
 {
 public:
-	ScreenEffect();
-	virtual ~ScreenEffect();
+	BlurFilter();
+	virtual ~BlurFilter();
 
-	RTTI_IS_A(ScreenEffect);
+	RTTI_IS_A(BlurFilter);
 
 	virtual bool	Initilize();
 	virtual void	Draw();
 
-	F32				GetFadeValue() const;
-	VertexFloat3	GetFadeColor() const;
-	void			SetFadeValue(const F32 alpha);
-	void			SetFadeColor(const VertexFloat3& color);
-
-	void			Reset();
-protected:
-
+	void			SetShaderTechniqueByName(const std::string& techniqueName);
+		std::vector<IShaderObject*>	m_AffectedShaders;
 private:
-	D3DXHANDLE		m_hFadeValue;
-	D3DXHANDLE		m_hFadeColor;
-	F32				m_FadeValue;
-	VertexFloat3	m_FadeColor;
+
+
+	RefCountedObjectPtr			m_BlurringTextureObject;
+	DefaultTexture*				m_BlurringTexture;
+	IDirect3DSurface9*			m_BlurringSurface;
+	IDirect3DSurface9*			m_BlurringDepthSurface;
+	//D3DXHANDLE		m_hDiffuse;
+	//D3DXHANDLE		m_hAmbient;
+	//D3DXHANDLE		m_hSpecular;
+	//D3DXHANDLE		m_hEmissive;
+	//D3DXHANDLE		m_hPower;
+	//D3DXHANDLE		m_hWorld;
+	//D3DXHANDLE		m_hView;
+	//D3DXHANDLE		m_hProjection;
+	//D3DXHANDLE		m_hLightDir;
+	//D3DXHANDLE		m_hEyePos;
 
 };
 //=======================================================================================
