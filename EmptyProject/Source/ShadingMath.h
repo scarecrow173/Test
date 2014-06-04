@@ -1,6 +1,7 @@
 float4x4	g_World			;//: register(c0);	// c0~c3
 float4x4	g_View			;//: register(c4); // c4~c7
 float4x4	g_Projection	;//: register(c8); // c8~c11
+float4x4	g_PrevWorld		;//¡‚ÍView‚àProjection‚àŒÅ’è‚È‚Ì‚Å‘O‚ÌWorld‚¾‚¯
 
 float3		g_LightDir	= float3(0.0f, 0.f, -1.f);	//: register(c12); // c12
 float3		g_EyePos	= float3(0.0f, 0.0f, 1.f);//: register(c13); // c13

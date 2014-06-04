@@ -19,6 +19,12 @@ struct Default_PS_Input
 	float3 Light	: TEXCOORD2;
 	float3 Eye		: TEXCOORD3;
 };
+struct Velocity_PS_Input
+{
+	float4	Pos		: POSITION;
+	float4	Color	: COLOR0;
+	float3	Tex		: TEXCOORD0;
+};
 
 //-------------------------------------------------------------
 //!	@brief		: バーテックスシェーダは固定(簡単な代わりに無駄がある)
@@ -38,6 +44,51 @@ Default_PS_Input DefaultVS(Default_VS_Input In)
 	Out.Color		= min(dot(Out.Normal, Out.Light), 1.f);
 	float3	eyepos	= float3(g_View._41, g_View._42, g_View._43);
 	Out.Eye			= eyepos - In.Pos;
+
+	return Out;
+}
+Velocity_PS_Input VelocityMapVS(Default_VS_Input In)
+{
+	Velocity_PS_Input	Out = (Velocity_PS_Input)0;
+	float4		now_pos, prev_pos, n;
+	float3		vel, norm;
+	float		d;
+	matrix		matWV, matPrevWV;
+
+	matWV		= mul(g_World, g_View);
+	matPrevWV	= mul(g_PrevWorld, g_View);
+
+	// 今回と前回の位置を計算する
+	now_pos  = mul(float4(In.Pos, 1.f), matWV);
+	prev_pos = mul(float4(In.Pos, 1.f), matPrevWV);
+
+	// 速度を求める
+	vel.xyz = now_pos.xyz - prev_pos.xyz;
+
+	// 法線を回転する
+	n.xyz = In.Normal;
+	n.w = 0.0f;
+	norm.xyz = mul(n, matWV);
+
+	// 座標変換
+	now_pos  = mul(float4(In.Pos, 1.f), mul(matWV, g_Projection));
+	prev_pos = mul(float4(In.Pos, 1.f), mul(matPrevWV, g_Projection));
+
+	// 法線と速度のベクトルの内積から出力する頂点データを決定する
+	d = dot(norm, vel);
+	d = step(0.0f, d);
+//	float3	vn = normalize(vel);
+//	d = dot(norm, vn) * 0.5f + 0.5f;
+//	d = saturate(d);
+	float4	o_pos = d * now_pos + (1.0f - d) * prev_pos;
+	Out.Pos = o_pos;
+
+	// カラーに速度を出力する
+	now_pos.xy	= now_pos.xy / now_pos.w;
+	prev_pos.xy = prev_pos.xy / prev_pos.w;
+	Out.Tex.x	= (now_pos.x - prev_pos.x);
+	Out.Tex.y	= -(now_pos.y - prev_pos.y);
+	Out.Tex.z	= o_pos.z / o_pos.w;
 
 	return Out;
 }
@@ -109,6 +160,15 @@ float4 HalfLambertPS(Default_PS_Input In) : COLOR0
 
 	return Out;
 }
+float4 VelocityMapPS(Velocity_PS_Input In) : COLOR0
+{
+	float4	Out;
+
+	Out.rgb = In.Tex.xyz;
+	Out.a	= 1.0f;
+
+	return Out;
+}
 //-------------------------------------------------------------
 //!	@brief		: デフォルトシェーダテクニック。ピクセルシェーダのみ入れ替え
 //				  (Phong,BlinnPhong,CookTorrance,Lambert,HalfLambert)
@@ -124,6 +184,13 @@ technique Phong
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_2_0 PhongPS();
 	}
+	pass P1
+	{
+		ZEnable				= False;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
+	}
 }
 technique BlinnPhong
 {
@@ -135,6 +202,13 @@ technique BlinnPhong
 		DestBlend			= InvSrcAlpha;
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_3_0 BlinnPhongPS();
+	}
+	pass P1
+	{
+		ZEnable				= False;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
 	}
 }
 technique CookTorrance
@@ -148,6 +222,13 @@ technique CookTorrance
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_3_0 CookTorrancePS();
 	}
+	pass P1
+	{
+		ZEnable				= TRUE;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
+	}
 }
 technique Lambert
 {
@@ -159,6 +240,13 @@ technique Lambert
 		DestBlend			= InvSrcAlpha;
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_3_0 LambertPS();
+	}
+	pass P1
+	{
+		ZEnable				= False;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
 	}
 }
 technique HalfLambert
@@ -172,4 +260,12 @@ technique HalfLambert
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_3_0 HalfLambertPS();
 	}
+	pass P1
+	{
+		ZEnable				= False;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
+	}
 }
+

@@ -28,8 +28,9 @@
 #include "Material.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
+#include "TexturePool.h"
 #include "DefaultShader.h"
-#include "BlurFilter.h"
+#include "RadialBlur.h"
 
 //#define __MY_DEBUG_STR_USE_
 
@@ -38,10 +39,10 @@ IDirect3DDevice9* g_Device	= NULL;
 
 AK::Graphics::GraphicsManager* g_mrg	= NULL;
 
-AK::Graphics::Spectrum* spectrum=NULL;
+AK::Graphics::Spectrum* spectrum		= NULL;
 
 AK::Graphics::DefaultShader*	phong	= NULL;
-AK::Graphics::BlurFilter*		blur	= NULL;
+AK::Graphics::RadialBlur*		blur	= NULL;
 
 Matrix world,view, projction;
 
@@ -107,7 +108,6 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFA
 void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
 	
-
 
 	TRACE(0,L"OnFrameMove\n");
 
@@ -402,7 +402,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	AK::Debug::DestoryDebugConsole();
 	AK::Graphics::PrimitivePool::DestroySingleton();
 	AK::Graphics::MaterialPool::DestroySingleton();
-
+	AK::Graphics::TexturePool::DestroySingleton();
 	AK::Graphics::GraphicsManager::Destroy();
 	AK::Sound::SoundManager::Destroy();
 	BASS_Free();

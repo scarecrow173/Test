@@ -145,7 +145,9 @@ enum RTTI_ID
 	IShaderObject,
 	ScreenEffect,
 	DefaultShader,
-	BlurFilter,
+	RadialBlur,
+	MotionBlur,
+	BlendMultiTexturesShader,
 
 	RTTI_MAX_NUM
 

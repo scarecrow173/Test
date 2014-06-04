@@ -19,7 +19,8 @@
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
 #include "DefaultShader.h"
-#include "BlurFilter.h"
+#include "RadialBlur.h"
+#include "MotionBlur.h"
 
 using namespace AK;
 using namespace Sound;
@@ -35,14 +36,15 @@ InputKeyboard keyboard;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 Title::Title(INode* parent)
-	:	SceneNode		(parent)
-	,	m_IsEnd			(false)
-	,	m_IsFading		(false)
-	,	m_FadeVolume	(1.f)
-	,	m_Shader		(NULL)
-	,	m_FadeOutScreen	(NULL)
-	,	m_FadeOutRenderer(NULL)
-	,	m_Floating		(0.0f)
+	:	SceneNode			(parent)
+	,	m_IsEnd				(false)
+	,	m_IsFading			(false)
+	,	m_FadeVolume		(1.f)
+	,	m_Shader			(NULL)
+	,	m_FadeOutScreen		(NULL)
+	,	m_FadeOutRenderer	(NULL)
+	,	m_BlurEffect		(NULL)
+	,	m_Floating			(0.0f)
 {
 }
 //-------------------------------------------------------------
@@ -52,8 +54,7 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeOutScreen);
-	SAFE_DELETE(m_Shader);
-
+	GraphicsManager::GetInstance()->EraseShaderObject(m_BlurEffect);
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -61,8 +62,11 @@ Title::~Title()
 		it = m_TitleBlock.erase(it);
 	}
 	
+	SAFE_DELETE(m_Shader);
+
 	SAFE_DELETE(m_FadeOutRenderer);
 	SAFE_DELETE(m_FadeOutScreen);
+	SAFE_DELETE(m_BlurEffect);
 }
 //=======================================================================================
 //		public method
@@ -122,12 +126,17 @@ bool Title::Initialize()
 	m_FadeOutScreen->SetActive(false);
 
 	LoadTitleBlock();
-	BlurFilter* blur = NEW BlurFilter();
-	blur->Initilize();
-	blur->m_AffectedShaders.push_back(m_Shader);
-	GraphicsManager::GetInstance()->AddShaderObject(blur);
+	m_BlurEffect = NEW RadialBlur();
+	m_BlurEffect->Initilize();
+	m_BlurEffect->AddBlurringTarget(m_Shader);
+
+	MotionBlur* motionblur = NEW MotionBlur();
+	motionblur->Initilize();
+
+	GraphicsManager::GetInstance()->AddShaderObject(m_BlurEffect);
 	//GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
+	GraphicsManager::GetInstance()->AddShaderObject(motionblur);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	return true;
@@ -212,14 +221,14 @@ void Title::LoadTitleBlock()
 void Title::FloatingBlock()
 {
 	m_Floating += 0.2f;
-	F32 value = sin(m_Floating);
+	F32 value = sin(m_Floating) * 20.f;
 
 	auto it = m_TitleBlock.begin();
 	while (it != m_TitleBlock.end())
 	{
 		auto transform = (*it)->GetTransform();
 		Vector3 pos = transform->GetTranslation();
-		pos.y += m_IsEnd ? -15.f : value;
+		pos.y += m_IsEnd ? -20.f : value;
 		transform->SetTranslation(pos);
 		transform->UpdateTransform();
 		++it;

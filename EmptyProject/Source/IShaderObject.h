@@ -43,15 +43,18 @@ public:
 	bool operator <(const IShaderObject& obj);
 	bool operator >(const IShaderObject& obj);
 
+
+	U32						m_DrawStep;
 protected:
 	ID3DXEffect*			m_Effect;
 	std::vector<IRenderer*>	m_Renderer;
-	U32						m_DrawStep;
+
 	bool					m_IsActive;
 };
 //=======================================================================================
 //		inline method
 //=======================================================================================
+
 //-------------------------------------------------------------
 //!	@brief		: レンダラー追加
 //!	@param[in]	: 追加したいレンダラー

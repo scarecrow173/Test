@@ -396,9 +396,11 @@
     <ClCompile Include="Source\BallStateDead.cpp" />
     <ClCompile Include="Source\BallStateLaunch.cpp" />
     <ClCompile Include="Source\BallStateLaunchStandby.cpp" />
+    <ClCompile Include="Source\BlendMultiTexturesShader.cpp" />
     <ClCompile Include="Source\Block.cpp" />
     <ClCompile Include="Source\BlockSystem.cpp" />
-    <ClCompile Include="Source\BlurFilter.cpp" />
+    <ClCompile Include="Source\MotionBlur.cpp" />
+    <ClCompile Include="Source\RadialBlur.cpp" />
     <ClCompile Include="Source\BoxFactory.cpp" />
     <ClCompile Include="Source\CollisionBox.cpp" />
     <ClCompile Include="Source\CollisionManager.cpp" />
@@ -449,6 +451,7 @@
     <ClInclude Include="Source\BallStateLaunchStandby.h" />
     <ClInclude Include="Source\BallStateActive.h" />
     <ClInclude Include="Source\BallStatePenetration.h" />
+    <ClInclude Include="Source\BlendMultiTexturesShader.h" />
     <ClInclude Include="Source\Block.h" />
     <ClInclude Include="Source\BlockSystem.h" />
     <ClInclude Include="Source\BoxFactory.h" />
@@ -475,7 +478,8 @@
     <ClInclude Include="Source\MaterialFactory.h" />
     <ClInclude Include="Source\MaterialPool.h" />
     <ClInclude Include="Source\DefaultShader.h" />
-    <ClInclude Include="Source\BlurFilter.h" />
+    <ClInclude Include="Source\RadialBlur.h" />
+    <ClInclude Include="Source\MotionBlur.h" />
     <ClInclude Include="Source\ScreenEffect.h" />
     <ClInclude Include="Source\SpherePool.h" />
     <ClInclude Include="Source\ICollisionObject.h" />
@@ -551,7 +555,8 @@
     <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmesh.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmisc.cpp" />
-    <None Include="Source\BlurFilter.fx" />
+    <None Include="Source\MotionBlur.fx" />
+    <None Include="Source\RadialBlur.fx" />
     <None Include="Source\DefaultShaderPackage.fx" />
     <None Include="Source\ScreenEffect.fx" />
     <None Include="Source\ShadingMath.h" />

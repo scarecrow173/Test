@@ -101,8 +101,19 @@ void GraphicsManager::AddShaderObject(IShaderObject* shader)
 	
 	if (it == m_ShaderList.end())
 	{
-		m_ShaderList.push_back(shader);
-		std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
+		if (m_ShaderList.empty())
+			m_ShaderList.push_back(shader);
+		auto it2 = m_ShaderList.begin();
+		while (it2 != m_ShaderList.end())
+		{
+			if ((*it2)->m_DrawStep > shader->m_DrawStep)
+			{
+				m_ShaderList.insert(it2, shader);
+				return;
+			}
+			++it2;
+		}
+		//std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
 	}
 }
 //-------------------------------------------------------------
@@ -222,7 +233,8 @@ bool GraphicsManager::Initialize()
 //-------------------------------------------------------------
 void GraphicsManager::Draw()
 {
-	
+	//std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
+
 	for (auto it = m_ShaderList.begin(); it != m_ShaderList.end(); ++it)
 	{
 		if ((*it)->IsActive())

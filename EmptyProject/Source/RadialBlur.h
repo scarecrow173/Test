@@ -1,5 +1,5 @@
 //=======================================================================================
-//!	@file	:	DefaultShader.h
+//!	@file	:	RadialBlur.h
 //!	@author	:	è¨éR âlå\
 //!	@date	:	2014/4/28
 //=======================================================================================
@@ -7,53 +7,50 @@
 #include "IShaderObject.h"
 #include "Elements.h"
 #include "DefaultTexture.h"
-#include <unordered_map>
 namespace AK
 {
 namespace Graphics
 {
 //=======================================================================================
-//!	@class	:	DefaultShader
+//!	@class	:	RadialBlur
 //!	@brief	:	example
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class DefaultShader : public IShaderObject
+class RadialBlur : public IShaderObject
 {
 public:
-	DefaultShader();
-	virtual ~DefaultShader();
+	RadialBlur();
+	virtual ~RadialBlur();
 
-	RTTI_IS_A(DefaultShader);
+	RTTI_IS_A(RadialBlur);
 
 	virtual bool	Initilize();
 	virtual void	Draw();
 
 	void			SetShaderTechniqueByName(const std::string& techniqueName);
+	void			AddBlurringTarget(IShaderObject* obj);
+	
+	void			SetBlurPower(const F32 power);
+	F32				GetBlurPower() const;
+	void			SetSamplingNum(const S32 sampling);
+	S32				GetSamplingNum() const;
 private:
-	RefCountedObjectPtr			m_VelocityTextureObjectPtr;
-	DefaultTexture*				m_VelocityTexture;
-	IDirect3DSurface9*			m_VelocitySurface;
-	IDirect3DSurface9*			m_VelocityDepthSurface;
 
-	D3DXHANDLE		m_hVelocityTechnique;
+	RefCountedObjectPtr			m_BlurringTextureObject;
+	DefaultTexture*				m_BlurringTexture;
+	IDirect3DSurface9*			m_BlurringSurface;
+	IDirect3DSurface9*			m_BlurringDepthSurface;
+	std::vector<IShaderObject*>	m_AffectedShaders;
 
-	D3DXHANDLE		m_hDiffuse;
-	D3DXHANDLE		m_hAmbient;
-	D3DXHANDLE		m_hSpecular;
-	D3DXHANDLE		m_hEmissive;
-	D3DXHANDLE		m_hPower;
-	D3DXHANDLE		m_hWorld;
-	D3DXHANDLE		m_hView;
-	D3DXHANDLE		m_hProjection;
-	D3DXHANDLE		m_hPrevWorld;
-	D3DXHANDLE		m_hLightDir;
-	D3DXHANDLE		m_hEyePos;
+	D3DXHANDLE					m_hBlurPower;
+	D3DXHANDLE					m_hSamplingNum;
 
+	U32							m_BlurringTextureWidth;
+	U32							m_BlurringTextureHeight;
 
-
-	std::unordered_map<U32, Matrix> m_PrevMatrix;
-
+	F32							m_BluerPower;
+	S32							m_SamplingNum;
 };
 //=======================================================================================
 //		inline method

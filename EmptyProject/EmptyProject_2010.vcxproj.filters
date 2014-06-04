@@ -121,7 +121,10 @@
     <None Include="Source\DefaultShaderPackage.fx">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Source\BlurFilter.fx">
+    <None Include="Source\RadialBlur.fx">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Source\MotionBlur.fx">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -277,7 +280,13 @@
     <ClCompile Include="Source\DefaultShader.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BlurFilter.cpp">
+    <ClCompile Include="Source\RadialBlur.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MotionBlur.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlendMultiTexturesShader.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -534,7 +543,13 @@
     <ClInclude Include="Source\DefaultShader.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BlurFilter.h">
+    <ClInclude Include="Source\RadialBlur.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MotionBlur.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BlendMultiTexturesShader.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
