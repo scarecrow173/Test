@@ -51,7 +51,7 @@ float4 BlurPS(Blur_PS_Input In) : COLOR0
 	
 	float2 texcoord = In.UV - 0.5f;
 	float len		= length(texcoord);
-	float rad		= len * 0.f + radOffset;
+	float rad		= len * g_BlurPower + radOffset;
 	float c			= cos(rad);
 	float s			= sin(rad);
 	texcoord		= mul(texcoord, float2x2(c, -s, s, c)) + 0.5f;

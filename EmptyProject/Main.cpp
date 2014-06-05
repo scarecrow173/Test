@@ -11,38 +11,30 @@
 #include "RootNode.h"
 #include "DebugUtill.h"
 #include "AutoPerformance.h"
-#include "Elements.h"
-#include "Colors.h"
-#include "BoxFactory.h"
-#include "SphereFactory.h"
-#include "SquareFactory.h"
 #include "InputKeyboard.h"
 #include "SoundManager.h"
 #include "bass.h"
 #include "Spectrum.h"
-#include "WindowPolygonRenderer.h"
-#include "SafeArray.h"
-#include "ReferenceCounter.h"
-#include "StringEncoder.h"
-#include "ScreenEffect.h"
-#include "Material.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
 #include "TexturePool.h"
-#include "DefaultShader.h"
-#include "RadialBlur.h"
+#include "BlendMultiTexturesShader.h"
+#include "DefaultTexture.h"
 
 //#define __MY_DEBUG_STR_USE_
+using namespace AK::Graphics;
 
 AK::RootNode* g_Root		= NULL;
 IDirect3DDevice9* g_Device	= NULL;
 
-AK::Graphics::GraphicsManager* g_mrg	= NULL;
+GraphicsManager* g_mrg	= NULL;
 
-AK::Graphics::Spectrum* spectrum		= NULL;
-
-AK::Graphics::DefaultShader*	phong	= NULL;
-AK::Graphics::RadialBlur*		blur	= NULL;
+Spectrum* spectrum		= NULL;
+//BlendMultiTexturesShader* bmts = NULL;
+//AK::RefCountedObjectPtr g_spmPtr(NULL);
+//DefaultTexture*			g_spmObj	= NULL;
+//IDirect3DSurface9*		g_spmSurf	= NULL;
+//IDirect3DSurface9*		g_depth		= NULL;
 
 Matrix world,view, projction;
 
@@ -189,8 +181,18 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
+		//IDirect3DSurface9* back = NULL;
+		//IDirect3DSurface9* bd = NULL;
+		//pd3dDevice->GetRenderTarget(0, &back);
+		//pd3dDevice->GetDepthStencilSurface(&bd);
+		//pd3dDevice->SetRenderTarget(0, g_spmSurf);
+		//pd3dDevice->SetDepthStencilSurface(g_depth);
+	 //   V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
 
 		spectrum->Draw();
+		//pd3dDevice->SetRenderTarget(0, back);
+		//pd3dDevice->SetDepthStencilSurface(bd);
+
 		//phong->Draw();
 
 		pd3dDevice->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
@@ -386,13 +388,46 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	//blur = NEW AK::Graphics::BlurFilter();
 	//blur->Initilize();
 
-
+	//bmts = NEW AK::Graphics::BlendMultiTexturesShader();
+	//bmts->Initilize();
+	//bmts->Draw();
 	spectrum = NEW AK::Graphics::Spectrum();
 	spectrum->CreateSpectrumData();
 	
 	//phong	= NEW AK::Graphics::DefaultShader();
-	
-
+	//g_spmPtr = AK::Graphics::TexturePool::GetInstance()->GetResource("data:DefaultTexture - spm");
+	//g_spmObj = RTTI_PTR_DYNAMIC_CAST(DefaultTexture, g_spmPtr.GetSharedObject());
+	//if (g_spmObj->GetTexture() == NULL)
+	//{
+	//	LPDIRECT3DTEXTURE9 tex;
+	//	D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+	//		1024, 
+	//		1024,
+	//		1,
+	//		D3DUSAGE_RENDERTARGET,
+	//		D3DFORMAT::D3DFMT_A8R8G8B8,
+	//		D3DPOOL_DEFAULT,
+	//		&tex);
+	//	g_spmObj->SetTexture(&tex);
+	//}
+	//g_spmObj->GetTexture()->GetSurfaceLevel(0, &g_spmSurf);
+	//g_spmObj->GetTexture()->Release();
+	//IDirect3DSurface9 *pSurf;
+	//GraphicsManager::GetInstance()->GetD3DDevice()->GetDepthStencilSurface( &pSurf );
+	//D3DSURFACE_DESC Desc;
+	//pSurf->GetDesc( &Desc );
+	//SAFE_RELEASE(pSurf);
+	//
+	//auto hr = GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
+	//	1024,
+	//	1024,
+	//	Desc.Format,
+	//	Desc.MultiSampleType,
+	//	Desc.MultiSampleQuality,
+	//	FALSE,
+	//	&g_depth,
+	//	NULL
+	//	);
 
 	// Start the render loop
     DXUTMainLoop();

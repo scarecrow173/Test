@@ -35,7 +35,7 @@ MotionBlur::MotionBlur()
 	,	m_PostProcessingRenderer	(NULL)
 	,	m_WriteTextureSize			(1024)
 {
-	m_DrawStep = 0;
+	m_DrawStep = 50;
 
 	LPD3DXBUFFER wError = NULL;
 	HRESULT hr = D3DXCreateEffectFromFile(
@@ -62,9 +62,8 @@ MotionBlur::~MotionBlur()
 	SAFE_DELETE(m_PostProcessingRenderer);
 	m_Renderer.erase(m_Renderer.begin());
 
-	SAFE_RELEASE(m_BlurringDepthSurface);
-	SAFE_RELEASE(m_BlurringSurface);
 
+	SAFE_RELEASE(m_BlurringDepthSurface);
 }
 //=======================================================================================
 //		public method
@@ -91,7 +90,7 @@ bool MotionBlur::Initilize()
 	if (m_VelocityMap->GetTexture() == NULL)
 	{
 		LPDIRECT3DTEXTURE9 tex;
-		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+		D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
 			m_WriteTextureSize, 
 			m_WriteTextureSize,
 			1,
@@ -100,30 +99,28 @@ bool MotionBlur::Initilize()
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_VelocityMap->SetTexture(&tex);
-		//hr = tex->GetSurfaceLevel(0, &m_VelocitySurface);
-		//SAFE_RELEASE(tex);
 	}
 	m_VelocityMap->GetTexture()->GetSurfaceLevel(0, &m_VelocitySurface);
+	m_VelocityMap->GetTexture()->Release();
 
 
-	m_BlurringTextureObjectPtr = TexturePool::GetInstance()->GetResource("data:DefaultTexture - BlurringTexture");
+	m_BlurringTextureObjectPtr = TexturePool::GetInstance()->GetResource("data:DefaultTexture - MotionBlurRenderTarget");
 	m_BlurringTexture		= RTTI_PTR_DYNAMIC_CAST(DefaultTexture, m_BlurringTextureObjectPtr.GetSharedObject());
 	if (m_BlurringTexture->GetTexture() == NULL)
 	{
 		LPDIRECT3DTEXTURE9 tex;
-		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+		D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
 			m_WriteTextureSize, 
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A8R8G8B8,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_BlurringTexture->SetTexture(&tex);
-		//hr = tex->GetSurfaceLevel(0, &m_BlurringSurface);
-		//SAFE_RELEASE(tex);
 	}
 	m_BlurringTexture->GetTexture()->GetSurfaceLevel(0, &m_BlurringSurface);
+	m_BlurringTexture->GetTexture()->Release();
 
 	//"data:DefaultTexture - BlurringTexture"
 	IDirect3DSurface9 *pSurf;
@@ -159,36 +156,31 @@ void MotionBlur::Draw()
 	//assert(m_BlurringTexture->GetTexture());
 
 	IDirect3DSurface9* backbuffer = NULL;
-	//IDirect3DSurface9* backbufferDepthSurface = NULL;
+	IDirect3DSurface9* backbufferDepthSurface = NULL;
 
-	//GraphicsManager::GetInstance()->GetD3DDevice()->GetRenderTarget(0, &backbuffer);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->GetDepthStencilSurface(&backbufferDepthSurface);
+	GraphicsManager::GetInstance()->GetD3DDevice()->GetRenderTarget(0, &backbuffer);
+	GraphicsManager::GetInstance()->GetD3DDevice()->GetDepthStencilSurface(&backbufferDepthSurface);
 	//
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderTarget(0, m_BlurringSurface);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetDepthStencilSurface(m_BlurringDepthSurface);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderTarget(0, m_BlurringSurface);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetDepthStencilSurface(m_BlurringDepthSurface);
 
-	//GraphicsManager::GetInstance()->GetD3DDevice()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 );
-	//
+	GraphicsManager::GetInstance()->GetD3DDevice()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 );
+	
 
-	//for (auto it = m_AffectedShaders.begin(); it != m_AffectedShaders.end(); ++it)
-	//{
-	//	if ((*it)->IsActive())
-	//		(*it)->Draw();
-	//}
-	////if (FAILED( hr))
-	////D3DXSaveSurfaceToFile(L"test.jpg", D3DXIFF_JPG, m_BlurringSurface, NULL, NULL);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderTarget(0, backbuffer);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetDepthStencilSurface(backbufferDepthSurface);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, m_BlurringTexture->GetTexture());
+	for (auto it = m_AffectedShaders.begin(); it != m_AffectedShaders.end(); ++it)
+	{
+		if ((*it)->IsActive())
+			(*it)->Draw();
+	}
+	//if (FAILED( hr))
+	//D3DXSaveSurfaceToFile(L"test.jpg", D3DXIFF_JPG, m_BlurringSurface, NULL, NULL);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderTarget(0, backbuffer);
+	GraphicsManager::GetInstance()->GetD3DDevice()->SetDepthStencilSurface(backbufferDepthSurface);
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, m_BlurringTexture->GetTexture());
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(1, m_VelocityMap->GetTexture());
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
-
-	D3DXSaveSurfaceToFile(L"test1.jpg", D3DXIFF_JPG, m_BlurringSurface, NULL, NULL);
-	D3DXSaveSurfaceToFile(L"test2.jpg", D3DXIFF_JPG, m_VelocitySurface, NULL, NULL);
-
 
 	m_Effect->CommitChanges();
 
@@ -205,59 +197,24 @@ void MotionBlur::Draw()
 		m_Effect->EndPass();
 	}
 	m_Effect->End();
-	GraphicsManager::GetInstance()->GetD3DDevice()->GetRenderTarget(0, &backbuffer);
-	D3DXSaveSurfaceToFile(L"test3.jpg", D3DXIFF_JPG, backbuffer, NULL, NULL);
-//	GraphicsManager::GetInstance()->GetD3DDevice()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
-
-	//SAFE_RELEASE(backbuffer);
-	//SAFE_RELEASE(backbufferDepthSurface);
+	SAFE_RELEASE(backbuffer);
+	SAFE_RELEASE(backbufferDepthSurface);
 
 }
-////-------------------------------------------------------------
-////!	@brief		: 
-////!	@param[in]	: 
-////!	@return		: example
-////-------------------------------------------------------------
-//void MotionBlur::SetShaderTechniqueByName(const std::string& techniqueName)
-//{
-//	if (FAILED( m_Effect->SetTechnique(m_Effect->GetTechniqueByName(techniqueName.c_str()))))
-//		assert(0);
-//}
-
-////-------------------------------------------------------------
-////!	@brief		: 
-////!	@param[in]	: 
-////-------------------------------------------------------------
-//void MotionBlur::SetBlurPower(const F32 power)
-//{
-//	m_BluerPower = power;
-//	m_Effect->SetFloat(m_hBlurPower, m_BluerPower);
-//}
-////-------------------------------------------------------------
-////!	@brief		: 
-////!	@param[in]	: 
-////-------------------------------------------------------------
-//F32	MotionBlur::GetBlurPower() const
-//{
-//	return m_BluerPower;
-//}
-////-------------------------------------------------------------
-////!	@brief		: 
-////!	@param[in]	: 
-////-------------------------------------------------------------
-//void MotionBlur::SetSamplingNum(const S32 sampling)
-//{
-//	m_SamplingNum = sampling;
-//	m_Effect->SetInt(m_hSamplingNum, m_SamplingNum);
-//}
-////-------------------------------------------------------------
-////!	@brief		: 
-////!	@param[in]	: 
-////-------------------------------------------------------------
-//F32	MotionBlur::GetSamplingNum() const
-//{
-//	return m_SamplingNum;
-//}
+//-------------------------------------------------------------
+//!	@brief		: 放射ブラーをかけるテクスチャに描画するシェーダオブジェクトを追加
+//!	@param[in]	: 
+//-------------------------------------------------------------
+void MotionBlur::AddBlurringTarget(IShaderObject* obj)
+{
+	auto it = std::find(m_AffectedShaders.begin(), m_AffectedShaders.end(), obj);
+	
+	if (it == m_AffectedShaders.end())
+	{
+		m_AffectedShaders.push_back(obj);
+	//	std::sort(m_AffectedShaders.begin(), m_AffectedShaders.end(), std::greater<IShaderObject*>());
+	}
+}
 //=======================================================================================
 //		protected method
 //=======================================================================================

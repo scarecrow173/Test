@@ -7,7 +7,8 @@
 #include "SceneNode.h"
 #include "MyMath.h"
 #include "SafeArray.h"
-
+#include "WindowPolygonRenderer.h"
+#include "ScreenEffect.h"
 namespace AK
 {
 namespace Graphics{class IShaderObject;}; 
@@ -72,6 +73,10 @@ private:
 	bool							m_IsFadeEnd;
 	F32								m_FadeVolume;
 	Graphics::IShaderObject*		m_Shader;
+	Graphics::ScreenEffect*			m_FadeShader;
+	Graphics::IShaderObject*		m_Phong;
+	Graphics::IShaderObject*		m_CookTorrance;
+	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;
 
 	BlockSystem*					m_BlockSystem;

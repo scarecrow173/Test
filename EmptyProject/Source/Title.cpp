@@ -130,13 +130,15 @@ bool Title::Initialize()
 	m_BlurEffect->Initilize();
 	m_BlurEffect->AddBlurringTarget(m_Shader);
 
-	MotionBlur* motionblur = NEW MotionBlur();
-	motionblur->Initilize();
+	//MotionBlur* motionblur = NEW MotionBlur();
+	//motionblur->Initilize();
+	//motionblur->AddBlurringTarget(m_Shader);
 
+	//GraphicsManager::GetInstance()->AddShaderObject(motionblur);
 	GraphicsManager::GetInstance()->AddShaderObject(m_BlurEffect);
-	//GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
-	GraphicsManager::GetInstance()->AddShaderObject(motionblur);
+	//GraphicsManager::GetInstance()->AddShaderObject(motionblur);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	return true;

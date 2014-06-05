@@ -26,17 +26,21 @@ public:
 
 	RTTI_IS_A(DefaultShader);
 
-	virtual bool	Initilize();
-	virtual void	Draw();
+	virtual bool		Initilize();
+	virtual void		Draw();
 
-	void			SetShaderTechniqueByName(const std::string& techniqueName);
+	void				SetShaderTechniqueByName(const std::string& techniqueName);
+	RefCountedObjectPtr	GetVelocityMApObjectPtr() const;
+
 private:
+
+	void			NormalDrawPass();
+	void			VelocityMapDrawPass();
+
 	RefCountedObjectPtr			m_VelocityTextureObjectPtr;
 	DefaultTexture*				m_VelocityTexture;
 	IDirect3DSurface9*			m_VelocitySurface;
-	IDirect3DSurface9*			m_VelocityDepthSurface;
 
-	D3DXHANDLE		m_hVelocityTechnique;
 
 	D3DXHANDLE		m_hDiffuse;
 	D3DXHANDLE		m_hAmbient;
@@ -52,13 +56,12 @@ private:
 
 
 
-	std::unordered_map<U32, Matrix> m_PrevMatrix;
+	std::unordered_map<IRenderer*, Matrix> m_PrevMatrix;
 
 };
 //=======================================================================================
 //		inline method
 //=======================================================================================
-
 };
 };
 //===============================================================

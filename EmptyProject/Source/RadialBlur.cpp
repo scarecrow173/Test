@@ -60,7 +60,7 @@ RadialBlur::~RadialBlur()
 	m_Renderer.erase(m_Renderer.begin());
 
 	SAFE_RELEASE(m_BlurringDepthSurface);
-	SAFE_RELEASE(m_BlurringSurface);
+	//SAFE_RELEASE(m_BlurringSurface);
 
 }
 //=======================================================================================
@@ -87,18 +87,25 @@ bool RadialBlur::Initilize()
 	m_Effect->SetFloat(m_hBlurPower, m_BluerPower);
 	m_Effect->SetInt(m_hSamplingNum, m_SamplingNum);
 
-
 	m_BlurringTextureObject = TexturePool::GetInstance()->GetResource("data:DefaultTexture - BlurringTexture");
 	m_BlurringTexture		= RTTI_PTR_DYNAMIC_CAST(DefaultTexture, m_BlurringTextureObject.GetSharedObject());
-	LPDIRECT3DTEXTURE9 tex;
-	auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
-		m_BlurringTextureWidth, 
-		m_BlurringTextureHeight,
-		1,
-		D3DUSAGE_RENDERTARGET,
-		D3DFORMAT::D3DFMT_A8R8G8B8,
-		D3DPOOL_DEFAULT,
-		&tex);
+	if (!(m_BlurringTexture->GetTexture()))
+	{
+		LPDIRECT3DTEXTURE9 velocityMap;
+		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+			1024, 
+			1024,
+			1,
+			D3DUSAGE_RENDERTARGET,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
+			D3DPOOL_DEFAULT,
+			&velocityMap);
+
+		m_BlurringTexture->SetTexture(&velocityMap);
+	}
+	m_BlurringTexture->GetTexture()->GetSurfaceLevel(0, &m_BlurringSurface);
+	m_BlurringTexture->GetTexture()->Release();
+
 
 	IDirect3DSurface9 *pSurf;
 	GraphicsManager::GetInstance()->GetD3DDevice()->GetDepthStencilSurface( &pSurf );
@@ -106,7 +113,7 @@ bool RadialBlur::Initilize()
 	pSurf->GetDesc( &Desc );
 	SAFE_RELEASE(pSurf);
 	
-	hr = GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
+	GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
 		m_BlurringTextureWidth,
 		m_BlurringTextureHeight,
 		Desc.Format,
@@ -117,11 +124,9 @@ bool RadialBlur::Initilize()
 		NULL
 		);
 
-	m_BlurringTexture->SetTexture(&tex);
-	hr = tex->GetSurfaceLevel(0, &m_BlurringSurface);
-	SAFE_RELEASE(tex);
-	if(FAILED(hr))
-		return false;
+
+	//if(FAILED(hr))
+	//	return false;
 
 	return true;
 }

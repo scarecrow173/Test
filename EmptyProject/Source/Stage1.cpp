@@ -54,6 +54,10 @@ Stage1::Stage1(INode* parent, U32 stageCount)
 	,	m_FadeVolume	(1.f)
 	,	m_StageCount	(stageCount)
 	,	m_Shader		(NULL)
+	,	m_FadeShader	(NULL)
+	,	m_Phong			(NULL)
+	,	m_CookTorrance	(NULL)
+	,	m_FadeRenderer	(NULL)
 	,	m_BlockSystem	(NULL)
 	,	m_ItemSystem	(NULL)
 {
@@ -123,6 +127,18 @@ bool Stage1::Initialize()
 	
 	m_Shader = NEW DefaultShader();
 	m_Shader->Initilize();
+	
+	m_FadeShader = NEW ScreenEffect();
+	m_FadeShader->Initilize();
+
+	m_CookTorrance = NEW DefaultShader();
+	m_CookTorrance->Initilize();
+
+	m_FadeRenderer = NEW WindowPolygonRenderer();
+	m_FadeRenderer->CreatePolygon();
+	m_FadeShader->AddRenderer(m_FadeRenderer);
+
+
 	CreatePadle();
 	CreateBall();
 	CreateBlock();
@@ -131,6 +147,7 @@ bool Stage1::Initialize()
 	
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->AddShaderObject(m_FadeShader);
 
 	m_ItemSystem = NEW ItemSystem(this);
 	
@@ -267,6 +284,9 @@ void Stage1::FadeScene()
 {
 	m_FadeVolume -= 0.01f;
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
+	
+	if (m_FadeShader)
+		m_FadeShader->SetFadeValue(1.f - m_FadeVolume);
 
 	if (m_FadeVolume < 0 && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
 		m_IsFadeEnd = true;

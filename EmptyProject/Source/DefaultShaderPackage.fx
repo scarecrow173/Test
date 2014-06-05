@@ -53,33 +53,30 @@ Velocity_PS_Input VelocityMapVS(Default_VS_Input In)
 	float4		now_pos, prev_pos, n;
 	float3		vel, norm;
 	float		d;
-	matrix		matWV, matPrevWV;
+	matrix		matWV, matPrevWV, matWVP, matPrevWVP;
 
 	matWV		= mul(g_World, g_View);
 	matPrevWV	= mul(g_PrevWorld, g_View);
-
+	matWVP		= mul(matWV, g_Projection);
+	matPrevWVP	= mul(matPrevWV, g_Projection);
+	
 	// 今回と前回の位置を計算する
-	now_pos  = mul(float4(In.Pos, 1.f), matWV);
-	prev_pos = mul(float4(In.Pos, 1.f), matPrevWV);
+	now_pos  = mul(float4(In.Pos.xyz, 1.f), matWV);
+	prev_pos = mul(float4(In.Pos.xyz, 1.f), matPrevWV);
 
 	// 速度を求める
 	vel.xyz = now_pos.xyz - prev_pos.xyz;
 
-	// 法線を回転する
 	n.xyz = In.Normal;
 	n.w = 0.0f;
 	norm.xyz = mul(n, matWV);
 
-	// 座標変換
-	now_pos  = mul(float4(In.Pos, 1.f), mul(matWV, g_Projection));
-	prev_pos = mul(float4(In.Pos, 1.f), mul(matPrevWV, g_Projection));
+	now_pos  = mul(float4(In.Pos.xyz, 1.f), matWVP);
+	prev_pos = mul(float4(In.Pos.xyz, 1.f), matPrevWVP);
 
 	// 法線と速度のベクトルの内積から出力する頂点データを決定する
 	d = dot(norm, vel);
 	d = step(0.0f, d);
-//	float3	vn = normalize(vel);
-//	d = dot(norm, vn) * 0.5f + 0.5f;
-//	d = saturate(d);
 	float4	o_pos = d * now_pos + (1.0f - d) * prev_pos;
 	Out.Pos = o_pos;
 
@@ -166,7 +163,7 @@ float4 VelocityMapPS(Velocity_PS_Input In) : COLOR0
 
 	Out.rgb = In.Tex.xyz;
 	Out.a	= 1.0f;
-
+	
 	return Out;
 }
 //-------------------------------------------------------------

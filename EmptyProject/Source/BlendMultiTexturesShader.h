@@ -5,6 +5,7 @@
 //=======================================================================================
 #pragma once
 #include "IShaderObject.h"
+#include "DefaultTexture.h"
 #include "Elements.h"
 namespace AK
 {
@@ -27,6 +28,8 @@ public:
 	virtual bool	Initilize();
 	virtual void	Draw();
 
+	void			SetBackBuffer(IDirect3DSurface9** backbuffer);
+	void			AddBlendTexture(IDirect3DTexture9** blendtex);
 	//void			SetShaderTechniqueByName(const std::string& techniqueName);
 private:
 	//D3DXHANDLE		m_hDiffuse;
@@ -38,11 +41,15 @@ private:
 	//D3DXHANDLE		m_hView;
 	//D3DXHANDLE		m_hProjection;
 	//D3DXHANDLE		m_hLightDir;
-	//D3DXHANDLE		m_hEyePos;
-
+	
+	
+	IDirect3DSurface9*				m_BackBuffer;
+	RefCountedObjectPtr				m_FinalOutPutTextureRefPtr;
+	DefaultTexture*					m_FinalOutPutTextureRef;
+	IDirect3DSurface9*				m_FinalOutPutSurface;
 	std::vector<IDirect3DTexture9*> m_BlendTextures;
 	
-
+	D3DXHANDLE						m_hBlendTextureNum;
 };
 //=======================================================================================
 //		inline method

@@ -6,11 +6,19 @@
 #pragma once
 #include <vector>
 #include "IRenderer.h"
+#include "RefCountedObjectPtr.h"
+#include "DefaultTexture.h"
 #include <algorithm>
 namespace AK
 {
 namespace Graphics
 {
+enum DrawStep
+{
+	Default		= 0,
+	PostProcess	= 1000,
+	End			= 2000,
+};
 //=======================================================================================
 //!	@class	:	IShaderObject
 //!	@brief	:	example
@@ -20,21 +28,29 @@ namespace Graphics
 class IShaderObject
 {
 public:
-	IShaderObject() : m_Effect (NULL), m_DrawStep (0), m_IsActive (true) {};
+	IShaderObject()
+		: m_Effect							(NULL)
+		, m_DrawStep						(0)
+		, m_DefaultRenderTargetDepthSurface	(NULL)
+		, m_IsActive (true)
+	{}
 	virtual ~IShaderObject()
 	{ 
 		SAFE_RELEASE(m_Effect); 
+		SAFE_RELEASE(m_DefaultRenderTargetDepthSurface);
 		if (!m_Renderer.empty())
 		{
 			std::vector<IRenderer*> clear;
 			m_Renderer.swap(clear);
 		}
-	};
+	}
 	RTTI_IS_A_BASE(IShaderObject);
 	void AddRenderer(IRenderer* renderer);
 	void EraseRenderer(const IRenderer* renderer);
 	bool IsActive() const;
 	void SetActive(const bool active);
+	U32	 GetDrawStep() const;
+	RefCountedObjectPtr GetRenderTargetPtr() const;
 
 
 	virtual bool Initilize()PURE;
@@ -44,11 +60,14 @@ public:
 	bool operator >(const IShaderObject& obj);
 
 
-	U32						m_DrawStep;
+	
 protected:
 	ID3DXEffect*			m_Effect;
 	std::vector<IRenderer*>	m_Renderer;
 
+	IDirect3DSurface9*		m_DefaultRenderTargetDepthSurface;
+
+	U32						m_DrawStep;
 	bool					m_IsActive;
 };
 //=======================================================================================
@@ -96,6 +115,22 @@ inline void IShaderObject::SetActive(const bool active)
 	m_IsActive = active;
 }
 //-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: 
+//-------------------------------------------------------------
+inline U32 IShaderObject::GetDrawStep() const
+{
+	return m_DrawStep;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: 
+//-------------------------------------------------------------
+//inline RefCountedObjectPtr IShaderObject::GetRenderTargetPtr() const
+//{
+//	return m_DefaultRenderTargetPtr;
+//}
+//-------------------------------------------------------------
 //!	@brief		: ソートのため<演算子オーバーロード
 //-------------------------------------------------------------
 inline	bool IShaderObject::operator <(const IShaderObject& obj)
@@ -105,7 +140,7 @@ inline	bool IShaderObject::operator <(const IShaderObject& obj)
 //-------------------------------------------------------------
 //!	@brief		: ソートのため>演算子オーバーロード
 //-------------------------------------------------------------
-inline	bool IShaderObject::operator >(const IShaderObject& obj)
+inline bool IShaderObject::operator >(const IShaderObject& obj)
 {
 	return m_DrawStep > obj.m_DrawStep;
 }

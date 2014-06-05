@@ -8,6 +8,8 @@
 //=======================================================================================
 
 #include "GraphicsManager.h"
+#include "BlendMultiTexturesShader.h"
+#include "TexturePool.h"
 #include <functional>
 
 using namespace AK;
@@ -67,7 +69,6 @@ GraphicsManager::~GraphicsManager()
 
 	SAFE_RELEASE(m_InstanceBuffer);
 
-
 	SAFE_RELEASE(m_Device);
 }
 //=======================================================================================
@@ -99,22 +100,24 @@ void GraphicsManager::AddShaderObject(IShaderObject* shader)
 {
 	auto it = std::find(m_ShaderList.begin(), m_ShaderList.end(), shader);
 	
-	if (it == m_ShaderList.end())
+	if (it != m_ShaderList.end())
+		return;
+	if (m_ShaderList.empty())
 	{
-		if (m_ShaderList.empty())
-			m_ShaderList.push_back(shader);
-		auto it2 = m_ShaderList.begin();
-		while (it2 != m_ShaderList.end())
-		{
-			if ((*it2)->m_DrawStep > shader->m_DrawStep)
-			{
-				m_ShaderList.insert(it2, shader);
-				return;
-			}
-			++it2;
-		}
-		//std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
+		m_ShaderList.push_back(shader);
+		return;
 	}
+	auto it2 = m_ShaderList.begin();
+	while (it2 != m_ShaderList.end())
+	{
+		if ((*it2)->GetDrawStep() > shader->GetDrawStep())
+		{
+			m_ShaderList.insert(it2, shader);
+			return;
+		}
+		++it2;
+	}
+	m_ShaderList.push_back(shader);
 }
 //-------------------------------------------------------------
 //!	@brief		: example

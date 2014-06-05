@@ -555,6 +555,7 @@
     <ClCompile Include="DXUT\Optional\DXUTsettingsdlg.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmesh.cpp" />
     <ClCompile Include="DXUT\Optional\SDKmisc.cpp" />
+    <None Include="Source\BlendMultiTextures.fx" />
     <None Include="Source\MotionBlur.fx" />
     <None Include="Source\RadialBlur.fx" />
     <None Include="Source\DefaultShaderPackage.fx" />

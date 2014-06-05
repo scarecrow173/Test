@@ -127,6 +127,9 @@
     <None Include="Source\MotionBlur.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Source\BlendMultiTextures.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
