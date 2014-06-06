@@ -30,12 +30,12 @@ public:
 	virtual void		Draw();
 
 	void				SetShaderTechniqueByName(const std::string& techniqueName);
-	RefCountedObjectPtr	GetVelocityMApObjectPtr() const;
+	RefCountedObjectPtr	GetVelocityMapObjectPtr() const;
 
 private:
 
-	void			NormalDrawPass();
-	void			VelocityMapDrawPass();
+	void				NormalDrawPass();
+	void				VelocityMapDrawPass();
 
 	RefCountedObjectPtr			m_VelocityTextureObjectPtr;
 	DefaultTexture*				m_VelocityTexture;

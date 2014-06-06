@@ -29,7 +29,6 @@ public:
 	virtual ~WindowPolygonRenderer();
 
 	virtual void Draw();
-	virtual IRenderer* Clone();
 
 	void	CreatePolygon(const U32 divisionWidth = 1, const U32 divisionHeight = 1);
 

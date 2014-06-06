@@ -23,13 +23,10 @@ using namespace Graphics;
 MotionBlur::MotionBlur()
 	:	m_BlurringTextureObjectPtr	(NULL)
 	,	m_VelocityMapObjectPtr		(NULL)
-	//,	m_ZTextureObjectPtr			(NULL)
 	,	m_BlurringTexture			(NULL)
 	,	m_VelocityMap				(NULL)
-	//,	m_ZTexture					(NULL)
 	,	m_BlurringSurface			(NULL)
 	,	m_VelocitySurface			(NULL)
-	//,	m_ZTextureSurface			(NULL)
 	,	m_BlurringDepthSurface		(NULL)
 	,	m_hPrevWorld				(NULL)
 	,	m_PostProcessingRenderer	(NULL)
@@ -95,7 +92,7 @@ bool MotionBlur::Initilize()
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A8R8G8B8,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_VelocityMap->SetTexture(&tex);
@@ -197,6 +194,7 @@ void MotionBlur::Draw()
 		m_Effect->EndPass();
 	}
 	m_Effect->End();
+
 	SAFE_RELEASE(backbuffer);
 	SAFE_RELEASE(backbufferDepthSurface);
 

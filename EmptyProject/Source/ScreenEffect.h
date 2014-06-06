@@ -32,7 +32,6 @@ public:
 	void			SetFadeValue(const F32 alpha);
 	void			SetFadeColor(const VertexFloat3& color);
 
-	void			Reset();
 protected:
 
 private:

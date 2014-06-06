@@ -8,7 +8,6 @@
 //=======================================================================================
 #include "DebugUtill.h"
 #include "Stage1.h"
-#include "Stage2.h"
 #include "Title.h"
 #include "BlockSystem.h"
 #include "Ball.h"
@@ -24,6 +23,7 @@
 #include "Item.h"
 #include "ItemSystem.h"
 #include "DefaultShader.h"
+#include "MotionBlur.h"
 
 
 using namespace AK;
@@ -76,9 +76,10 @@ Stage1::Stage1(INode* parent, U32 stageCount)
 Stage1::~Stage1()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeShader);
 	SAFE_DELETE(m_Shader);
-	//BoxFactory::GetInstance()->AllClear();
-	//SphereFactory::GetInstance()->AllClear();
+	SAFE_DELETE(m_FadeShader);
+
 }
 //=======================================================================================
 //		public method
@@ -89,7 +90,8 @@ Stage1::~Stage1()
 void Stage1::Update()
 {
 	DEBUG_PRINT_CHAR("STAGE_01");
-
+	if (m_StageCount >= STAGE_MAX)
+		return;
 	m_IsStageClear = m_BlockSystem->Clear();
 
 	if (m_IsFading)
@@ -122,6 +124,10 @@ SceneNode*	Stage1::NextScene()
 bool Stage1::Initialize()
 {
 	TRACE(1,"Stage1::Initialize");
+
+	if (m_StageCount >= STAGE_MAX)
+		return false;
+
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
 	
@@ -131,22 +137,28 @@ bool Stage1::Initialize()
 	m_FadeShader = NEW ScreenEffect();
 	m_FadeShader->Initilize();
 
+
 	m_CookTorrance = NEW DefaultShader();
 	m_CookTorrance->Initilize();
+	//m_CookTorrance->SetShaderTechniqueByName("Phong");
 
 	m_FadeRenderer = NEW WindowPolygonRenderer();
 	m_FadeRenderer->CreatePolygon();
 	m_FadeShader->AddRenderer(m_FadeRenderer);
-
+	VertexFloat3 fadeColor;
+	fadeColor.m[0] = 1.f;
+	fadeColor.m[1] = 1.f;
+	fadeColor.m[2] = 1.f;
+	m_FadeShader->SetFadeColor(fadeColor);
 
 	CreatePadle();
 	CreateBall();
 	CreateBlock();
 	CreateWall();
-
 	
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeShader);
 
 	m_ItemSystem = NEW ItemSystem(this);
@@ -159,8 +171,8 @@ bool Stage1::Initialize()
 }
 
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: ƒAƒCƒeƒ€‚ğƒ‰ƒ“ƒ_ƒ€‚Å¶¬
+//!	@return		: 
 //-------------------------------------------------------------
 void Stage1::PopItem(Vector3 pos)
 {
@@ -179,24 +191,24 @@ void Stage1::PopItem(Vector3 pos)
 		pop->AddCollision(m_Paddle[i]->GetCollision());
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 bool Stage1::IsEnd() const
 {
 	return m_IsEnd;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 void Stage1::SetEnd(const bool end)
 {
 	m_IsEnd = end;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 const Paddle* Stage1::GetPaddle(const U32 index)	const
 {
@@ -204,8 +216,8 @@ const Paddle* Stage1::GetPaddle(const U32 index)	const
 	return m_Paddle[index];
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 const Wall*	Stage1::GetWall(const U32 index) const
 {
@@ -213,8 +225,8 @@ const Wall*	Stage1::GetWall(const U32 index) const
 	return m_Wall[index];
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		:
+//!	@return		:
 //-------------------------------------------------------------
 Ball*	Stage1::GetBall(const U32 index) const
 {
@@ -222,32 +234,32 @@ Ball*	Stage1::GetBall(const U32 index) const
 	return m_Ball[index];
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 const Item*	Stage1::GetItem(const U32 index) const
 {
 	return m_ItemSystem->GetItem(index);
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 void Stage1::SetPaddle(Paddle* paddle, const U32 index)
 {
 	m_Paddle[index] = paddle;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 void Stage1::SetWall(Wall* wall, const U32 index)
 {
 	m_Wall[index] = wall;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 void Stage1::SetBall(Ball* ball, const U32 index)
 {
@@ -334,7 +346,7 @@ bool Stage1::CreateBall()
 	//	ƒ{[ƒ‹ì¬
 	const Vector3 ballPos(0.f, -250.f, 0.f);
 	m_Ball[0] = NEW Ball(this, ballPos, m_Paddle[0]);
-	m_Ball[0]->SetShader(m_Shader);
+	m_Ball[0]->SetShader(m_CookTorrance);
 	m_Shader->AddRenderer(m_Ball[0]->GetRenderer());
 	return true;
 }

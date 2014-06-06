@@ -8,7 +8,6 @@
 //=======================================================================================
 
 #include "GraphicsManager.h"
-#include "BlendMultiTexturesShader.h"
 #include "TexturePool.h"
 #include <functional>
 
@@ -107,15 +106,17 @@ void GraphicsManager::AddShaderObject(IShaderObject* shader)
 		m_ShaderList.push_back(shader);
 		return;
 	}
-	auto it2 = m_ShaderList.begin();
-	while (it2 != m_ShaderList.end())
+	//	std::sortが使えない（ポインタ比較になってしまうため）
+	//	シーンの初期化で使うだけなので今はこのまま
+	auto sortIt = m_ShaderList.begin();
+	while (sortIt != m_ShaderList.end())
 	{
-		if ((*it2)->GetDrawStep() > shader->GetDrawStep())
+		if ((*sortIt)->GetDrawStep() > shader->GetDrawStep())
 		{
-			m_ShaderList.insert(it2, shader);
+			m_ShaderList.insert(sortIt, shader);
 			return;
 		}
-		++it2;
+		++sortIt;
 	}
 	m_ShaderList.push_back(shader);
 }

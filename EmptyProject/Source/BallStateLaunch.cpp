@@ -41,6 +41,7 @@ BallStateLaunch::~BallStateLaunch()
 //-------------------------------------------------------------
 void BallStateLaunch::EntryAction(Ball* stateUser)
 {
+	// ‚Æ‚è‚ ‚¦‚¸ŒÅ’è’l
 	m_LaunchPower = Vector3(10.f, 5.f, 0.f);
 	m_LaunchPower.x = stateUser->GetPaddle()->GetCollision()->GetSpeed().x > 0 ? 10.f : -10.f;
 }

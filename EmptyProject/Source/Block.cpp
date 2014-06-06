@@ -11,8 +11,9 @@
 #include "TriangleRenderer.h"
 #include "Colors.h"
 #include "CollisionBox.h"
-#include "BoxPool.h"
 #include "MaterialPool.h"
+#include "PrimitivePool.h"
+#include "Material.h"
 #include <algorithm>
 
 
@@ -24,9 +25,17 @@ using namespace Collision;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-	
-
-	
+//	残り56分
+static std::string	MaterialDataCode[5] = 
+{
+	"file:Default-Assets/CSV/Material/BlockLevel1.csv",
+	"file:Default-Assets/CSV/Material/BlockLevel2.csv",
+	"file:Default-Assets/CSV/Material/BlockLevel3.csv",
+	"file:Default-Assets/CSV/Material/BlockLevel4.csv",
+	"file:Default-Assets/CSV/Material/BlockLevel5.csv"
+};
+static RefCountedObjectPtr	BlockStrengthMaterial[5];
+static bool					g_InitializedMaterials = false;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -35,15 +44,28 @@ Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
 	,	m_LifeCount	(lifeCount)
 	,	m_SEHandle		(0)
 {
+	if (!g_InitializedMaterials)
+	{
+		g_InitializedMaterials = true;
+	
+		for (int i = 0; i < 5; ++i)
+		{
+			BlockStrengthMaterial[i] = MaterialPool::GetInstance()->GetResource(MaterialDataCode[i]);
+		}
+	}
+
+
 	static const F32 WIDTH	= 100.f;
 	static const F32 HEIGHT	= 50.f;
+
+	m_LifeCount = m_LifeCount >= 4 ? 4 : m_LifeCount;
 
 	m_Color.color = 0x00FF0000;
 	m_Color.color = m_Color.color >> m_LifeCount;
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
-	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
+	m_Renderer->SetMaterial(BlockStrengthMaterial[m_LifeCount - 1]);
 
 
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(WIDTH, HEIGHT, 50.f));
@@ -90,11 +112,10 @@ bool Block::Death()
 		m_Collision->SetActive(false);
 		return true;
 	}
-	auto col = m_Color.color >> 4;
-	m_Color.color = m_Color.color | col;
-	GraphicsManager::GetInstance()->ChangeColor(m_IndexData.start, m_IndexData.start + m_IndexData.vertexNum, m_Color);
-	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
-	GraphicsManager::GetInstance()->SetAllStreamSource();
+	m_Renderer->SetMaterial(BlockStrengthMaterial[m_LifeCount - 1]);
+	//GraphicsManager::GetInstance()->ChangeColor(m_IndexData.start, m_IndexData.start + m_IndexData.vertexNum, m_Color);
+	//GraphicsManager::GetInstance()->ReCreateVertexBuffer();
+	//GraphicsManager::GetInstance()->SetAllStreamSource();
 	return false;
 }
 //-------------------------------------------------------------

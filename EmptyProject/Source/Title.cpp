@@ -43,7 +43,6 @@ Title::Title(INode* parent)
 	,	m_Shader			(NULL)
 	,	m_FadeOutScreen		(NULL)
 	,	m_FadeOutRenderer	(NULL)
-	,	m_BlurEffect		(NULL)
 	,	m_Floating			(0.0f)
 {
 }
@@ -54,7 +53,7 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeOutScreen);
-	GraphicsManager::GetInstance()->EraseShaderObject(m_BlurEffect);
+
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -66,7 +65,7 @@ Title::~Title()
 
 	SAFE_DELETE(m_FadeOutRenderer);
 	SAFE_DELETE(m_FadeOutScreen);
-	SAFE_DELETE(m_BlurEffect);
+
 }
 //=======================================================================================
 //		public method
@@ -120,25 +119,15 @@ bool Title::Initialize()
 	fadeColor.m[0] = 1.f;
 	fadeColor.m[1] = 1.f;
 	fadeColor.m[2] = 1.f;
-	//fadeColor.m[3] = 0.f;
 	m_FadeOutScreen->SetFadeColor(fadeColor);
 	m_FadeOutScreen->SetFadeValue(0.f);
 	m_FadeOutScreen->SetActive(false);
 
 	LoadTitleBlock();
-	m_BlurEffect = NEW RadialBlur();
-	m_BlurEffect->Initilize();
-	m_BlurEffect->AddBlurringTarget(m_Shader);
 
-	//MotionBlur* motionblur = NEW MotionBlur();
-	//motionblur->Initilize();
-	//motionblur->AddBlurringTarget(m_Shader);
 
-	//GraphicsManager::GetInstance()->AddShaderObject(motionblur);
-	GraphicsManager::GetInstance()->AddShaderObject(m_BlurEffect);
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
-	//GraphicsManager::GetInstance()->AddShaderObject(motionblur);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	return true;
@@ -187,7 +176,7 @@ void Title::LoadTitleBlock()
 	data.Load("Assets/CSV/Title/Title.csv");
 	U32 widthNum	= data[0].GetInteger();
 	U32 heightNum	= data[1].GetInteger();
-	F32 blockWhidth	= 1000.f / widthNum;
+	F32 blockWhidth	= 1000.f / widthNum;	// 1000.fは画面の幅。マジックナンバーやめようよ
 	F32 blockHeight	= 1000.f / heightNum;
 
 	for (U32 i = 0; i < widthNum * heightNum; ++i)
@@ -205,7 +194,8 @@ void Title::LoadTitleBlock()
 
 		Vector3 pos;
 
-		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f));
+		// 500.fは幅の半分。マジックナンバー...
+		pos.x = 500.f - ((i % widthNum) * (blockWhidth) + (blockWhidth * 0.5f)); 
 		pos.y = 500.f - ((i / widthNum) * (blockHeight) + (blockHeight * 0.5f));
 		pos.z = 0.f;
 
@@ -230,7 +220,7 @@ void Title::FloatingBlock()
 	{
 		auto transform = (*it)->GetTransform();
 		Vector3 pos = transform->GetTranslation();
-		pos.y += m_IsEnd ? -20.f : value;
+		pos.y += m_IsFading ? (std::rand() % 10) / 10.f * -20.f : value;
 		transform->SetTranslation(pos);
 		transform->UpdateTransform();
 		++it;

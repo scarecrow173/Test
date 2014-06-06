@@ -107,10 +107,10 @@ bool CollisionSphere::Check(CollisionSphere* sphere)
 //-------------------------------------------------------------
 F32	 CollisionSphere::GetTime(ICollisionObject& obj)
 {
-	Vector3 C0	= m_Position - obj.m_Normal;
+	Vector3 C0	= m_Position - obj.GetClossetPoint();
 	Vector3 D	= (m_Speed + m_Position) - m_Position;
 	Vector3 N;
-	D3DXVec3Normalize(&N, &m_Normal);
+	D3DXVec3Normalize(&N, &GetClossetPoint());
 
 	F32 Dot_C0	= D3DXVec3Dot(&C0, &N);
 	F32 Dot		= D3DXVec3Dot(&D, &N);

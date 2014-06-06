@@ -11,7 +11,6 @@
 #include <string>
 #include "ReferenceCounter.h"
 #include "IPrimitiveFactory.h"
-#include "TEST_PrimitivePool_defind.h"
 
 namespace AK
 {
@@ -35,12 +34,8 @@ public:
 private:
 	SphereFactory();
 	virtual ~SphereFactory();
-
 	
 	virtual BufferResource*			CreatePrimitive();
-	void					AllClear();
-	
-	
 	
 	static SphereFactory*	m_Instance;
 	U32						m_SphereCount;
@@ -49,10 +44,6 @@ private:
 //=======================================================================================
 //	inline method
 //=======================================================================================
-
-
-
-
 };
 };
 //===============================================================

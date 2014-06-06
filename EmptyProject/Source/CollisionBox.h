@@ -45,7 +45,7 @@ public:
 	void	SetCenter(const Vector3 center);
 
 private:
-	void	_AssretError();
+	virtual void	_AssretError();
 
 	F32		m_Width;
 	F32		m_Height;

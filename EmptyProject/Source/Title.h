@@ -10,7 +10,6 @@
 #include "IShaderObject.h"
 #include "ScreenEffect.h"
 #include "WindowPolygonRenderer.h"
-#include "RadialBlur.h"
 namespace AK
 {
 //=======================================================================================
@@ -49,8 +48,6 @@ private:
 
 	Graphics::ScreenEffect*				m_FadeOutScreen;
 	Graphics::WindowPolygonRenderer*	m_FadeOutRenderer;
-
-	Graphics::RadialBlur*				m_BlurEffect;
 
 
 };

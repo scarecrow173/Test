@@ -35,7 +35,7 @@ public:
 	F32	 GetRadius() const {return m_Radius;}
 
 private:
-	void _AssretError();
+	virtual void _AssretError();
 
 	F32	m_Radius;
 };

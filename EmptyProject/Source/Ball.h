@@ -47,11 +47,8 @@ public:
 
 
 private:
-	bool Death(Collision::ICollisionObject* obj);
-	void Respawn();
-	void Launch();
 	void UpdateMatrix();
-	void Powerup();
+	//void Powerup();
 	
 	U32								m_DeathCount;
 	BlockSystem*					m_BlockSystem;

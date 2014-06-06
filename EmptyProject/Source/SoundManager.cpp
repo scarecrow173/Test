@@ -180,7 +180,7 @@ bool SoundManager::LoadBGMList()
 	BGMList.Load("Assets/CSV/SoundList/BGMList.csv");	
 	for (U32 i = 0; i < BGMList.column * BGMList.row; ++i)
 	{
-		auto handle = BASS_StreamCreateFile(FALSE, BGMList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT);
+		auto handle = BASS_StreamCreateFile(FALSE, BGMList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT | BASS_SAMPLE_LOOP);
 		assert(handle);
 		m_BGMList.push_back(handle);
 	}

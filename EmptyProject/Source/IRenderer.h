@@ -7,7 +7,6 @@
 #include <vector>
 #include "IndexData.h"
 #include "MyMath.h"
-#include "IResource.h"
 #include "BufferResource.h"
 #include "RefCountedObjectPtr.h"
 #include "TransformObject.h"
@@ -22,7 +21,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class IRenderer : public IResource
+class IRenderer
 {
 public:
 	IRenderer() 
@@ -32,7 +31,7 @@ public:
 		, m_Transform		(NEW TransformObject())
 		,  m_IsActive		(true) 
 	{};
-	virtual ~IRenderer() {  };
+	virtual ~IRenderer() { };
 
 	bool		Initialize();
 

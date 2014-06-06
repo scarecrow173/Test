@@ -26,6 +26,9 @@ Wall::Wall(INode* parent, Vector3 pos, WALL_TYPE type)
 {
 	F32 width	= 0.f;
 	F32 height	= 0.f;
+
+	//	左右・上下でemunもまとめるべきかもしれない
+	//	ステージ側でidとして使っているためそのまま
 	switch(m_type)
 	{
 	case WALL_LEFT:
