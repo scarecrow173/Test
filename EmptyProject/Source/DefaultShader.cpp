@@ -75,6 +75,9 @@ bool DefaultShader::Initilize()
 	m_VelocityTexture		= RTTI_PTR_DYNAMIC_CAST(DefaultTexture, m_VelocityTextureObjectPtr.GetSharedObject());
 	if (!(m_VelocityTexture->GetTexture()))
 	{
+		//	テクスチャサイズが固定値なのは特に意味はないが
+		//	正方形にしたかった
+		//	ホントはサイズを指定出来るようにすべき
 		LPDIRECT3DTEXTURE9 velocityMap;
 		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
 			1024, 
@@ -240,7 +243,7 @@ void DefaultShader::VelocityMapDrawPass()
 //!	@param[in]	: テクニック名(変な名前が入るとアサート)
 //!	@return		: example
 //-------------------------------------------------------------
-RefCountedObjectPtr	DefaultShader::GetVelocityMApObjectPtr() const
+RefCountedObjectPtr	DefaultShader::GetVelocityMapObjectPtr() const
 {
 	return m_VelocityTextureObjectPtr;
 }

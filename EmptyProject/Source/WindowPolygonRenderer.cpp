@@ -82,15 +82,6 @@ void WindowPolygonRenderer::Draw()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-IRenderer* WindowPolygonRenderer::Clone()
-{
-	return NULL;
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
 void WindowPolygonRenderer::CreatePolygon(const U32 divisionWidth, const U32 divisionHeight)
 {
 	const F32 ONE_WIDTH		= (F32)(WINDOW_WIDTH / divisionWidth);

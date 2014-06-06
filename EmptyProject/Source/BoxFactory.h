@@ -12,14 +12,12 @@
 #include <iostream>
 #include "ReferenceCounter.h"
 #include "IPrimitiveFactory.h"
-#include "TEST_PrimitivePool_defind.h"
 namespace AK
 {
 
 namespace Graphics
 {
 class PrimitivePool;
-
 //=======================================================================================
 //!	@class	:	BoxFactory
 //!	@brief	:	example
@@ -31,12 +29,13 @@ class BoxFactory : public IPrimitiveFactory
 public:
 	friend PrimitivePool;
 private:
+	// •K‚¸PrimitivePool‚ðŒo—R‚·‚é‚æ‚¤‚É
 	BoxFactory();
 	virtual ~BoxFactory();
 
 	virtual BufferResource*		CreatePrimitive();
 
-	void				AllClear();
+	//void				AllClear();
 
 
 	static BoxFactory*	m_Instance;

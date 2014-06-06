@@ -12,12 +12,10 @@
 #include "CollisionSphere.h"
 using namespace AK;
 using namespace Collision;
-//=======================================================================================
-//		Constants Definitions
-//=======================================================================================
-U32	ICollisionObject::IDAssignment			= 0;
-const F32 ICollisionObject::GRAVITY_POWER	= 5.f;
 
+//=======================================================================================
+//		衝突検出用のUtility関数群
+//=======================================================================================
 void ClosestPtPoint(Vector3 *p, CollisionBox *b, Vector3 *q)
 {
 	D3DXVECTOR3 d = *p - b->GetPosition();
@@ -89,6 +87,11 @@ bool CalcParticlePlaneAfterPos(
 
    return true;
 }
+
+//=======================================================================================
+//		Constants Definitions
+//=======================================================================================
+const F32 ICollisionObject::GRAVITY_POWER	= 5.f;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -101,9 +104,9 @@ ICollisionObject::ICollisionObject()
 	,	m_Speed				(Math::F32_MAX, Math::F32_MAX, Math::F32_MAX)
 	,	m_Position			(Math::F32_MAX, Math::F32_MAX, Math::F32_MAX)
 	,	m_CenterPos			(Math::F32_MAX, Math::F32_MAX, Math::F32_MAX)
+	,	m_ClossetPoint		(Math::F32_MAX, Math::F32_MAX, Math::F32_MAX)
 	,	m_ReflectionFactor	(1.f)
 	,	m_AttenuationFactor	(0.8f)
-	,	m_ID				(IDAssignment++)
 {
 
 }
@@ -119,9 +122,9 @@ ICollisionObject::ICollisionObject(Vector3 position, Vector3 center, Vector3 spe
 	,	m_Speed				(speed)
 	,	m_Position			(position)
 	,	m_CenterPos			(center)
+	,	m_ClossetPoint		(0,0,0)
 	,	m_ReflectionFactor	(1.f)
 	,	m_AttenuationFactor	(0.8f)
-	,	m_ID				(IDAssignment++)
 {
 
 }
@@ -142,6 +145,7 @@ void ICollisionObject::Update(std::vector<ICollisionObject*>& collision)
 	Vector3 v1;
 	for (auto it = m_CollisionList.begin(); it != m_CollisionList.end(); ++it)
 	{
+		//	CheckよりもHitとかのほうが分かりやすいかも
 		if ((*it)->m_IsActive && (*it)->Check(this))
 		{
 			m_IsHit = true;
@@ -153,9 +157,9 @@ void ICollisionObject::Update(std::vector<ICollisionObject*>& collision)
 			else
 				v1 = m_Position - (m_Position + (m_Speed * speedFactor));
 
-			(*it)->m_Normal = v1;
+			(*it)->m_ClossetPoint = v1;
 			v1 = m_Position - v1;
-			m_Normal = v1;
+			m_ClossetPoint = v1;
 
 			F32 t = GetTime(*(*it));
 			speedFactor = (t >= 0.f && t <= 1.f) ? t : 1.f;
@@ -179,6 +183,7 @@ void ICollisionObject::Update(std::vector<ICollisionObject*>& collision)
 			&v1, &m_Position, &m_Speed);
 		
 		m_Speed.z = 0.0f;
+		//	15.fがマジックナンバーになってしまっている
 		if (abs(m_Speed.x) > 15.f)
 		{
 			m_Speed.x = (m_Speed.x > 0.f) ? 15.f : -15.f;
@@ -263,6 +268,14 @@ Vector3	ICollisionObject::GetSpeed() const
 Vector3 ICollisionObject::GetPosition() const
 {
 	return m_Position;
+}
+//-------------------------------------------------------------
+//!	@brief		: 最接近点
+//!	@return		: 座標
+//-------------------------------------------------------------
+Vector3 ICollisionObject::GetClossetPoint()	const
+{
+	return m_ClossetPoint;
 }
 //-------------------------------------------------------------
 //!	@brief		: 反射係数取得
@@ -372,7 +385,7 @@ void ICollisionObject::EraseCollisionList(const ICollisionObject* obj)
 //		protected method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: アサート
+//!	@brief		: アサート(いちいち全部書きたくなかったので)
 //-------------------------------------------------------------
 void ICollisionObject::AssertError()
 {

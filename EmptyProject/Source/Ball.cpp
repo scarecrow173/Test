@@ -50,7 +50,7 @@ Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
 	m_Radius = 30.f;
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:SHPERE-Ball"));
-	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
+	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Metal.csv"));
 	
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));
 
@@ -77,7 +77,6 @@ Ball::~Ball()
 //-------------------------------------------------------------
 void Ball::Update()
 {
-
 	m_State->InputAction(this);
 	auto nextState = m_State->TransitionAction();
 	if (nextState != m_State)
@@ -159,7 +158,11 @@ void Ball::SetShader(IShaderObject* shader)
 void Ball::SetPowerup(const bool powerup)
 {
 	if (powerup)
+	{
+		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Metal.csv"));
+		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("CookTorrance");
 		m_PowerupCount = 120;
+	}
 	m_IsPowerup = powerup;
 }
 //-------------------------------------------------------------
@@ -197,48 +200,6 @@ BlockSystem* Ball::GetBlockSystem() const
 //		private method
 //=======================================================================================
 //-------------------------------------------------------------
-//!	@brief		: 死亡時
-//-------------------------------------------------------------
-bool Ball::Death(ICollisionObject* obj)
-{
-	if (obj != m_BottomLine && !m_IsRespawn)
-		return false;
-	AddDeathCount();
-	Respawn();
-	m_Collision->SetSpeed(Vector3(0.f, 0.f, 0.f));
-	m_IsRespawn = true;
-	Sound::SoundManager::GetInstance()->PlaySE(0,TRUE);
-
-	if (m_DeathCount >= 3)
-		((Stage1*)m_Parent)->SetEnd(true);
-	return true;
-}
-//-------------------------------------------------------------
-//!	@brief		: 復活
-//-------------------------------------------------------------
-void Ball::Respawn()
-{
-	if (!m_IsRespawn)
-			return ;
-	auto respawn = m_Paddle->GetTransform()->GetTranslation();
-	respawn.y += 110.f;
-	m_Collision->SetPosition(respawn);
-}
-//-------------------------------------------------------------
-//!	@brief		: 弾発射
-//-------------------------------------------------------------
-void Ball::Launch()
-{
-	if (!m_IsRespawn)
-		return;
-	if (!m_Keyboard.IsTrigger(KEY_BUTTON1))
-		return;
-	Vector3 resSpeed(10.f, 5.f, 0.f);
-	resSpeed.x = m_Paddle->GetCollision()->GetSpeed().x > 0 ? 10.f : -10.f;
-	m_Collision->SetSpeed(resSpeed);
-	m_IsRespawn = false;
-}
-//-------------------------------------------------------------
 //!	@brief		: 動き（移動のみ）
 //-------------------------------------------------------------
 void Ball::UpdateMatrix()
@@ -249,13 +210,13 @@ void Ball::UpdateMatrix()
 //-------------------------------------------------------------
 //!	@brief		: パワーアップ（現在は貫通。一定時間で解除）
 //-------------------------------------------------------------
-void Ball::Powerup()
-{
-	if (--m_PowerupCount > 0)
-		return;
-	m_PowerupCount = 0;
-	SetPowerup(false);
-}
+//void Ball::Powerup()
+//{
+//	if (--m_PowerupCount > 0)
+//		return;
+//	m_PowerupCount = 0;
+//	SetPowerup(false);
+//}
 
 //===============================================================
 //	End of File

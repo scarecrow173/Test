@@ -136,9 +136,6 @@
     <ClCompile Include="Source\CollisionBox.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CollisionManager.cpp">
-      <Filter>Source\InGame\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CollisionSphere.cpp">
       <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
@@ -148,25 +145,10 @@
     <ClCompile Include="Source\Title.cpp">
       <Filter>Source\InGame\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SceneNode.cpp">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RootNode.cpp">
       <Filter>Source\InGame\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Result.cpp">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Stage2.cpp">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Stage3.cpp">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Stage1.cpp">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Loading.cpp">
       <Filter>Source\InGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\AutoPerformance.cpp">
@@ -183,9 +165,6 @@
     </ClCompile>
     <ClCompile Include="Source\MyMath.cpp">
       <Filter>Source\Utill</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\SquareFactory.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\TriangleRenderer.cpp">
       <Filter>Source\InGame\Graphics</Filter>
@@ -206,9 +185,6 @@
       <Filter>Source\InGame\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Ball.cpp">
-      <Filter>Source\InGame\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GameObject.cpp">
       <Filter>Source\InGame\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Wall.cpp">
@@ -250,9 +226,6 @@
     <ClCompile Include="Source\BallStateLaunch.cpp">
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SpherePool.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\SphereFactory.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
@@ -289,9 +262,6 @@
     <ClCompile Include="Source\MotionBlur.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BlendMultiTexturesShader.cpp">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -308,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="Source\Layer.h">
       <Filter>Source\InGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionManager.h">
-      <Filter>Source\InGame\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\CollisionBox.h">
       <Filter>Source\InGame\Collision</Filter>
@@ -333,12 +300,6 @@
     <ClInclude Include="Source\RootNode.h">
       <Filter>Source\InGame\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Result.h">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Loading.h">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Input.h">
       <Filter>Source\Utill</Filter>
     </ClInclude>
@@ -350,12 +311,6 @@
     </ClInclude>
     <ClInclude Include="Source\MyMath.h">
       <Filter>Source\Utill</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Stage2.h">
-      <Filter>Source\InGame\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Stage3.h">
-      <Filter>Source\InGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\AutoPerformance.h">
       <Filter>Source\Utill</Filter>
@@ -372,13 +327,7 @@
     <ClInclude Include="Source\Colors.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="WriteTexture.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IShaderObject.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SquareFactory.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\IndexData.h">
@@ -388,9 +337,6 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\TriangleRenderer.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\LineRenderer.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\WindowPolygonRenderer.h">
@@ -459,12 +405,6 @@
     <ClInclude Include="Source\BallStateLaunch.h">
       <Filter>Source\InGame\Object\State\BallState</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BallStatePenetration.h">
-      <Filter>Source\InGame\Object\State\BallState</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IResource.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ReferenceCounter.h">
       <Filter>Source\Utill</Filter>
     </ClInclude>
@@ -473,9 +413,6 @@
     </ClInclude>
     <ClInclude Include="Source\RefCountedObjectPtr.h">
       <Filter>Source\Utill</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceData.h">
-      <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Singleton.h">
       <Filter>Source\Utill</Filter>
@@ -486,19 +423,10 @@
     <ClInclude Include="Source\TransformObject.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BoxPool.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PrimitivePool.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\IPrimitiveFactory.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\SpherePool.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TEST_PrimitivePool_defind.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\StringEncoder.h">
@@ -550,9 +478,6 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\MotionBlur.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BlendMultiTexturesShader.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

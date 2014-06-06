@@ -13,12 +13,12 @@ namespace AK
 {
 namespace Graphics
 {
-enum DrawStep
-{
-	Default		= 0,
-	PostProcess	= 1000,
-	End			= 2000,
-};
+//enum DrawStep
+//{
+//	Default		= 0,
+//	PostProcess	= 1000,
+//	End			= 2000,
+//};
 //=======================================================================================
 //!	@class	:	IShaderObject
 //!	@brief	:	example

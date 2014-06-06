@@ -59,21 +59,10 @@ RefCountedObjectPtr TexturePool::GetResource(const std::string& dataCode)
 	std::string dataType, textureType, name;
 	SplitDataPath(dataCode, dataType, textureType, name);
 
-	//auto iCreator = m_TextureLoader.find(textureType);
-
-	////	ファクトリがm_TextureLoaderに登録されていなければアサートしてNULLのオブジェクト返す
-	//if (iCreator == m_TextureLoader.end())
-	//{
-	//	assert(0);	
-	//	return RefCountedObjectPtr(NULL);
-	//}
-
 	auto it = m_ManagedResource.find(dataCode);
 	if (it != m_ManagedResource.end())
 		return RefCountedObjectPtr(it->second);
 
-
-	
 	return RefCountedObjectPtr(CreateTexture(dataCode, dataType, textureType, name));
 
 }

@@ -18,7 +18,6 @@
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
 #include "TexturePool.h"
-#include "BlendMultiTexturesShader.h"
 #include "DefaultTexture.h"
 
 //#define __MY_DEBUG_STR_USE_

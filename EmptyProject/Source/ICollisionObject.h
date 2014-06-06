@@ -11,18 +11,6 @@ namespace AK
 {
 namespace Collision
 {
-namespace CollisionID
-{
-	enum CollisionID
-	{
-		ICollisionObject,
-		CollisionBox,
-		CollisionSphere,
-
-		NUM
-	};
-};
-
 class CollisionBox;
 class CollisionSphere;
 //=======================================================================================
@@ -54,8 +42,10 @@ public:
 	bool	IsAttenuation()			const;
 	Vector3	GetSpeed()				const;
 	Vector3 GetPosition()			const;
+	Vector3 GetClossetPoint()		const;
 	F32		GetReflectionFactor()	const;
 	F32		GetAttenuationFactor()	const;
+
 
 
 
@@ -69,12 +59,11 @@ public:
 	void	SetAttenuationFactor(const F32 attenuation);
 	void	PushCollisionList(ICollisionObject* obj);
 	void	EraseCollisionList(const ICollisionObject* obj);
-	Vector3		m_Normal;
 protected:
 	void AssertError();
-	virtual void _AssretError(){};
+	virtual void _AssretError(){};	//	継承先で追加のアサート
 
-	static U32	IDAssignment;
+
 	static const F32 GRAVITY_POWER;
 
 	bool		m_IsActive;
@@ -85,10 +74,9 @@ protected:
 	Vector3		m_Speed;
 	Vector3		m_Position;
 	Vector3		m_CenterPos;
+	Vector3		m_ClossetPoint;
 	F32			m_ReflectionFactor;
 	F32			m_AttenuationFactor;
-
-	U32			m_ID;
 
 	std::vector<ICollisionObject*> m_CollisionList;
 };

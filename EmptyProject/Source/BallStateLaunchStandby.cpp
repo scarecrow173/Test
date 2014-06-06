@@ -48,7 +48,7 @@ void BallStateLaunchStandby::InputAction(Ball* stateUser)
 {
 	m_Keyboard.Update();
 	auto respawn = stateUser->GetPaddle()->GetTransform()->GetTranslation();
-	respawn.y += 110.f;
+	respawn.y += 110.f;	//	マジックナンバーだめ
 	stateUser->GetCollision()->SetPosition(respawn);
 }
 //-------------------------------------------------------------

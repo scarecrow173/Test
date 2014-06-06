@@ -9,6 +9,7 @@
 #include "SafeArray.h"
 #include "WindowPolygonRenderer.h"
 #include "ScreenEffect.h"
+#include "DefaultShader.h"
 namespace AK
 {
 namespace Graphics{class IShaderObject;}; 
@@ -75,7 +76,7 @@ private:
 	Graphics::IShaderObject*		m_Shader;
 	Graphics::ScreenEffect*			m_FadeShader;
 	Graphics::IShaderObject*		m_Phong;
-	Graphics::IShaderObject*		m_CookTorrance;
+	Graphics::DefaultShader*		m_CookTorrance;
 	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;
 

@@ -30,7 +30,7 @@ protected:
 	MaterialPool();
 	virtual ~MaterialPool();
 
-	//名前をちゃんと考えなきゃ何をするためのメソッドかわからん
+	//名前をちゃんと考えなきゃ何をするためのメソッドか分からない
 	RefCountedObjectPtr SelectByDataType(const std::string& dataCode, const std::string& dataType, const std::string& materialType, const std::string& name);
 
 	std::unordered_map<std::string, IMaterialFactory*>	m_MaterialCreator;

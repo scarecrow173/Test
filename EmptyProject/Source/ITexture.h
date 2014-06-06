@@ -13,28 +13,17 @@ namespace AK
 {
 namespace Graphics
 {
-namespace TextureType
-{
-	enum TextureType
-	{
-		ITexture,
-		DefaultTexture,
-		CubeTexture
-	};
-};
 //=======================================================================================
 //!	@class	:	ITexture
-//!	@brief	:	example
+//!	@brief	:	TextureとCubeTextureを共通化したいがためだけのインターフェ－ス
 //!	@par	:	example
-//!	@note	:	example
+//!	@note	:	IDirect3DBaseTexture9使えばよかった
 //=======================================================================================
 class ITexture : public RefCountedObject
 {
 public:
 	RTTI_IS_A(ITexture);
-
-	//virtual ITexture*	GetTexture() const PURE;
-	//virtual void		SetTexture(const ITexture* texture) PURE;
+	
 };
 
 //=======================================================================================

@@ -29,7 +29,6 @@ public:
 	Collision::ICollisionObject*		GetCollision() const;
 	Graphics::IRenderer*				GetRenderer() const;
 
-	//RTTI_GAMEOBJECT_IS_A_BASE;
 	RTTI_IS_A(GameObject);
 	virtual	void					Affect(GameObject* obj);
 
