@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "INode.h"
+#include "AbsNode.h"
 
 namespace AK
 {
@@ -16,7 +16,7 @@ class SceneNode;
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class RootNode : public INode
+class RootNode : public AbsNode
 {
 public:
 	static RootNode*	Create();

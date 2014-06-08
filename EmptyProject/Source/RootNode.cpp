@@ -18,7 +18,7 @@ RootNode*	RootNode::m_Instance = NULL;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 RootNode::RootNode()
-	:	INode		(NULL)	
+	:	AbsNode		(NULL)	
 	,	m_Time		(0.f)
 	,	m_NowScene	(NULL)
 {

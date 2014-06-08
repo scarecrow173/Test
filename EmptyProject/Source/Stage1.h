@@ -12,7 +12,7 @@
 #include "DefaultShader.h"
 namespace AK
 {
-namespace Graphics{class IShaderObject;}; 
+namespace Graphics{class AbsShaderObject;}; 
 class BlockSystem;
 class Ball;
 class Wall;
@@ -28,7 +28,7 @@ class ItemSystem;
 class Stage1: public SceneNode
 {
 public:
-	Stage1(INode* parent, U32 stageCount);
+	Stage1(AbsNode* parent, U32 stageCount);
 	virtual ~Stage1();
 
 	RTTI_IS_A(Stage1);
@@ -73,9 +73,9 @@ private:
 	bool							m_IsFading;
 	bool							m_IsFadeEnd;
 	F32								m_FadeVolume;
-	Graphics::IShaderObject*		m_Shader;
+	Graphics::AbsShaderObject*		m_Shader;
 	Graphics::ScreenEffect*			m_FadeShader;
-	Graphics::IShaderObject*		m_Phong;
+	Graphics::AbsShaderObject*		m_Phong;
 	Graphics::DefaultShader*		m_CookTorrance;
 	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;

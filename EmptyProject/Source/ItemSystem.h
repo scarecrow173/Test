@@ -4,13 +4,13 @@
 //!	@date	:	2014/05/08
 //=======================================================================================
 #pragma once
-#include "INode.h"
+#include "AbsNode.h"
 
 namespace AK
 {
 
-namespace Graphics{ class IShaderObject; };
-namespace Collision{ class ICollisionObject; };
+namespace Graphics{ class AbsShaderObject; };
+namespace Collision{ class AbsCollisionObject; };
 class Item;
 class Ball;
 
@@ -20,10 +20,10 @@ class Ball;
 //!	@par	:	ブロックの作成や削除。ブロック数が0ならクリアなのでその判定もする。
 //!	@note	:	example
 //=======================================================================================
-class ItemSystem : public INode
+class ItemSystem : public AbsNode
 {
 public:
-	ItemSystem(INode* parent);
+	ItemSystem(AbsNode* parent);
 	virtual ~ItemSystem();
 
 	RTTI_IS_A(ItemSystem);

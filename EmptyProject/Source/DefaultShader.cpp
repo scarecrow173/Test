@@ -79,12 +79,12 @@ bool DefaultShader::Initilize()
 		//	正方形にしたかった
 		//	ホントはサイズを指定出来るようにすべき
 		LPDIRECT3DTEXTURE9 velocityMap;
-		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+		D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
 			1024, 
 			1024,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A32B32G32R32F,
+			D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&velocityMap);
 
@@ -100,7 +100,7 @@ bool DefaultShader::Initilize()
 	pSurf->GetDesc( &Desc );
 	SAFE_RELEASE(pSurf);
 	
-	auto hr = GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
+	GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
 		1024,
 		1024,
 		Desc.Format,
@@ -139,6 +139,7 @@ bool DefaultShader::Initilize()
 //-------------------------------------------------------------
 void DefaultShader::Draw()
 {
+	
 	U32 maxPass = 0;
 	m_Effect->Begin(&maxPass, 0);
 	for (U32 iPass = 0; iPass < maxPass; ++iPass)
@@ -157,9 +158,7 @@ void DefaultShader::Draw()
 		}
 		m_Effect->EndPass();
 	}
-
 	m_Effect->End();
-
 }
 //-------------------------------------------------------------
 //!	@brief		: シェーダテクニックを入れ替える(Phong,BlinnPhong,CookTorrance,Lambert,HalfLambert)

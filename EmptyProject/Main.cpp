@@ -19,6 +19,8 @@
 #include "MaterialPool.h"
 #include "TexturePool.h"
 #include "DefaultTexture.h"
+#include "DrawFonts.h"
+#include "WindowPolygonRenderer.h"
 
 //#define __MY_DEBUG_STR_USE_
 using namespace AK::Graphics;
@@ -29,6 +31,9 @@ IDirect3DDevice9* g_Device	= NULL;
 GraphicsManager* g_mrg	= NULL;
 
 Spectrum* spectrum		= NULL;
+
+DrawFonts* g_Fonts		= NULL;
+//WindowPolygonRenderer* g_wpr = NULL;
 //BlendMultiTexturesShader* bmts = NULL;
 //AK::RefCountedObjectPtr g_spmPtr(NULL);
 //DefaultTexture*			g_spmObj	= NULL;
@@ -37,6 +42,8 @@ Spectrum* spectrum		= NULL;
 
 Matrix world,view, projction;
 
+D3DVIEWPORT9 g_MainViewPort;
+D3DVIEWPORT9 g_FontViewPort;
 
 
 //--------------------------------------------------------------------------------------
@@ -107,38 +114,7 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 
 	
 
-//	keyboard.Update();
 
-	//	テキトーにライトを設定
-	//D3DLIGHT9 lLight1,lLight2;
- //   memset(&lLight1, 0, sizeof(D3DLIGHT9));
-	static F32 Count	= 0;
-	Count				+= 0.02f;
-	/*
-	//lLight1.Position.x	= 0;
-	//lLight1.Position.z	= 1000;
-	lLight1.Direction	= D3DXVECTOR3(0, 0.2, -1);
-    lLight1.Type		= D3DLIGHT_DIRECTIONAL; 
-    lLight1.Diffuse.r	= 1.0f;
-    lLight1.Diffuse.g	= 1.0f;
-    lLight1.Diffuse.b	= 1.0f;
-	DXUTGetD3D9Device()->SetLight(0, &lLight1);
-	DXUTGetD3D9Device()->LightEnable(0, true);
-	*/
-	//memset(&lLight2, 0, sizeof(D3DLIGHT9));
-	////lLight2.Position.x	= 0;
-	////lLight2.Position.z	= 1;
-	////lLight2.Position.y	= 0;
-	//lLight2.Direction	= D3DXVECTOR3(0, 0.f, -1);
- //   lLight2.Type		= D3DLIGHT_DIRECTIONAL; 
- //   lLight2.Diffuse.r	= 1.0f;
- //   lLight2.Diffuse.g	= 1.0f;
- //   lLight2.Diffuse.b	= 1.0f;
-	//DXUTGetD3D9Device()->SetLight(1, &lLight2);
-	//DXUTGetD3D9Device()->LightEnable(1, true);
-
-	DXUTGetD3D9Device()->SetRenderState( D3DRS_LIGHTING, TRUE );   // 発電所を回す！
-	DXUTGetD3D9Device()->SetRenderState( D3DRS_AMBIENT, 0xFF2F2F2F);   // 世の中をちょっと白く照らす
 
 	auto handle = AK::Sound::SoundManager::GetInstance()->GetStreamHandle(AK::Sound::SoundManager::GetInstance()->m_BGMNum);
 
@@ -186,7 +162,12 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 		//pd3dDevice->GetDepthStencilSurface(&bd);
 		//pd3dDevice->SetRenderTarget(0, g_spmSurf);
 		//pd3dDevice->SetDepthStencilSurface(g_depth);
-	 //   V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
+		//V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
+		//D3DVIEWPORT9 viewprot;
+		//g_Device->GetViewport(&viewprot);
+
+		g_Device->SetViewport(&g_MainViewPort);
+		g_Device->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 45, 50, 170 ), 1.0f, 0 );
 
 		spectrum->Draw();
 		//pd3dDevice->SetRenderTarget(0, back);
@@ -194,11 +175,19 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 
 		//phong->Draw();
 
-		pd3dDevice->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
+		g_Device->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
 		g_mrg->Draw();
+		
+		
+		g_Device->SetViewport(&g_FontViewPort);
+		g_Device->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
 		
+		Matrix FontMatrix;
+		D3DXMatrixIdentity(&FontMatrix);
+		D3DXMatrixTranslation(&FontMatrix, 96.f, 0.f, 0.f);
+		g_Fonts->Draw(L"Score:" + std::to_wstring((long double)fElapsedTime) , FontMatrix);
 
         V( pd3dDevice->EndScene() );
     }
@@ -308,15 +297,18 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTCreateDevice( true, WINDOW_WIDTH, WINDOW_HEIGHT );
 
 	AK::Debug::CreateDebugConsole();
-	
+
 
 	AK::Sound::SoundManager::Create();
 	AK::Sound::SoundManager::GetInstance()->Initalize();
 	
+
+
 	g_mrg = AK::Graphics::GraphicsManager::Create();
 	g_Device = DXUTGetD3D9Device();
 	g_mrg->SetD3DDevice9(&g_Device);
 	g_mrg->Initialize();
+	//g_mrg->ReCreateVertexBuffer();
 
 
 	
@@ -392,7 +384,15 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	//bmts->Draw();
 	spectrum = NEW AK::Graphics::Spectrum();
 	spectrum->CreateSpectrumData();
+
+	g_Fonts = NEW DrawFonts(32,32, "ＭＳ Ｐゴシック");
+	//g_wpr	= NEW WindowPolygonRenderer();
+	//g_wpr->Initialize();
+	//g_wpr->CreatePolygon();
+	//g_wpr->Resize(64,64, WINDOW_WIDTH - 128, WINDOW_HEIGHT - 128);
 	
+
+
 	//phong	= NEW AK::Graphics::DefaultShader();
 	//g_spmPtr = AK::Graphics::TexturePool::GetInstance()->GetResource("data:DefaultTexture - spm");
 	//g_spmObj = RTTI_PTR_DYNAMIC_CAST(DefaultTexture, g_spmPtr.GetSharedObject());
@@ -428,8 +428,22 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	//	NULL
 	//	);
 
+	g_MainViewPort.X		= 64;
+	g_MainViewPort.Y		= 64;
+	g_MainViewPort.Width	= WINDOW_WIDTH	- 128;
+	g_MainViewPort.Height	= WINDOW_HEIGHT - 128;
+
+	g_FontViewPort.X		= 0;
+	g_FontViewPort.Y		= 0;
+	g_FontViewPort.Width	= WINDOW_WIDTH;
+	g_FontViewPort.Height	= 64;
+
+
 	// Start the render loop
-    DXUTMainLoop();
+	
+
+
+	DXUTMainLoop();
 
 	SAFE_DELETE(spectrum);
 	AK::RootNode::Destroy();

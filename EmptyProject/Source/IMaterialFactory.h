@@ -19,8 +19,8 @@ namespace Graphics
 class IMaterialFactory
 {
 public:
-	virtual Material* CreateMaterial() PURE;
-	virtual Material* CreateMaterialFromFile(const std::string& filePath) PURE;
+	virtual Material* CreateMaterial() = 0;
+	virtual Material* CreateMaterialFromFile(const std::string& filePath) = 0;
 
 };
 //=======================================================================================

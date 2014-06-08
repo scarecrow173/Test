@@ -114,7 +114,7 @@ namespace RTTI_ID
 {
 enum RTTI_ID
 {
-	INode,
+	AbsNode,
 	SceneNode,
 	RootNode,
 	Title,
@@ -130,7 +130,7 @@ enum RTTI_ID
 	Paddle,
 	Wall,
 
-	ICollisionObject,
+	AbsCollisionObject,
 	CollisionBox,
 	CollisionSphere,
 
@@ -142,7 +142,7 @@ enum RTTI_ID
 	CubeTexture,
 	Material,
 
-	IShaderObject,
+	AbsShaderObject,
 	ScreenEffect,
 	DefaultShader,
 	RadialBlur,

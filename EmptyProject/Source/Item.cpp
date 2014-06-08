@@ -27,7 +27,7 @@ using namespace Collision;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Item::Item(INode* parent, Vector3 pos, ITEM_TYPE type)
+Item::Item(AbsNode* parent, Vector3 pos, ITEM_TYPE type)
 	:	GameObject(parent, pos)
 	,	m_Type	(type)
 {
@@ -64,7 +64,7 @@ Item::~Item()
 void Item::Update()
 {
 	TRACE(1,"Item::Update");
-	std::vector<ICollisionObject*> l_list;
+	std::vector<AbsCollisionObject*> l_list;
 	
 	m_Collision->Update(l_list);
 
@@ -85,7 +85,7 @@ void Item::Start()
 //-------------------------------------------------------------
 //!	@brief		: アイテムが当たるもの
 //-------------------------------------------------------------
-void Item::AddCollision(ICollisionObject* collison)
+void Item::AddCollision(AbsCollisionObject* collison)
 {
 	TRACE(1,"Item::AddCollision");
 	m_Collision->PushCollisionList(collison);

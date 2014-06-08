@@ -23,7 +23,7 @@ enum WALL_TYPE
 class Wall : public GameObject
 {
 public:
-	Wall(INode* parent, Vector3 pos, WALL_TYPE type);
+	Wall(AbsNode* parent, Vector3 pos, WALL_TYPE type);
 	virtual ~Wall();
 
 	RTTI_IS_A(Wall);

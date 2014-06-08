@@ -19,7 +19,7 @@ using namespace Collision;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 CollisionSphere::CollisionSphere()
-	:	ICollisionObject	()
+	:	AbsCollisionObject	()
 	,	m_Radius		(Math::F32_MAX)
 {
 }
@@ -27,7 +27,7 @@ CollisionSphere::CollisionSphere()
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 CollisionSphere::CollisionSphere(Vector3 position, Vector3 center, Vector3 speed, F32 radius)
-	:	ICollisionObject	(position, center, speed)
+	:	AbsCollisionObject	(position, center, speed)
 	,	m_Radius		(radius)
 {
 }
@@ -46,7 +46,7 @@ CollisionSphere::~CollisionSphere()
 //!	@param[in]	: コリジョン
 //!	@return		: 衝突していればtrue
 //-------------------------------------------------------------
-bool CollisionSphere::Check(ICollisionObject* obj)
+bool CollisionSphere::Check(AbsCollisionObject* obj)
 {
 	AssertError();
 	return obj->Check(this);
@@ -105,7 +105,7 @@ bool CollisionSphere::Check(CollisionSphere* sphere)
 //!	@param[in]	: 球
 //!	@return		: 衝突していればtrue
 //-------------------------------------------------------------
-F32	 CollisionSphere::GetTime(ICollisionObject& obj)
+F32	 CollisionSphere::GetTime(AbsCollisionObject& obj)
 {
 	Vector3 C0	= m_Position - obj.GetClossetPoint();
 	Vector3 D	= (m_Speed + m_Position) - m_Position;

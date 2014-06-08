@@ -92,7 +92,7 @@ bool MotionBlur::Initilize()
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A32B32G32R32F,
+			D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_VelocityMap->SetTexture(&tex);
@@ -111,7 +111,7 @@ bool MotionBlur::Initilize()
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A32B32G32R32F,
+			D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_BlurringTexture->SetTexture(&tex);
@@ -203,14 +203,14 @@ void MotionBlur::Draw()
 //!	@brief		: 放射ブラーをかけるテクスチャに描画するシェーダオブジェクトを追加
 //!	@param[in]	: 
 //-------------------------------------------------------------
-void MotionBlur::AddBlurringTarget(IShaderObject* obj)
+void MotionBlur::AddBlurringTarget(AbsShaderObject* obj)
 {
 	auto it = std::find(m_AffectedShaders.begin(), m_AffectedShaders.end(), obj);
 	
 	if (it == m_AffectedShaders.end())
 	{
 		m_AffectedShaders.push_back(obj);
-	//	std::sort(m_AffectedShaders.begin(), m_AffectedShaders.end(), std::greater<IShaderObject*>());
+	//	std::sort(m_AffectedShaders.begin(), m_AffectedShaders.end(), std::greater<AbsShaderObject*>());
 	}
 }
 //=======================================================================================

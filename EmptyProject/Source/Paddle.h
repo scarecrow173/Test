@@ -18,7 +18,7 @@ class Item;
 class Paddle : public GameObject
 {
 public:
-	Paddle(INode* parent, Vector3 pos);
+	Paddle(AbsNode* parent, Vector3 pos);
 	virtual ~Paddle();
 
 	RTTI_IS_A(Paddle);

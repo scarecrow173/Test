@@ -35,7 +35,7 @@ InputKeyboard keyboard;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Title::Title(INode* parent)
+Title::Title(AbsNode* parent)
 	:	SceneNode			(parent)
 	,	m_IsEnd				(false)
 	,	m_IsFading			(false)
@@ -203,9 +203,7 @@ void Title::LoadTitleBlock()
 
 		m_Shader->AddRenderer(render);
 		m_TitleBlock.push_back(render);
-
 	}
-
 }
 //-------------------------------------------------------------
 //!	@brief		: ブロックを動かす

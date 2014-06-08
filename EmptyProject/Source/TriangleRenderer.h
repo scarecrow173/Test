@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "IRenderer.h"
+#include "AbsRenderer.h"
 namespace AK
 {
 namespace Graphics
@@ -15,7 +15,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class TriangleRenderer : public IRenderer
+class TriangleRenderer : public AbsRenderer
 {
 public:
 	TriangleRenderer();

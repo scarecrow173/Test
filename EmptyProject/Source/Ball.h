@@ -10,8 +10,8 @@
 #include "IState.h"
 namespace AK
 {
-namespace Graphics { class IShaderObject;};
-namespace Collision{ class ICollisionObject; }
+namespace Graphics { class AbsShaderObject;};
+namespace Collision{ class AbsCollisionObject; }
 class BlockSystem;
 class Paddle;
 
@@ -24,7 +24,7 @@ class Paddle;
 class Ball : public GameObject
 {
 public:
-	Ball(INode* parent, Vector3 pos, Paddle* paddle);
+	Ball(AbsNode* parent, Vector3 pos, Paddle* paddle);
 	virtual ~Ball();
 
 	//RTTI_GAMEOBJECT_IS_A(Ball);
@@ -33,12 +33,12 @@ public:
 	virtual void Start();
 
 	void							SetBlockSystem(BlockSystem* system);
-	void							SetBottomLine(Collision::ICollisionObject* bottomLine);
-	Collision::ICollisionObject*	GetBottomLine()		const;
+	void							SetBottomLine(Collision::AbsCollisionObject* bottomLine);
+	Collision::AbsCollisionObject*	GetBottomLine()		const;
 	void							AddDeathCount();
 	void							SubDeathCount();
 	U32								GetDeathCount()		const;
-	void							SetShader(Graphics::IShaderObject* shader);
+	void							SetShader(Graphics::AbsShaderObject* shader);
 	void							SetPowerup(const bool powerup);
 	bool							IsPowerup()			const;
 	Paddle*							GetPaddle()			const;
@@ -52,10 +52,10 @@ private:
 	
 	U32								m_DeathCount;
 	BlockSystem*					m_BlockSystem;
-	Collision::ICollisionObject*	m_BottomLine;
+	Collision::AbsCollisionObject*	m_BottomLine;
 	Paddle*							m_Paddle;
 	InputKeyboard					m_Keyboard;
-	Graphics::IShaderObject*		m_Shader;
+	Graphics::AbsShaderObject*		m_Shader;
 
 	bool							m_IsRespawn;
 	bool							m_IsPowerup;

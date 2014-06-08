@@ -5,9 +5,9 @@
 //=======================================================================================
 #pragma once
 #include "SceneNode.h"
-#include "IRenderer.h"
+#include "AbsRenderer.h"
 #include "RefCountedObjectPtr.h"
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "ScreenEffect.h"
 #include "WindowPolygonRenderer.h"
 namespace AK
@@ -21,7 +21,7 @@ namespace AK
 class Title: public SceneNode
 {
 public:
-	Title(INode* parent);
+	Title(AbsNode* parent);
 	virtual ~Title();
 
 	RTTI_IS_A(Title);
@@ -42,8 +42,8 @@ private:
 	bool								m_IsFading;
 
 	F32									m_FadeVolume;
-	std::vector<Graphics::IRenderer*>	m_TitleBlock;
-	Graphics::IShaderObject*			m_Shader;
+	std::vector<Graphics::AbsRenderer*>	m_TitleBlock;
+	Graphics::AbsShaderObject*			m_Shader;
 	F32									m_Floating;
 
 	Graphics::ScreenEffect*				m_FadeOutScreen;

@@ -19,8 +19,8 @@ namespace Graphics
 class ITextureFactory
 {
 public:
-	virtual ITexture* CreateTexture() PURE;
-	virtual ITexture* CreateTextureFromFile(const std::string& filePath) PURE;
+	virtual ITexture* CreateTexture() = 0;
+	virtual ITexture* CreateTextureFromFile(const std::string& filePath) = 0;
 };
 //=======================================================================================
 //		inline method

@@ -20,7 +20,7 @@ namespace AK
 class Block : public GameObject
 {
 public:
-	Block(INode* parent, Vector3 pos, U32 lifeCount);
+	Block(AbsNode* parent, Vector3 pos, U32 lifeCount);
 	virtual ~Block();
 
 	RTTI_IS_A(Block);

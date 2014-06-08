@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "Elements.h"
 #include "DefaultTexture.h"
 #include <unordered_map>
@@ -18,7 +18,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class DefaultShader : public IShaderObject
+class DefaultShader : public AbsShaderObject
 {
 public:
 	DefaultShader();
@@ -56,7 +56,7 @@ private:
 
 
 
-	std::unordered_map<IRenderer*, Matrix> m_PrevMatrix;
+	std::unordered_map<AbsRenderer*, Matrix> m_PrevMatrix;
 
 };
 //=======================================================================================

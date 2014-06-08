@@ -21,7 +21,7 @@ namespace Graphics
 class ResourcePool
 {
 public:
-	virtual RefCountedObjectPtr GetResource(const std::string& dataCode) PURE;
+	virtual RefCountedObjectPtr GetResource(const std::string& dataCode) = 0;
 
 protected:
 	ResourcePool();

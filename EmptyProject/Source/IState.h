@@ -17,10 +17,10 @@ template<typename T>
 class IState
 {
 public:
-	virtual void		EntryAction(T* stateUser)	PURE;
-	virtual void		InputAction(T* stateUser)	PURE;
-	virtual void		ExitAction(T* stateUser)	PURE;
-	virtual IState<T>*	TransitionAction()			PURE;
+	virtual void		EntryAction(T* stateUser)	= 0;
+	virtual void		InputAction(T* stateUser)	= 0;
+	virtual void		ExitAction(T* stateUser)	= 0;
+	virtual IState<T>*	TransitionAction()			= 0;
 };
 //=======================================================================================
 //		inline method

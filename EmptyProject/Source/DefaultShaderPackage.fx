@@ -236,7 +236,7 @@ technique Lambert
 		SrcBlend			= SrcAlpha;
 		DestBlend			= InvSrcAlpha;
 		VertexShader		= compile vs_2_0 DefaultVS();
-		PixelShader			= compile ps_3_0 LambertPS();
+		PixelShader			= compile ps_2_0 LambertPS();
 	}
 	pass P1
 	{
@@ -255,7 +255,7 @@ technique HalfLambert
 		SrcBlend			= SrcAlpha;
 		DestBlend			= InvSrcAlpha;
 		VertexShader		= compile vs_2_0 DefaultVS();
-		PixelShader			= compile ps_3_0 HalfLambertPS();
+		PixelShader			= compile ps_2_0 HalfLambertPS();
 	}
 	pass P1
 	{

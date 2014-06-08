@@ -17,7 +17,7 @@
 #include "Stage1.h"
 #include "Paddle.h"
 #include "Item.h"
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "SoundManager.h"
 #include "BallStateLaunchStandby.h"
 #include "PrimitivePool.h"
@@ -34,7 +34,7 @@ using namespace Collision;
 //-------------------------------------------------------------
 //!	@brief		: ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //-------------------------------------------------------------
-Ball::Ball(INode* parent, Vector3 pos, Paddle* paddle)
+Ball::Ball(AbsNode* parent, Vector3 pos, Paddle* paddle)
 	:	GameObject		(parent, pos)
 	,	m_DeathCount	(0)
 	,	m_BlockSystem	(NULL)
@@ -130,14 +130,14 @@ U32 Ball::GetDeathCount() const
 //-------------------------------------------------------------
 //!	@brief		: Ž€–Sƒ‰ƒCƒ““o˜^
 //-------------------------------------------------------------
-void Ball::SetBottomLine(Collision::ICollisionObject* bottomLine)
+void Ball::SetBottomLine(Collision::AbsCollisionObject* bottomLine)
 {
 	m_BottomLine = bottomLine;
 }
 //-------------------------------------------------------------
 //!	@brief		: Ž€–Sƒ‰ƒCƒ“Žæ“¾
 //-------------------------------------------------------------
-ICollisionObject* Ball::GetBottomLine() const
+AbsCollisionObject* Ball::GetBottomLine() const
 {
 	return m_BottomLine;
 }
@@ -146,7 +146,7 @@ ICollisionObject* Ball::GetBottomLine() const
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void Ball::SetShader(IShaderObject* shader)
+void Ball::SetShader(AbsShaderObject* shader)
 {
 	m_Shader = shader;
 }

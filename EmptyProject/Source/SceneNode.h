@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "INode.h"
+#include "AbsNode.h"
 namespace AK
 {
 
@@ -15,16 +15,16 @@ namespace AK
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class SceneNode : public INode
+class SceneNode : public AbsNode
 {
 public:
-	SceneNode(INode* parent) : INode(parent) {};
+	SceneNode(AbsNode* parent) : AbsNode(parent) {};
 	virtual ~SceneNode(){};
 
 	RTTI_IS_A(SceneNode);
-	virtual void		Update()		PURE;
-	virtual SceneNode*	NextScene()		PURE;
-	virtual bool		Initialize()	PURE;
+	virtual void		Update()		= 0;
+	virtual SceneNode*	NextScene()		= 0;
+	virtual bool		Initialize()	= 0;
 
 protected:
 

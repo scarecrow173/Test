@@ -92,12 +92,12 @@ bool RadialBlur::Initilize()
 	if (!(m_BlurringTexture->GetTexture()))
 	{
 		LPDIRECT3DTEXTURE9 velocityMap;
-		auto hr = D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
+		D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
 			1024, 
 			1024,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFORMAT::D3DFMT_A32B32G32R32F,
+			D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&velocityMap);
 
@@ -199,14 +199,14 @@ void RadialBlur::SetShaderTechniqueByName(const std::string& techniqueName)
 //!	@brief		: 放射ブラーをかけるテクスチャに描画するシェーダオブジェクトを追加
 //!	@param[in]	: 
 //-------------------------------------------------------------
-void RadialBlur::AddBlurringTarget(IShaderObject* obj)
+void RadialBlur::AddBlurringTarget(AbsShaderObject* obj)
 {
 	auto it = std::find(m_AffectedShaders.begin(), m_AffectedShaders.end(), obj);
 	
 	if (it == m_AffectedShaders.end())
 	{
 		m_AffectedShaders.push_back(obj);
-		std::sort(m_AffectedShaders.begin(), m_AffectedShaders.end(), std::greater<IShaderObject*>());
+		std::sort(m_AffectedShaders.begin(), m_AffectedShaders.end(), std::greater<AbsShaderObject*>());
 	}
 }
 //-------------------------------------------------------------

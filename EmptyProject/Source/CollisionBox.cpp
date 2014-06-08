@@ -20,7 +20,7 @@ using namespace Collision;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 CollisionBox::CollisionBox()
-	:	ICollisionObject	()
+	:	AbsCollisionObject	()
 	,	m_Width			(Math::F32_MAX)
 	,	m_Height		(Math::F32_MAX)
 	,	m_Depth			(Math::F32_MAX)
@@ -30,7 +30,7 @@ CollisionBox::CollisionBox()
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 CollisionBox::CollisionBox(Vector3 position, Vector3 center, Vector3 speed, F32 width, F32 height, F32 depth)
-	:	ICollisionObject	(position, center, speed)
+	:	AbsCollisionObject	(position, center, speed)
 	,	m_Width			(width)
 	,	m_Height		(height)
 	,	m_Depth			(depth)
@@ -52,7 +52,7 @@ CollisionBox::~CollisionBox()
 //!	@param[in]	: コリジョン
 //!	@return		: 衝突していればtrue
 //-------------------------------------------------------------
-bool CollisionBox::Check(ICollisionObject* obj)
+bool CollisionBox::Check(AbsCollisionObject* obj)
 {
 	AssertError();
 	return obj->Check(this);

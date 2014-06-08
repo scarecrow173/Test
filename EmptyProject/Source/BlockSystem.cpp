@@ -7,7 +7,7 @@
 //!	@note	:	example
 //=======================================================================================
 #include "BlockSystem.h"
-#include "ICollisionObject.h"
+#include "AbsCollisionObject.h"
 #include "Block.h"
 #include "GraphicsManager.h"
 #include "Ball.h"
@@ -24,8 +24,8 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-BlockSystem::BlockSystem(INode* parent)
-	:	INode	(parent)
+BlockSystem::BlockSystem(AbsNode* parent)
+	:	AbsNode	(parent)
 	,	m_Ball	(NULL)
 {
 
@@ -62,7 +62,7 @@ void BlockSystem::Start()
 //!	@param[in]	: 列数
 //!	@return		: 作成に成功したら true
 //-------------------------------------------------------------
-bool BlockSystem::CreateStageBlocks(const std::string& filePath, IShaderObject* shader)
+bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject* shader)
 {
 	assert(m_Ball);
 
@@ -106,7 +106,7 @@ bool BlockSystem::Clear()
 //!	@brief		: ブロックの削除
 //!	@param[in]	: 削除したいブロックのコリジョン
 //-------------------------------------------------------------
-bool BlockSystem::DeleteBlock(ICollisionObject* obj)
+bool BlockSystem::DeleteBlock(AbsCollisionObject* obj)
 {
 	bool isBlock = false;
 	auto it = m_BlockList.begin();

@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "Elements.h"
 namespace AK
 {
@@ -16,7 +16,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class ScreenEffect : public IShaderObject
+class ScreenEffect : public AbsShaderObject
 {
 public:
 	ScreenEffect();

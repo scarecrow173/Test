@@ -20,7 +20,7 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Wall::Wall(INode* parent, Vector3 pos, WALL_TYPE type)
+Wall::Wall(AbsNode* parent, Vector3 pos, WALL_TYPE type)
 	:	GameObject	(parent, pos)
 	,	m_type		(type)
 {

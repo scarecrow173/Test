@@ -28,7 +28,7 @@ using namespace Collision;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Paddle::Paddle(INode* parent, Vector3 pos)
+Paddle::Paddle(AbsNode* parent, Vector3 pos)
 	:	GameObject	(parent, pos)
 	,	m_Item		(NULL)
 	,	m_Speed		(3.f)
@@ -72,7 +72,7 @@ void Paddle::Update()
 	TRACE(1, "Paddle::Update");
 	m_Keyboard.Update();
 
-	std::vector<ICollisionObject*> l_list;
+	std::vector<AbsCollisionObject*> l_list;
 	m_Collision->Update(l_list);
 
 	Move();

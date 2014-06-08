@@ -39,7 +39,7 @@ static bool					g_InitializedMaterials = false;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Block::Block(INode* parent, Vector3 pos, U32 lifeCount)
+Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 	:	GameObject	(parent, pos)
 	,	m_LifeCount	(lifeCount)
 	,	m_SEHandle		(0)

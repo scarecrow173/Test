@@ -95,7 +95,7 @@ void GraphicsManager::Destroy()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void GraphicsManager::AddShaderObject(IShaderObject* shader)
+void GraphicsManager::AddShaderObject(AbsShaderObject* shader)
 {
 	auto it = std::find(m_ShaderList.begin(), m_ShaderList.end(), shader);
 	
@@ -125,7 +125,7 @@ void GraphicsManager::AddShaderObject(IShaderObject* shader)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void GraphicsManager::EraseShaderObject(const IShaderObject* shader)
+void GraphicsManager::EraseShaderObject(const AbsShaderObject* shader)
 {
 	auto it = std::find(m_ShaderList.begin(), m_ShaderList.end(), shader);
 	if (it == m_ShaderList.end())
@@ -237,7 +237,7 @@ bool GraphicsManager::Initialize()
 //-------------------------------------------------------------
 void GraphicsManager::Draw()
 {
-	//std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<IShaderObject*>());
+	//std::sort(m_ShaderList.begin(), m_ShaderList.end(), std::greater<AbsShaderObject*>());
 
 	for (auto it = m_ShaderList.begin(); it != m_ShaderList.end(); ++it)
 	{

@@ -18,7 +18,7 @@ namespace Graphics
 class IPrimitiveFactory
 {
 public:
-	virtual BufferResource* CreatePrimitive() PURE;
+	virtual BufferResource* CreatePrimitive() = 0;
 
 };
 //=======================================================================================

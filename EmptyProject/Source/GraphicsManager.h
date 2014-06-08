@@ -6,7 +6,8 @@
 #pragma once
 #include "Elements.h"
 #include "MyMath.h"
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
+#include "RefCountedObjectPtr.h"
 #include <map>
 
 namespace AK
@@ -59,8 +60,8 @@ public:
 
 
 
-	void	AddShaderObject(IShaderObject* shader);
-	void	EraseShaderObject(const IShaderObject* shader);
+	void	AddShaderObject(AbsShaderObject* shader);
+	void	EraseShaderObject(const AbsShaderObject* shader);
 	bool	ReCreateVertexBuffer();
 	void	SetAllStreamSource();
 
@@ -107,7 +108,7 @@ private:
 	U32								m_VertexCount;
 
 
-	std::vector<IShaderObject*>		m_ShaderList;
+	std::vector<AbsShaderObject*>		m_ShaderList;
 };
 //=======================================================================================
 //		inline method
@@ -137,6 +138,19 @@ inline IDirect3DDevice9* GraphicsManager::GetD3DDevice() const
 {
 	return m_Device;
 }
+
+
+
+//================================================================
+//	Utility
+//================================================================
+//RefCountedObjectPtr GetVelocityMap()
+//{}
+//RefCountedObjectPtr GetBlueringTexture()
+//{
+//}
+//RefCountedObjectPtr GetDefaultTarget()
+//{}
 };
 };
 //===============================================================

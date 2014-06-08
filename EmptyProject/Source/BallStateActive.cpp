@@ -54,7 +54,7 @@ void BallStateActive::EntryAction(Ball* stateUser)
 //-------------------------------------------------------------
 void BallStateActive::InputAction(Ball* stateUser)
 {
-	std::vector<ICollisionObject*> l_list;
+	std::vector<AbsCollisionObject*> l_list;
 	
 	const Vector3 before = m_Collision->GetSpeed();
 	m_Collision->Update(l_list);
@@ -92,7 +92,7 @@ IState<Ball>* BallStateActive::TransitionAction()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateActive::Func(ICollisionObject* obj)
+void BallStateActive::Func(AbsCollisionObject* obj)
 {
 	if (obj != m_BottomLine)
 		return;

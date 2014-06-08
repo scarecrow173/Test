@@ -5,7 +5,7 @@
 //=======================================================================================
 #pragma once
 #include "IState.h"
-#include "ICollisionObject.h"
+#include "AbsCollisionObject.h"
 namespace AK
 {
 enum NEXT_STATE
@@ -32,10 +32,10 @@ public:
 	virtual IState<Ball>*	TransitionAction();
 
 private:
-	void Func(Collision::ICollisionObject* obj);
+	void Func(Collision::AbsCollisionObject* obj);
 
-	Collision::ICollisionObject*	m_Collision;
-	Collision::ICollisionObject*	m_BottomLine;
+	Collision::AbsCollisionObject*	m_Collision;
+	Collision::AbsCollisionObject*	m_BottomLine;
 
 	U32								m_NextState;
 

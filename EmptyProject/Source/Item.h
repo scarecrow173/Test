@@ -25,14 +25,14 @@ enum ITEM_TYPE
 class Item : public GameObject
 {
 public:
-	Item(INode* parent, Vector3 pos, ITEM_TYPE type);
+	Item(AbsNode* parent, Vector3 pos, ITEM_TYPE type);
 	virtual ~Item();
 
 	RTTI_IS_A(Item);
 	virtual void	Update();
 	virtual void	Start();
 
-	void		AddCollision(Collision::ICollisionObject* collison);
+	void		AddCollision(Collision::AbsCollisionObject* collison);
 	ITEM_TYPE	GetType() const;
 
 

@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "Elements.h"
 #include "DefaultTexture.h"
 namespace AK
@@ -17,7 +17,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class RadialBlur : public IShaderObject
+class RadialBlur : public AbsShaderObject
 {
 public:
 	RadialBlur();
@@ -29,7 +29,7 @@ public:
 	virtual void	Draw();
 
 	void			SetShaderTechniqueByName(const std::string& techniqueName);
-	void			AddBlurringTarget(IShaderObject* obj);
+	void			AddBlurringTarget(AbsShaderObject* obj);
 	
 	void			SetBlurPower(const F32 power);
 	F32				GetBlurPower() const;
@@ -41,7 +41,7 @@ private:
 	DefaultTexture*				m_BlurringTexture;
 	IDirect3DSurface9*			m_BlurringSurface;
 	IDirect3DSurface9*			m_BlurringDepthSurface;
-	std::vector<IShaderObject*>	m_AffectedShaders;
+	std::vector<AbsShaderObject*>	m_AffectedShaders;
 
 	D3DXHANDLE					m_hBlurPower;
 	D3DXHANDLE					m_hSamplingNum;

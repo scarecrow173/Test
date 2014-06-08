@@ -5,7 +5,7 @@
 //=======================================================================================
 #pragma once
 #include <vector>
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 namespace AK
 {
 namespace Graphics
@@ -16,7 +16,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class UseFixed : public IShaderObject
+class UseFixed : public AbsShaderObject
 {
 public:
 	UseFixed();

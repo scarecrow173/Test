@@ -4,10 +4,10 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "INode.h"
+#include "AbsNode.h"
 #include "MyMath.h"
-#include "ICollisionObject.h"
-#include "IRenderer.h"
+#include "AbsCollisionObject.h"
+#include "AbsRenderer.h"
 #include "RefCountedObjectPtr.h"
 #include "TransformObject.h"
 namespace AK
@@ -19,23 +19,23 @@ namespace AK
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class GameObject : public INode
+class GameObject : public AbsNode
 {
 public:
-	GameObject(INode* parent, Vector3 pos);
+	GameObject(AbsNode* parent, Vector3 pos);
 	virtual ~GameObject();
 
 	std::shared_ptr<TransformObject>	GetTransform() const;
-	Collision::ICollisionObject*		GetCollision() const;
-	Graphics::IRenderer*				GetRenderer() const;
+	Collision::AbsCollisionObject*		GetCollision() const;
+	Graphics::AbsRenderer*				GetRenderer() const;
 
 	RTTI_IS_A(GameObject);
 	virtual	void					Affect(GameObject* obj);
 
 protected:
 
-	Collision::ICollisionObject*		m_Collision;
-	Graphics::IRenderer*				m_Renderer;
+	Collision::AbsCollisionObject*		m_Collision;
+	Graphics::AbsRenderer*				m_Renderer;
 	std::shared_ptr<TransformObject>	m_Transform;
 };
 //=======================================================================================
@@ -44,8 +44,8 @@ protected:
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-inline GameObject::GameObject(INode* parent, Vector3 pos)
-	:	INode		(parent)
+inline GameObject::GameObject(AbsNode* parent, Vector3 pos)
+	:	AbsNode		(parent)
 	,	m_Collision (NULL)
 	,	m_Renderer	(NULL)
 	,	m_Transform	(std::make_shared<TransformObject>(pos))
@@ -77,7 +77,7 @@ inline std::shared_ptr<TransformObject> GameObject::GetTransform() const
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Collision::ICollisionObject*	GameObject::GetCollision() const
+inline Collision::AbsCollisionObject*	GameObject::GetCollision() const
 {
 	return m_Collision;
 }
@@ -86,7 +86,7 @@ inline Collision::ICollisionObject*	GameObject::GetCollision() const
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-inline Graphics::IRenderer* GameObject::GetRenderer() const
+inline Graphics::AbsRenderer* GameObject::GetRenderer() const
 {
 	return m_Renderer;
 }

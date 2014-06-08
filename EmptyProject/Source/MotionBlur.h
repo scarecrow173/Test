@@ -4,7 +4,7 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include "IShaderObject.h"
+#include "AbsShaderObject.h"
 #include "Elements.h"
 #include "DefaultTexture.h"
 #include "WindowPolygonRenderer.h"
@@ -18,7 +18,7 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class MotionBlur : public IShaderObject
+class MotionBlur : public AbsShaderObject
 {
 public:
 	MotionBlur();
@@ -30,7 +30,7 @@ public:
 	virtual void	Draw();
 
 
-	void			AddBlurringTarget(IShaderObject* obj);
+	void			AddBlurringTarget(AbsShaderObject* obj);
 private:
 
 
@@ -47,7 +47,7 @@ private:
 	
 	WindowPolygonRenderer*		m_PostProcessingRenderer;
 	U32							m_WriteTextureSize;
-	std::vector<IShaderObject*>	m_AffectedShaders;
+	std::vector<AbsShaderObject*>	m_AffectedShaders;
 
 };
 //=======================================================================================

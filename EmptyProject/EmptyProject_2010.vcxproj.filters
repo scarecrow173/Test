@@ -175,9 +175,6 @@
     <ClCompile Include="Source\WindowPolygonRenderer.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\INode.cpp">
-      <Filter>Source\Utill</Filter>
-    </ClCompile>
     <ClCompile Include="Source\BlockSystem.cpp">
       <Filter>Source\InGame\Object</Filter>
     </ClCompile>
@@ -210,9 +207,6 @@
     </ClCompile>
     <ClCompile Include="Source\ItemSystem.cpp">
       <Filter>Source\InGame\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ICollisionObject.cpp">
-      <Filter>Source\InGame\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Source\BallStateLaunchStandby.cpp">
       <Filter>Source\InGame\Object\State\BallState</Filter>
@@ -261,6 +255,18 @@
     </ClCompile>
     <ClCompile Include="Source\MotionBlur.cpp">
       <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DrawFonts.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ChangeViewport.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AbsCollisionObject.cpp">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AbsNode.cpp">
+      <Filter>Source\Utill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,13 +333,7 @@
     <ClInclude Include="Source\Colors.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\IShaderObject.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\IndexData.h">
-      <Filter>Source\InGame\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IRenderer.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\TriangleRenderer.h">
@@ -360,9 +360,6 @@
     <ClInclude Include="Source\BlockSystem.h">
       <Filter>Source\InGame\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\INode.h">
-      <Filter>Source\Utill</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Ball.h">
       <Filter>Source\InGame\Object</Filter>
     </ClInclude>
@@ -383,9 +380,6 @@
     </ClInclude>
     <ClInclude Include="Source\ItemSystem.h">
       <Filter>Source\InGame\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ICollisionObject.h">
-      <Filter>Source\InGame\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Source\SafeArray.h">
       <Filter>Source\Utill</Filter>
@@ -478,6 +472,27 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\MotionBlur.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FontsTexture.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DrawFonts.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ChangeViewport.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AbsCollisionObject.h">
+      <Filter>Source\InGame\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AbsNode.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AbsShaderObject.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AbsRenderer.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

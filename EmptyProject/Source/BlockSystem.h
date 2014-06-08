@@ -4,13 +4,13 @@
 //!	@date	:	2014/05/08
 //=======================================================================================
 #pragma once
-#include "INode.h"
+#include "AbsNode.h"
 
 namespace AK
 {
 
-namespace Graphics{ class IShaderObject; };
-namespace Collision{ class ICollisionObject; };
+namespace Graphics{ class AbsShaderObject; };
+namespace Collision{ class AbsCollisionObject; };
 class Block;
 class Ball;
 
@@ -20,19 +20,19 @@ class Ball;
 //!	@par	:	ブロックの作成や削除。ブロック数が0ならクリアなのでその判定もする。
 //!	@note	:	example
 //=======================================================================================
-class BlockSystem : public INode
+class BlockSystem : public AbsNode
 {
 public:
-	BlockSystem(INode* parent);
+	BlockSystem(AbsNode* parent);
 	virtual ~BlockSystem();
 
 	RTTI_IS_A(BlockSystem);
 	virtual void Update();
 	virtual void Start();
-	bool CreateStageBlocks(const std::string& filePath, Graphics::IShaderObject* shader);
+	bool CreateStageBlocks(const std::string& filePath, Graphics::AbsShaderObject* shader);
 	bool Clear();
 
-	bool DeleteBlock(Collision::ICollisionObject* obj);
+	bool DeleteBlock(Collision::AbsCollisionObject* obj);
 	void SetBall(Ball* ball);
 	
 

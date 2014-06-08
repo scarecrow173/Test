@@ -43,7 +43,7 @@ static const U32 CLEAR_JINGLE	= 9;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-Stage1::Stage1(INode* parent, U32 stageCount)
+Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	:	SceneNode		(parent)
 	,	m_IsEnd			(false)
 	,	m_IsGameOver	(false)

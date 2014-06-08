@@ -7,7 +7,7 @@
 //!	@note	:	example
 //=======================================================================================
 #include "ItemSystem.h"
-#include "ICollisionObject.h"
+#include "AbsCollisionObject.h"
 #include "GraphicsManager.h"
 #include "Stage1.h"
 
@@ -21,8 +21,8 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-ItemSystem::ItemSystem(INode* parent)
-	:	INode	(parent)
+ItemSystem::ItemSystem(AbsNode* parent)
+	:	AbsNode	(parent)
 {
 
 }

@@ -28,10 +28,10 @@ enum INPUT_KEY
 class Input
 {
 public:
-	virtual bool IsTrigger(INPUT_KEY key)	const	PURE;
-	virtual bool IsKeyDown(INPUT_KEY key)	const	PURE;
-	virtual bool IsKeyRelease(INPUT_KEY key)const	PURE;
-	virtual void Update()						PURE;
+	virtual bool IsTrigger(INPUT_KEY key)	const	= 0;
+	virtual bool IsKeyDown(INPUT_KEY key)	const	= 0;
+	virtual bool IsKeyRelease(INPUT_KEY key)const	= 0;
+	virtual void Update()							= 0;
 
 };
 //=======================================================================================
