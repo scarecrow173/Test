@@ -17,14 +17,14 @@ PS_INPUT SpectrumVS( VS_INPUT In)
 {
 	PS_INPUT Out = (PS_INPUT)0;
 
-	Out.pos = In.pos;
+	Out.pos = cos(In.pos);
 	Out.color = In.color;
 	Out.Tex = In.uv;
    return Out;
 }
 float4 SpectrumPS(PS_INPUT In) : COLOR
 {
-	return In.color; 
+	return float4(In.color.rgb, 0.5f);; 
 	//return tex2D(tex0, In.Tex);// * In.color;
 }
 
@@ -32,8 +32,11 @@ technique Spectrum
 {
    pass P0
    {
-      VertexShader = compile vs_2_0 SpectrumVS();
-      PixelShader = compile ps_2_0 SpectrumPS();
+		AlphaBlendEnable	= True;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
+		VertexShader = compile vs_2_0 SpectrumVS();
+		PixelShader = compile ps_2_0 SpectrumPS();
 	  
    }
 }

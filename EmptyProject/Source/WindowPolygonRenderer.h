@@ -32,7 +32,6 @@ public:
 
 	void	CreatePolygon(const U32 divisionWidth = 1, const U32 divisionHeight = 1);
 
-	void	Resize(U32 x, U32 y, U32 width, U32 height);
 
 private:
 	void CreateVertexBuffer();
@@ -42,8 +41,6 @@ private:
 	std::vector<WindowVertex>	m_Vertex;
 
 	LPDIRECT3DVERTEXBUFFER9		m_VertexBuffer;
-	U32							m_DivisionWidth;
-	U32							m_DivisionHeight;
 
 };
 //=======================================================================================

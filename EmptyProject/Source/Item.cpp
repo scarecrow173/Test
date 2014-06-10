@@ -14,7 +14,7 @@
 #include "Colors.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
-
+#include "RootNode.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -69,7 +69,7 @@ void Item::Update()
 	m_Collision->Update(l_list);
 
 	for (auto it = l_list.begin(); it != l_list.end(); ++it)
-		ItemAffect(m_Parent->GetParent()->FindNode(*it));
+		ItemAffect(RootNode::GetInstance()->FindNode(*it));
 	UpdateRendererMatrix();
 
 }

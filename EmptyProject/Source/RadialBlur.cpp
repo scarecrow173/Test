@@ -97,7 +97,7 @@ bool RadialBlur::Initilize()
 			1024,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A32B32G32R32F,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&velocityMap);
 

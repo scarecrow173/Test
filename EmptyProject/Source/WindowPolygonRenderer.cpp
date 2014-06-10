@@ -22,8 +22,6 @@ const DWORD FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 //-------------------------------------------------------------
 WindowPolygonRenderer::WindowPolygonRenderer()
 	:	m_VertexBuffer	(NULL)
-	,	m_DivisionWidth	(1)
-	,	m_DivisionHeight(1)
 {
 	
 }
@@ -89,8 +87,6 @@ void WindowPolygonRenderer::CreatePolygon(const U32 divisionWidth, const U32 div
 	const F32 ONE_WIDTH		= (F32)(WINDOW_WIDTH / divisionWidth);
 	const F32 ONE_HEIGHT	= (F32)(WINDOW_HEIGHT / divisionHeight);
 
-	m_DivisionWidth			= divisionWidth;
-	m_DivisionHeight		= divisionHeight;
 	
 	std::vector<U32> indexArray;
 
@@ -150,62 +146,14 @@ void WindowPolygonRenderer::CreatePolygon(const U32 divisionWidth, const U32 div
 			indexArray.push_back(count + 2);
 			indexArray.push_back(count + 1);
 		}
+
 	}
 
 
 	CreateVertexBuffer();
 	CreateBufferResouce(indexArray);
 }
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void WindowPolygonRenderer::Resize(U32 x, U32 y, U32 width, U32 height)
-{
-	const F32 ONE_WIDTH		= (F32)(width	/ m_DivisionWidth);
-	const F32 ONE_HEIGHT	= (F32)(height	/ m_DivisionHeight);
 
-	WindowVertex* Vertex = NULL;
-	m_VertexBuffer->Lock(0, 0, (void**)&Vertex, 0);
-
-	for (U32 iWidth = 0; iWidth < m_DivisionWidth; ++iWidth)
-	{
-		for (U32 iHeight = 0; iHeight < m_DivisionHeight; ++iHeight)
-		{
-			const U32 offset = (iWidth * m_DivisionHeight * 4) + (iHeight * 4);
-
-			// ¶ã:0
-			Vertex[offset].pos.x		= x + (iWidth * ONE_WIDTH);
-			Vertex[offset].pos.y		= y + (iHeight * ONE_HEIGHT);
-			Vertex[offset].pos.z		= 0.f;
-			Vertex[offset].pos.w		= 1.f;
-			m_Vertex[offset].pos		= Vertex[offset].pos;
-
-			// ‰Eã:1
-			Vertex[offset + 1].pos.x	= x + ((iWidth + 1) * ONE_WIDTH);
-			Vertex[offset + 1].pos.y	= y + (iHeight * ONE_HEIGHT);
-			Vertex[offset + 1].pos.z	= 0.f;
-			Vertex[offset + 1].pos.w	= 1.f;
-			m_Vertex[offset + 1].pos	= Vertex[offset + 1].pos;
-
-			// ¶‰º:2
-			Vertex[offset + 2].pos.x	= x + (iWidth * ONE_WIDTH);
-			Vertex[offset + 2].pos.y	= y + ((iHeight + 1) * ONE_HEIGHT);
-			Vertex[offset + 2].pos.z	= 0.f;
-			Vertex[offset + 2].pos.w	= 1.f;
-			m_Vertex[offset + 2].pos	= Vertex[offset + 2].pos;
-
-			// ‰E‰º:3
-			Vertex[offset + 3].pos.x	= x + ((iWidth + 1) * ONE_WIDTH);
-			Vertex[offset + 3].pos.y	= y + ((iHeight + 1) * ONE_HEIGHT);
-			Vertex[offset + 3].pos.z	= 0.f;
-			Vertex[offset + 3].pos.w	= 1.f;
-			m_Vertex[offset + 3].pos	= Vertex[offset + 3].pos;
-		}
-	}
-	m_VertexBuffer->Unlock();
-}
 //=======================================================================================
 //		protected method
 //=======================================================================================

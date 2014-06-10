@@ -462,6 +462,7 @@
     <ClInclude Include="Source\FontsTexture.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GraphicsManager.h" />
+    <ClInclude Include="Source\GraphicsUtil.h" />
     <ClInclude Include="Source\IMaterialFactory.h" />
     <ClInclude Include="Source\ITexture.h" />
     <ClInclude Include="Source\ITextureFactory.h" />

@@ -92,7 +92,7 @@ bool MotionBlur::Initilize()
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A32B32G32R32F,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_VelocityMap->SetTexture(&tex);
@@ -111,7 +111,7 @@ bool MotionBlur::Initilize()
 			m_WriteTextureSize,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A32B32G32R32F,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&tex);
 		m_BlurringTexture->SetTexture(&tex);

@@ -21,6 +21,10 @@
 #include "DefaultShader.h"
 #include "RadialBlur.h"
 #include "MotionBlur.h"
+#include "DrawFonts.h"
+#include "ChangeViewport.h"
+
+
 
 using namespace AK;
 using namespace Sound;
@@ -125,7 +129,7 @@ bool Title::Initialize()
 
 	LoadTitleBlock();
 
-
+	/*GraphicsManager::GetInstance()->AddShaderObject(Font);*/
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
@@ -203,7 +207,9 @@ void Title::LoadTitleBlock()
 
 		m_Shader->AddRenderer(render);
 		m_TitleBlock.push_back(render);
+
 	}
+
 }
 //-------------------------------------------------------------
 //!	@brief		: ƒuƒƒbƒN‚ğ“®‚©‚·

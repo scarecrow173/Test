@@ -74,7 +74,9 @@ public:
 	Matrix	GetProjection();
 
 	void	SetD3DDevice9(IDirect3DDevice9** device);
-	IDirect3DDevice9* GetD3DDevice() const;
+	IDirect3DDevice9*	GetD3DDevice() const;
+
+	ID3DXSprite*		GetSprite() const;
 
 	bool	Initialize();
 	void	Draw();
@@ -107,6 +109,8 @@ private:
 	U32								m_IndexCount;
 	U32								m_VertexCount;
 
+	ID3DXSprite*					m_Sprite;
+
 
 	std::vector<AbsShaderObject*>		m_ShaderList;
 };
@@ -123,34 +127,30 @@ inline GraphicsManager* GraphicsManager::GetInstance()
 	return m_Instance;
 }
 //-------------------------------------------------------------
-//!	@brief		: インスタンス取得
-//!	@return		: インスタンス
+//!	@brief		: デバイス
+//!	@return		: デバイス
 //-------------------------------------------------------------
 inline void	GraphicsManager::SetD3DDevice9(IDirect3DDevice9** device)
 {
 	m_Device = *device;
 }
 //-------------------------------------------------------------
-//!	@brief		: インスタンス取得
-//!	@return		: インスタンス
+//!	@brief		: デバイス
+//!	@return		: デバイス
 //-------------------------------------------------------------
 inline IDirect3DDevice9* GraphicsManager::GetD3DDevice() const
 {
 	return m_Device;
 }
+//-------------------------------------------------------------
+//!	@brief		: インスタンス取得
+//!	@return		: インスタンス
+//-------------------------------------------------------------
+inline ID3DXSprite*	GraphicsManager::GetSprite() const
+{
+	return m_Sprite;
+}
 
-
-
-//================================================================
-//	Utility
-//================================================================
-//RefCountedObjectPtr GetVelocityMap()
-//{}
-//RefCountedObjectPtr GetBlueringTexture()
-//{
-//}
-//RefCountedObjectPtr GetDefaultTarget()
-//{}
 };
 };
 //===============================================================

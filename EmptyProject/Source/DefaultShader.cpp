@@ -34,7 +34,7 @@ DefaultShader::DefaultShader()
 	,	m_hProjection	(NULL)
 	,	m_hPrevWorld	(NULL)
 {
-	m_DrawStep = 0;
+	m_DrawStep = 1;
 
 	LPD3DXBUFFER wError = NULL;
 	HRESULT hr = D3DXCreateEffectFromFile(
@@ -84,7 +84,7 @@ bool DefaultShader::Initilize()
 			1024,
 			1,
 			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A32B32G32R32F,
+			D3DFORMAT::D3DFMT_A32B32G32R32F,
 			D3DPOOL_DEFAULT,
 			&velocityMap);
 
@@ -139,7 +139,6 @@ bool DefaultShader::Initilize()
 //-------------------------------------------------------------
 void DefaultShader::Draw()
 {
-	
 	U32 maxPass = 0;
 	m_Effect->Begin(&maxPass, 0);
 	for (U32 iPass = 0; iPass < maxPass; ++iPass)
@@ -158,7 +157,9 @@ void DefaultShader::Draw()
 		}
 		m_Effect->EndPass();
 	}
+
 	m_Effect->End();
+
 }
 //-------------------------------------------------------------
 //!	@brief		: シェーダテクニックを入れ替える(Phong,BlinnPhong,CookTorrance,Lambert,HalfLambert)

@@ -33,12 +33,7 @@ GraphicsManager* g_mrg	= NULL;
 Spectrum* spectrum		= NULL;
 
 DrawFonts* g_Fonts		= NULL;
-//WindowPolygonRenderer* g_wpr = NULL;
-//BlendMultiTexturesShader* bmts = NULL;
-//AK::RefCountedObjectPtr g_spmPtr(NULL);
-//DefaultTexture*			g_spmObj	= NULL;
-//IDirect3DSurface9*		g_spmSurf	= NULL;
-//IDirect3DSurface9*		g_depth		= NULL;
+
 
 Matrix world,view, projction;
 
@@ -150,47 +145,24 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 
     HRESULT hr;
 
+
     // Clear the render target and the zbuffer										 0, 45, 50, 170
     V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
 
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
-		//IDirect3DSurface9* back = NULL;
-		//IDirect3DSurface9* bd = NULL;
-		//pd3dDevice->GetRenderTarget(0, &back);
-		//pd3dDevice->GetDepthStencilSurface(&bd);
-		//pd3dDevice->SetRenderTarget(0, g_spmSurf);
-		//pd3dDevice->SetDepthStencilSurface(g_depth);
-		//V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
-		//D3DVIEWPORT9 viewprot;
-		//g_Device->GetViewport(&viewprot);
-
-		g_Device->SetViewport(&g_MainViewPort);
-		g_Device->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 45, 50, 170 ), 1.0f, 0 );
 
 		spectrum->Draw();
-		//pd3dDevice->SetRenderTarget(0, back);
-		//pd3dDevice->SetDepthStencilSurface(bd);
-
-		//phong->Draw();
 
 		g_Device->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
 
 		g_mrg->Draw();
 		
-		
-		g_Device->SetViewport(&g_FontViewPort);
-		g_Device->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
-
-		
-		Matrix FontMatrix;
-		D3DXMatrixIdentity(&FontMatrix);
-		D3DXMatrixTranslation(&FontMatrix, 96.f, 0.f, 0.f);
-		g_Fonts->Draw(L"Score:" + std::to_wstring((long double)fElapsedTime) , FontMatrix);
 
         V( pd3dDevice->EndScene() );
     }
+	
 	
 }
 
@@ -275,7 +247,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	//_CrtSetBreakAlloc(642);
 #endif
-
+	AK::Debug::CreateDebugConsole();
     // Set the callback functions
     DXUTSetCallbackD3D9DeviceAcceptable( IsD3D9DeviceAcceptable );
     DXUTSetCallbackD3D9DeviceCreated( OnD3D9CreateDevice );
@@ -296,7 +268,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTCreateWindow( L"Breakout" );
     DXUTCreateDevice( true, WINDOW_WIDTH, WINDOW_HEIGHT );
 
-	AK::Debug::CreateDebugConsole();
+	
 
 
 	AK::Sound::SoundManager::Create();
@@ -385,58 +357,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	spectrum = NEW AK::Graphics::Spectrum();
 	spectrum->CreateSpectrumData();
 
-	g_Fonts = NEW DrawFonts(32,32, "‚l‚r ‚oƒSƒVƒbƒN");
-	//g_wpr	= NEW WindowPolygonRenderer();
-	//g_wpr->Initialize();
-	//g_wpr->CreatePolygon();
-	//g_wpr->Resize(64,64, WINDOW_WIDTH - 128, WINDOW_HEIGHT - 128);
-	
 
-
-	//phong	= NEW AK::Graphics::DefaultShader();
-	//g_spmPtr = AK::Graphics::TexturePool::GetInstance()->GetResource("data:DefaultTexture - spm");
-	//g_spmObj = RTTI_PTR_DYNAMIC_CAST(DefaultTexture, g_spmPtr.GetSharedObject());
-	//if (g_spmObj->GetTexture() == NULL)
-	//{
-	//	LPDIRECT3DTEXTURE9 tex;
-	//	D3DXCreateTexture(GraphicsManager::GetInstance()->GetD3DDevice(),
-	//		1024, 
-	//		1024,
-	//		1,
-	//		D3DUSAGE_RENDERTARGET,
-	//		D3DFORMAT::D3DFMT_A8R8G8B8,
-	//		D3DPOOL_DEFAULT,
-	//		&tex);
-	//	g_spmObj->SetTexture(&tex);
-	//}
-	//g_spmObj->GetTexture()->GetSurfaceLevel(0, &g_spmSurf);
-	//g_spmObj->GetTexture()->Release();
-	//IDirect3DSurface9 *pSurf;
-	//GraphicsManager::GetInstance()->GetD3DDevice()->GetDepthStencilSurface( &pSurf );
-	//D3DSURFACE_DESC Desc;
-	//pSurf->GetDesc( &Desc );
-	//SAFE_RELEASE(pSurf);
-	//
-	//auto hr = GraphicsManager::GetInstance()->GetD3DDevice()->CreateDepthStencilSurface(
-	//	1024,
-	//	1024,
-	//	Desc.Format,
-	//	Desc.MultiSampleType,
-	//	Desc.MultiSampleQuality,
-	//	FALSE,
-	//	&g_depth,
-	//	NULL
-	//	);
-
-	g_MainViewPort.X		= 64;
-	g_MainViewPort.Y		= 64;
-	g_MainViewPort.Width	= WINDOW_WIDTH	- 128;
-	g_MainViewPort.Height	= WINDOW_HEIGHT - 128;
-
-	g_FontViewPort.X		= 0;
-	g_FontViewPort.Y		= 0;
-	g_FontViewPort.Width	= WINDOW_WIDTH;
-	g_FontViewPort.Height	= 64;
 
 
 	// Start the render loop
@@ -445,6 +366,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	DXUTMainLoop();
 
+	SAFE_DELETE(g_Fonts);
 	SAFE_DELETE(spectrum);
 	AK::RootNode::Destroy();
 	AK::Debug::DestoryDebugConsole();

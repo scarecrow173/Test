@@ -43,6 +43,7 @@ GraphicsManager::GraphicsManager()
 	,	m_UVBuffer			(NULL)
 	,	m_InstanceBuffer	(NULL)
 	,	m_VertexCount		(8)
+	,	m_Sprite			(NULL)
 {}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -68,7 +69,11 @@ GraphicsManager::~GraphicsManager()
 
 	SAFE_RELEASE(m_InstanceBuffer);
 
-	SAFE_RELEASE(m_Device);
+	if (m_Device)
+		TRACE(10, m_Device->Release());
+//	SAFE_RELEASE(m_Device);
+
+	SAFE_RELEASE(m_Sprite);
 }
 //=======================================================================================
 //		public method
@@ -228,6 +233,8 @@ bool GraphicsManager::Initialize()
 {
 	m_Device->CreateVertexDeclaration(VertexElemnt, &VertexDeclaration);
 	m_Device->SetVertexDeclaration(VertexDeclaration);
+
+	D3DXCreateSprite(m_Device, &m_Sprite);
 	return true;
 }
 //-------------------------------------------------------------

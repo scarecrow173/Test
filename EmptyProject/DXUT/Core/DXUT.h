@@ -151,6 +151,7 @@ enum RTTI_ID
 
 	RTTI_MAX_NUM
 
+
 };
 };
 #define RTTI_IS_A_BASE(className)					\

@@ -31,7 +31,7 @@ public:
 	virtual bool IsTrigger(INPUT_KEY key)	const	= 0;
 	virtual bool IsKeyDown(INPUT_KEY key)	const	= 0;
 	virtual bool IsKeyRelease(INPUT_KEY key)const	= 0;
-	virtual void Update()							= 0;
+	virtual void Update()						= 0;
 
 };
 //=======================================================================================

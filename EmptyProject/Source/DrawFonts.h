@@ -4,9 +4,12 @@
 //!	@date	:	2014/4/28
 //=======================================================================================
 #pragma once
-#include <string>
-#include <map>
 #include "MyMath.h"
+#include "AbsShaderObject.h"
+
+#include <string>
+#include <unordered_map>
+
 namespace AK
 {
 namespace Graphics
@@ -17,17 +20,29 @@ namespace Graphics
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-class DrawFonts
+class DrawFonts : public AbsShaderObject
 {
 public:
 	DrawFonts(S32, S32, const std::string&);
 	virtual ~DrawFonts();
 
-	void Draw(const std::wstring&, const Matrix&);
+	
+	virtual void	Draw();
+	virtual bool	Initilize();
+
+	//void Draw(const std::wstring&, const Matrix&);
+
+	void	SetDrawString(const std::wstring&);
+	void	SetWorld(const Matrix&);
+	Matrix	GetWorld() const;
+	void	SetColor();
 private:
-	std::map<const wchar_t, IDirect3DTexture9*>	m_FontsTexture;
-	std::map<const wchar_t, GLYPHMETRICS>		m_FontsInfo;
-	S32											m_FontSize;
+	std::unordered_map<const wchar_t, IDirect3DTexture9*>	m_FontsTexture;
+	std::unordered_map<const wchar_t, GLYPHMETRICS>			m_FontsInfo;
+	S32														m_FontSize;
+	std::wstring											m_DrawString;
+	Matrix													m_World;
+	DWORD													m_Color;
 
 };
 //=======================================================================================

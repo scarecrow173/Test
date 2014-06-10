@@ -1,0 +1,87 @@
+﻿2014/06/10 20:17:29 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\EmptyProject_2010.vcxproj" (build ターゲット)。
+     1>InitializeBuildStatus:
+         "AlwaysCreate" が指定されたため "x64\Debug\Breakout.unsuccessfulbuild" を作成しています。
+       ClCompile:
+         すべての出力が最新のものです。
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\CL.exe /c /IDXUT\Core /IDXUT\Optional /I"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\Source" /I"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\Libs\x64" /Zi /nologo /W4 /WX- /Od /Oi /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Yu"DXUT.h" /Fp"x64\Debug\Breakout.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc100.pdb" /Gd /TP /wd4482 /FIDXUT.h /errorReport:prompt Source\Stage1.cpp  
+         Stage1.cpp
+     1>Source\Stage1.cpp(497): warning C4244: '初期化中' : 'float' から 'const U32' への変換です。データが失われる可能性があります。
+     1>Source\Stage1.cpp(545): warning C4244: '初期化中' : 'float' から 'const U32' への変換です。データが失われる可能性があります。
+       ResourceCompile:
+         すべての出力が最新のものです。
+       ManifestResourceCompile:
+         すべての出力が最新のものです。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\x64\Debug\Breakout.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\Libs\x64" d3dx10d.lib d3dx9d.lib dxerr.lib dxguid.lib winmm.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Debug\Breakout.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\x64\Debug\Breakout.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\x64\Debug\Breakout.lib" /MACHINE:X64 x64\Debug\EmptyProject.res
+         x64\Debug\Breakout.exe.embed.manifest.res
+         x64\Debug\AutoPerformance.obj
+         x64\Debug\Ball.obj
+         x64\Debug\BallStateActive.obj
+         x64\Debug\BallStateDead.obj
+         x64\Debug\BallStateLaunch.obj
+         x64\Debug\BallStateLaunchStandby.obj
+         x64\Debug\Block.obj
+         x64\Debug\BlockSystem.obj
+         x64\Debug\ChangeViewport.obj
+         x64\Debug\DrawFonts.obj
+         x64\Debug\MotionBlur.obj
+         x64\Debug\RadialBlur.obj
+         x64\Debug\BoxFactory.obj
+         x64\Debug\CollisionBox.obj
+         x64\Debug\CollisionSphere.obj
+         x64\Debug\Colors.obj
+         x64\Debug\CSVReader.obj
+         x64\Debug\CubeTextureFactory.obj
+         x64\Debug\DebugUtill.obj
+         x64\Debug\DefaultTextureFactory.obj
+         x64\Debug\GraphicsManager.obj
+         x64\Debug\MaterialFactory.obj
+         x64\Debug\MaterialPool.obj
+         x64\Debug\DefaultShader.obj
+         x64\Debug\PrimitivePool.obj
+         x64\Debug\ScreenEffect.obj
+         x64\Debug\SphereFactory.obj
+         x64\Debug\AbsCollisionObject.obj
+         x64\Debug\AbsNode.obj
+         x64\Debug\InputKeyboard.obj
+         x64\Debug\Item.obj
+         x64\Debug\ItemSystem.obj
+         x64\Debug\MyMath.obj
+         x64\Debug\Paddle.obj
+         x64\Debug\ResourcePool.obj
+         x64\Debug\RootNode.obj
+         x64\Debug\SoundManager.obj
+         x64\Debug\Spectrum.obj
+         x64\Debug\Stage1.obj
+         x64\Debug\TexturePool.obj
+         x64\Debug\Title.obj
+         x64\Debug\TriangleRenderer.obj
+         x64\Debug\UseFixed.obj
+         x64\Debug\Wall.obj
+         x64\Debug\WindowPolygonRenderer.obj
+         x64\Debug\DXUT.obj
+         x64\Debug\DXUTenum.obj
+         x64\Debug\DXUTmisc.obj
+         x64\Debug\DXUTcamera.obj
+         x64\Debug\DXUTgui.obj
+         x64\Debug\DXUTres.obj
+         x64\Debug\DXUTsettingsdlg.obj
+         x64\Debug\SDKmesh.obj
+         x64\Debug\SDKmisc.obj
+         x64\Debug\Main.obj  
+         EmptyProject_2010.vcxproj -> D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\x64\Debug\Breakout.exe
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"x64\Debug\Breakout.exe.embed.manifest" /manifest x64\Debug\Breakout.exe.intermediate.manifest "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\Include\Manifest\dpiaware.manifest"
+         すべての出力が最新のものです。
+       LinkEmbedManifest:
+         すべての出力が最新のものです。
+         EmptyProject_2010.vcxproj -> D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\x64\Debug\Breakout.exe
+       FinalizeBuildStatus:
+         ファイル "x64\Debug\Breakout.unsuccessfulbuild" を削除しています。
+         "x64\Debug\Breakout.lastbuildstate" のタッチ タスクを実行しています。
+     1>プロジェクト "D:\p4_pf01666_waraihayabusa\Testdepo\a-koyama\EmptyProject\EmptyProject_2010.vcxproj" (build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:01.06

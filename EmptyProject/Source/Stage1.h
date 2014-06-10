@@ -10,6 +10,7 @@
 #include "WindowPolygonRenderer.h"
 #include "ScreenEffect.h"
 #include "DefaultShader.h"
+#include "DrawFonts.h"
 namespace AK
 {
 namespace Graphics{class AbsShaderObject;}; 
@@ -19,6 +20,24 @@ class Wall;
 class Paddle;
 class Item;
 class ItemSystem;
+
+enum StageStartStep
+{
+	SLIDE_IN_STAGEFONT = 0,
+	STOP_STAGEFONT,
+	SLIDE_OUT_STAGEFONT,
+	SLIDE_IN_STARTFONT,
+	STOP_STARTFONT,
+	SLIDE_OUT_STARTFONT,
+	START_STAGE_END
+};
+enum StageClearStep
+{
+	DOWN_CLEARFONT = 0,
+	//DOWN_CLEARFONT,
+	//DOWN_CLEARFONT,
+	START_CLEAR_END,
+};
 //=======================================================================================
 //!	@class	:	Stage1
 //!	@brief	:	Stage1ÉVÅ[Éì
@@ -57,6 +76,21 @@ private:
 	bool				CreateBall();
 	bool				CreatePadle();
 	bool				CreateBlock();
+	bool				CreateFont();
+
+	void				StartStage();
+	void				SlideInStageFont();
+	void				StopStageFont();
+	void				SlideOutStageFont();
+	void				SlideInStartFont();
+	void				StopStartFont();
+	void				SlideOutStartFont();
+
+	void				DownClearFont();
+	//void				StageClear();
+
+
+	void				SetChildrenActive(const bool active);
 
 
 
@@ -72,11 +106,20 @@ private:
 	bool							m_IsGameClear;
 	bool							m_IsFading;
 	bool							m_IsFadeEnd;
+	bool							m_IsStartStage;
+
+	StageStartStep					m_StartStep;
+	StageClearStep					m_ClearStep;
+
 	F32								m_FadeVolume;
 	Graphics::AbsShaderObject*		m_Shader;
 	Graphics::ScreenEffect*			m_FadeShader;
 	Graphics::AbsShaderObject*		m_Phong;
 	Graphics::DefaultShader*		m_CookTorrance;
+	Graphics::DrawFonts*			m_StageFont;
+	Graphics::DrawFonts*			m_StartFont;
+	Graphics::DrawFonts*			m_ClearFont;
+
 	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;
 
@@ -86,6 +129,8 @@ private:
 	ItemSystem*						m_ItemSystem;
 	SafeArray<Ball*, BALL_NUM>		m_Ball;
 
+
+	F32								m_StopCount;
 
 };
 

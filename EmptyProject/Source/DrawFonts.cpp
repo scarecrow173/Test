@@ -10,6 +10,7 @@
 #include "DrawFonts.h"
 #include "GraphicsManager.h"
 #include "WindowPolygonRenderer.h"
+#include "TexturePool.h"
 #include <atlbase.h>
 #include <atlconv.h>
 
@@ -18,16 +19,18 @@ using namespace Graphics;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-ID3DXSprite*			g_Sprite	= NULL;
+
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 {
-	if(!g_Sprite)
-	{
-		D3DXCreateSprite(GraphicsManager::GetInstance()->GetD3DDevice(), &g_Sprite);
-	}
+	m_DrawStep	= 10000;
+	m_Color		= 0xFFFFFFFF;
+
+	D3DXMatrixIdentity(&m_World);
+
+	
 	m_FontSize = fontSize;
 	const CHAR* font = fontName.c_str();
 	LOGFONT lFont = 
@@ -78,6 +81,8 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 	const S32		gradFlag	= GGO_GRAY4_BITMAP;
 	S32				grad		= 0;
 
+	USES_CONVERSION;
+
 	CONST MAT2 mat =
 	{
 		{0,1}, {0,0},
@@ -99,6 +104,7 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 
 	for (S32 i = 0; i < FontsNum; ++i)
 	{
+		
 		codes[i] = (UINT)cArray[i][0];
 
 		GetTextMetrics(hdc, &tms);
@@ -110,7 +116,15 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 		
 		fontWidth	= (gms[i].gmBlackBoxX + 3) / 4 * 4;
 		fontHeight	= gms[i].gmBlackBoxY;
+		m_FontsInfo[cArray[i][0]]		= gms[i];
 
+		auto manegedFontTexturePtr = TexturePool::GetInstance()->GetResource("data:DefaultTexture-" + fontName + W2A(cArray[i]) + std::to_string((_Longlong)m_FontSize));
+		auto manegedFontTextureObj = RTTI_PTR_DYNAMIC_CAST(DefaultTexture, manegedFontTexturePtr.GetSharedObject());
+		if (manegedFontTextureObj->GetTexture())
+		{
+			m_FontsTexture[cArray[i][0]] = manegedFontTextureObj->GetTexture();
+			continue;
+		}
 		GraphicsManager::GetInstance()->GetD3DDevice()->CreateTexture(
 			fontWidth, fontHeight, 
 			1, 0, D3DFMT_A8R8G8B8, 
@@ -132,11 +146,15 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 		}
 
 		FontTex->UnlockRect(0);
+
+		manegedFontTextureObj->SetTexture(&FontTex);
+
+
 		SAFE_DELETE_ARRAY(mono);
-		USES_CONVERSION;
 		m_FontsTexture[cArray[i][0]]	= FontTex;
-		m_FontsInfo[cArray[i][0]]		= gms[i];
+		
 	}
+
 	SelectObject(hdc, oldFont);
 	ReleaseDC(NULL, hdc);
 }
@@ -144,7 +162,9 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
 DrawFonts::~DrawFonts()
-{}
+{
+
+}
 //=======================================================================================
 //		public method
 //=======================================================================================
@@ -153,37 +173,60 @@ DrawFonts::~DrawFonts()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void DrawFonts::Draw(const std::wstring& drawStr, const D3DXMATRIX& world)
+bool DrawFonts::Initilize()
 {
-	auto it = drawStr.begin();
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
+{
+	auto it = m_DrawString.begin();
+
 	F32 offset_x = (F32)m_FontsInfo[*it].gmptGlyphOrigin.x;
 	F32 offset_y = (F32)m_FontsInfo[*it].gmptGlyphOrigin.y;
+
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	g_Sprite->Begin(0);
-	while (it != drawStr.end())
+	
+	GraphicsManager::GetInstance()->GetSprite()->Begin(0);
+
+	while (it != m_DrawString.end())
 	{
+		auto findIT = m_FontsInfo.find(*it);
+		if (findIT == m_FontsInfo.end())
+		{
+			assert(0);
+			continue;
+		}
+		
 		Matrix FontScal;
 		Matrix FontTrans;
 		Matrix localMatrix;
 
 		D3DXMatrixScaling(&FontScal, 1.f, 1.f, 1.f);
 
-		offset_y = (F32)m_FontSize - (F32)m_FontsInfo[*it].gmptGlyphOrigin.y;
+		offset_y = (F32)m_FontSize - (F32)findIT->second.gmptGlyphOrigin.y;
+
 
 		D3DXMatrixTranslation(&FontTrans, offset_x, offset_y, 0.f);
 		D3DXMatrixMultiply(&localMatrix, &FontScal, &FontTrans);
-		offset_x += (F32)m_FontsInfo[*it].gmCellIncX;
+		
+		offset_x += (F32)findIT->second.gmBlackBoxX;
+		(F32)findIT->second.gmCellIncX;
 
+		GraphicsManager::GetInstance()->GetSprite()->SetTransform(&(localMatrix * m_World));
 		
-		g_Sprite->SetTransform(&(localMatrix * world));
-		
-		g_Sprite->Draw(m_FontsTexture[*it], NULL , NULL, NULL, 0xFFFFFFFF);
+		GraphicsManager::GetInstance()->GetSprite()->Draw(m_FontsTexture[*it], NULL , NULL, NULL, m_Color);
 		
 		++it;
 	}
-	g_Sprite->End();
+	GraphicsManager::GetInstance()->GetSprite()->End();
+
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 //-------------------------------------------------------------
@@ -191,7 +234,28 @@ void DrawFonts::Draw(const std::wstring& drawStr, const D3DXMATRIX& world)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-
+void DrawFonts::SetDrawString(const std::wstring& drawString)
+{
+	m_DrawString = drawString;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void DrawFonts::SetWorld(const Matrix& world)
+{
+	m_World = world;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+Matrix DrawFonts::GetWorld() const
+{
+	return m_World;
+}
 //=======================================================================================
 //		protected method
 //=======================================================================================

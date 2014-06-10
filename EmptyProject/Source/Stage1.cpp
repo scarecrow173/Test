@@ -51,6 +51,7 @@ Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	,	m_IsGameClear	(false)
 	,	m_IsFading		(false)
 	,	m_IsFadeEnd		(false)
+	,	m_IsStartStage	(false)
 	,	m_FadeVolume	(1.f)
 	,	m_StageCount	(stageCount)
 	,	m_Shader		(NULL)
@@ -60,6 +61,7 @@ Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	,	m_FadeRenderer	(NULL)
 	,	m_BlockSystem	(NULL)
 	,	m_ItemSystem	(NULL)
+	,	m_StopCount		(0.f)
 {
 	for (S32 i = 0; i < PADDLE_NUM; ++i)
 		m_Paddle[i] = NULL;
@@ -77,8 +79,16 @@ Stage1::~Stage1()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeShader);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_StageFont);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_StartFont);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_ClearFont);
 	SAFE_DELETE(m_Shader);
 	SAFE_DELETE(m_FadeShader);
+	SAFE_DELETE(m_FadeRenderer);
+	SAFE_DELETE(m_CookTorrance);
+	SAFE_DELETE(m_StageFont);
+	SAFE_DELETE(m_StartFont);
+	SAFE_DELETE(m_ClearFont);
 
 }
 //=======================================================================================
@@ -90,18 +100,20 @@ Stage1::~Stage1()
 void Stage1::Update()
 {
 	DEBUG_PRINT_CHAR("STAGE_01");
-	if (m_StageCount >= STAGE_MAX)
-		return;
-	m_IsStageClear = m_BlockSystem->Clear();
+	/*if (m_StageCount >= STAGE_MAX)
+		return;*/
+
+	m_IsGameClear = m_IsStageClear ?  m_StageCount >= STAGE_MAX : false;
 
 	if (m_IsFading)
 		FadeScene();
-	else if (m_IsStageClear)
+	else if (m_BlockSystem->Clear())
 		StageClear();
 
 	if (m_IsFadeEnd)
 		SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
-
+	if (m_IsStartStage)
+		StartStage();
 }
 //-------------------------------------------------------------
 //!	@brief		: ƒV[ƒ“•ÏX
@@ -112,7 +124,7 @@ SceneNode*	Stage1::NextScene()
 	if (m_IsGameOver || m_IsGameClear)
 		return NEW Title(m_Parent);
 
-	if (m_IsFadeEnd && m_IsStageClear)
+	if (m_IsFadeEnd && m_IsStageClear)		
 		return NEW Stage1(m_Parent, ++m_StageCount);
 
 	return this;
@@ -140,7 +152,6 @@ bool Stage1::Initialize()
 
 	m_CookTorrance = NEW DefaultShader();
 	m_CookTorrance->Initilize();
-	//m_CookTorrance->SetShaderTechniqueByName("Phong");
 
 	m_FadeRenderer = NEW WindowPolygonRenderer();
 	m_FadeRenderer->CreatePolygon();
@@ -156,7 +167,13 @@ bool Stage1::Initialize()
 	CreateBlock();
 	CreateWall();
 	
-	
+	CreateFont();
+
+
+	GraphicsManager::GetInstance()->AddShaderObject(m_StageFont);
+	GraphicsManager::GetInstance()->AddShaderObject(m_StartFont);
+	GraphicsManager::GetInstance()->AddShaderObject(m_ClearFont);
+
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeShader);
@@ -166,6 +183,12 @@ bool Stage1::Initialize()
 	AttachNode(m_BlockSystem);
 	AttachNode(m_Ball[0]);
 
+	SetChildrenActive(false);
+
+	m_StartStep		= SLIDE_IN_STAGEFONT;
+	m_StopCount		= 0;
+	m_IsStartStage	= true;
+	m_ClearStep		= DOWN_CLEARFONT;
 	
 	return true;
 }
@@ -281,12 +304,23 @@ void Stage1::StageClear()
 	SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
 	SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
 
-	for (auto iChild = m_Children.begin(); iChild != m_Children.end(); ++iChild)
-		(*iChild)->SetActive(false);
+	SetChildrenActive(false);
 	
 	m_IsFading = true;
 	
 	m_IsGameClear = m_StageCount >= STAGE_MAX;
+
+	switch(m_ClearStep)
+	{
+	case DOWN_CLEARFONT:
+		DownClearFont();
+		break;
+	case START_CLEAR_END:
+		m_IsStageClear = true;
+		break;
+	}
+
+
 }
 //-------------------------------------------------------------
 //!	@brief		: ‰Šú‰»
@@ -297,8 +331,8 @@ void Stage1::FadeScene()
 	m_FadeVolume -= 0.01f;
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, m_FadeVolume);
 	
-	if (m_FadeShader)
-		m_FadeShader->SetFadeValue(1.f - m_FadeVolume);
+	//if (m_FadeShader)
+	//	m_FadeShader->SetFadeValue(1.f - m_FadeVolume);
 
 	if (m_FadeVolume < 0 && SoundManager::GetInstance()->IsActiveSE(CLEAR_JINGLE) == FALSE)
 		m_IsFadeEnd = true;
@@ -338,8 +372,8 @@ bool Stage1::CreateWall()
 	return true;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),Ž¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 bool Stage1::CreateBall()
 {
@@ -351,8 +385,8 @@ bool Stage1::CreateBall()
 	return true;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),Ž¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 bool Stage1::CreatePadle()
 {
@@ -362,8 +396,8 @@ bool Stage1::CreatePadle()
 	return true;
 }
 //-------------------------------------------------------------
-//!	@brief		: ‰Šú‰»
-//!	@return		: ¬Œ÷(true),Ž¸”s(false)
+//!	@brief		: 
+//!	@return		: 
 //-------------------------------------------------------------
 bool Stage1::CreateBlock()
 {
@@ -372,6 +406,192 @@ bool Stage1::CreateBlock()
 	m_BlockSystem->SetBall(m_Ball[0]);
 	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader);
 	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+bool Stage1::CreateFont()
+{
+	
+	m_StageFont = NEW DrawFonts(32, 32, "‚l‚r ‚oƒSƒVƒbƒN");
+	m_StageFont->Initilize();
+	m_StageFont->SetDrawString(L"Stage" + std::to_wstring((_ULonglong)m_StageCount+1));
+	Matrix firstFontPositon;
+	D3DXMatrixTranslation(&firstFontPositon, - (32.f * 13.f), WINDOW_HEIGHT / 2, 0.f);
+	m_StageFont->SetWorld(firstFontPositon);
+
+	m_StartFont = NEW DrawFonts(128, 32, "‚l‚r ‚oƒSƒVƒbƒN");
+	m_StartFont->Initilize();
+	m_StartFont->SetDrawString(L"Start!!");
+	m_StartFont->SetWorld(firstFontPositon);
+
+	static const F32 CLEAR_FONTS_CENTER_OFFSET	= 64.f * 11.f;
+	D3DXMatrixIdentity(&firstFontPositon);
+	D3DXMatrixTranslation(&firstFontPositon,  (WINDOW_WIDTH / 2) - CLEAR_FONTS_CENTER_OFFSET, - (256.f), 0.f);
+
+	m_ClearFont = NEW DrawFonts(128, 32, "‚l‚r ‚oƒSƒVƒbƒN");
+	m_ClearFont->Initilize();
+	m_ClearFont->SetDrawString(L"StageClear!!");
+	m_ClearFont->SetWorld(firstFontPositon);
+	
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::StartStage()
+{
+	switch(m_StartStep)
+	{
+	case SLIDE_IN_STAGEFONT:
+		SlideInStageFont();
+		break;
+	case STOP_STAGEFONT:
+		StopStageFont();
+		break;
+	case SLIDE_OUT_STAGEFONT:
+		SlideOutStageFont();
+		break;
+	case SLIDE_IN_STARTFONT:
+		SlideInStartFont();
+		break;
+	case STOP_STARTFONT:
+		StopStartFont();
+		break;
+	case SLIDE_OUT_STARTFONT:
+		SlideOutStartFont();
+		break;
+	case START_STAGE_END:
+		m_IsStartStage = false;
+		SetChildrenActive(true);
+		break;
+	default:
+		break;
+	}
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SlideInStageFont()
+{
+	static const F32 SLIDE_SPEED				= 5.f;
+	static const F32 STAGE_FONTS_CENTER_OFFSET	= 16.f * 3.f;
+	
+	Matrix fontsPosition;
+	fontsPosition	= m_StageFont->GetWorld();
+	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
+	m_StageFont->SetWorld(fontsPosition);
+
+	if(fontsPosition._41 >= (WINDOW_WIDTH / 2) - STAGE_FONTS_CENTER_OFFSET)
+		m_StartStep = STOP_STAGEFONT;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::StopStageFont()
+{
+	static const U32 END_COUNT = 90.f;
+	++m_StopCount;
+
+	if (m_StopCount > END_COUNT)
+	{
+		m_StopCount = 0;
+		m_StartStep = SLIDE_OUT_STAGEFONT;
+	}
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SlideOutStageFont()
+{
+	static const F32 SLIDE_SPEED = 5.f;
+
+	Matrix fontsPosition;
+	fontsPosition	= m_StageFont->GetWorld();
+	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
+	m_StageFont->SetWorld(fontsPosition);
+
+	if (fontsPosition._41 > WINDOW_WIDTH)
+		m_StartStep = SLIDE_IN_STARTFONT;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SlideInStartFont()
+{
+	static const F32 SLIDE_SPEED				= 5.f;
+	static const F32 START_FONTS_CENTER_OFFSET	= 64.f * 2.5f;
+
+	Matrix fontsPosition;
+	fontsPosition	= m_StartFont->GetWorld();
+
+	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
+	m_StartFont->SetWorld(fontsPosition);
+	if (fontsPosition._41 > (WINDOW_WIDTH / 2) - START_FONTS_CENTER_OFFSET )
+		m_StartStep = STOP_STARTFONT;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::StopStartFont()
+{
+	static const U32 END_COUNT = 90.f;
+	++m_StopCount;
+	
+	if (m_StopCount >= END_COUNT)
+	{
+		m_StopCount = 0;
+		m_StartStep = SLIDE_OUT_STARTFONT;
+	}
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SlideOutStartFont()
+{
+	static const F32 SLIDE_SPEED = 5.f;
+
+	Matrix fontsPosition;
+	fontsPosition	= m_StartFont->GetWorld();
+	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
+	m_StartFont->SetWorld(fontsPosition);
+	
+	
+	if (fontsPosition._41 > WINDOW_WIDTH)
+		m_StartStep = START_STAGE_END;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::DownClearFont()
+{
+	static const F32 SLIDE_SPEED = 10.f;
+	Matrix fontsPosition;
+	fontsPosition	= m_ClearFont->GetWorld();
+	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41, fontsPosition._42 + SLIDE_SPEED, 0.f);
+	m_ClearFont->SetWorld(fontsPosition);
+
+	if (fontsPosition._42 > WINDOW_HEIGHT)
+		m_ClearStep = START_CLEAR_END;
+
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SetChildrenActive(const bool active)
+{
+	for (auto iChild = m_Children.begin(); iChild != m_Children.end(); ++iChild)
+		(*iChild)->SetActive(active);
 }
 //===============================================================
 //	End of File

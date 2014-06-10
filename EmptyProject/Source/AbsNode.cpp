@@ -148,16 +148,20 @@ GameObject*	AbsNode::FindNode(Collision::AbsCollisionObject* collison)
 	if (thisPointer && thisPointer->GetCollision() == collison)
 		return thisPointer;
 
-
+	GameObject* out = NULL;
 	for (auto it = m_Children.begin(); it != m_Children.end(); ++it)
 	{
 		auto obj = RTTI_PTR_DYNAMIC_CAST(GameObject, (*it));
-		if (!obj)
-			continue;
-		if (obj->GetCollision() == collison)
+		
+		if (obj && obj->GetCollision() == collison)
 			return (obj);
+
+		out = (*it)->FindNode(collison);
+		if (out)
+			return out;
+		
 	}
-	return NULL;
+	return out;
 }
 //-------------------------------------------------------------
 //!	@brief		: example

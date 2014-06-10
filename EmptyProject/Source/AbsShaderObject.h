@@ -30,7 +30,7 @@ class AbsShaderObject
 public:
 	AbsShaderObject()
 		: m_Effect							(NULL)
-		, m_DrawStep						(0)
+		, m_DrawStep						(1)
 		, m_DefaultRenderTargetDepthSurface	(NULL)
 		, m_IsActive (true)
 	{}
