@@ -187,11 +187,16 @@ void DefaultShader::NormalDrawPass()
 {
 	for (auto it = m_Renderer.begin(); it != m_Renderer.end(); ++it)
 	{
-		Material* material	= (*it)->GetMaterial();
-		auto transform		= (*it)->GetTransform();
-		Matrix world		= transform->GetTransform();
-		m_Effect->SetMatrix(m_hWorld, &world);
+		Material* material		= (*it)->GetMaterial();
+		DefaultTexture* texture	= (*it)->GetTexture();
+		auto transform			= (*it)->GetTransform();
+		Matrix world			= transform->GetTransform();
 
+		m_Effect->SetMatrix(m_hWorld, &world);
+		if (texture)
+			GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, texture->GetTexture());
+		else
+			GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, NULL);
 		m_Effect->SetFloatArray(m_hDiffuse, material->m_Diffuse.m, 4);
 		m_Effect->SetFloatArray(m_hAmbient, material->m_Ambient.m, 4);
 		m_Effect->SetFloatArray(m_hSpecular, material->m_Specular.m, 4);

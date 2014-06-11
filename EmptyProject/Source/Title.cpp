@@ -191,7 +191,7 @@ void Title::LoadTitleBlock()
 		TriangleRenderer* render = NEW TriangleRenderer();
 		render->SetBufferResource( PrimitivePool::GetInstance()->GetResource("data:BOX-Box01") );
 		
-		auto materialPtr = MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv");
+		auto materialPtr = MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TitleBlock.csv");
 		//auto material = RTTI_PTR_DYNAMIC_CAST(Material, (materialPtr.GetSharedObject()));
 		
 		render->SetMaterial(materialPtr);

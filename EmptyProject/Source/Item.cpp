@@ -14,6 +14,7 @@
 #include "Colors.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
+#include "TexturePool.h"
 #include "RootNode.h"
 
 using namespace AK;
@@ -32,11 +33,13 @@ Item::Item(AbsNode* parent, Vector3 pos, ITEM_TYPE type)
 	,	m_Type	(type)
 {
 	static const F32 WIDTH	= 100.f;
-	static const F32 HEIGHT	= 50.f;
+	static const F32 HEIGHT	= 100.f;
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
+	m_Renderer->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/Q2.png"));
+
 
 	m_Size.x = WIDTH;
 	m_Size.y = HEIGHT;

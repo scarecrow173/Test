@@ -103,15 +103,17 @@ T Min( T a, T b )
 template< typename T >
 inline void LinearInterpolation( T* Out, const T& src, const T& target, const F32 t )
 {
+	T temp;
     assert( Out );
-    if( Equalf( t, 1.0f ) ) *Out = target;  //  割合が1ならtargetセット
+    if( Equalf( t, 1.0f ) ) temp = target;  //  割合が1ならtargetセット
     else
 	{
-        *Out = target;
-        *Out -= src;
-        *Out *= (T)t;  //  割合
-        *Out += src;
+        temp = target;
+        temp -= src;			
+        temp *= (T)t;  //  割合
+        temp += src;
     }
+	*Out = temp;
 }
 
 };

@@ -114,15 +114,29 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	auto handle = AK::Sound::SoundManager::GetInstance()->GetStreamHandle(AK::Sound::SoundManager::GetInstance()->m_BGMNum);
 
 	F32 fft[1024];
+	F32 fft2[64];
 	BASS_ChannelGetData(handle, fft, BASS_DATA_FFT2048); // get the FFT data
-	for (S32 i = 0; i < 1024; ++i)
+	int b0	= 0;
+	int y	= 0;
+	for (int i = 0; i < 64; ++i)
 	{
-
-		fft[i] = ((sqrt(fft[i]) * 3 * WINDOW_HEIGHT) * 2);
-		fft[i] = WINDOW_HEIGHT - (fft[i] > (WINDOW_HEIGHT * 0.9f) ? (WINDOW_HEIGHT * 0.9f) : fft[i]);
-
+		F32 peak	= 0.f;
+		int b1		= std::pow(2, i * 10.f / (64 / - 1));
+		if (b1 > 1023)
+			b1 = 1023;
+		if (b1 <= b0)
+			b1 = b0 + 1;
+		for(;b0 < b1; ++b0)
+		{
+			if (peak < fft[1 + b0])
+				peak = fft[1 + b0];
+			y = sqrtf(peak) * 3 * (WINDOW_HEIGHT * 0.9f) - 4;
+			if (y > (WINDOW_HEIGHT * 0.9f))
+				y = (WINDOW_HEIGHT * 0.9f);
+			fft2[i] = y;
+		}
 	}
-	spectrum->Update(fft, 1024);
+	spectrum->Update(fft2, 64);
 
 
 	g_Root->UpdateNodeTree();

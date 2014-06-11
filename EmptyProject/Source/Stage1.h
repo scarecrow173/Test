@@ -33,10 +33,12 @@ enum StageStartStep
 };
 enum StageClearStep
 {
-	DOWN_CLEARFONT = 0,
+	START_STAGECLEAR = 0,
+	DOWN_CLEARFONT,
+	FADE_SCENE,
 	//DOWN_CLEARFONT,
 	//DOWN_CLEARFONT,
-	START_CLEAR_END,
+	STAGE_CLEAR_END,
 };
 //=======================================================================================
 //!	@class	:	Stage1
@@ -86,6 +88,7 @@ private:
 	void				StopStartFont();
 	void				SlideOutStartFont();
 
+	void				StartStageClear();
 	void				DownClearFont();
 	//void				StageClear();
 
@@ -104,8 +107,6 @@ private:
 	bool							m_IsGameOver;
 	bool							m_IsStageClear;
 	bool							m_IsGameClear;
-	bool							m_IsFading;
-	bool							m_IsFadeEnd;
 	bool							m_IsStartStage;
 
 	StageStartStep					m_StartStep;
@@ -116,7 +117,8 @@ private:
 	Graphics::ScreenEffect*			m_FadeShader;
 	Graphics::AbsShaderObject*		m_Phong;
 	Graphics::DefaultShader*		m_CookTorrance;
-	Graphics::DrawFonts*			m_StageFont;
+	Graphics::DrawFonts*			m_LStageFont;
+	Graphics::DrawFonts*			m_RStageFont;
 	Graphics::DrawFonts*			m_StartFont;
 	Graphics::DrawFonts*			m_ClearFont;
 

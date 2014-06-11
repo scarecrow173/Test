@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Elements.h"
+#include "SafeArray.h"
 
 namespace AK
 {
@@ -32,7 +33,6 @@ public:
 	virtual ~Spectrum();
 
 	void CreateSpectrumData();
-	//void UV();
 
 	void Draw();
 	void Update(const F32* data, const U32 size);
@@ -46,6 +46,8 @@ public:
 	LPD3DXEFFECT				m_Effect;
 	LPDIRECT3DTEXTURE9			m_Texture;
 	DWORD						m_FVF;
+	SafeArray<F32, 64>			m_PeakData;
+	SafeArray<F32, 64>			m_Coefficient;
 
 protected:
 

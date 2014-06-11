@@ -17,6 +17,7 @@
 #include "Ball.h"
 #include "PrimitivePool.h"
 #include "MaterialPool.h"
+#include "TexturePool.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -34,14 +35,15 @@ Paddle::Paddle(AbsNode* parent, Vector3 pos)
 	,	m_Speed		(3.f)
 	,	m_Size		(1.f, 1.f, 1.f)
 {
-	static const F32 PADDLE_WIDTH	= 400.f;
-	static const F32 PADDLE_HEIGHT	= 80.f;
+	static const F32 PADDLE_WIDTH	= 300.f;
+	static const F32 PADDLE_HEIGHT	= 40.f;
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
 	
-	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/TestMaterial.csv"));
-	
+	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Paddle.csv"));
+	//TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_starAAlpha.png");
+
 	m_Size.x = PADDLE_WIDTH;
 	m_Size.y = PADDLE_HEIGHT;
 	m_Size.z = 50.f;
@@ -113,9 +115,11 @@ void Paddle::Affect(GameObject* obj)
 		break;
 	case SPEED_UP:
 		m_Speed *= 1.1f;
+		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedUp.csv"));
 		break;
 	case SPEED_DOWN:
 		m_Speed *= 0.9f;
+		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedDown.csv"));
 		break;
 	case EXTEND_PADLLE:
 		m_Size.x *= 1.1f;

@@ -35,7 +35,8 @@ public:
 	void	SetDrawString(const std::wstring&);
 	void	SetWorld(const Matrix&);
 	Matrix	GetWorld() const;
-	void	SetColor();
+	void	SetColor(const DWORD color);
+	DWORD	GetColor() const;
 private:
 	std::unordered_map<const wchar_t, IDirect3DTexture9*>	m_FontsTexture;
 	std::unordered_map<const wchar_t, GLYPHMETRICS>			m_FontsInfo;

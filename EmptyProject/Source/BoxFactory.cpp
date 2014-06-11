@@ -59,41 +59,57 @@ BufferResource*	BoxFactory::CreatePrimitive()
 	GraphicsManager::m_VertexBase[offset + 0].position.x = vCenter.x + halfX;
 	GraphicsManager::m_VertexBase[offset + 0].position.y = vCenter.y - halfY;
 	GraphicsManager::m_VertexBase[offset + 0].position.z = vCenter.z - halfZ;
+	GraphicsManager::m_VertexUV[offset	 + 0].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 0].v			 = 1;
 	
 	//	ê≥ñ :âEè„
 	GraphicsManager::m_VertexBase[offset + 1].position.x = vCenter.x + halfX;
 	GraphicsManager::m_VertexBase[offset + 1].position.y = vCenter.y + halfY;
 	GraphicsManager::m_VertexBase[offset + 1].position.z = vCenter.z - halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 1].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 1].v			 = 0;
+
 	//	ê≥ñ :ç∂â∫
 	GraphicsManager::m_VertexBase[offset + 2].position.x = vCenter.x - halfX;
 	GraphicsManager::m_VertexBase[offset + 2].position.y = vCenter.y - halfY;
 	GraphicsManager::m_VertexBase[offset + 2].position.z = vCenter.z - halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 2].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 2].v			 = 1;
+
 	//	ê≥ñ :ç∂è„
 	GraphicsManager::m_VertexBase[offset + 3].position.x = vCenter.x - halfX;
 	GraphicsManager::m_VertexBase[offset + 3].position.y = vCenter.y + halfY;
 	GraphicsManager::m_VertexBase[offset + 3].position.z = vCenter.z - halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 3].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 3].v			 = 0;
+
 	//	ç∂ñ :ç∂â∫
 	GraphicsManager::m_VertexBase[offset + 4].position.x = vCenter.x - halfX;
 	GraphicsManager::m_VertexBase[offset + 4].position.y = vCenter.y - halfY;
 	GraphicsManager::m_VertexBase[offset + 4].position.z = vCenter.z + halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 4].u			 = 1;
+	GraphicsManager::m_VertexUV[offset	 + 4].v			 = 1;
+
 	//	ç∂ñ :ç∂è„
 	GraphicsManager::m_VertexBase[offset + 5].position.x = vCenter.x - halfX;
 	GraphicsManager::m_VertexBase[offset + 5].position.y = vCenter.y + halfY;
 	GraphicsManager::m_VertexBase[offset + 5].position.z = vCenter.z + halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 5].u			 = 1;
+	GraphicsManager::m_VertexUV[offset	 + 5].v			 = 0;
+
 	//	ó†ñ :ç∂â∫
 	GraphicsManager::m_VertexBase[offset + 6].position.x = vCenter.x + halfX;
 	GraphicsManager::m_VertexBase[offset + 6].position.y = vCenter.y - halfY;
 	GraphicsManager::m_VertexBase[offset + 6].position.z = vCenter.z + halfZ;
-	
+	GraphicsManager::m_VertexUV[offset	 + 6].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 6].v			 = 1;
+
 	//	ó†ñ :ç∂è„
 	GraphicsManager::m_VertexBase[offset + 7].position.x = vCenter.x + halfX;
 	GraphicsManager::m_VertexBase[offset + 7].position.y = vCenter.y + halfY;
 	GraphicsManager::m_VertexBase[offset + 7].position.z = vCenter.z + halfZ;
+	GraphicsManager::m_VertexUV[offset	 + 7].u			 = 0;
+	GraphicsManager::m_VertexUV[offset	 + 7].v			 = 0;
 
 	//	ñ@ê¸
 	for (S32 iVertex = 0; iVertex < 8; ++iVertex)

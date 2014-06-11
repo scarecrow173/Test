@@ -10,7 +10,20 @@
 #include "SoundManager.h"
 namespace AK
 {
+enum BlockLevel
+{
+	BLOCK_WHITE = 0,
+	BLOCK_ORANGE,
+	BLOCK_AQUA,
+	BLOCK_GREEN,
+	BLOCK_RED,
+	BLOCK_BLUE,
+	BLOCK_PINK,
+	BLOCK_HARD,
+	BLOCK_IMMORTALITY,
 
+	BLOCK_LEVEL_NUM
+};
 //=======================================================================================
 //!	@class	:	Block
 //!	@brief	:	example
@@ -34,6 +47,7 @@ public:
 
 private:
 	U32						m_LifeCount;
+	BlockLevel				m_BlockLevel;
 	Graphics::IndexData		m_IndexData;
 	Graphics::VertexARGB	m_Color;
 	U32						m_SEHandle;

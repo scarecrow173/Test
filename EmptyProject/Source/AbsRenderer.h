@@ -11,6 +11,7 @@
 #include "RefCountedObjectPtr.h"
 #include "TransformObject.h"
 #include "Material.h"
+#include "DefaultTexture.h"
 namespace AK
 {
 namespace Graphics
@@ -40,10 +41,12 @@ public:
 
 	void		SetBufferResource(const RefCountedObjectPtr resource);
 	void		SetMaterial(const RefCountedObjectPtr material);
+	void		SetTexture(const RefCountedObjectPtr texture);
 	void		SetTransform(std::shared_ptr<TransformObject> transform);
 	
-	std::shared_ptr<TransformObject>	GetTransform() const;
-	Material*							GetMaterial() const;
+	std::shared_ptr<TransformObject>	GetTransform()	const;
+	Material*							GetMaterial()	const;
+	DefaultTexture*						GetTexture()	const;
 
 
 
@@ -106,6 +109,13 @@ inline void	AbsRenderer::SetMaterial(const RefCountedObjectPtr material)
 //-------------------------------------------------------------
 //!	@brief		: 
 //-------------------------------------------------------------
+inline void	AbsRenderer::SetTexture(const RefCountedObjectPtr texture)
+{
+	m_Texture = texture;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
 inline void AbsRenderer::SetTransform(std::shared_ptr<TransformObject> transform)
 {
 	assert(transform);
@@ -125,7 +135,14 @@ inline Material* AbsRenderer::GetMaterial() const
 {
 	return (Material*)m_Material.GetSharedObject();
 }
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+inline DefaultTexture* AbsRenderer::GetTexture() const
+{
 
+	return (DefaultTexture*)m_Texture.GetSharedObject();
+}
 };
 };
 //===============================================================

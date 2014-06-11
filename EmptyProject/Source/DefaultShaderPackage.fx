@@ -151,9 +151,17 @@ float4 HalfLambertPS(Default_PS_Input In) : COLOR0
 
 	float3 normal	= normalize(In.Normal);
 	float3 light	= normalize(In.Light);
+	float4 texcolor = tex2D(tex0, In.UV);
+	float3 diffuse	= g_Diffuse.xyz + tex2D(tex0, In.UV).rgb;
+	float ch = texcolor.r + texcolor.g + texcolor.b;
+	if (ch != 0.0)
+	{
+		diffuse = texcolor.rgb;
+		Out.a	= ch;
+	}
 
-	Out.rgb = HalfLambertLighting(normal, light, g_Diffuse.xyz) + g_Ambient.xyz; 
-	Out.a	= g_Diffuse.a + g_Ambient.a;
+	Out.rgb = HalfLambertLighting(normal, light, diffuse) + g_Ambient.xyz; 
+	Out.a	+= g_Diffuse.a + g_Ambient.a;
 
 	return Out;
 }
@@ -255,7 +263,7 @@ technique HalfLambert
 		SrcBlend			= SrcAlpha;
 		DestBlend			= InvSrcAlpha;
 		VertexShader		= compile vs_2_0 DefaultVS();
-		PixelShader			= compile ps_3_0 HalfLambertPS();
+		PixelShader			= compile ps_2_0 HalfLambertPS();
 	}
 	pass P1
 	{

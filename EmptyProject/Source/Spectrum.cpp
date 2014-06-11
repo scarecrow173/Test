@@ -56,7 +56,7 @@ void Spectrum::CreateSpectrumData()
 
 	//std::vector<U32> index;
 	
-	const U32 windowWidth	= WINDOW_WIDTH + 150;
+	const U32 windowWidth	= WINDOW_WIDTH;
 	const U32 windowHeight	= WINDOW_HEIGHT;
 	const F32 sideOffset	= 0.0f;
 	const F32 topOffset		= 0.1f;
@@ -75,7 +75,7 @@ void Spectrum::CreateSpectrumData()
 		Spectrum[0].w	= 1.f;
 		Spectrum[0].u	= 0;//(0.f + 0.5f) / (float)windowWidth;//0.f;
 		Spectrum[0].v	= 0;//(0.f + 0.5f) / (float)windowHeight;//1.f;
-		Spectrum[0].color	= 0x00FF0000;
+		Spectrum[0].color	= 0x0000FF00;
 
 		Spectrum[1].x	= (sideOffset + (onePanelSizeX * ((i / 4) + 1) - (margin * 0.5f))) * windowWidth;
 		Spectrum[1].y	= (topOffset) * windowHeight;
@@ -83,7 +83,7 @@ void Spectrum::CreateSpectrumData()
 		Spectrum[1].w	= 1.f;
 		Spectrum[1].u	= 1;//(1.f + 0.5f) / (float)windowWidth;
 		Spectrum[1].v	= 0;//(0.f + 0.5f) / (float)windowHeight;//1.f;
-		Spectrum[1].color	= 0x00FF0000;
+		Spectrum[1].color	= 0x0000FF00;
 
 		Spectrum[2].x	= (sideOffset + (onePanelSizeX * (i / 4)) + (margin * 0.5f)) * windowWidth;
 		Spectrum[2].y	= 0.98f * windowHeight;
@@ -160,7 +160,11 @@ void Spectrum::CreateSpectrumData()
 		::MessageBoxA( NULL, (LPCSTR)wError->GetBufferPointer(), "Error", MB_OK );	// Ž¸”s‚ÌŒ´ˆö‚ð•\Ž¦
 		wError->Release();
 	}
-	
+	for (int i = 0; i < m_PeakData.GetSize(); ++i )
+	{
+		m_PeakData[i] = FLT_MAX;
+	}
+
 	m_Effect->SetTechnique(m_Effect->GetTechniqueByName("Spectrum"));
 }
 //-------------------------------------------------------------
@@ -182,18 +186,13 @@ void Spectrum::Draw()
 	GraphicsManager::GetInstance()->GetD3DDevice()->GetVertexDeclaration(&olddel);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetVertexDeclaration(NULL);
 
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_Effect->Begin(0,0);
 	m_Effect->BeginPass(0);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetStreamSource(0, m_VertexBuffer, 0, sizeof(SpectrumVertex));
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetFVF(m_FVF);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetIndices(m_IndexBuffer);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, m_Texture);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 	GraphicsManager::GetInstance()->GetD3DDevice()->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, (UINT)m_Vertex.size(), 0, (UINT)m_Index.size() / 3);
-	//GraphicsManager::GetInstance()->GetD3DDevice()->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 64*2);
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(0, NULL);
 
@@ -218,27 +217,24 @@ void Spectrum::Draw()
 //-------------------------------------------------------------
 void Spectrum::Update(const F32* data, const U32 size)
 {
-
-	const U32 div = size / 64;
-	F32 FData[64];
-	for (U32 i = 0; i < 64; ++i)
+	F32* FData = NEW F32[size];
+	for (U32 i = 0; i < size; ++i)
 	{
-		FData[i] = 0.f;
-//		F32 center;
-		for (U32 j = 0; j < div; ++j)
-			FData[i] = FData[i] < data[(div * i) + j] ? data[(div * i) + j] : FData[i];
+		FData[i] = WINDOW_HEIGHT - data[i];
+		if (FData[i] < m_PeakData[i])
+		{
+			m_PeakData[i]		= FData[i];
+			m_Coefficient[i]	= 0.f;
+		}
+		m_Coefficient[i] += m_Coefficient[i] <= 1.f ? 0.002f : 0.f;
+		Math::LinearInterpolation(&FData[i], m_PeakData[i], FData[i], m_Coefficient[i]);
+		
+		const U32 vIndex = i * 4;
+		m_PeakData[i] = m_Vertex[vIndex].y = m_Vertex[vIndex + 1].y = FData[i];
+	}
 
-	}
-	for (U32 i = 0; i < m_Vertex.size(); i += 4)
-	{
-		m_Vertex[i].y = m_Vertex[i+1].y = FData[i/4];
-		//m_Vertex[i+2].v = m_Vertex[i+3].v = m_Vertex[i].y / 480;
-		static const DWORD src = 0x0000FF00;
-		static const DWORD dst = 0x00FF0000;
-		//FData[i/4] + WINDOW_HEIGHT;
-		Math::LinearInterpolation(&m_Vertex[i].color, src, dst, 1.f - (FData[i/4] / WINDOW_HEIGHT));
-		m_Vertex[i + 1].color = m_Vertex[i].color;
-	}
+	SAFE_DELETE_ARRAY(FData);
+
 	SpectrumVertex* vertexData;
 	m_VertexBuffer->Lock(0, NULL, (void**)&vertexData, 0);
 	memcpy(vertexData, &m_Vertex[0], sizeof(SpectrumVertex) * m_Vertex.size());
