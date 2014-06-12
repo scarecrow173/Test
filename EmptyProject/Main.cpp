@@ -116,12 +116,12 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	F32 fft[1024];
 	F32 fft2[64];
 	BASS_ChannelGetData(handle, fft, BASS_DATA_FFT2048); // get the FFT data
-	int b0	= 0;
-	int y	= 0;
+	S32 b0	= 0;
+	S32 y	= 0;
 	for (int i = 0; i < 64; ++i)
 	{
 		F32 peak	= 0.f;
-		int b1		= std::pow(2, i * 10.f / (64 / - 1));
+		S32 b1		= (S32)std::pow(2, i * 10.f / (64 / - 1));
 		if (b1 > 1023)
 			b1 = 1023;
 		if (b1 <= b0)
@@ -130,17 +130,17 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 		{
 			if (peak < fft[1 + b0])
 				peak = fft[1 + b0];
-			y = sqrtf(peak) * 3 * (WINDOW_HEIGHT * 0.9f) - 4;
-			if (y > (WINDOW_HEIGHT * 0.9f))
-				y = (WINDOW_HEIGHT * 0.9f);
-			fft2[i] = y;
+			y = (S32)(sqrtf(peak) * 3 * (WINDOW_HEIGHT * 0.9f) - 4);
+			if (y > (S32)(WINDOW_HEIGHT * 0.9f))
+				y = (S32)(WINDOW_HEIGHT * 0.9f);
+			fft2[i] = (F32)y;
 		}
 	}
 	spectrum->Update(fft2, 64);
 
 
 	g_Root->UpdateNodeTree();
-
+	g_Root->GetStopWatch()->Update(fElapsedTime);
 
 	DEBUG_PRINT_INT(AK::Debug::AutoPerformance::m_ProfileList[0]);
 	DEBUG_PRINT_CHAR("/ƒÊs");
@@ -319,6 +319,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	g_mrg->SetProjection(projction);
 
 	g_Root = AK::RootNode::Create();
+	g_Root->Initialize();
 
 	//g_Device->SetVertexShaderConstantF(0, world,		4);
 	//g_Device->SetVertexShaderConstantF(4, view,			4);

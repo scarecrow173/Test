@@ -1,15 +1,13 @@
 //=======================================================================================
-//!	@file	:	BallStateDead.cpp
-//!	@brief	:	BallStateLaunchStandbyクラスのメンバ関数宣言
+//!	@file	:	StopWatch.cpp
+//!	@brief	:	StopWatchクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
 
-#include "BallStateDead.h"
-#include "BallStateLaunchStandby.h"
-#include "Ball.h"
+#include "StopWatch.h"
 using namespace AK;
 
 //=======================================================================================
@@ -19,53 +17,67 @@ using namespace AK;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-BallStateDead::BallStateDead()
+StopWatch::StopWatch()
+	:	m_Time		(0.f)
+	,	m_IsStop	(false)
 {
 }
+
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-BallStateDead::~BallStateDead()
+StopWatch::~StopWatch()
 {
-
 }
 //=======================================================================================
 //		public method
 //=======================================================================================
-
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::EntryAction(Ball* stateUser)
+void StopWatch::Start()
 {
+	m_IsStop = false;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::InputAction(Ball* stateUser)
+void StopWatch::Stop()
 {
+	m_IsStop = true;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::ExitAction(Ball* stateUser)
+void StopWatch::Update(F32 elapsedTime)
 {
-	stateUser->AddDeathCount();
+	if (m_IsStop)
+		return;
+	m_Time += elapsedTime;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-IState<Ball>* BallStateDead::TransitionAction()
+void StopWatch::Reset()
 {
-	return NEW BallStateLaunchStandby();
+	m_Time = 0.f;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+F32	 StopWatch::GetTime() const
+{
+	return m_Time;
 }
 //=======================================================================================
 //		protected method

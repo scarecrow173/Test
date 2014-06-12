@@ -24,7 +24,7 @@ ScreenEffect::ScreenEffect()
 	,	m_hFadeColor	(NULL)
 {
 	ZeroMemory(m_FadeColor.m, sizeof(float) * 3);
-	m_DrawStep = 10;
+	m_DrawStep = 100000;
 
 	LPD3DXBUFFER wError = NULL;
 	HRESULT hr = D3DXCreateEffectFromFile(

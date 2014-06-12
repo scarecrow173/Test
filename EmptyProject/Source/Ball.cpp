@@ -59,7 +59,6 @@ Ball::Ball(AbsNode* parent, Vector3 pos, Paddle* paddle)
 	m_Collision = NEW CollisionSphere(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), m_Radius);
 	m_Collision->SetReflection(true);
 	m_Collision->SetReflectionFactor(1.1f);
-
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -165,7 +164,7 @@ void Ball::SetPowerup(const bool powerup)
 	{
 		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Metal.csv"));
 		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("CookTorrance");
-		m_PowerupCount = 120;
+		m_PowerupCount = 360;
 	}
 	else
 	{

@@ -25,7 +25,7 @@ using namespace Graphics;
 //-------------------------------------------------------------
 DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 {
-	m_DrawStep	= 10000;
+	m_DrawStep	= 10001;
 	m_Color		= 0xFFFFFFFF;
 
 	D3DXMatrixIdentity(&m_World);
@@ -216,7 +216,7 @@ void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
 		D3DXMatrixTranslation(&FontTrans, offset_x, offset_y, 0.f);
 		D3DXMatrixMultiply(&localMatrix, &FontScal, &FontTrans);
 		
-		offset_x += (F32)findIT->second.gmBlackBoxX;
+		offset_x += (F32)findIT->second.gmCellIncX - findIT->second.gmptGlyphOrigin.x;
 		(F32)findIT->second.gmCellIncX;
 
 		GraphicsManager::GetInstance()->GetSprite()->SetTransform(&(localMatrix * m_World));

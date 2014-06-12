@@ -15,6 +15,7 @@
 #include "PrimitivePool.h"
 #include "TexturePool.h"
 #include "Material.h"
+#include "RootNode.h"
 #include <algorithm>
 
 
@@ -26,7 +27,6 @@ using namespace Collision;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-//	残り56分
 static std::string	MaterialDataCode[BLOCK_LEVEL_NUM] = 
 {
 	"file:Default-Assets/CSV/Material/BlockLevel1.csv",
@@ -118,10 +118,40 @@ bool Block::Death()
 
 	m_Renderer->SetActive(false);
 	m_Collision->SetActive(false);
+	U32 addingScore = 0;
+	switch(m_BlockLevel)
+	{
+	case BLOCK_WHITE:
+		addingScore = 50;
+		break;
+	case BLOCK_ORANGE:
+		addingScore = 60;
+		break;
+	case BLOCK_AQUA:
+		addingScore = 70;
+		break;
+	case BLOCK_GREEN:
+		addingScore = 80;
+		break;
+	case BLOCK_RED:
+		addingScore = 90;
+		break;
+	case BLOCK_BLUE:
+		addingScore = 100;
+		break;
+	case BLOCK_PINK:
+		addingScore = 110;
+		break;
+	case BLOCK_HARD:
+		addingScore = 300;
+		break;
+	case BLOCK_IMMORTALITY:
+	case BLOCK_LEVEL_NUM:
+	default:
+		break;
+	}
+	RootNode::GetInstance()->GetScorer()->AddScore(addingScore);
 	return true;
-
-	//m_Renderer->SetMaterial(BlockStrengthMaterial[m_LifeCount - 1]);
-	return false;
 }
 //-------------------------------------------------------------
 //!	@brief		: 死んだときになるSEのハンドルをセット

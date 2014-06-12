@@ -11,6 +11,9 @@
 #include "ScreenEffect.h"
 #include "DefaultShader.h"
 #include "DrawFonts.h"
+#include "UIStepDefault.h"
+#include "UIStepAdd.h"
+#include "UITextureRenderer.h"
 namespace AK
 {
 namespace Graphics{class AbsShaderObject;}; 
@@ -61,11 +64,13 @@ public:
 
 	
 	bool				IsEnd()								const;
+	bool				IsGameOver()						const;
 	const Paddle*		GetPaddle(const U32 index = 0)		const;
 	const Wall*			GetWall(const U32 index)			const;
 	Ball*				GetBall(const U32 index = 0)		const;
 	const Item*			GetItem(const U32 index = 0)		const;
 	void				SetEnd(const bool end);
+	void				SetGameOver(const bool gameOver);
 	void				SetPaddle(Paddle* paddle, const U32 id = 0);
 	void				SetWall(Wall* wall, const U32 id);
 	void				SetBall(Ball* ball, const U32 id = 0);
@@ -79,6 +84,7 @@ private:
 	bool				CreatePadle();
 	bool				CreateBlock();
 	bool				CreateFont();
+	bool				CreateFontArea();
 
 	void				StartStage();
 	void				SlideInStageFont();
@@ -90,6 +96,8 @@ private:
 
 	void				StartStageClear();
 	void				DownClearFont();
+
+	void				UpdateScore();
 	//void				StageClear();
 
 
@@ -121,6 +129,14 @@ private:
 	Graphics::DrawFonts*			m_RStageFont;
 	Graphics::DrawFonts*			m_StartFont;
 	Graphics::DrawFonts*			m_ClearFont;
+	Graphics::DrawFonts*			m_TimeFont;
+	Graphics::DrawFonts*			m_TimeNumFont;
+	Graphics::DrawFonts*			m_ScoreFont;
+	Graphics::DrawFonts*			m_ScoreNumFont;
+	Graphics::UIStepDefault*		m_OpacityStep;
+	Graphics::UIStepAdd*			m_AddStep;
+	Graphics::UITextureRenderer*	m_ScoreArea;
+	Graphics::UITextureRenderer*	m_EffectTest;
 
 	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;
@@ -133,6 +149,7 @@ private:
 
 
 	F32								m_StopCount;
+	U32								m_CrrentScore;
 
 };
 

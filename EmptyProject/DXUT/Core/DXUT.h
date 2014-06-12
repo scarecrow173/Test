@@ -148,6 +148,9 @@ enum RTTI_ID
 	RadialBlur,
 	MotionBlur,
 	BlendMultiTexturesShader,
+	UIStepDefault,
+	UIStepHalfAdd,
+	UIStepAdd,
 
 	RTTI_MAX_NUM
 

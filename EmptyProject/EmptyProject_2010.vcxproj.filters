@@ -268,6 +268,27 @@
     <ClCompile Include="Source\AbsNode.cpp">
       <Filter>Source\Utill</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scorer.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UITextureRenderer.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StopWatch.cpp">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIStepDefault.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIStepHalfAdd.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIStepAdd.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TEST.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -496,6 +517,24 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\GraphicsUtil.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scorer.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UITextureRenderer.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StopWatch.h">
+      <Filter>Source\InGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIStepDefault.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIStepAdd.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIStepHalfAdd.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,13 +19,8 @@ RootNode*	RootNode::m_Instance = NULL;
 //-------------------------------------------------------------
 RootNode::RootNode()
 	:	AbsNode		(NULL)	
-	,	m_Time		(0.f)
 	,	m_NowScene	(NULL)
 {
-	m_NowScene = NEW Title(this);
-	m_NowScene->Initialize();
-	AttachNode(m_NowScene);
-
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -52,6 +47,16 @@ void RootNode::Destroy()
 	SAFE_DELETE(m_Instance);
 }
 //-------------------------------------------------------------
+//!	@brief		: 初期化
+//-------------------------------------------------------------
+bool RootNode::Initialize()
+{
+	m_NowScene = NEW Title(this);
+	m_NowScene->Initialize();
+	AttachNode(m_NowScene);
+	return true;
+}
+//-------------------------------------------------------------
 //!	@brief		: 更新
 //-------------------------------------------------------------
 void RootNode::Update()
@@ -65,6 +70,20 @@ void RootNode::Update()
 		m_NowScene->Initialize();
 		AttachNode(m_NowScene);
 	}
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+Scorer*	 RootNode::GetScorer()
+{
+	return &m_Score;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+StopWatch* RootNode::GetStopWatch()
+{
+	return &m_StopWatch;
 }
 //=======================================================================================
 //		End Of File

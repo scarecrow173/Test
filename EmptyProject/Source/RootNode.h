@@ -5,6 +5,8 @@
 //=======================================================================================
 #pragma once
 #include "AbsNode.h"
+#include "Scorer.h"
+#include "StopWatch.h"
 
 namespace AK
 {
@@ -25,7 +27,11 @@ public:
 
 	RTTI_IS_A(RootNode);
 	virtual void		Update();
+
+	bool				Initialize();
 	
+	Scorer*				GetScorer();
+	StopWatch*			GetStopWatch();
 
 private:
 	RootNode();
@@ -34,7 +40,9 @@ private:
 	static RootNode*	m_Instance;
 
 	SceneNode*			m_NowScene;
-	F32					m_Time;
+
+	StopWatch			m_StopWatch;
+	Scorer				m_Score;
 
 };
 //-------------------------------------------------------------

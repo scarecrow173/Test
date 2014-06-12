@@ -23,7 +23,7 @@
 #include "MotionBlur.h"
 #include "DrawFonts.h"
 #include "ChangeViewport.h"
-
+#include "RootNode.h"
 
 
 using namespace AK;
@@ -107,6 +107,8 @@ bool Title::Initialize()
 {
 	SoundManager::GetInstance()->SetVolumeBGM(TITLE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(TITLE_BGM_NUM, TRUE);
+
+//	RootNode::GetInstance()->GetScore()->Reset();
 
 	m_Shader = NEW DefaultShader();
 	//m_Shader = NEW UseFixed();CookTorrance

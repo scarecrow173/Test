@@ -38,7 +38,9 @@ BallStateLaunchStandby::~BallStateLaunchStandby()
 //!	@return		: example
 //-------------------------------------------------------------
 void BallStateLaunchStandby::EntryAction(Ball* stateUser)
-{}
+{
+
+}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example

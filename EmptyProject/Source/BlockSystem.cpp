@@ -77,7 +77,7 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject
 		if (StageData[i].GetInteger() == 0)
 			continue;
 
-		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 450.f - ((i / StageData.row) * 100.f), 0);
+		Vector3 vec3(450.f - ((i % StageData.row) * 125.f) , 400.f - ((i / StageData.row) * 100.f), 0);
 		Block* block = NEW Block(this, vec3, StageData[i].GetInteger());
 		block->SetSEHandle((i % StageData.row) + 1);
 		this->AttachNode(block);

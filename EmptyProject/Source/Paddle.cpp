@@ -32,7 +32,7 @@ using namespace Collision;
 Paddle::Paddle(AbsNode* parent, Vector3 pos)
 	:	GameObject	(parent, pos)
 	,	m_Item		(NULL)
-	,	m_Speed		(3.f)
+	,	m_Speed		(2.2f)
 	,	m_Size		(1.f, 1.f, 1.f)
 {
 	static const F32 PADDLE_WIDTH	= 300.f;
@@ -78,8 +78,6 @@ void Paddle::Update()
 	m_Collision->Update(l_list);
 
 	Move();
-
-
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -114,11 +112,11 @@ void Paddle::Affect(GameObject* obj)
 		ball->SetPowerup(true);
 		break;
 	case SPEED_UP:
-		m_Speed *= 1.1f;
+		m_Speed *= 1.5f;
 		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedUp.csv"));
 		break;
 	case SPEED_DOWN:
-		m_Speed *= 0.9f;
+		m_Speed *= 0.5f;
 		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedDown.csv"));
 		break;
 	case EXTEND_PADLLE:

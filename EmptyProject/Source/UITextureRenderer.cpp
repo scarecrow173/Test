@@ -1,71 +1,47 @@
 //=======================================================================================
-//!	@file	:	BallStateDead.cpp
-//!	@brief	:	BallStateLaunchStandbyクラスのメンバ関数宣言
+//!	@file	:	Sample.cpp
+//!	@brief	:	Sampleクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
 
-#include "BallStateDead.h"
-#include "BallStateLaunchStandby.h"
-#include "Ball.h"
+#include "UITextureRenderer.h"
+#include "GraphicsManager.h"
 using namespace AK;
-
+using namespace Graphics;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-BallStateDead::BallStateDead()
+UITextureRenderer::UITextureRenderer(TextureAnimationController& info)
+	:	m_TextureRect	(info)
 {
+	m_Color = 0x8FFFFFFF;
+	m_RenderState = (D3DRENDERSTATETYPE)0;
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-BallStateDead::~BallStateDead()
+UITextureRenderer::~UITextureRenderer()
 {
-
 }
 //=======================================================================================
 //		public method
 //=======================================================================================
-
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::EntryAction(Ball* stateUser)
+void UITextureRenderer::Draw()
 {
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void BallStateDead::InputAction(Ball* stateUser)
-{
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-void BallStateDead::ExitAction(Ball* stateUser)
-{
-	stateUser->AddDeathCount();
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-IState<Ball>* BallStateDead::TransitionAction()
-{
-	return NEW BallStateLaunchStandby();
+	m_TextureRect.Update(1.f/60.f);
+	GraphicsManager::GetInstance()->GetSprite()->SetTransform(&m_Transform->GetTransform());
+	GraphicsManager::GetInstance()->GetSprite()->Draw(GetTexture()->GetTexture(), &m_TextureRect.GetRect(), NULL, NULL, m_Color);
 }
 //=======================================================================================
 //		protected method

@@ -24,6 +24,8 @@
 #include "ItemSystem.h"
 #include "DefaultShader.h"
 #include "MotionBlur.h"
+#include "RootNode.h"
+#include "TexturePool.h"
 
 
 using namespace AK;
@@ -60,6 +62,7 @@ Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	,	m_BlockSystem	(NULL)
 	,	m_ItemSystem	(NULL)
 	,	m_StopCount		(0.f)
+	,	m_CrrentScore	(0)
 {
 	for (S32 i = 0; i < PADDLE_NUM; ++i)
 		m_Paddle[i] = NULL;
@@ -81,6 +84,11 @@ Stage1::~Stage1()
 	GraphicsManager::GetInstance()->EraseShaderObject(m_RStageFont);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_StartFont);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_ClearFont);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_ScoreFont);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_ScoreNumFont);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_OpacityStep);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_AddStep);
+
 	SAFE_DELETE(m_Shader);
 	SAFE_DELETE(m_FadeShader);
 	SAFE_DELETE(m_FadeRenderer);
@@ -89,7 +97,10 @@ Stage1::~Stage1()
 	SAFE_DELETE(m_RStageFont);
 	SAFE_DELETE(m_StartFont);
 	SAFE_DELETE(m_ClearFont);
-
+	SAFE_DELETE(m_ScoreFont);
+	SAFE_DELETE(m_ScoreNumFont);
+	SAFE_DELETE(m_OpacityStep);
+	SAFE_DELETE(m_AddStep);
 }
 //=======================================================================================
 //		public method
@@ -100,6 +111,8 @@ Stage1::~Stage1()
 void Stage1::Update()
 {
 	DEBUG_PRINT_CHAR("STAGE_01");
+
+	UpdateScore();
 	if (m_StageCount >= STAGE_MAX)
 		return;
 
@@ -136,6 +149,9 @@ bool Stage1::Initialize()
 	if (m_StageCount >= STAGE_MAX)
 		return false;
 
+	RootNode::GetInstance()->GetStopWatch()->Reset();
+	RootNode::GetInstance()->GetStopWatch()->Stop();
+
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
 	
@@ -164,12 +180,18 @@ bool Stage1::Initialize()
 	CreateWall();
 	
 	CreateFont();
+	CreateFontArea();
 
 
+
+	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
+	GraphicsManager::GetInstance()->AddShaderObject(m_AddStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_LStageFont);
 	GraphicsManager::GetInstance()->AddShaderObject(m_RStageFont);
 	GraphicsManager::GetInstance()->AddShaderObject(m_StartFont);
 	GraphicsManager::GetInstance()->AddShaderObject(m_ClearFont);
+	GraphicsManager::GetInstance()->AddShaderObject(m_ScoreFont);
+	GraphicsManager::GetInstance()->AddShaderObject(m_ScoreNumFont);
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	
@@ -186,6 +208,9 @@ bool Stage1::Initialize()
 	m_StopCount		= 0;
 	m_IsStartStage	= true;
 	m_ClearStep		= (StageClearStep)0;
+
+	m_CrrentScore = RootNode::GetInstance()->GetScorer()->GetScore();
+
 	
 	return true;
 }
@@ -222,9 +247,25 @@ bool Stage1::IsEnd() const
 //!	@brief		: 
 //!	@return		: 
 //-------------------------------------------------------------
+bool Stage1::IsGameOver()const
+{
+	return m_IsGameOver;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
 void Stage1::SetEnd(const bool end)
 {
 	m_IsEnd = end;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::SetGameOver(const bool gameOver)
+{
+	m_IsGameOver = gameOver;
 }
 //-------------------------------------------------------------
 //!	@brief		: 
@@ -375,7 +416,7 @@ bool Stage1::CreateWall()
 bool Stage1::CreateBall()
 {
 	//	ボール作成
-	const Vector3 ballPos(0.f, -250.f, 0.f);
+	const Vector3 ballPos(0.f, -290.f, 0.f);
 	m_Ball[0] = NEW Ball(this, ballPos, m_Paddle[0]);
 	m_Ball[0]->SetShader(m_CookTorrance);
 	m_Shader->AddRenderer(m_Ball[0]->GetRenderer());
@@ -440,7 +481,50 @@ bool Stage1::CreateFont()
 	m_ClearFont->Initilize();
 	m_ClearFont->SetDrawString(L"StageClear!!");
 	m_ClearFont->SetWorld(firstFontPositon);
+
+	m_ScoreFont = NEW DrawFonts(32, 32, "ＭＳ Ｐゴシック");
+	m_ScoreFont->Initilize();
+	m_ScoreFont->SetDrawString(L"Score:");
+	D3DXMatrixIdentity(&firstFontPositon);
+	D3DXMatrixTranslation(&firstFontPositon, 16.f, 0, 0.f);
+	m_ScoreFont->SetWorld(firstFontPositon);
+
+	m_ScoreNumFont = NEW DrawFonts(32, 32, "ＭＳ Ｐゴシック");
+	D3DXMatrixTranslation(&firstFontPositon,  firstFontPositon._41 + (16.f * 5), 0, 0.f);
+	m_ScoreNumFont->Initilize();
+	m_ScoreNumFont->SetWorld(firstFontPositon);
+
 	
+	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+bool Stage1::CreateFontArea()
+{
+	m_OpacityStep	= NEW UIStepDefault();
+	m_OpacityStep->Initilize();
+	RECT fontAreaRECT;
+	fontAreaRECT.bottom = 512;
+	fontAreaRECT.top	= 0;
+	fontAreaRECT.right	= 512;
+	fontAreaRECT.left	= 0;
+	m_ScoreArea = NEW UITextureRenderer(TextureAnimationController(fontAreaRECT, 1,1));
+	m_ScoreArea->SetTransform(std::make_shared<TransformObject>(Vector3(0.f,1.f,0.f), Vector3(0.35f, 0.07f, 1.f)));
+	m_ScoreArea->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/e-tex1-2-2.jpg"));
+	m_OpacityStep->AddRenderer(m_ScoreArea);
+
+	m_AddStep	 = NEW UIStepAdd();
+	m_AddStep->Initilize();
+	fontAreaRECT.bottom = 512;
+	fontAreaRECT.top	= 0;
+	fontAreaRECT.right	= 682;
+	fontAreaRECT.left	= 0;
+	m_EffectTest = NEW UITextureRenderer(TextureAnimationController(fontAreaRECT, 3,2));
+	m_EffectTest->SetTransform(std::make_shared<TransformObject>(Vector3(0.f,0.f,0.f), Vector3(0.2f, 0.2f, 1.f)));
+	m_EffectTest->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitP.png"));
+	m_AddStep->AddRenderer(m_EffectTest);
 	return true;
 }
 //-------------------------------------------------------------
@@ -472,6 +556,7 @@ void Stage1::StartStage()
 	case START_STAGE_END:
 		m_IsStartStage = false;
 		SetChildrenActive(true);
+		RootNode::GetInstance()->GetStopWatch()->Start();
 		break;
 	default:
 		break;
@@ -505,7 +590,7 @@ void Stage1::SlideInStageFont()
 //-------------------------------------------------------------
 void Stage1::StopStageFont()
 {
-	static const U32 END_COUNT = 90.f;
+	static const U32 END_COUNT = 90;
 	++m_StopCount;
 
 	if (m_StopCount > END_COUNT)
@@ -541,16 +626,6 @@ void Stage1::SlideOutStageFont()
 //-------------------------------------------------------------
 void Stage1::SlideInStartFont()
 {
-	//static const F32 SLIDE_SPEED				= 5.f;
-	//static const F32 START_FONTS_CENTER_OFFSET	= 64.f * 2.5f;
-
-	//Matrix fontsPosition;
-	//fontsPosition	= m_StartFont->GetWorld();
-
-	//D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
-	//m_StartFont->SetWorld(fontsPosition);
-	//if (fontsPosition._41 > (WINDOW_WIDTH / 2) - START_FONTS_CENTER_OFFSET )
-
 	static const DWORD ADDING_ALPHA = 16;
 	DWORD color = m_StartFont->GetColor();
 	color += ADDING_ALPHA << 24;
@@ -569,7 +644,7 @@ void Stage1::SlideInStartFont()
 //-------------------------------------------------------------
 void Stage1::StopStartFont()
 {
-	static const U32 END_COUNT = 20.f;
+	static const U32 END_COUNT = 20;
 	++m_StopCount;
 	
 	if (m_StopCount >= END_COUNT)
@@ -584,15 +659,6 @@ void Stage1::StopStartFont()
 //-------------------------------------------------------------
 void Stage1::SlideOutStartFont()
 {
-	//static const F32 SLIDE_SPEED = 5.f;
-
-	//Matrix fontsPosition;
-	//fontsPosition	= m_StartFont->GetWorld();
-	//D3DXMatrixTranslation(&fontsPosition, fontsPosition._41 + SLIDE_SPEED, fontsPosition._42, 0.f);
-	//m_StartFont->SetWorld(fontsPosition);
-	//
-	//
-	//if (fontsPosition._41 > WINDOW_WIDTH)
 	static const DWORD ADDING_ALPHA = 16;
 	DWORD color = m_StartFont->GetColor();
 	color -= ADDING_ALPHA << 24;
@@ -635,6 +701,21 @@ void Stage1::DownClearFont()
 	if (fontsPosition._42 > WINDOW_HEIGHT)
 		m_ClearStep = FADE_SCENE;
 
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@return		: 
+//-------------------------------------------------------------
+void Stage1::UpdateScore()
+{
+	//	ここでやらずにスコアが増えたタイミングでやったほうがいい
+	//	ただ更新し続けることも考慮しなきゃいけないのでとりあえずこれで
+	const U32 targetScore	= RootNode::GetInstance()->GetScorer()->GetScore();
+	const U32 distance		= targetScore - m_CrrentScore;
+	static const F32 K		= 0.1f;
+	m_CrrentScore			+= (U32)(distance * K) <= 1 ? distance : (U32)(distance * K);
+
+ 	m_ScoreNumFont->SetDrawString(std::to_wstring((_ULonglong)m_CrrentScore));
 }
 //-------------------------------------------------------------
 //!	@brief		: 

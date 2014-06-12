@@ -160,9 +160,9 @@ void Spectrum::CreateSpectrumData()
 		::MessageBoxA( NULL, (LPCSTR)wError->GetBufferPointer(), "Error", MB_OK );	// Ž¸”s‚ÌŒ´ˆö‚ð•\Ž¦
 		wError->Release();
 	}
-	for (int i = 0; i < m_PeakData.GetSize(); ++i )
+	for (U32 i = 0; i < m_PeakData.GetSize(); ++i )
 	{
-		m_PeakData[i] = FLT_MAX;
+		m_PeakData[i] = -FLT_MAX;
 	}
 
 	m_Effect->SetTechnique(m_Effect->GetTechniqueByName("Spectrum"));
@@ -217,23 +217,18 @@ void Spectrum::Draw()
 //-------------------------------------------------------------
 void Spectrum::Update(const F32* data, const U32 size)
 {
-	F32* FData = NEW F32[size];
 	for (U32 i = 0; i < size; ++i)
 	{
-		FData[i] = WINDOW_HEIGHT - data[i];
-		if (FData[i] < m_PeakData[i])
-		{
-			m_PeakData[i]		= FData[i];
-			m_Coefficient[i]	= 0.f;
-		}
-		m_Coefficient[i] += m_Coefficient[i] <= 1.f ? 0.002f : 0.f;
-		Math::LinearInterpolation(&FData[i], m_PeakData[i], FData[i], m_Coefficient[i]);
+		F32 Fdata = data[i];
+		if (Fdata > m_PeakData[i])
+			m_PeakData[i]		= Fdata;
+
+		Math::LinearInterpolation(&m_PeakData[i], m_PeakData[i], Fdata, 0.02f);
 		
 		const U32 vIndex = i * 4;
-		m_PeakData[i] = m_Vertex[vIndex].y = m_Vertex[vIndex + 1].y = FData[i];
+		m_Vertex[vIndex].y = m_Vertex[vIndex + 1].y = WINDOW_HEIGHT - m_PeakData[i];
 	}
 
-	SAFE_DELETE_ARRAY(FData);
 
 	SpectrumVertex* vertexData;
 	m_VertexBuffer->Lock(0, NULL, (void**)&vertexData, 0);

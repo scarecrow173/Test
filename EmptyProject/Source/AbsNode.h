@@ -26,14 +26,14 @@ public:
 	RTTI_IS_A_BASE(AbsNode);
 	
 	void		AttachNode(AbsNode* node);
-	AbsNode*		DetachNode(U32 findHandle);
-	AbsNode*		FindNode(U32 findHandle);
+	AbsNode*	DetachNode(U32 findHandle);
+	AbsNode*	FindNode(U32 findHandle);
 	GameObject*	FindNode(Collision::AbsCollisionObject* collison);
 
 	bool		GetActive()	const;
 	void		SetActive(const bool active);
 	U32			GetHandle() const;
-	AbsNode*		GetParent() const;
+	AbsNode*	GetParent() const;
 
 	void	UpdateNodeTree();
 	virtual void	Update()	= 0;

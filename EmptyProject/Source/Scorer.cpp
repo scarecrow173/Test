@@ -1,15 +1,13 @@
 //=======================================================================================
-//!	@file	:	BallStateDead.cpp
-//!	@brief	:	BallStateLaunchStandbyクラスのメンバ関数宣言
+//!	@file	:	Sample.cpp
+//!	@brief	:	Sampleクラスのメンバ関数宣言
 //!	@author	:	小山 瑛圭
 //!	@date	:	2014/5/01
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
 
-#include "BallStateDead.h"
-#include "BallStateLaunchStandby.h"
-#include "Ball.h"
+#include "Scorer.h"
 using namespace AK;
 
 //=======================================================================================
@@ -19,16 +17,14 @@ using namespace AK;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-BallStateDead::BallStateDead()
-{
-}
+Scorer::Scorer()
+	:	m_Score	(0)
+{}
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
-BallStateDead::~BallStateDead()
-{
-
-}
+Scorer::~Scorer()
+{}
 //=======================================================================================
 //		public method
 //=======================================================================================
@@ -38,34 +34,27 @@ BallStateDead::~BallStateDead()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::EntryAction(Ball* stateUser)
+void Scorer::AddScore(const U32 addScore)
 {
+	m_Score += addScore;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::InputAction(Ball* stateUser)
+void Scorer::Reset()
 {
+	m_Score = 0;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void BallStateDead::ExitAction(Ball* stateUser)
+U32	Scorer::GetScore()	const
 {
-	stateUser->AddDeathCount();
-}
-//-------------------------------------------------------------
-//!	@brief		: example
-//!	@param[in]	: example
-//!	@return		: example
-//-------------------------------------------------------------
-IState<Ball>* BallStateDead::TransitionAction()
-{
-	return NEW BallStateLaunchStandby();
+	return m_Score;
 }
 //=======================================================================================
 //		protected method
