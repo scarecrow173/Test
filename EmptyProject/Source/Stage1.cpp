@@ -39,6 +39,8 @@ std::string	Stage1::StageDataPath[STAGE_MAX] =
 	"Assets/CSV/Stage/Stage01.csv",
 	"Assets/CSV/Stage/Stage02.csv",
 	"Assets/CSV/Stage/Stage03.csv",
+	"Assets/CSV/Stage/Stage04.csv",
+//	"Assets/CSV/Stage/LastStage.csv",
 };
 static const U32 STAGE_BGM_NUM	= 3;
 static const U32 CLEAR_JINGLE	= 9;
@@ -101,6 +103,7 @@ Stage1::~Stage1()
 	SAFE_DELETE(m_ScoreNumFont);
 	SAFE_DELETE(m_OpacityStep);
 	SAFE_DELETE(m_AddStep);
+	SAFE_DELETE(m_ScoreArea)
 }
 //=======================================================================================
 //		public method
@@ -174,6 +177,10 @@ bool Stage1::Initialize()
 	fadeColor.m[2] = 1.f;
 	m_FadeShader->SetFadeColor(fadeColor);
 
+	m_AddStep	 = NEW UIStepAdd();
+	m_AddStep->Initilize();
+	m_AddStep->SetActive(true);
+
 	CreatePadle();
 	CreateBall();
 	CreateBlock();
@@ -182,7 +189,9 @@ bool Stage1::Initialize()
 	CreateFont();
 	CreateFontArea();
 
-
+	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitN.png");
+	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_auraA.png");
+	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_lightR.png");
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_AddStep);
@@ -228,6 +237,8 @@ void Stage1::PopItem(Vector3 pos)
 	S32 r = std::rand() % 4;
 	Item* pop = NEW Item(m_ItemSystem, pos, (ITEM_TYPE)r);
 	m_Shader->AddRenderer(pop->GetRenderer());
+	m_AddStep->AddRenderer(pop->GetEffectRenderer());
+
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	m_ItemSystem->AddItem(pop);
@@ -386,7 +397,7 @@ bool Stage1::CreateWall()
 	const Vector3 lv(offset, 0, 0);
 	const Vector3 rv(-offset, 0, 0);
 	const Vector3 tv(0.f, offset, 0.f);
-	const Vector3 bv(0.f, -offset, 0.f);
+	const Vector3 bv(0.f, -offset - 100, 0.f);
 
 	
 	m_Wall[WALL_LEFT]	= NEW Wall(this, lv, WALL_LEFT);
@@ -442,7 +453,7 @@ bool Stage1::CreateBlock()
  	m_BlockSystem = NEW BlockSystem(this);
 	m_Ball[0]->SetBlockSystem(m_BlockSystem);
 	m_BlockSystem->SetBall(m_Ball[0]);
-	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader);
+	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader, m_AddStep);
 	return true;
 }
 //-------------------------------------------------------------
@@ -473,7 +484,7 @@ bool Stage1::CreateFont()
 	m_StartFont->SetWorld(firstFontPositon);
 	m_StartFont->SetColor(0x00FFFFFF);
 
-	static const F32 CLEAR_FONTS_CENTER_OFFSET	= 64.f * 4.f;
+	static const F32 CLEAR_FONTS_CENTER_OFFSET	= 64.f * 5.f;
 	D3DXMatrixIdentity(&firstFontPositon);
 	D3DXMatrixTranslation(&firstFontPositon,  (WINDOW_WIDTH / 2) - CLEAR_FONTS_CENTER_OFFSET, - (256.f), 0.f);
 
@@ -505,26 +516,13 @@ bool Stage1::CreateFontArea()
 {
 	m_OpacityStep	= NEW UIStepDefault();
 	m_OpacityStep->Initilize();
-	RECT fontAreaRECT;
-	fontAreaRECT.bottom = 512;
-	fontAreaRECT.top	= 0;
-	fontAreaRECT.right	= 512;
-	fontAreaRECT.left	= 0;
-	m_ScoreArea = NEW UITextureRenderer(TextureAnimationController(fontAreaRECT, 1,1));
+	m_ScoreArea = NEW UITextureRenderer(NEW TextureAnimationController(512, 512, 1,1));
 	m_ScoreArea->SetTransform(std::make_shared<TransformObject>(Vector3(0.f,1.f,0.f), Vector3(0.35f, 0.07f, 1.f)));
 	m_ScoreArea->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/e-tex1-2-2.jpg"));
 	m_OpacityStep->AddRenderer(m_ScoreArea);
 
-	m_AddStep	 = NEW UIStepAdd();
-	m_AddStep->Initilize();
-	fontAreaRECT.bottom = 512;
-	fontAreaRECT.top	= 0;
-	fontAreaRECT.right	= 682;
-	fontAreaRECT.left	= 0;
-	m_EffectTest = NEW UITextureRenderer(TextureAnimationController(fontAreaRECT, 3,2));
-	m_EffectTest->SetTransform(std::make_shared<TransformObject>(Vector3(0.f,0.f,0.f), Vector3(0.2f, 0.2f, 1.f)));
-	m_EffectTest->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitP.png"));
-	m_AddStep->AddRenderer(m_EffectTest);
+
+	
 	return true;
 }
 //-------------------------------------------------------------

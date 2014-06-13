@@ -431,6 +431,7 @@
     <ClCompile Include="Source\Spectrum.cpp" />
     <ClCompile Include="Source\Stage1.cpp" />
     <ClCompile Include="Source\StopWatch.cpp" />
+    <ClCompile Include="Source\TextureAnimationController.cpp" />
     <ClCompile Include="Source\TexturePool.cpp" />
     <ClCompile Include="Source\Title.cpp" />
     <ClCompile Include="Source\TriangleRenderer.cpp" />
@@ -510,6 +511,7 @@
     <ClInclude Include="Source\IState.h" />
     <ClInclude Include="Source\StopWatch.h" />
     <ClInclude Include="Source\StringEncoder.h" />
+    <ClInclude Include="Source\TextureAnimationController.h" />
     <ClInclude Include="Source\TexturePool.h" />
     <ClInclude Include="Source\Title.h" />
     <ClInclude Include="Source\TransformObject.h" />

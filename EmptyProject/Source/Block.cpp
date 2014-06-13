@@ -17,7 +17,7 @@
 #include "Material.h"
 #include "RootNode.h"
 #include <algorithm>
-
+#include "MyMath.h"
 
 
 using namespace AK;
@@ -48,6 +48,8 @@ Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 	:	GameObject	(parent, pos)
 	,	m_LifeCount	(lifeCount)
 	,	m_SEHandle		(0)
+	,	m_DeadStep		(DeadStep::StopedStep)
+	,	m_HardEffectStep(HardBlockStep::StopedHardEffectStep)
 {
 	if (!g_InitializedMaterials)
 	{
@@ -73,7 +75,17 @@ Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
 	m_Renderer->SetMaterial(BlockStrengthMaterial[m_BlockLevel]);
 
+	m_EffectContoroller	= NEW TextureAnimationController(4096, 1024, 7, 2, 0.032f);
+	m_Effect			= NEW UITextureRenderer(m_EffectContoroller);
+	m_Effect->Initialize();
+	m_Effect->SetActive(false);
+	m_Effect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitN.png"));
 
+	m_HardEffectContoroller	= NEW TextureAnimationController(1024, 1024, 4, 3, 0.032f);
+	m_HardEffect			= NEW UITextureRenderer(m_HardEffectContoroller);
+	m_HardEffect->Initialize();
+	m_HardEffect->SetActive(false);
+	m_HardEffect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_lightR.png"));
 
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(WIDTH, HEIGHT, 50.f));
 
@@ -86,6 +98,8 @@ Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 //-------------------------------------------------------------
 Block::~Block()
 {
+	SAFE_DELETE(m_Effect);
+	SAFE_DELETE(m_HardEffect);
 }
 //=======================================================================================
 //		public method
@@ -98,6 +112,22 @@ Block::~Block()
 //-------------------------------------------------------------
 void Block::Update()
 {
+	switch(m_DeadStep)
+	{
+	case DeadStep::StopedStep:
+		break;
+	case DeadStep::StartDeadStep:
+		StartDeadStep();
+		break;
+	case DeadStep::UpdateEffectStep:
+		UpdateEffectStep();
+		break;
+	case DeadStep::EndDeadStep:
+		EndDeadStep();
+		break;
+	default:
+		break;
+	}
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -115,9 +145,21 @@ bool Block::Death()
 	Sound::SoundManager::GetInstance()->PlaySE(m_SEHandle, TRUE);
 	if (m_BlockLevel == BLOCK_IMMORTALITY)
 		return true;
-
-	m_Renderer->SetActive(false);
-	m_Collision->SetActive(false);
+	if (--m_LifeCount > 0)
+	{
+		switch(m_HardEffectStep)
+		{
+		case HardBlockStep::StopedHardEffectStep:
+			break;
+		case HardBlockStep::StartHardEffectStep:
+			break;
+		case HardBlockStep::UpdateHardEffectStep:
+			break;
+		case HardBlockStep::EndHardEffectStep:
+			break;
+		}
+		return false;
+	}
 	U32 addingScore = 0;
 	switch(m_BlockLevel)
 	{
@@ -151,6 +193,7 @@ bool Block::Death()
 		break;
 	}
 	RootNode::GetInstance()->GetScorer()->AddScore(addingScore);
+	m_DeadStep = DeadStep::StartDeadStep;
 	return true;
 }
 //-------------------------------------------------------------
@@ -160,6 +203,20 @@ void Block::SetSEHandle(const U32 handle)
 {
 	m_SEHandle = handle;
 }
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+UITextureRenderer* Block::GetEffectRenderer() const
+{
+	return m_Effect;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+UITextureRenderer* Block::GetHardEffectRenderer() const
+{
+	return m_HardEffect;
+}
 //=======================================================================================
 //		protected method
 //=======================================================================================
@@ -167,7 +224,79 @@ void Block::SetSEHandle(const U32 handle)
 //=======================================================================================
 //		private method
 //=======================================================================================
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Block::StartDeadStep()
+{
+	m_Renderer->SetActive(false);
+	m_Collision->SetActive(false);
+	m_Effect->SetActive(true);
+	m_Effect->SetTransform(std::make_shared<TransformObject>(GetTransformTo2D()));
 
+	m_DeadStep = DeadStep::UpdateEffectStep;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Block::UpdateEffectStep()
+{
+	if (m_EffectContoroller->IsEnd())
+	{
+		m_Effect->SetActive(false);
+		m_DeadStep = DeadStep::EndDeadStep;
+	}
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Block::EndDeadStep()
+{
+	SetActive(false);
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Block::StopedHardEffectStep()
+{
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void	Block::StartHardEffectStep()
+{
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void	Block::UpdateHardEffectStep()
+{
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void	Block::EndHardEffectStep()
+{
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+TransformObject Block::GetTransformTo2D()
+{
+	TransformObject transform2D;
+	Vector3 effectPos = m_Transform->GetTranslation();
+	static const Vector2 Offset = Vector2(50, 50); 
+	const Matrix viewproj		= GraphicsManager::GetInstance()->GetView() * GraphicsManager::GetInstance()->GetProjection();
+	Vector2 tmp = Math::WorldToScreen(effectPos, WINDOW_WIDTH, WINDOW_HEIGHT, viewproj);
+	tmp			-= Offset;
+	effectPos.x = tmp.x;
+	effectPos.y = WINDOW_HEIGHT+tmp.y;
+	effectPos.z = 0.f;
+	transform2D.SetTranslation(effectPos);
+	transform2D.SetScaling(Vector3(0.2f, 0.2f, 1.f));
+	transform2D.UpdateTransform();
+	return transform2D;
+}
 //===============================================================
 //	End of File
 //===============================================================

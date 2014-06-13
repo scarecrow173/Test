@@ -8,6 +8,8 @@
 #include "IndexData.h"
 #include "Elements.h"
 #include "SoundManager.h"
+#include "TextureAnimationController.h"
+#include "UITextureRenderer.h"
 namespace AK
 {
 enum BlockLevel
@@ -23,6 +25,26 @@ enum BlockLevel
 	BLOCK_IMMORTALITY,
 
 	BLOCK_LEVEL_NUM
+};
+namespace DeadStep
+{
+	enum DeadStep
+	{
+		StopedStep	= 0,
+		StartDeadStep,
+		UpdateEffectStep,
+		EndDeadStep,
+	};
+};
+namespace HardBlockStep
+{
+	enum HardBlockStep
+	{
+		StopedHardEffectStep	= 0,
+		StartHardEffectStep,
+		UpdateHardEffectStep,
+		EndHardEffectStep,
+	};
 };
 //=======================================================================================
 //!	@class	:	Block
@@ -42,15 +64,33 @@ public:
 
 	bool	Death();
 	void	SetSEHandle(const U32 handle);
-
+	Graphics::UITextureRenderer* GetEffectRenderer() const;
+	Graphics::UITextureRenderer* GetHardEffectRenderer() const;
 
 
 private:
-	U32						m_LifeCount;
-	BlockLevel				m_BlockLevel;
-	Graphics::IndexData		m_IndexData;
-	Graphics::VertexARGB	m_Color;
-	U32						m_SEHandle;
+	void			StartDeadStep();
+	void			UpdateEffectStep();
+	void			EndDeadStep();
+
+	void	StopedHardEffectStep();
+	void	StartHardEffectStep();
+	void	UpdateHardEffectStep();
+	void	EndHardEffectStep();
+
+	TransformObject GetTransformTo2D();
+
+	U32										m_LifeCount;
+	BlockLevel								m_BlockLevel;
+	Graphics::IndexData						m_IndexData;
+	Graphics::VertexARGB					m_Color;
+	U32										m_SEHandle;
+	Graphics::UITextureRenderer*			m_Effect;
+	Graphics::TextureAnimationController*	m_EffectContoroller;
+	Graphics::UITextureRenderer*			m_HardEffect;
+	Graphics::TextureAnimationController*	m_HardEffectContoroller;
+	DeadStep::DeadStep						m_DeadStep;
+	HardBlockStep::HardBlockStep			m_HardEffectStep;
 };
 //=======================================================================================
 //		inline method

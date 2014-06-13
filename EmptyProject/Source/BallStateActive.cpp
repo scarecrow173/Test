@@ -64,8 +64,15 @@ void BallStateActive::InputAction(Ball* stateUser)
 		for (auto it = l_list.begin(); it != l_list.end(); ++it)
 		{
 			Func(*it);
-			if (stateUser->GetBlockSystem()->DeleteBlock(*it) && stateUser->IsPowerup())
-				m_Collision->SetSpeed(before);
+			if (stateUser->GetBlockSystem()->DeleteBlock(*it))
+			{
+				if (stateUser->IsPowerup())
+					m_Collision->SetSpeed(before);
+			}
+			else
+			{
+				Sound::SoundManager::GetInstance()->PlaySE(13, TRUE);
+			}
 		}
 	}
 }
@@ -98,7 +105,7 @@ void BallStateActive::Func(AbsCollisionObject* obj)
 		return;
    	m_NextState = NEXT_DEAD;
 	m_Collision->SetSpeed(Vector3(0.f, 0.f, 0.f));
-	Sound::SoundManager::GetInstance()->PlaySE(0,TRUE);
+	//Sound::SoundManager::GetInstance()->PlaySE(0,TRUE);
 }
 
 //=======================================================================================

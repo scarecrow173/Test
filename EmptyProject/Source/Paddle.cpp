@@ -25,15 +25,24 @@ using namespace Collision;
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-
+static const U32 SPEED_MODE_MAX = 6;
+static const F32 SpeedMode[SPEED_MODE_MAX] = 
+{
+	1.f,
+	1.5f,
+	2.f,
+	2.5f,
+	3.f
+};
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 Paddle::Paddle(AbsNode* parent, Vector3 pos)
-	:	GameObject	(parent, pos)
-	,	m_Item		(NULL)
-	,	m_Speed		(2.2f)
-	,	m_Size		(1.f, 1.f, 1.f)
+	:	GameObject			(parent, pos)
+	,	m_Item				(NULL)
+	,	m_Speed				(2.2f)
+	,	m_Size				(1.f, 1.f, 1.f)
+	,	m_CurrentSpeedMode	((SPEED_MODE_MAX / 2) - 1)
 {
 	static const F32 PADDLE_WIDTH	= 300.f;
 	static const F32 PADDLE_HEIGHT	= 40.f;
@@ -94,36 +103,23 @@ void Paddle::Start()
 void Paddle::Affect(GameObject* obj)
 {
 	Item* item			= RTTI_PTR_DYNAMIC_CAST(Item, obj);
-	CollisionBox* box	= RTTI_PTR_DYNAMIC_CAST(CollisionBox, m_Collision);
-	Stage1* stage		= RTTI_PTR_DYNAMIC_CAST(Stage1, m_Parent);
 
-	if ((!item) || (!box) || (!stage))
+	if (!item)
 		return;
-
-
-	Ball* ball = stage->GetBall();
-	
-	const F32 width = box->GetWidth();
-	Vector3 pos		= box->GetPosition();
 
 	switch (item->GetType())
 	{
 	case POWER_UP:
-		ball->SetPowerup(true);
+		PowerUp();
 		break;
 	case SPEED_UP:
-		m_Speed *= 1.5f;
-		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedUp.csv"));
+		SpeedUp();
 		break;
 	case SPEED_DOWN:
-		m_Speed *= 0.5f;
-		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedDown.csv"));
+		SpeedDown();
 		break;
 	case EXTEND_PADLLE:
-		m_Size.x *= 1.1f;
-		pos.x -= ((width - width * 1.1f) * 0.5f);
-		box->SetPosition(pos);
-		box->SetWidth(width * 1.1f);
+		ExpandPadlle();
 		break;
 	default:
 		break;
@@ -170,6 +166,51 @@ void Paddle::Move()
 	m_Transform->SetScaling(m_Size);
 
 	m_Transform->UpdateTransform();
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Paddle::PowerUp()
+{
+	Stage1* stage		= RTTI_PTR_DYNAMIC_CAST(Stage1, m_Parent);
+	assert(stage);
+	stage->GetBall()->SetPowerup(true);
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Paddle::SpeedUp()
+{
+	m_CurrentSpeedMode += m_CurrentSpeedMode  < SPEED_MODE_MAX ? 1 : 0;
+	m_Speed = SpeedMode[m_CurrentSpeedMode];
+	//m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedUp.csv"));
+
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Paddle::SpeedDown()
+{
+	m_CurrentSpeedMode -= m_CurrentSpeedMode  > 0 ? 1 : 0;
+	m_Speed = SpeedMode[m_CurrentSpeedMode];
+	//m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/PaddleSpeedDown.csv"));
+
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//-------------------------------------------------------------
+void Paddle::ExpandPadlle()
+{
+	CollisionBox* box	= RTTI_PTR_DYNAMIC_CAST(CollisionBox, m_Collision);
+	assert(box);
+
+	const F32 width		= box->GetWidth();
+	Vector3 pos			= box->GetPosition();
+
+	m_Size.x *= 1.1f;
+	pos.x -= ((width - width * 1.1f) * 0.5f);
+	box->SetPosition(pos);
+	box->SetWidth(width * 1.1f);
 }
 //===============================================================
 //	End of File

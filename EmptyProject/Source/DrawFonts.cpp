@@ -123,6 +123,7 @@ DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
 		if (manegedFontTextureObj->GetTexture())
 		{
 			m_FontsTexture[cArray[i][0]] = manegedFontTextureObj->GetTexture();
+			SAFE_DELETE_ARRAY(mono);
 			continue;
 		}
 		GraphicsManager::GetInstance()->GetD3DDevice()->CreateTexture(

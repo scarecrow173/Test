@@ -289,6 +289,9 @@
     <ClCompile Include="TEST.cpp">
       <Filter>Source\InGame\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\TextureAnimationController.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -535,6 +538,9 @@
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\UIStepHalfAdd.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TextureAnimationController.h">
       <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

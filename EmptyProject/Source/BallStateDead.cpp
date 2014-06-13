@@ -10,12 +10,13 @@
 #include "BallStateDead.h"
 #include "BallStateLaunchStandby.h"
 #include "Ball.h"
+#include "SoundManager.h"
 using namespace AK;
 
 //=======================================================================================
 //		Constants Definitions
 //=======================================================================================
-
+static const U32 DEAD_SE_ID = 16;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -40,6 +41,7 @@ BallStateDead::~BallStateDead()
 //-------------------------------------------------------------
 void BallStateDead::EntryAction(Ball* stateUser)
 {
+	Sound::SoundManager::GetInstance()->PlaySE(DEAD_SE_ID, TRUE);
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -65,7 +67,9 @@ void BallStateDead::ExitAction(Ball* stateUser)
 //-------------------------------------------------------------
 IState<Ball>* BallStateDead::TransitionAction()
 {
-	return NEW BallStateLaunchStandby();
+	if (!Sound::SoundManager::GetInstance()->IsActiveSE(DEAD_SE_ID))
+		return NEW BallStateLaunchStandby();
+	return this;
 }
 //=======================================================================================
 //		protected method

@@ -27,8 +27,10 @@ namespace AnimationType
 class TextureAnimationController
 {
 public:
-	TextureAnimationController(RECT, U32, U32, F32 interval = 0.f);
+	TextureAnimationController(U32, U32, U32, U32, F32 interval = 0.f);
 	virtual ~TextureAnimationController();
+
+	TextureAnimationController& operator = (const TextureAnimationController& other);
 
 	void							Update(F32 elapsedTime);
 
@@ -42,11 +44,10 @@ public:
 
 private:
 	RECT							m_Rect;
-	const RECT						m_OneRect;
+	const U32						m_TextureWidth;
+	const U32						m_TextureHeight;
 	const U32						m_WidthNum;
 	const U32						m_HeightNum;
-	U32								m_CurrentWidthNum;
-	U32								m_CurrentHeightNum;
 	F32								m_AnimationInterval;
 	F32								m_CurrentAnimationTime;
 	AnimationType::AnimationType	m_AnimationType;

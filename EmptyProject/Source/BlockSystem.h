@@ -9,7 +9,7 @@
 namespace AK
 {
 
-namespace Graphics{ class AbsShaderObject; };
+namespace Graphics{ class AbsShaderObject; class UIStepAdd; };
 namespace Collision{ class AbsCollisionObject; };
 class Block;
 class Ball;
@@ -29,7 +29,7 @@ public:
 	RTTI_IS_A(BlockSystem);
 	virtual void Update();
 	virtual void Start();
-	bool CreateStageBlocks(const std::string& filePath, Graphics::AbsShaderObject* shader);
+	bool CreateStageBlocks(const std::string& filePath, Graphics::AbsShaderObject* shader, Graphics::UIStepAdd* addStep);
 	bool Clear();
 
 	bool DeleteBlock(Collision::AbsCollisionObject* obj);

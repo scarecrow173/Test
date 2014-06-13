@@ -17,7 +17,7 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-UITextureRenderer::UITextureRenderer(TextureAnimationController& info)
+UITextureRenderer::UITextureRenderer(TextureAnimationController* info)
 	:	m_TextureRect	(info)
 {
 	m_Color = 0x8FFFFFFF;
@@ -28,6 +28,7 @@ UITextureRenderer::UITextureRenderer(TextureAnimationController& info)
 //-------------------------------------------------------------
 UITextureRenderer::~UITextureRenderer()
 {
+	SAFE_DELETE(m_TextureRect);
 }
 //=======================================================================================
 //		public method
@@ -39,9 +40,9 @@ UITextureRenderer::~UITextureRenderer()
 //-------------------------------------------------------------
 void UITextureRenderer::Draw()
 {
-	m_TextureRect.Update(1.f/60.f);
+	m_TextureRect->Update(1.f/60.f);
 	GraphicsManager::GetInstance()->GetSprite()->SetTransform(&m_Transform->GetTransform());
-	GraphicsManager::GetInstance()->GetSprite()->Draw(GetTexture()->GetTexture(), &m_TextureRect.GetRect(), NULL, NULL, m_Color);
+	GraphicsManager::GetInstance()->GetSprite()->Draw(GetTexture()->GetTexture(), &m_TextureRect->GetRect(), NULL, NULL, m_Color);
 }
 //=======================================================================================
 //		protected method

@@ -8,6 +8,7 @@
 //=======================================================================================
 
 #include "TextureAnimationController.h"
+#include "MyMath.h"
 using namespace AK;
 using namespace Graphics;
 //=======================================================================================
@@ -17,18 +18,17 @@ using namespace Graphics;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
-TextureAnimationController::TextureAnimationController(RECT oneRect, U32 widthNum, U32 heightNum, F32 interval)
-	:	m_Rect					(oneRect)
-	,	m_OneRect				(oneRect)
+TextureAnimationController::TextureAnimationController(U32 textureWidth, U32 textureHeight, U32 widthNum, U32 heightNum, F32 interval)
+	:	m_TextureWidth			(textureWidth)
+	,	m_TextureHeight			(textureHeight)
 	,	m_WidthNum				(widthNum)
 	,	m_HeightNum				(heightNum)
-	,	m_CurrentWidthNum		(0)
-	,	m_CurrentHeightNum		(0)
-	,	m_AnimationInterval		(0.05f)
+	,	m_AnimationInterval		(interval)
 	,	m_CurrentAnimationTime	(0.f)
-	,	m_AnimationType			(AnimationType::LOOP)
+	,	m_AnimationType			(AnimationType::NORMAL)
 	,	m_IsEnd					(false)
 {
+	SetRect(&m_Rect, 0, 0, m_TextureWidth / m_WidthNum, m_TextureHeight / heightNum);
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
@@ -39,7 +39,11 @@ TextureAnimationController::~TextureAnimationController()
 //=======================================================================================
 //		public method
 //=======================================================================================
-
+TextureAnimationController& TextureAnimationController::operator = (const TextureAnimationController& other)
+{
+	assert(0);
+	return *this;
+}
 //-------------------------------------------------------------
 //!	@brief		: example
 //!	@param[in]	: example
@@ -47,47 +51,71 @@ TextureAnimationController::~TextureAnimationController()
 //-------------------------------------------------------------
 void TextureAnimationController::Update(F32 elapsedTime)
 {
-	//	TODO:リファクタリング
 	if (m_IsEnd)
-	{
 		return;
-	}
+
 	m_CurrentAnimationTime += elapsedTime;
 
+	const U32 frame		= (U32)(m_CurrentAnimationTime / m_AnimationInterval);
+	U32 HorizontalNum	= frame % m_WidthNum;
+	U32 VerticalNum		= frame / m_WidthNum;
 
-	if (m_AnimationInterval > m_CurrentAnimationTime)
+	if (VerticalNum >= m_HeightNum)
 	{
-		return;
+		switch(m_AnimationType)
+		{
+		case AnimationType::NORMAL:
+			VerticalNum = m_HeightNum - 1;
+			m_IsEnd		= true;
+			break;
+		case AnimationType::LOOP:
+			VerticalNum		= 0;
+			HorizontalNum	= 0;
+			Reset();
+			break;
+		default:
+			break;
+		}
 	}
-	m_CurrentAnimationTime -= m_AnimationInterval;
+	m_Rect.right			= (HorizontalNum + 1)	* (m_TextureWidth	/ m_WidthNum);
+	m_Rect.left				= (HorizontalNum)		* (m_TextureWidth	/ m_WidthNum);
+	m_Rect.bottom			= (VerticalNum + 1)		* (m_TextureHeight	/ m_HeightNum);
+	m_Rect.top				= (VerticalNum)			* (m_TextureHeight	/ m_HeightNum);
 
-	m_Rect.right			= (m_CurrentWidthNum + 1)	* m_OneRect.right;
-	m_Rect.left				= (m_CurrentWidthNum)		* m_OneRect.right;
 
-	if (++m_CurrentWidthNum < m_WidthNum)
-	{
-		return;
-	}
-	m_CurrentWidthNum		= 0;
-	m_Rect.bottom			= (m_CurrentHeightNum + 1)	* m_OneRect.bottom;
-	m_Rect.top				= (m_CurrentHeightNum)		* m_OneRect.bottom;
+	//if (m_AnimationInterval > m_CurrentAnimationTime)
+	//{
+	//	return;
+	//}
+	//m_CurrentAnimationTime -= m_AnimationInterval;
 
-	if (++m_CurrentHeightNum < m_HeightNum)
-	{
-		return;
-	}
+	//m_Rect.right			= (m_CurrentWidthNum + 1)	* m_OneRect.right;
+	//m_Rect.left				= (m_CurrentWidthNum)		* m_OneRect.right;
 
-	switch(m_AnimationType)
-	{
-	case AnimationType::NORMAL:
-		m_IsEnd = true;
-		break;
-	case AnimationType::LOOP:
-		m_CurrentHeightNum = 0;
-		break;
-	default:
-		break;
-	}
+	//if (++m_CurrentWidthNum < m_WidthNum)
+	//{
+	//	return;
+	//}
+	//m_CurrentWidthNum		= 0;
+	//m_Rect.bottom			= (m_CurrentHeightNum + 1)	* m_OneRect.bottom;
+	//m_Rect.top				= (m_CurrentHeightNum)		* m_OneRect.bottom;
+
+	//if (++m_CurrentHeightNum < m_HeightNum)
+	//{
+	//	return;
+	//}
+
+	//switch(m_AnimationType)
+	//{
+	//case AnimationType::NORMAL:
+	//	m_IsEnd = true;
+	//	break;
+	//case AnimationType::LOOP:
+	//	m_CurrentHeightNum = 0;
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -132,8 +160,9 @@ F32	TextureAnimationController::GetInterval()	const
 //-------------------------------------------------------------
 void TextureAnimationController::Reset()
 {
-	m_IsEnd	= false;
-	m_Rect	= m_OneRect;
+	m_IsEnd					= false;
+	m_CurrentAnimationTime	= 0.f;
+	SetRect(&m_Rect, 0, 0, m_TextureWidth / m_WidthNum, m_TextureHeight / m_HeightNum);
 }
 //-------------------------------------------------------------
 //!	@brief		: example

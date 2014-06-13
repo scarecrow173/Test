@@ -19,15 +19,16 @@ namespace Graphics
 class UITextureRenderer : public AbsRenderer
 {
 public:
-	UITextureRenderer(TextureAnimationController& info);
+	//UITextureRenderer(TextureAnimationController& info);
+	UITextureRenderer(TextureAnimationController* info);
 	virtual ~UITextureRenderer();
 
 	virtual void	Draw();
 
 private:
-	DWORD				m_Color;
-	TextureAnimationController		m_TextureRect;
-	D3DRENDERSTATETYPE	m_RenderState;
+	DWORD							m_Color;
+	TextureAnimationController*		m_TextureRect;
+	D3DRENDERSTATETYPE				m_RenderState;
 
 
 };

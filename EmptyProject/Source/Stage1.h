@@ -105,7 +105,7 @@ private:
 
 
 
-	static const U32				STAGE_MAX	= 3;
+	static const U32				STAGE_MAX	= 4;
 	static const U32				PADDLE_NUM	= 1;
 	static const U32				WALL_NUM	= 4;
 	static const U32				BALL_NUM	= 1;
@@ -136,7 +136,6 @@ private:
 	Graphics::UIStepDefault*		m_OpacityStep;
 	Graphics::UIStepAdd*			m_AddStep;
 	Graphics::UITextureRenderer*	m_ScoreArea;
-	Graphics::UITextureRenderer*	m_EffectTest;
 
 	Graphics::WindowPolygonRenderer* m_FadeRenderer;
 	U32								m_StageCount;

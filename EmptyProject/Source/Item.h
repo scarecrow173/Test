@@ -7,6 +7,8 @@
 
 #include "GameObject.h"
 #include "Paddle.h"
+#include "TextureAnimationController.h"
+#include "UITextureRenderer.h"
 namespace AK
 {
 enum ITEM_TYPE
@@ -15,6 +17,16 @@ enum ITEM_TYPE
 	SPEED_UP,
 	SPEED_DOWN,
 	EXTEND_PADLLE
+};
+namespace AffectStep
+{
+	enum AffectStep
+	{
+		StopedStep	= 0,
+		StartAffect,
+		UpdateEffect,
+		EndAffect,
+	};
 };
 //=======================================================================================
 //!	@class	:	Item
@@ -34,15 +46,25 @@ public:
 
 	void		AddCollision(Collision::AbsCollisionObject* collison);
 	ITEM_TYPE	GetType() const;
+	Graphics::UITextureRenderer* GetEffectRenderer() const;
 
 
 private:
-	void		ItemAffect(GameObject* obj);
-	void		UpdateRendererMatrix();
+	void			ItemAffect(GameObject* obj);
+	void			UpdateRendererMatrix();
+
+	void			StartAffect();
+	void			UpdateEffect();
+	void			EndAffect();
+
+	TransformObject	GetDrawEffectTransform() const;
 
 
-	ITEM_TYPE	m_Type;
-	Vector3		m_Size;
+	ITEM_TYPE									m_Type;
+	Vector3										m_Size;
+	Graphics::UITextureRenderer*				m_Effect;
+	Graphics::TextureAnimationController*		m_EffectContoroller;
+	AffectStep::AffectStep						m_AffectStep;
 
 };
 //=======================================================================================

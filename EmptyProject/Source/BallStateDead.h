@@ -25,8 +25,6 @@ public:
 	virtual void			ExitAction(Ball* stateUser);
 	virtual IState<Ball>*	TransitionAction();
 
-protected:
-
 private:
 
 };

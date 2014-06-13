@@ -34,11 +34,11 @@ Wall::Wall(AbsNode* parent, Vector3 pos, WALL_TYPE type)
 	case WALL_LEFT:
 	case WALL_RIGHT:
 		width	= 50.f;
-		height	= 1000.f;
+		height	= 1500.f;
 		break;
 	case WALL_TOP:
 	case WALL_BOTTOM:
-		width	= 1000.f;
+		width	= 1500.f;
 		height	= 50.f;
 		break;
 	default:

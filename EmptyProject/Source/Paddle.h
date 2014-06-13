@@ -9,6 +9,7 @@
 namespace AK
 {
 class Item;
+class Ball;
 //=======================================================================================
 //!	@class	:	Sample
 //!	@brief	:	example
@@ -31,12 +32,17 @@ public:
 
 private:
 	void			Move();
+	void			PowerUp();
+	void			SpeedUp();
+	void			SpeedDown();
+	void			ExpandPadlle();
 
 
 	InputKeyboard	m_Keyboard;
 	Item*			m_Item;
 	F32				m_Speed;
 	Vector3			m_Size;
+	U32				m_CurrentSpeedMode;
 };
 //=======================================================================================
 //		inline method

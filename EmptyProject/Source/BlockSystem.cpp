@@ -13,6 +13,7 @@
 #include "Ball.h"
 #include "CSVReader.h"
 #include "Stage1.h"
+#include "UIStepAdd.h"
 
 using namespace AK;
 using namespace Collision;
@@ -62,7 +63,7 @@ void BlockSystem::Start()
 //!	@param[in]	: —ñ”
 //!	@return		: ì¬‚É¬Œ÷‚µ‚½‚ç true
 //-------------------------------------------------------------
-bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject* shader)
+bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject* shader, UIStepAdd* addStep)
 {
 	assert(m_Ball);
 
@@ -82,6 +83,8 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject
 		block->SetSEHandle((i % StageData.row) + 1);
 		this->AttachNode(block);
 		shader->AddRenderer(block->GetRenderer());
+		addStep->AddRenderer(block->GetEffectRenderer());
+		addStep->AddRenderer(block->GetHardEffectRenderer());
 		m_Ball->GetCollision()->PushCollisionList(block->GetCollision());
 		m_BlockList.push_back(block);
 	}
@@ -118,7 +121,7 @@ bool BlockSystem::DeleteBlock(AbsCollisionObject* obj)
 			if ((*it)->Death())
 			{
 				((Stage1*)m_Parent)->PopItem((*it)->GetTransform()->GetTranslation());
-				(*it)->SetActive(false);
+				//(*it)->SetActive(false);
 				it = m_BlockList.erase(it);
 				continue;
 			}
