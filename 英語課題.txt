@@ -1,0 +1,91 @@
+http://www.gamedev.net/page/resources/_/technical/game-programming/creating-a-very-simple-gui-system-for-small-games-part-i-r3652
+
+Creating a Very simple GUI System for Small Games - Part1
+小さなゲーム作るための簡単なGUIシステムを作る
+
+By Martin Prantl Published May 06 2014 03:30 AM in GamaProgramming
+Martin PrantlさんがGamaProgrammingに２０１４年６月６日午前03：30分に公開しました。
+
+Peer Reviewed by (Servant of the Load, jbadams, NightCreature83)
+(Servant of the Load, jbadams, NightCreature83)が評価しました。
+
+Download attached article resource
+記事内のリソースをダウンロードする
+
+If you are writing your own game, sooner or later you will need some sort of user interface
+もしあなたが独自のゲームを作りたかったら、遅かれ早かれなにかしらユーザーインターフェースは必要になるだろう
+
+(or graphic user interface = GUI)
+またはグラフィックユーザーインターフェース=GUIが
+
+There are some existing libraries lying around. 
+周りに転がっている現存するライブラリがある.
+
+Probably the most famous is CEGUI, that is also easy to integrate into OGRE 3D engine.
+恐らく最も有名なのはCEGUIだろう。OGRE3DEnginに統合するのも簡単です(CEGUIが)。
+
+A good looking system was also LibRocket, but its development stopped in 2011
+よいシステムだったのはやはりLibRocketだろう。しかし、LibRocketは2011年に開発が終わってしまった。
+
+(but you can still download and use it without any problem)
+でも、なんの問題もなく、ダウンロードし使うことが出来る。
+
+ There are a lot of discussion threads that deal with the eternal problem “What GUI should I use?”.
+ "なんのGUIを使うべきか？"という永遠の問題に対処するたくさんの論点がある。
+ 	->“What GUI should I use?”という終わらない問題に対してどうするかというたくさんの議論項目？がある
+
+Not so long ago I faced the very same problem.
+ちょっと前に私も同じ問題（“What GUI should I use?”）に直面した。
+
+I needed a library written in C++ that would be able to coexist with OpenGL and DirectX.
+OpenGLとDirectXと共存することが出来るc++で書かれたライブラリが私は必要だった。
+
+Another requirement was support for classic (mouse) control as well as touch input.
+別の要件としてマウスと同じくらいタッチ入力もサポートされている。
+
+CEGUI seems to be good choice, but the problem is in its complexity and not so great touch support 
+CEGUI　はいい選択に見えた。でも、複雑であったこととそれほどタッチをサポートしていない問題があった。
+
+(from what I was told). 
+そう言われた。
+
+Most of the time, I just need a simple button, check box, text caption and “icon” or image.
+ほとんどの時間私は簡単なボタン、チェックボックス、テキスト見出し　とアイコンか画像を必要とした。
+
+With those, you can build almost anything.
+これだけあればだいたい作れる。
+
+As you may know, GUI is not just what you can see.
+ご存知の通りGUIは見えるものだけじゃない。
+
+There is / also functionality,		
+	like
+	what happens 
+		if / I click on a button,	たとえばボタンをクリックしたり
+		if / I move the mouse　/ over an element
+		etc.		
+
+
+If you choose to write your own system, you will have to also implement those and take into account that some of them are only for mouse control and some of them are only for touch 
+
+
+(like more than one touch at a time).
+
+
+Writing a GUI from scratch is not an easy thing to do. 
+I am not going to create some kind of super-trooper complex system that will handle everything. 
+Our designed GUI will be used for static game menu controls and in-game menus.
+You can show scores, lives and other info with this system.
+An example of what can be created with this simple system can be seen in figures 1 and 2. 
+Those are actuals screen-shots from engines and games I have created with this.
+
+Our GUI will be created in C++ and will work with either OpenGL or DirectX. We are not using any API-specific things.
+Apart from plain C++, we also will need some libraries that make things easier for us. 
+One of the best “library” (it's really just a single header file) - FastDelegate - will be used for function pointers (we will use this for triggers). 
+For rendering of fonts, I have decided to use the FreeType2 library. 
+It's a little more complex, but it's worth it. That is pretty much all you need.
+If you want, you can also add support for various image formats (jpg, png...). 
+For simplicity I am using tga (my own parser) and png (via not so fast, but easy to use LodePNG library).
+
+Ok. 
+You have read some opening sentences and it's time to dig into details.
