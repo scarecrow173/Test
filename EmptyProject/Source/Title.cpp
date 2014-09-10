@@ -24,7 +24,9 @@
 #include "DrawFonts.h"
 #include "ChangeViewport.h"
 #include "RootNode.h"
-
+#include "RingWaveEffect.h"
+#include "UIElement.h"
+#include "MenuRevolver.h"
 
 using namespace AK;
 using namespace Sound;
@@ -35,7 +37,9 @@ using namespace Graphics;
 static const U32 TITLE_BGM_NUM = 2;
 InputKeyboard keyboard;
 
-
+Util::RingWaveEffect* ring;
+UIElement* title = nullptr;
+Util::MenuRevolver* revolv = nullptr;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
@@ -81,10 +85,13 @@ void Title::Update()
 {
 	DEBUG_PRINT_CHAR("TITLE");
 	
-	keyboard.Update();
+	//keyboard.Update();
 	CheckBeginFade();
 
 	FloatingBlock();
+
+	if (ring)
+		ring->Update(0.016f);
 
 	if (m_IsFading)
 		FadeOutScene();
@@ -114,6 +121,8 @@ bool Title::Initialize()
 	//m_Shader = NEW UseFixed();CookTorrance
 
 	m_Shader->Initilize();
+
+
 	m_FadeOutScreen = NEW ScreenEffect();
 	m_FadeOutScreen->Initilize();
 
@@ -129,7 +138,13 @@ bool Title::Initialize()
 	m_FadeOutScreen->SetFadeValue(0.f);
 	m_FadeOutScreen->SetActive(false);
 
-	LoadTitleBlock();
+
+	ring = NEW Util::RingWaveEffect();
+	title = NEW UIElement(0);
+	revolv = NEW Util::MenuRevolver();
+
+
+	//LoadTitleBlock();
 
 	/*GraphicsManager::GetInstance()->AddShaderObject(Font);*/
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);

@@ -26,7 +26,7 @@
 #include "MotionBlur.h"
 #include "RootNode.h"
 #include "TexturePool.h"
-
+#include "RingWaveEffect.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -193,6 +193,9 @@ bool Stage1::Initialize()
 	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_auraA.png");
 	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_lightR.png");
 
+	//Util::RingWaveEffect* ring = NEW Util::RingWaveEffect();
+
+
 	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_AddStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_LStageFont);
@@ -205,6 +208,7 @@ bool Stage1::Initialize()
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeShader);
+
 
 	m_ItemSystem = NEW ItemSystem(this);
 	
@@ -429,6 +433,7 @@ bool Stage1::CreateBall()
 	//	ƒ{[ƒ‹ì¬
 	const Vector3 ballPos(0.f, -290.f, 0.f);
 	m_Ball[0] = NEW Ball(this, ballPos, m_Paddle[0]);
+	m_CookTorrance->SetShaderTechniqueByName("SimpleColor");
 	m_Ball[0]->SetShader(m_CookTorrance);
 	m_Shader->AddRenderer(m_Ball[0]->GetRenderer());
 	return true;
@@ -463,7 +468,7 @@ bool Stage1::CreateBlock()
 bool Stage1::CreateFont()
 {
 	
-	m_LStageFont = NEW DrawFonts(32, 32, "‚l‚r ‚oƒSƒVƒbƒN");
+	m_LStageFont = NEW  DrawFonts(32, 32, "‚l‚r ‚oƒSƒVƒbƒN");
 	m_LStageFont->Initilize();
 	m_LStageFont->SetDrawString(L"Stage" + std::to_wstring((_ULonglong)m_StageCount+1));
 	Matrix firstFontPositon;

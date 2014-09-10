@@ -400,6 +400,8 @@
     <ClCompile Include="Source\BlockSystem.cpp" />
     <ClCompile Include="Source\ChangeViewport.cpp" />
     <ClCompile Include="Source\DrawFonts.cpp" />
+    <ClCompile Include="Source\EventTracker.cpp" />
+    <ClCompile Include="Source\MenuRevolver.cpp" />
     <ClCompile Include="Source\MotionBlur.cpp" />
     <ClCompile Include="Source\RadialBlur.cpp" />
     <ClCompile Include="Source\BoxFactory.cpp" />
@@ -415,6 +417,8 @@
     <ClCompile Include="Source\MaterialPool.cpp" />
     <ClCompile Include="Source\DefaultShader.cpp" />
     <ClCompile Include="Source\PrimitivePool.cpp" />
+    <ClCompile Include="Source\RingFactory.cpp" />
+    <ClCompile Include="Source\RingWaveEffect.cpp" />
     <ClCompile Include="Source\Scorer.cpp" />
     <ClCompile Include="Source\ScreenEffect.cpp" />
     <ClCompile Include="Source\SphereFactory.cpp" />
@@ -435,6 +439,8 @@
     <ClCompile Include="Source\TexturePool.cpp" />
     <ClCompile Include="Source\Title.cpp" />
     <ClCompile Include="Source\TriangleRenderer.cpp" />
+    <ClCompile Include="Source\UIElement.cpp" />
+    <ClCompile Include="Source\UIMenu.cpp" />
     <ClCompile Include="Source\UIStepAdd.cpp" />
     <ClCompile Include="Source\UIStepDefault.cpp" />
     <ClCompile Include="Source\UIStepHalfAdd.cpp" />
@@ -467,10 +473,14 @@
     <ClInclude Include="Source\DefaultTextureFactory.h" />
     <ClInclude Include="Source\DrawFonts.h" />
     <ClInclude Include="Source\Elements.h" />
+    <ClInclude Include="Source\EventSystem.h" />
     <ClInclude Include="Source\FontsTexture.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GraphicsManager.h" />
     <ClInclude Include="Source\GraphicsUtil.h" />
+    <ClInclude Include="Source\IEvent.h" />
+    <ClInclude Include="Source\IEventListener.h" />
+    <ClInclude Include="Source\EventTracker.h" />
     <ClInclude Include="Source\IMaterialFactory.h" />
     <ClInclude Include="Source\ITexture.h" />
     <ClInclude Include="Source\ITextureFactory.h" />
@@ -478,8 +488,11 @@
     <ClInclude Include="Source\MaterialFactory.h" />
     <ClInclude Include="Source\MaterialPool.h" />
     <ClInclude Include="Source\DefaultShader.h" />
+    <ClInclude Include="Source\MenuRevolver.h" />
     <ClInclude Include="Source\RadialBlur.h" />
     <ClInclude Include="Source\MotionBlur.h" />
+    <ClInclude Include="Source\RingFactory.h" />
+    <ClInclude Include="Source\RingWaveEffect.h" />
     <ClInclude Include="Source\Scorer.h" />
     <ClInclude Include="Source\ScreenEffect.h" />
     <ClInclude Include="Source\AbsCollisionObject.h" />
@@ -517,6 +530,8 @@
     <ClInclude Include="Source\TransformObject.h" />
     <ClInclude Include="Source\TriangleRenderer.h" />
     <ClInclude Include="Source\Types.h" />
+    <ClInclude Include="Source\UIElement.h" />
+    <ClInclude Include="Source\UIMenu.h" />
     <ClInclude Include="Source\UIStepAdd.h" />
     <ClInclude Include="Source\UIStepDefault.h" />
     <ClInclude Include="Source\UIStepHalfAdd.h" />

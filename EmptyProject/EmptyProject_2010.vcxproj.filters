@@ -45,6 +45,9 @@
     <Filter Include="Source\InGame\Object\State\BallState">
       <UniqueIdentifier>{352f39ba-057a-4c5f-a5ff-5e8d59787789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\InGame\Graphics\Util">
+      <UniqueIdentifier>{9050adba-2152-43c4-8cea-58c1fc40f8cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -291,6 +294,24 @@
     </ClCompile>
     <ClCompile Include="Source\TextureAnimationController.cpp">
       <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RingFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RingWaveEffect.cpp">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIMenu.cpp">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EventTracker.cpp">
+      <Filter>Source\Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UIElement.cpp">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuRevolver.cpp">
+      <Filter>Source\InGame\Graphics\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,6 +563,33 @@
     </ClInclude>
     <ClInclude Include="Source\TextureAnimationController.h">
       <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RingFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RingWaveEffect.h">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIMenu.h">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IEvent.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IEventListener.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventSystem.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventTracker.h">
+      <Filter>Source\Utill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UIElement.h">
+      <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MenuRevolver.h">
+      <Filter>Source\InGame\Graphics\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

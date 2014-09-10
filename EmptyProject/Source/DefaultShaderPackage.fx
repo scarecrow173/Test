@@ -165,6 +165,12 @@ float4 HalfLambertPS(Default_PS_Input In) : COLOR0
 
 	return Out;
 }
+float4 SimpleColorPS(Default_PS_Input In) : COLOR0
+{
+	float4 Out = g_Diffuse + g_Ambient;
+	Out.a = g_Diffuse.a;
+	return  Out;
+}
 float4 VelocityMapPS(Velocity_PS_Input In) : COLOR0
 {
 	float4	Out;
@@ -273,4 +279,22 @@ technique HalfLambert
 		PixelShader			= compile ps_2_0 VelocityMapPS();
 	}
 }
+technique SimpleColor
+{
 
+	pass P0
+	{
+		AlphaBlendEnable	= True;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
+		VertexShader		= compile vs_2_0 DefaultVS();
+		PixelShader			= compile ps_2_0 SimpleColorPS();
+	}
+	pass P1
+	{
+		ZEnable				= False;
+		AlphaBlendEnable	= False;
+		VertexShader		= compile vs_2_0 VelocityMapVS();
+		PixelShader			= compile ps_2_0 VelocityMapPS();
+	}
+}

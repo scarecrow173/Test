@@ -8,6 +8,7 @@
 #include "IPrimitiveFactory.h"
 #include "BoxFactory.h"
 #include "SphereFactory.h"
+#include "RingFactory.h"
 #include "Singleton.h"
 
 namespace AK

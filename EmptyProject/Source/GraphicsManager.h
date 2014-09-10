@@ -23,6 +23,7 @@ struct VertexBaseData
 class BoxFactory;
 class SphereFactory;
 class SquareFactory;
+class RingFactory;
 
 //=======================================================================================
 //!	@class	:	GraphicsManager
@@ -41,12 +42,15 @@ public:
 	friend BoxFactory;
 	friend SphereFactory;
 	friend SquareFactory;
-
+	friend RingFactory;
 
 	static const U32 ONE_BOX_VERTEX_NUM			= 8;
 	static const U32 ONE_BOX_FACE_NUM			= 12;
 	static const U32 SPHERE_SLICES				= 10;
 	static const U32 SPHERE_STACKS				= 10;
+	static const U32 RING_NUM					= 5;
+	static const U32 ONE_RING_VERTEX_NUM		= 200;
+	static const U32 ONE_RING_FACE_NUM			= 200;
 	static const U32 ONE_SPHERE_VERTEX_NUM		= (SPHERE_SLICES + 1) * (SPHERE_STACKS + 1);
 	static const U32 ONE_SPHERE_FACE_NUM		= SPHERE_SLICES * SPHERE_STACKS * 2;
 	static const U32 LINE_NUM					= 5;
@@ -55,7 +59,7 @@ public:
 	static const U32 SQUARE_NUM					= 10;
 	static const U32 BOX_NUM					= 500;
 	static const U32 SPHERE_NUM					= 4;
-	static const U32 VERTEX_NUM					= (ONE_BOX_VERTEX_NUM * BOX_NUM) + (ONE_SPHERE_VERTEX_NUM * SPHERE_NUM) + (SQUARE_NUM * SQUARE_VERTEX_NUM) + (ONE_LINE_VERTEX_NUM * LINE_NUM);
+	static const U32 VERTEX_NUM					= (ONE_BOX_VERTEX_NUM * BOX_NUM) + (ONE_SPHERE_VERTEX_NUM * SPHERE_NUM) + (SQUARE_NUM * SQUARE_VERTEX_NUM) + (ONE_LINE_VERTEX_NUM * LINE_NUM) + (ONE_RING_VERTEX_NUM * RING_NUM);
 	static const U32 INSTACE_NUM				= 50;
 
 

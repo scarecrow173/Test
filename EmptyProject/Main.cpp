@@ -21,6 +21,7 @@
 #include "DefaultTexture.h"
 #include "DrawFonts.h"
 #include "WindowPolygonRenderer.h"
+#include "EventTracker.h"
 
 //#define __MY_DEBUG_STR_USE_
 using namespace AK::Graphics;
@@ -108,7 +109,7 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 	AK::Debug::UpdateDebugConsole();
 
 	
-
+	AK::Event::UpdateEventKeybord();
 
 
 	auto handle = AK::Sound::SoundManager::GetInstance()->GetStreamHandle(AK::Sound::SoundManager::GetInstance()->m_BGMNum);
@@ -141,6 +142,12 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 
 	g_Root->UpdateNodeTree();
 	g_Root->GetStopWatch()->Update(fElapsedTime);
+	
+	AK::Event::KeyDownTriggerTracker::GetInstance()->Update();
+	AK::Event::KeyUPTriggerTracker::GetInstance()->Update();
+	AK::Event::KeyLeftTriggerTracker::GetInstance()->Update();
+	AK::Event::KeyRightTriggerTracker::GetInstance()->Update();
+	AK::Event::KeyEnterTriggerTracker::GetInstance()->Update();
 
 	DEBUG_PRINT_INT(AK::Debug::AutoPerformance::m_ProfileList[0]);
 	DEBUG_PRINT_CHAR("/ƒÊs");
@@ -161,15 +168,15 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
 
 
     // Clear the render target and the zbuffer										 0, 45, 50, 170
-    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0), 1.0f, 0 ) );
+    V( pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 255, 255, 255, 255), 1.0f, 0 ) );
 
     // Render the scene
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
 
-		spectrum->Draw();
+		//spectrum->Draw();
 
-		g_Device->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 0, 0, 0, 0 ), 1.0f, 0 );
+		g_Device->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 255, 255, 255, 255 ), 1.0f, 0 );
 
 		g_mrg->Draw();
 		
@@ -261,7 +268,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 	//_CrtSetBreakAlloc(642);
 #endif
-	AK::Debug::CreateDebugConsole();
+	//AK::Debug::CreateDebugConsole();
     // Set the callback functions
     DXUTSetCallbackD3D9DeviceAcceptable( IsD3D9DeviceAcceptable );
     DXUTSetCallbackD3D9DeviceCreated( OnD3D9CreateDevice );
@@ -390,6 +397,12 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 	AK::Graphics::TexturePool::DestroySingleton();
 	AK::Graphics::GraphicsManager::Destroy();
 	AK::Sound::SoundManager::Destroy();
+
+	AK::Event::KeyDownTriggerTracker::DestroySingleton();
+	AK::Event::KeyUPTriggerTracker::DestroySingleton();
+	AK::Event::KeyLeftTriggerTracker::DestroySingleton();
+	AK::Event::KeyRightTriggerTracker::DestroySingleton();
+	AK::Event::KeyEnterTriggerTracker::DestroySingleton();
 	BASS_Free();
 
     // TODO: Perform any application-level cleanup here

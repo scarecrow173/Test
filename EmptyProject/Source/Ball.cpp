@@ -49,7 +49,7 @@ Ball::Ball(AbsNode* parent, Vector3 pos, Paddle* paddle)
 
 	m_Radius = 30.f;
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:SHPERE-Ball"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-Ball"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
 	
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));
@@ -163,13 +163,13 @@ void Ball::SetPowerup(const bool powerup)
 	if (powerup)
 	{
 		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Metal.csv"));
-		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("CookTorrance");
+		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("SimpleColor");
 		m_PowerupCount = 360;
 	}
 	else
 	{
 		m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
-		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("HalfLambert");
+		((DefaultShader*)m_Shader)->SetShaderTechniqueByName("SimpleColor");
 	}
 	m_IsPowerup = powerup;
 }

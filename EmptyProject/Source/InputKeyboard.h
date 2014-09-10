@@ -24,6 +24,7 @@ public:
 	virtual bool IsKeyDown(INPUT_KEY key)	const;
 	virtual bool IsKeyRelease(INPUT_KEY key)const;
 	virtual void Update();
+	
 
 private:
 	U8	m_KeyState;

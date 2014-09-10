@@ -23,6 +23,7 @@ PrimitivePool::PrimitivePool()
 	//	ファクトリの名前はファイルから読み込むべき？
 	m_PrimitiveCreator["BOX"]		= NEW BoxFactory();
 	m_PrimitiveCreator["SHPERE"]	= NEW SphereFactory();
+	m_PrimitiveCreator["RING"]		= NEW RingFactory();
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
