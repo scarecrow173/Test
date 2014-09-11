@@ -317,7 +317,9 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
 
 	getViewMatrixTakingSphereInCamera(&view, Vector3(0,0,0), 500.f, D3DXToRadian(45), WINDOW_WIDTH/WINDOW_HEIGHT, Vector3(0, 0, -1), Vector3(0, 1, 0));
 
-
+	Matrix init;
+	D3DXMatrixIdentity(&init);
+	g_mrg->GetSprite()->SetWorldViewLH(&init, &view);
 
 	//g_Device->SetTransform(D3DTS_WORLD, &world);
 	//g_Device->SetTransform(D3DTS_VIEW, &view);

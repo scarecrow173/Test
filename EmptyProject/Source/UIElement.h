@@ -33,16 +33,19 @@ public:
 	void	SetElementName(std::wstring& _elementName);
 	void	SetColor(const DWORD _color);
 	void	SetTransform(Matrix& _transform);
+	void	SetReletiveTransform(Matrix& _transform);
 
-	Matrix	GetTransform()	const;
-	DWORD	GetColor()		const;
-	U32		GetID()			const;
-	UIType	GetType()		const;
+	Matrix	GetTransform()			const;
+	Matrix	GetReletiveTransform()	const;
+	DWORD	GetColor()				const;
+	U32		GetID()					const;
+	UIType	GetType()				const;
 private:
 	U32				m_ElementId;
 	UIType			m_Type;
 	DrawFonts*		m_ElemntFont;
 	std::wstring	m_ElementName;
+	Matrix			m_reletiveTransform;
 };
 
 //=======================================================================================

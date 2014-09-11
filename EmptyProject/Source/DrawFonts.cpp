@@ -221,6 +221,7 @@ void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
 		(F32)findIT->second.gmCellIncX;
 
 		GraphicsManager::GetInstance()->GetSprite()->SetTransform(&(localMatrix * m_World));
+		//GraphicsManager::GetInstance()->GetSprite()->SetWorldViewRH
 		
 		GraphicsManager::GetInstance()->GetSprite()->Draw(m_FontsTexture[*it], NULL , NULL, NULL, m_Color);
 		

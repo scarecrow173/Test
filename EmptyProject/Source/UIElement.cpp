@@ -33,6 +33,8 @@ UIElement::UIElement(U32 _id, UIType _type)
 	Matrix initPosition;
 	D3DXMatrixIdentity(&initPosition);
 	m_ElemntFont->SetWorld(initPosition);
+	m_reletiveTransform = initPosition;
+
 	
 	GraphicsManager::GetInstance()->AddShaderObject(m_ElemntFont);
 }
@@ -55,6 +57,7 @@ UIElement* UIElement::Copy()
 {
 	UIElement* ret = NEW UIElement(m_ElementId, m_Type);
 	ret->SetTransform(GetTransform());
+	ret->SetReletiveTransform(GetReletiveTransform());
 	ret->SetElementName(m_ElementName);
 	ret->SetColor(GetColor());
 	return ret;
@@ -92,9 +95,27 @@ void UIElement::SetTransform(Matrix& _transform)
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
+void UIElement::SetReletiveTransform(Matrix& _transform)
+{
+	m_reletiveTransform = _transform;
+}
+//-------------------------------------------------------------
+//!	@brief		: âüÇ≥ÇÍÇΩèuä‘
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
 Matrix UIElement::GetTransform() const
 {
 	return m_ElemntFont->GetWorld();
+}
+//-------------------------------------------------------------
+//!	@brief		: âüÇ≥ÇÍÇΩèuä‘
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+Matrix	UIElement::GetReletiveTransform()	const
+{
+	return m_reletiveTransform;
 }
 //-------------------------------------------------------------
 //!	@brief		: âüÇ≥ÇÍÇΩèuä‘

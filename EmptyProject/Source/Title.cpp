@@ -141,8 +141,28 @@ bool Title::Initialize()
 
 	ring = NEW Util::RingWaveEffect();
 	title = NEW UIElement(0);
+	auto elem2 = NEW UIElement(1);
+	auto elem3 = NEW UIElement(2);
+	auto elem4 = NEW UIElement(3);
 	revolv = NEW Util::MenuRevolver();
+	
+	Matrix uiRelative;
+	D3DXMatrixTranslation(&uiRelative, 225, 0,0);
+	title->SetReletiveTransform(uiRelative);
+	
+	D3DXMatrixTranslation(&uiRelative, -25, -260,0);
+	elem2->SetReletiveTransform(uiRelative);
+	
+	D3DXMatrixTranslation(&uiRelative, -275, 0,0);
+	elem3->SetReletiveTransform(uiRelative);
+	
+	D3DXMatrixTranslation(&uiRelative, -25, 200,0);
+	elem4->SetReletiveTransform(uiRelative);
 
+	revolv->SetElement(title);
+	revolv->SetElement(elem2);
+	revolv->SetElement(elem3);
+	revolv->SetElement(elem4);
 
 	//LoadTitleBlock();
 

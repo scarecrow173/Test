@@ -57,13 +57,7 @@ inline TransformObject::TransformObject(Vector3 trans, Vector3 scale, Vector3 ro
 	,	m_Scaling		(scale)
 	,	m_Rotation		(rot)
 {
-	Matrix matTrans, matScale, matRot;
-
-	D3DXMatrixTranslation(&matTrans, m_Translation.x, m_Translation.y, m_Translation.z);
-	D3DXMatrixScaling(&matScale, m_Scaling.x, m_Scaling.y, m_Scaling.z);
-	D3DXMatrixRotationYawPitchRoll(&matRot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
-
-	m_Transform = matRot * matScale * matTrans;
+	UpdateTransform();
 }
 inline TransformObject::~TransformObject()
 {
