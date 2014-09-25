@@ -171,6 +171,12 @@ float4 SimpleColorPS(Default_PS_Input In) : COLOR0
 	Out.a = g_Diffuse.a;
 	return  Out;
 }
+float4 DrawFontPS(Default_PS_Input In) : COLOR0
+{
+	float4 Out = tex2D(fontTex, In.UV);
+	Out *= float4(0.0f, 0.0f, 0.0f, 1.f); 
+	return  Out;
+}
 float4 VelocityMapPS(Velocity_PS_Input In) : COLOR0
 {
 	float4	Out;
@@ -298,3 +304,16 @@ technique SimpleColor
 		PixelShader			= compile ps_2_0 VelocityMapPS();
 	}
 }
+technique DrawFont
+{
+
+	pass P0
+	{
+		AlphaBlendEnable	= True;
+		SrcBlend			= SrcAlpha;
+		DestBlend			= InvSrcAlpha;
+		VertexShader		= compile vs_2_0 DefaultVS();
+		PixelShader			= compile ps_2_0 DrawFontPS();
+	}
+}
+

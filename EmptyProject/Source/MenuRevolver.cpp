@@ -24,9 +24,13 @@ using namespace Util;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 MenuRevolver::MenuRevolver()
-	:	m_Selected		(0)
-	,	m_Renderer		(nullptr)
-	,	m_Shader		(nullptr)
+	:	m_Selected			(0)
+	,	m_Renderer			(nullptr)
+	,	m_Shader			(nullptr)
+	,	m_CaluvuStep		(CalculateStep_End)
+	,	m_CarrentDirection	(NonDirection)
+	,	m_NextTarget		(0, 0, 0)
+	,	m_CalculationFactor	(0.f)
 {
 	Event::KeyDownTriggerTracker::GetInstance()->EntryListener(this);
 	Event::KeyUPTriggerTracker::GetInstance()->EntryListener(this);
@@ -34,7 +38,7 @@ MenuRevolver::MenuRevolver()
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-Revolv"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Revolver.csv"));
-	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(0,0,0), Vector3(500, 570, 1.f)));
+	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(0,0,0), Vector3(500, 500, 1.f)));
 
 	m_Shader = NEW DefaultShader();
 	m_Shader->Initilize();
@@ -72,14 +76,14 @@ void MenuRevolver::Notify(Event::EventTrackerBase* _sender)
 {
 	Event::KeyDownTriggerTracker*	down	= dynamic_cast<Event::KeyDownTriggerTracker*>(_sender);
 	Event::KeyUPTriggerTracker*		up		= dynamic_cast<Event::KeyUPTriggerTracker*>(_sender);
-	RevolverDirection dir = (RevolverDirection)0;
 	
 	if (down)
-		dir = DirectionDown;
+		m_CarrentDirection = DirectionDown;
 	if (up)
-		dir = DirectionUp;
+		m_CarrentDirection = DirectionUp;
 	
-	CalculationElementPosition(dir);
+	m_CaluvuStep = CalculateStep_Entry;
+	//CalculationElementPosition(m_CarrentDirection);
 }
 //-------------------------------------------------------------
 //!	@brief		: 
@@ -89,6 +93,16 @@ void MenuRevolver::Notify(Event::EventTrackerBase* _sender)
 bool MenuRevolver::IsActive()	const
 {
 	return true;
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void MenuRevolver::Update(F32 _dt)
+{
+	if (m_CaluvuStep != CalculateStep_End)
+		CalculationElementPosition(m_CarrentDirection);
 }
 //-------------------------------------------------------------
 //!	@brief		: 
@@ -107,7 +121,7 @@ void MenuRevolver::SetElement(UIElement* _elem)
 	//}
 
 	m_menuList.push_back(_elem);
-	CalculationElementPosition((RevolverDirection)3);
+	CalculationElementPosition(NonDirection);
 	
 	//CalculationElementPosition(DirectionUp);
 }
@@ -127,13 +141,33 @@ U32 MenuRevolver::SelectedElementID()
 //-------------------------------------------------------------
 void MenuRevolver::CalculationElementPosition(RevolverDirection _dir)
 {
-	switch(_dir)
+	
+	switch (m_CaluvuStep)
 	{
-	case DirectionUp:
-		CalculationUp();
+	case AK::Graphics::Util::CalculateStep_End:
 		break;
-	case DirectionDown:
-		CalculationDown();
+	case AK::Graphics::Util::CalculateStep_Entry:
+		{
+			m_CalculationFactor = 0.f;
+			switch(_dir)
+			{
+			case DirectionUp:
+				CalculationUp();
+				break;
+			case DirectionDown:
+				CalculationDown();
+				break;
+			default:
+				break;
+			}
+			m_CaluvuStep = CalculateStep_Update;
+		}
+		break;
+	case AK::Graphics::Util::CalculateStep_Update:
+		CalculationUpdate();
+		break;
+	case AK::Graphics::Util::CalculateStep_Exit:
+		CalculationExit();
 		break;
 	default:
 		break;
@@ -145,11 +179,11 @@ void MenuRevolver::CalculationElementPosition(RevolverDirection _dir)
 	Matrix			transMat, rotationMat, scaleMat, rootTransform;
 	Matrix			rotX,rotY,rotZ;
 	// フォントとリングの座標系が違うので無理やり補正あかんやり方
-	auto tmp = Math::WorldToScreen(rootTranslation, WINDOW_WIDTH, WINDOW_HEIGHT, 
-		GraphicsManager::GetInstance()->GetView() * GraphicsManager::GetInstance()->GetProjection()); 
+	//auto tmp = Math::WorldToScreen(rootTranslation, WINDOW_WIDTH, WINDOW_HEIGHT, 
+	//	GraphicsManager::GetInstance()->GetView() * GraphicsManager::GetInstance()->GetProjection()); 
 
-	rootTranslation.x = tmp.x;
-	rootTranslation.y = 250 + -(rootTranslation.y / 2);
+	//rootTranslation.x = tmp.x;
+	//rootTranslation.y = 250 + -(rootTranslation.y / 2);
 
 	D3DXMatrixIdentity(&rootTransform);
 	D3DXMatrixTranslation(&transMat, rootTranslation.x, rootTranslation.y, rootTranslation.z);
@@ -170,6 +204,7 @@ void MenuRevolver::CalculationElementPosition(RevolverDirection _dir)
 		//out._42 = -out._42;
 		(*child)->SetTransform(out);
 	}
+	//m_CaluvuStep = CalculateStep_End;
 }
 //-------------------------------------------------------------
 //!	@brief		: 
@@ -182,7 +217,9 @@ void MenuRevolver::CalculationUp()
 	const F32		rotateFactar = (360.f / m_menuList.size());
 	const Vector3	rotate = Vector3(0, 0, D3DXToRadian(rotateFactar));
 	
-	m_Renderer->GetTransform()->SetRotation(rootRotation + rotate);
+	m_NextTarget = rootRotation + rotate;
+
+	//m_Renderer->GetTransform()->SetRotation(rootRotation + rotate);
 }
 //-------------------------------------------------------------
 //!	@brief		: 
@@ -195,7 +232,36 @@ void MenuRevolver::CalculationDown()
 	const F32		rotateFactar = -(360.f / m_menuList.size());
 	const Vector3	rotate = Vector3(0, 0, D3DXToRadian(rotateFactar));
 	
-	m_Renderer->GetTransform()->SetRotation(rootRotation + rotate);
+	m_NextTarget = rootRotation + rotate;
+
+	//m_Renderer->GetTransform()->SetRotation(rootRotation + rotate);
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void MenuRevolver::CalculationUpdate()
+{
+	Vector3	rootRotation = m_Renderer->GetTransform()->GetRotation();
+
+	m_CalculationFactor = m_CalculationFactor >= 1.f ? 1.f : m_CalculationFactor + 0.1f;
+
+	D3DXVec3Lerp(&rootRotation, &rootRotation, &m_NextTarget, m_CalculationFactor);
+	m_Renderer->GetTransform()->SetRotation(rootRotation);
+
+	if (m_CalculationFactor >= 1.f)
+		m_CaluvuStep = CalculateStep_Exit;
+	
+}
+//-------------------------------------------------------------
+//!	@brief		: 
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void MenuRevolver::CalculationExit()
+{
+	m_CaluvuStep = CalculateStep_End;
 }
 //=======================================================================================
 //		protected method

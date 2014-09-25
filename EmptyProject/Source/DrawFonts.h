@@ -45,6 +45,11 @@ private:
 	Matrix													m_World;
 	DWORD													m_Color;
 
+	D3DXHANDLE												m_hWorld;
+	D3DXHANDLE												m_hView;
+	D3DXHANDLE												m_hProjection;
+
+
 };
 //=======================================================================================
 //		inline method

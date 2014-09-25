@@ -95,6 +95,9 @@ void Title::Update()
 
 	if (m_IsFading)
 		FadeOutScene();
+	if (revolv)
+		revolv->Update(0.016);
+	
 }
 //-------------------------------------------------------------
 //!	@brief		: ƒV[ƒ“•ÏX
@@ -147,16 +150,16 @@ bool Title::Initialize()
 	revolv = NEW Util::MenuRevolver();
 	
 	Matrix uiRelative;
-	D3DXMatrixTranslation(&uiRelative, 225, 0,0);
+	D3DXMatrixTranslation(&uiRelative, 500, 0, 0);
 	title->SetReletiveTransform(uiRelative);
 	
-	D3DXMatrixTranslation(&uiRelative, -25, -260,0);
+	D3DXMatrixTranslation(&uiRelative, -0, -500, 0);
 	elem2->SetReletiveTransform(uiRelative);
 	
-	D3DXMatrixTranslation(&uiRelative, -275, 0,0);
+	D3DXMatrixTranslation(&uiRelative, -500, 0, 0);
 	elem3->SetReletiveTransform(uiRelative);
 	
-	D3DXMatrixTranslation(&uiRelative, -25, 200,0);
+	D3DXMatrixTranslation(&uiRelative, 0, 500, 0);
 	elem4->SetReletiveTransform(uiRelative);
 
 	revolv->SetElement(title);

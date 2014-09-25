@@ -433,6 +433,7 @@
     <ClCompile Include="Source\RootNode.cpp" />
     <ClCompile Include="Source\SoundManager.cpp" />
     <ClCompile Include="Source\Spectrum.cpp" />
+    <ClCompile Include="Source\SquareFactory.cpp" />
     <ClCompile Include="Source\Stage1.cpp" />
     <ClCompile Include="Source\StopWatch.cpp" />
     <ClCompile Include="Source\TextureAnimationController.cpp" />
@@ -520,6 +521,7 @@
     <ClInclude Include="Source\SoundManager.h" />
     <ClInclude Include="Source\Spectrum.h" />
     <ClInclude Include="Source\SphereFactory.h" />
+    <ClInclude Include="Source\SquareFactory.h" />
     <ClInclude Include="Source\Stage1.h" />
     <ClInclude Include="Source\IState.h" />
     <ClInclude Include="Source\StopWatch.h" />

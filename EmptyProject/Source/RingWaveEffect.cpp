@@ -36,7 +36,7 @@ RingWaveEffect::RingWaveEffect(F32 _speed, Vector3 _limit3d )
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-WaveRing"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
 	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(0,0,0), Vector3(30, 30, 1.f)));
-
+	
 
 //	m_Renderer->Initialize();
 

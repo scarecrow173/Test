@@ -313,6 +313,9 @@
     <ClCompile Include="Source\MenuRevolver.cpp">
       <Filter>Source\InGame\Graphics\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SquareFactory.cpp">
+      <Filter>Source\InGame\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -590,6 +593,9 @@
     </ClInclude>
     <ClInclude Include="Source\MenuRevolver.h">
       <Filter>Source\InGame\Graphics\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SquareFactory.h">
+      <Filter>Source\InGame\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

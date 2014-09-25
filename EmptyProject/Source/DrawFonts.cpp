@@ -11,8 +11,11 @@
 #include "GraphicsManager.h"
 #include "WindowPolygonRenderer.h"
 #include "TexturePool.h"
+#include "TriangleRenderer.h"
+#include "PrimitivePool.h"
 #include <atlbase.h>
 #include <atlconv.h>
+
 
 using namespace AK;
 using namespace Graphics;
@@ -24,11 +27,43 @@ using namespace Graphics;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 DrawFonts::DrawFonts(S32 fontSize, S32 fontWeight, const std::string& fontName)
+	:	m_hWorld		(NULL)
+	,	m_hView			(NULL)
+	,	m_hProjection	(NULL)
 {
 	m_DrawStep	= 10001;
 	m_Color		= 0xFFFFFFFF;
 
 	D3DXMatrixIdentity(&m_World);
+
+	LPD3DXBUFFER wError = NULL;
+	HRESULT hr = D3DXCreateEffectFromFile(
+		GraphicsManager::GetInstance()->GetD3DDevice(),
+		L"Source/DefaultShaderPackage.fx",
+		NULL,
+		NULL,
+		D3DXSHADER_DEBUG,
+		NULL,
+		&m_Effect,
+		&wError);
+	if (FAILED(hr))
+	{
+		::MessageBoxA( NULL, (LPCSTR)wError->GetBufferPointer(), "Error", MB_OK );	// 失敗の原因を表示
+		wError->Release();
+	}
+	m_Effect->SetTechnique(m_Effect->GetTechniqueByName("DrawFont"));
+
+	m_hWorld		= m_Effect->GetParameterByName(m_hWorld,		"g_World");
+	m_hView			= m_Effect->GetParameterByName(m_hView,			"g_View");
+	m_hProjection	= m_Effect->GetParameterByName(m_hProjection,	"g_Projection");
+
+	const Matrix view	= GraphicsManager::GetInstance()->GetView();
+	const Matrix proj	= GraphicsManager::GetInstance()->GetProjection();
+	m_Effect->SetMatrix(m_hView, &view);
+	m_Effect->SetMatrix(m_hProjection, &proj);
+
+	m_Renderer.push_back(NEW TriangleRenderer());
+	m_Renderer[0]->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:SQUARE-Font"));
 
 	
 	m_FontSize = fontSize;
@@ -194,7 +229,9 @@ void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	
-	GraphicsManager::GetInstance()->GetSprite()->Begin(0);
+	//GraphicsManager::GetInstance()->GetSprite()->Begin(0);
+	m_Effect->Begin(nullptr, 0);
+	m_Effect->BeginPass(0);
 
 	while (it != m_DrawString.end())
 	{
@@ -209,25 +246,33 @@ void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
 		Matrix FontTrans;
 		Matrix localMatrix;
 
-		D3DXMatrixScaling(&FontScal, 1.f, 1.f, 1.f);
+		D3DXMatrixScaling(&FontScal, 32.f, 32.f, 1.f);
 
 		offset_y = (F32)m_FontSize - (F32)findIT->second.gmptGlyphOrigin.y;
 
 
-		D3DXMatrixTranslation(&FontTrans, offset_x, offset_y, 0.f);
+		D3DXMatrixTranslation(&FontTrans, -offset_x * 2.f, offset_y, 0.f);
 		D3DXMatrixMultiply(&localMatrix, &FontScal, &FontTrans);
 		
 		offset_x += (F32)findIT->second.gmCellIncX - findIT->second.gmptGlyphOrigin.x;
 		(F32)findIT->second.gmCellIncX;
 
-		GraphicsManager::GetInstance()->GetSprite()->SetTransform(&(localMatrix * m_World));
-		//GraphicsManager::GetInstance()->GetSprite()->SetWorldViewRH
+		//GraphicsManager::GetInstance()->GetSprite()->SetTransform(&(localMatrix * m_World));
 		
-		GraphicsManager::GetInstance()->GetSprite()->Draw(m_FontsTexture[*it], NULL , NULL, NULL, m_Color);
+		const Matrix	mat = localMatrix * m_World;
+		//const Vector3	vec = Vector3(mat._41, mat._42, mat._43);
+		
+		m_Effect->SetMatrix(m_hWorld, &mat);
+		GraphicsManager::GetInstance()->GetD3DDevice()->SetTexture(1, m_FontsTexture[*it]);
+		m_Effect->CommitChanges();
+		m_Renderer[0]->Draw();
+		//GraphicsManager::GetInstance()->GetSprite()->Draw(m_FontsTexture[*it], NULL , NULL, &vec, m_Color);
 		
 		++it;
 	}
-	GraphicsManager::GetInstance()->GetSprite()->End();
+	m_Effect->EndPass();
+	m_Effect->End();
+	//GraphicsManager::GetInstance()->GetSprite()->End();
 
 	GraphicsManager::GetInstance()->GetD3DDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }

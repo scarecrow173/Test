@@ -22,6 +22,7 @@ float4 g_Specular;
 float4 g_Emissive;
 float  g_Power;
 sampler tex0 : register(s0);
+sampler fontTex : register(s1);
 
 //----------------------------------------------------------------------------------
 // Name : CalculateBeckmann()

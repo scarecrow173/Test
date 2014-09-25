@@ -24,6 +24,7 @@ PrimitivePool::PrimitivePool()
 	m_PrimitiveCreator["BOX"]		= NEW BoxFactory();
 	m_PrimitiveCreator["SHPERE"]	= NEW SphereFactory();
 	m_PrimitiveCreator["RING"]		= NEW RingFactory();
+	m_PrimitiveCreator["SQUARE"]	= NEW SquareFactory();
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
