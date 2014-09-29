@@ -38,7 +38,7 @@ MenuRevolver::MenuRevolver()
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-Revolv"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/Revolver.csv"));
-	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(0,0,0), Vector3(500, 500, 1.f)));
+	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(500,-400,0), Vector3(500, 500, 1.f)));
 
 	m_Shader = NEW DefaultShader();
 	m_Shader->Initilize();
@@ -74,6 +74,9 @@ MenuRevolver::~MenuRevolver()
 //-------------------------------------------------------------
 void MenuRevolver::Notify(Event::EventTrackerBase* _sender)
 {
+	if (m_CaluvuStep != CalculateStep_End)
+		return;
+
 	Event::KeyDownTriggerTracker*	down	= dynamic_cast<Event::KeyDownTriggerTracker*>(_sender);
 	Event::KeyUPTriggerTracker*		up		= dynamic_cast<Event::KeyUPTriggerTracker*>(_sender);
 	
@@ -213,10 +216,10 @@ void MenuRevolver::CalculationElementPosition(RevolverDirection _dir)
 //-------------------------------------------------------------
 void MenuRevolver::CalculationUp()
 {
-	const Vector3	rootRotation = m_Renderer->GetTransform()->GetRotation();
+	const Vector3			rootRotation = m_Renderer->GetTransform()->GetRotation();
 	const F32		rotateFactar = (360.f / m_menuList.size());
 	const Vector3	rotate = Vector3(0, 0, D3DXToRadian(rotateFactar));
-	
+
 	m_NextTarget = rootRotation + rotate;
 
 	//m_Renderer->GetTransform()->SetRotation(rootRotation + rotate);

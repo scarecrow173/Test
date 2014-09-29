@@ -67,7 +67,7 @@ UIElement* UIElement::Copy()
 //!	@param[in]	: example
 //!	@return		: example
 //-------------------------------------------------------------
-void UIElement::SetElementName(std::wstring& _elementName)
+void UIElement::SetElementName(const std::wstring& _elementName)
 {
 	m_ElementName = _elementName;
 	m_ElemntFont->SetDrawString(m_ElementName);

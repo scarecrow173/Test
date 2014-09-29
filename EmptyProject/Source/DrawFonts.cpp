@@ -246,7 +246,7 @@ void DrawFonts::Draw(/*const std::wstring& drawStr, const D3DXMATRIX& world*/)
 		Matrix FontTrans;
 		Matrix localMatrix;
 
-		D3DXMatrixScaling(&FontScal, 32.f, 32.f, 1.f);
+		D3DXMatrixScaling(&FontScal, m_FontSize, m_FontSize, 1.f);
 
 		offset_y = (F32)m_FontSize - (F32)findIT->second.gmptGlyphOrigin.y;
 

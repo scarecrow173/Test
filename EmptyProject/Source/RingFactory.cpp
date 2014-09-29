@@ -86,8 +86,8 @@ BufferResource* RingFactory::CreatePrimitive()
 		F32 rad = Math::PI2 * iInCricle / (GraphicsManager::ONE_RING_VERTEX_NUM / 2);
 		
 		
-		F32 x	= Math::Cos(rad) * (halfRad * 0.8f);
-		F32 y	= Math::Sin(rad) * (halfRad * 0.8f);
+		F32 x	= Math::Cos(rad) * (halfRad * 0.5f);
+		F32 y	= Math::Sin(rad) * (halfRad * 0.5f);
 		
 
 		GraphicsManager::m_VertexBase[offset + count].position.x	= x;

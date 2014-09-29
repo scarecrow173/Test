@@ -90,6 +90,7 @@ void Title::Update()
 
 	FloatingBlock();
 
+
 	if (ring)
 		ring->Update(0.016f);
 
@@ -147,20 +148,30 @@ bool Title::Initialize()
 	auto elem2 = NEW UIElement(1);
 	auto elem3 = NEW UIElement(2);
 	auto elem4 = NEW UIElement(3);
+
+
+
 	revolv = NEW Util::MenuRevolver();
 	
-	Matrix uiRelative;
-	D3DXMatrixTranslation(&uiRelative, 500, 0, 0);
-	title->SetReletiveTransform(uiRelative);
+	Matrix uiRelative, tmp;
+	D3DXMatrixTranslation(&uiRelative, 350, 0, 0);
+	D3DXMatrixRotationZ(&tmp, D3DXToRadian(180));
+	title->SetReletiveTransform(tmp * uiRelative);
+	title->SetElementName(L"START");
 	
-	D3DXMatrixTranslation(&uiRelative, -0, -500, 0);
-	elem2->SetReletiveTransform(uiRelative);
+	D3DXMatrixTranslation(&uiRelative, -0, -350, 0);
+	D3DXMatrixRotationZ(&tmp, D3DXToRadian(90));
+	elem2->SetReletiveTransform(tmp * uiRelative);
+	elem2->SetElementName(L"ELEM2");
 	
-	D3DXMatrixTranslation(&uiRelative, -500, 0, 0);
+	D3DXMatrixTranslation(&uiRelative, -350, 0, 0);
 	elem3->SetReletiveTransform(uiRelative);
-	
-	D3DXMatrixTranslation(&uiRelative, 0, 500, 0);
-	elem4->SetReletiveTransform(uiRelative);
+	elem3->SetElementName(L"ELEM3");
+
+	D3DXMatrixTranslation(&uiRelative, 0, 350, 0);
+	D3DXMatrixRotationZ(&tmp, D3DXToRadian(-90));
+	elem4->SetReletiveTransform(tmp * uiRelative);
+	elem4->SetElementName(L"ELEM4");
 
 	revolv->SetElement(title);
 	revolv->SetElement(elem2);

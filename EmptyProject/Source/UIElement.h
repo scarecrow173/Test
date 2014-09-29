@@ -30,7 +30,7 @@ public:
 
 	UIElement* Copy();
 
-	void	SetElementName(std::wstring& _elementName);
+	void	SetElementName(const std::wstring& _elementName);
 	void	SetColor(const DWORD _color);
 	void	SetTransform(Matrix& _transform);
 	void	SetReletiveTransform(Matrix& _transform);
