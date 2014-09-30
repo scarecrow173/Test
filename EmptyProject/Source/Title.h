@@ -10,6 +10,9 @@
 #include "AbsShaderObject.h"
 #include "ScreenEffect.h"
 #include "WindowPolygonRenderer.h"
+#include "UIStepDefault.h"
+#include "UIStepAdd.h"
+#include "UITextureRenderer.h"
 namespace AK
 {
 //=======================================================================================
@@ -48,7 +51,8 @@ private:
 
 	Graphics::ScreenEffect*				m_FadeOutScreen;
 	Graphics::WindowPolygonRenderer*	m_FadeOutRenderer;
-
+	Graphics::UIStepDefault*			m_OpacityStep;
+	Graphics::UITextureRenderer*		m_TitleText;
 
 };
 

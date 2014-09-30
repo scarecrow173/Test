@@ -176,27 +176,27 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     if( SUCCEEDED( pd3dDevice->BeginScene() ) )
     {
 
-		//spectrum->Draw();
+		spectrum->Draw();
 
 		g_Device->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_ARGB( 255, 255, 255, 255 ), 1.0f, 0 );
 
 
 		g_mrg->Draw();
 		
-		g_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		g_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		g_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		//g_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		//g_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		//g_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		auto sprite = GraphicsManager::GetInstance()->GetSprite();
-		Matrix tmpTrans,tmpScale;
-		D3DXMatrixScaling(&tmpScale, 0.4f, 0.4,1.f);
-		D3DXMatrixTranslation(&tmpTrans, 230, 10, 0);
-		sprite->Begin(0);
-		sprite->SetTransform(&(tmpScale * tmpTrans));
-		sprite->Draw(texture, nullptr, nullptr, nullptr, 0xFFFFFFFF);
-		sprite->End();
-		
-		g_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);		
+		//auto sprite = GraphicsManager::GetInstance()->GetSprite();
+		//Matrix tmpTrans,tmpScale;
+		//D3DXMatrixScaling(&tmpScale, 0.4f, 0.4,1.f);
+		//D3DXMatrixTranslation(&tmpTrans, 230, 10, 0);
+		//sprite->Begin(0);
+		//sprite->SetTransform(&(tmpScale * tmpTrans));
+		//sprite->Draw(texture, nullptr, nullptr, nullptr, 0xFFFFFFFF);
+		//sprite->End();
+		//
+		//g_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);		
 
         V( pd3dDevice->EndScene() );
     }

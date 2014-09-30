@@ -62,8 +62,8 @@ Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 	}
 
 
-	static const F32 WIDTH	= 100.f;
-	static const F32 HEIGHT	= 50.f;
+	static const F32 WIDTH	= 50.f;
+	static const F32 HEIGHT	= 25.f;
 	
 	m_BlockLevel	= m_LifeCount >= BLOCK_LEVEL_NUM ? BLOCK_LEVEL_NUM : (BlockLevel)(m_LifeCount - 1);
 	m_LifeCount		= m_BlockLevel == BLOCK_HARD ? 5 : 1;

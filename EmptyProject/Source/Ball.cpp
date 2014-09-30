@@ -47,9 +47,9 @@ Ball::Ball(AbsNode* parent, Vector3 pos, Paddle* paddle)
 	,	m_State			(NEW BallStateLaunchStandby())
 {
 
-	m_Radius = 30.f;
+	m_Radius = 10.f;
 	m_Renderer = NEW TriangleRenderer();
-	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-Ball"));
+	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:SHPERE-Ball"));
 	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
 	
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(m_Radius, m_Radius, m_Radius));

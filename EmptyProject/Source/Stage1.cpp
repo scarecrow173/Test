@@ -61,6 +61,17 @@ Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	,	m_Phong			(NULL)
 	,	m_CookTorrance	(NULL)
 	,	m_FadeRenderer	(NULL)
+	,	m_LStageFont	(NULL)
+	,	m_RStageFont	(NULL)
+	,	m_StartFont		(NULL)
+	,	m_ClearFont		(NULL)
+	,	m_TimeFont		(NULL)
+	,	m_TimeNumFont	(NULL)
+	,	m_ScoreFont		(NULL)
+	,	m_ScoreNumFont	(NULL)
+	,	m_OpacityStep	(NULL)
+	,	m_AddStep		(NULL)
+	,	m_ScoreArea		(NULL)
 	,	m_BlockSystem	(NULL)
 	,	m_ItemSystem	(NULL)
 	,	m_StopCount		(0.f)
@@ -167,6 +178,10 @@ bool Stage1::Initialize()
 
 	m_CookTorrance = NEW DefaultShader();
 	m_CookTorrance->Initilize();
+	m_CookTorrance->SetShaderTechniqueByName("HalfLambert");
+
+	m_OpacityStep	= NEW UIStepDefault();
+	m_OpacityStep->Initilize();
 
 	m_FadeRenderer = NEW WindowPolygonRenderer();
 	m_FadeRenderer->CreatePolygon();
@@ -186,8 +201,8 @@ bool Stage1::Initialize()
 	CreateBlock();
 	CreateWall();
 	
-	CreateFont();
-	CreateFontArea();
+	//CreateFont();
+	//CreateFontArea();
 
 	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitN.png");
 	TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_auraA.png");
@@ -198,12 +213,12 @@ bool Stage1::Initialize()
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_AddStep);
-	GraphicsManager::GetInstance()->AddShaderObject(m_LStageFont);
-	GraphicsManager::GetInstance()->AddShaderObject(m_RStageFont);
-	GraphicsManager::GetInstance()->AddShaderObject(m_StartFont);
-	GraphicsManager::GetInstance()->AddShaderObject(m_ClearFont);
-	GraphicsManager::GetInstance()->AddShaderObject(m_ScoreFont);
-	GraphicsManager::GetInstance()->AddShaderObject(m_ScoreNumFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_LStageFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_RStageFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_StartFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_ClearFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_ScoreFont);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_ScoreNumFont);
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	
@@ -519,8 +534,7 @@ bool Stage1::CreateFont()
 //-------------------------------------------------------------
 bool Stage1::CreateFontArea()
 {
-	m_OpacityStep	= NEW UIStepDefault();
-	m_OpacityStep->Initilize();
+	
 	m_ScoreArea = NEW UITextureRenderer(NEW TextureAnimationController(512, 512, 1,1));
 	m_ScoreArea->SetTransform(std::make_shared<TransformObject>(Vector3(0.f,1.f,0.f), Vector3(0.35f, 0.07f, 1.f)));
 	m_ScoreArea->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/e-tex1-2-2.jpg"));
@@ -571,20 +585,20 @@ void Stage1::StartStage()
 //-------------------------------------------------------------
 void Stage1::SlideInStageFont()
 {
-	static const F32 SLIDE_SPEED				= 5.f;
-	static const F32 STAGE_FONTS_CENTER_OFFSET	= 16.f * 3.f;
-	
-	Matrix fontsPositionL;
-	Matrix fontsPositionR;
-	fontsPositionL	= m_LStageFont->GetWorld();
-	D3DXMatrixTranslation(&fontsPositionL, fontsPositionL._41 + SLIDE_SPEED, fontsPositionL._42, 0.f);
-	m_LStageFont->SetWorld(fontsPositionL);
+	//static const F32 SLIDE_SPEED				= 5.f;
+	//static const F32 STAGE_FONTS_CENTER_OFFSET	= 16.f * 3.f;
+	//
+	//Matrix fontsPositionL;
+	//Matrix fontsPositionR;
+	//fontsPositionL	= m_LStageFont->GetWorld();
+	//D3DXMatrixTranslation(&fontsPositionL, fontsPositionL._41 + SLIDE_SPEED, fontsPositionL._42, 0.f);
+	//m_LStageFont->SetWorld(fontsPositionL);
 
-	fontsPositionR	= m_RStageFont->GetWorld();
-	D3DXMatrixTranslation(&fontsPositionR, fontsPositionR._41 - SLIDE_SPEED, fontsPositionR._42, 0.f);
-	m_RStageFont->SetWorld(fontsPositionR);
+	//fontsPositionR	= m_RStageFont->GetWorld();
+	//D3DXMatrixTranslation(&fontsPositionR, fontsPositionR._41 - SLIDE_SPEED, fontsPositionR._42, 0.f);
+	//m_RStageFont->SetWorld(fontsPositionR);
 
-	if(fontsPositionL._41 >= (WINDOW_WIDTH / 2) - STAGE_FONTS_CENTER_OFFSET)
+	//if(fontsPositionL._41 >= (WINDOW_WIDTH / 2) - STAGE_FONTS_CENTER_OFFSET)
 		m_StartStep = STOP_STAGEFONT;
 }
 //-------------------------------------------------------------
@@ -593,10 +607,10 @@ void Stage1::SlideInStageFont()
 //-------------------------------------------------------------
 void Stage1::StopStageFont()
 {
-	static const U32 END_COUNT = 90;
-	++m_StopCount;
+	//static const U32 END_COUNT = 90;
+	//++m_StopCount;
 
-	if (m_StopCount > END_COUNT)
+	//if (m_StopCount > END_COUNT)
 	{
 		m_StopCount = 0;
 		m_StartStep = SLIDE_OUT_STAGEFONT;
@@ -608,19 +622,19 @@ void Stage1::StopStageFont()
 //-------------------------------------------------------------
 void Stage1::SlideOutStageFont()
 {
-	static const F32 SLIDE_SPEED = 20.f;
-	Matrix fontsPositionL;
-	Matrix fontsPositionR;
+	//static const F32 SLIDE_SPEED = 20.f;
+	//Matrix fontsPositionL;
+	//Matrix fontsPositionR;
 
-	fontsPositionL	= m_LStageFont->GetWorld();
-	D3DXMatrixTranslation(&fontsPositionL, fontsPositionL._41 + SLIDE_SPEED, fontsPositionL._42, 0.f);
-	m_LStageFont->SetWorld(fontsPositionL);
+	//fontsPositionL	= m_LStageFont->GetWorld();
+	//D3DXMatrixTranslation(&fontsPositionL, fontsPositionL._41 + SLIDE_SPEED, fontsPositionL._42, 0.f);
+	//m_LStageFont->SetWorld(fontsPositionL);
 
-	fontsPositionR	= m_RStageFont->GetWorld();
-	D3DXMatrixTranslation(&fontsPositionR, fontsPositionR._41 - SLIDE_SPEED, fontsPositionR._42, 0.f);
-	m_RStageFont->SetWorld(fontsPositionR);
+	//fontsPositionR	= m_RStageFont->GetWorld();
+	//D3DXMatrixTranslation(&fontsPositionR, fontsPositionR._41 - SLIDE_SPEED, fontsPositionR._42, 0.f);
+	//m_RStageFont->SetWorld(fontsPositionR);
 
-	if (fontsPositionL._41 > WINDOW_WIDTH)
+	//if (fontsPositionL._41 > WINDOW_WIDTH)
 		m_StartStep = SLIDE_IN_STARTFONT;
 }
 //-------------------------------------------------------------
@@ -629,15 +643,15 @@ void Stage1::SlideOutStageFont()
 //-------------------------------------------------------------
 void Stage1::SlideInStartFont()
 {
-	static const DWORD ADDING_ALPHA = 16;
-	DWORD color = m_StartFont->GetColor();
-	color += ADDING_ALPHA << 24;
-	m_StartFont->SetColor(color);
+	//static const DWORD ADDING_ALPHA = 16;
+	//DWORD color = m_StartFont->GetColor();
+	//color += ADDING_ALPHA << 24;
+	//m_StartFont->SetColor(color);
 
 
-	if ((255 - ADDING_ALPHA) <= (color >> 24))
+	//if ((255 - ADDING_ALPHA) <= (color >> 24))
 	{
-		m_StartFont->SetColor(0xFFFFFFFF);
+		//m_StartFont->SetColor(0xFFFFFFFF);
 		m_StartStep = STOP_STARTFONT;
 	}
 }
@@ -647,10 +661,10 @@ void Stage1::SlideInStartFont()
 //-------------------------------------------------------------
 void Stage1::StopStartFont()
 {
-	static const U32 END_COUNT = 20;
-	++m_StopCount;
-	
-	if (m_StopCount >= END_COUNT)
+	//static const U32 END_COUNT = 20;
+	//++m_StopCount;
+	//
+	//if (m_StopCount >= END_COUNT)
 	{
 		m_StopCount = 0;
 		m_StartStep = SLIDE_OUT_STARTFONT;
@@ -662,15 +676,15 @@ void Stage1::StopStartFont()
 //-------------------------------------------------------------
 void Stage1::SlideOutStartFont()
 {
-	static const DWORD ADDING_ALPHA = 16;
-	DWORD color = m_StartFont->GetColor();
-	color -= ADDING_ALPHA << 24;
-	m_StartFont->SetColor(color);
+	//static const DWORD ADDING_ALPHA = 16;
+	//DWORD color = m_StartFont->GetColor();
+	//color -= ADDING_ALPHA << 24;
+	//m_StartFont->SetColor(color);
 
 
-	if ((ADDING_ALPHA) >= (color >> 24))
+	//if ((ADDING_ALPHA) >= (color >> 24))
 	{
-		m_StartFont->SetColor(0x00000000);
+		//m_StartFont->SetColor(0x00000000);
 		m_StartStep = START_STAGE_END;
 	}
 }
@@ -695,13 +709,13 @@ void Stage1::StartStageClear()
 //-------------------------------------------------------------
 void Stage1::DownClearFont()
 {
-	static const F32 SLIDE_SPEED = 10.f;
-	Matrix fontsPosition;
-	fontsPosition	= m_ClearFont->GetWorld();
-	D3DXMatrixTranslation(&fontsPosition, fontsPosition._41, fontsPosition._42 + SLIDE_SPEED, 0.f);
-	m_ClearFont->SetWorld(fontsPosition);
+	//static const F32 SLIDE_SPEED = 10.f;
+	//Matrix fontsPosition;
+	//fontsPosition	= m_ClearFont->GetWorld();
+	//D3DXMatrixTranslation(&fontsPosition, fontsPosition._41, fontsPosition._42 + SLIDE_SPEED, 0.f);
+	//m_ClearFont->SetWorld(fontsPosition);
 
-	if (fontsPosition._42 > WINDOW_HEIGHT)
+	//if (fontsPosition._42 > WINDOW_HEIGHT)
 		m_ClearStep = FADE_SCENE;
 
 }
@@ -718,7 +732,7 @@ void Stage1::UpdateScore()
 	static const F32 K		= 0.1f;
 	m_CrrentScore			+= (U32)(distance * K) <= 1 ? distance : (U32)(distance * K);
 
- 	m_ScoreNumFont->SetDrawString(std::to_wstring((_ULonglong)m_CrrentScore));
+ 	//m_ScoreNumFont->SetDrawString(std::to_wstring((_ULonglong)m_CrrentScore));
 }
 //-------------------------------------------------------------
 //!	@brief		: 

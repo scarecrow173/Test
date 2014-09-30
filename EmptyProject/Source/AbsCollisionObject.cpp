@@ -183,14 +183,14 @@ void AbsCollisionObject::Update(std::vector<AbsCollisionObject*>& collision)
 			&v1, &m_Position, &m_Speed);
 		
 		m_Speed.z = 0.0f;
-		//	15.fがマジックナンバーになってしまっている
-		if (abs(m_Speed.x) > 15.f)
+		//	12.fがマジックナンバーになってしまっている
+		if (abs(m_Speed.x) > 12.f)
 		{
-			m_Speed.x = (m_Speed.x > 0.f) ? 15.f : -15.f;
+			m_Speed.x = (m_Speed.x > 0.f) ? 12.f : -12.f;
 		}
-		if (abs(m_Speed.y) > 15.f)
+		if (abs(m_Speed.y) > 12.f)
 		{
-			m_Speed.y = (m_Speed.y > 0.f) ? 15.f : -15.f;
+			m_Speed.y = (m_Speed.y > 0.f) ? 12.f : -12.f;
 		}
 	}
 	m_IsHit = false;

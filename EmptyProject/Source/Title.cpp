@@ -27,6 +27,7 @@
 #include "RingWaveEffect.h"
 #include "UIElement.h"
 #include "MenuRevolver.h"
+#include "TexturePool.h"
 
 using namespace AK;
 using namespace Sound;
@@ -38,7 +39,10 @@ static const U32 TITLE_BGM_NUM = 2;
 InputKeyboard keyboard;
 
 Util::RingWaveEffect* ring;
-UIElement* title = nullptr;
+UIElement* elem1 = nullptr;
+UIElement* elem2 = nullptr;
+UIElement* elem3 = nullptr;
+UIElement* elem4 = nullptr;
 Util::MenuRevolver* revolv = nullptr;
 //-------------------------------------------------------------
 //!	@brief		: コンストラクタ
@@ -52,6 +56,8 @@ Title::Title(AbsNode* parent)
 	,	m_FadeOutScreen		(NULL)
 	,	m_FadeOutRenderer	(NULL)
 	,	m_Floating			(0.0f)
+	,	m_OpacityStep		(nullptr)
+	,	m_TitleText			(nullptr)
 {
 }
 //-------------------------------------------------------------
@@ -61,7 +67,7 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeOutScreen);
-
+		GraphicsManager::GetInstance()->EraseShaderObject(m_OpacityStep);
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -69,7 +75,22 @@ Title::~Title()
 		it = m_TitleBlock.erase(it);
 	}
 	
+	{
+		if (ring)
+			SAFE_DELETE(ring);
+		if (revolv)
+			SAFE_DELETE(revolv);
+		if (elem1)
+			SAFE_DELETE(elem1);
+		if (elem2)
+			SAFE_DELETE(elem2);
+		if (elem3)
+			SAFE_DELETE(elem3)
+		if (elem4)
+			SAFE_DELETE(elem4);
+	}
 	SAFE_DELETE(m_Shader);
+	SAFE_DELETE(m_OpacityStep);
 
 	SAFE_DELETE(m_FadeOutRenderer);
 	SAFE_DELETE(m_FadeOutScreen);
@@ -85,7 +106,7 @@ void Title::Update()
 {
 	DEBUG_PRINT_CHAR("TITLE");
 	
-	//keyboard.Update();
+	keyboard.Update();
 	CheckBeginFade();
 
 	FloatingBlock();
@@ -126,6 +147,9 @@ bool Title::Initialize()
 
 	m_Shader->Initilize();
 
+	m_OpacityStep	= NEW UIStepDefault();
+	m_OpacityStep->Initilize();
+	m_OpacityStep->SetActive(true);
 
 	m_FadeOutScreen = NEW ScreenEffect();
 	m_FadeOutScreen->Initilize();
@@ -144,10 +168,10 @@ bool Title::Initialize()
 
 
 	ring = NEW Util::RingWaveEffect();
-	title = NEW UIElement(0);
-	auto elem2 = NEW UIElement(1);
-	auto elem3 = NEW UIElement(2);
-	auto elem4 = NEW UIElement(3);
+	elem1 = NEW UIElement(0);
+	elem2 = NEW UIElement(1);
+	elem3 = NEW UIElement(2);
+	elem4 = NEW UIElement(3);
 
 
 
@@ -156,31 +180,37 @@ bool Title::Initialize()
 	Matrix uiRelative, tmp;
 	D3DXMatrixTranslation(&uiRelative, 350, 0, 0);
 	D3DXMatrixRotationZ(&tmp, D3DXToRadian(180));
-	title->SetReletiveTransform(tmp * uiRelative);
-	title->SetElementName(L"START");
+	elem1->SetReletiveTransform(tmp * uiRelative);
+	elem1->SetElementName(L"START");
 	
 	D3DXMatrixTranslation(&uiRelative, -0, -350, 0);
 	D3DXMatrixRotationZ(&tmp, D3DXToRadian(90));
 	elem2->SetReletiveTransform(tmp * uiRelative);
-	elem2->SetElementName(L"ELEM2");
+	elem2->SetElementName(L"START");
 	
 	D3DXMatrixTranslation(&uiRelative, -350, 0, 0);
 	elem3->SetReletiveTransform(uiRelative);
-	elem3->SetElementName(L"ELEM3");
+	elem3->SetElementName(L"START");
 
 	D3DXMatrixTranslation(&uiRelative, 0, 350, 0);
 	D3DXMatrixRotationZ(&tmp, D3DXToRadian(-90));
 	elem4->SetReletiveTransform(tmp * uiRelative);
-	elem4->SetElementName(L"ELEM4");
+	elem4->SetElementName(L"START");
 
-	revolv->SetElement(title);
+	revolv->SetElement(elem1);
 	revolv->SetElement(elem2);
 	revolv->SetElement(elem3);
 	revolv->SetElement(elem4);
 
+	m_TitleText = NEW UITextureRenderer(NEW TextureAnimationController(1024, 256, 1,1));
+	m_TitleText->SetTransform(std::make_shared<TransformObject>(Vector3(230.f,10.f,0.f), Vector3(0.4f, 0.4f, 1.f)));
+	m_TitleText->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/TitleText.png"));
+	m_OpacityStep->AddRenderer(m_TitleText);
+
 	//LoadTitleBlock();
 
 	/*GraphicsManager::GetInstance()->AddShaderObject(Font);*/
+	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->AddShaderObject(m_FadeOutScreen);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
@@ -268,18 +298,19 @@ void Title::LoadTitleBlock()
 void Title::FloatingBlock()
 {
 	m_Floating += 0.2f;
-	F32 value = sin(m_Floating) * 20.f;
+	F32 value = sin(m_Floating) * 5.f;
 
-	auto it = m_TitleBlock.begin();
-	while (it != m_TitleBlock.end())
-	{
-		auto transform = (*it)->GetTransform();
+	//auto it = m_TitleBlock.begin();
+	//while (it != m_TitleBlock.end())
+	//{
+		//auto transform = (*it)->GetTransform();
+		auto transform = m_TitleText->GetTransform();
 		Vector3 pos = transform->GetTranslation();
-		pos.y += m_IsFading ? (std::rand() % 10) / 10.f * -20.f : value;
+		pos.y += m_IsFading ? /*(std::rand() % 10) / 10.f * -5.f*/0 : value;
 		transform->SetTranslation(pos);
 		transform->UpdateTransform();
-		++it;
-	}
+		//++it;
+	//}
 }
 //===============================================================
 //	End of File

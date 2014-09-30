@@ -44,8 +44,8 @@ Paddle::Paddle(AbsNode* parent, Vector3 pos)
 	,	m_Size				(1.f, 1.f, 1.f)
 	,	m_CurrentSpeedMode	((SPEED_MODE_MAX / 2) - 1)
 {
-	static const F32 PADDLE_WIDTH	= 300.f;
-	static const F32 PADDLE_HEIGHT	= 40.f;
+	static const F32 PADDLE_WIDTH	= 100.f;
+	static const F32 PADDLE_HEIGHT	= 25.f;
 
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));

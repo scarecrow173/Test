@@ -50,10 +50,10 @@ BufferResource* SphereFactory::CreatePrimitive()
 	assert(GraphicsManager::SPHERE_NUM > m_SphereCount);
 	
 	
-	const F32 radius		= 1.f;
-	const Vector3 vCenter	= Vector3(0, 0, 0);
-	static U32 boxOffset		= (GraphicsManager::ONE_BOX_VERTEX_NUM * GraphicsManager::BOX_NUM);
-	const U32	offset		= boxOffset + (m_SphereCount * GraphicsManager::ONE_SPHERE_VERTEX_NUM);
+	const F32		radius		= 1.f;
+	const Vector3	vCenter		= Vector3(0, 0, 0);
+	static U32		boxOffset	= (GraphicsManager::ONE_BOX_VERTEX_NUM * GraphicsManager::BOX_NUM);
+	const U32		offset		= boxOffset + (m_SphereCount * GraphicsManager::ONE_SPHERE_VERTEX_NUM);
 	U32 count		= 0;
 	
 
@@ -110,9 +110,9 @@ BufferResource* SphereFactory::CreatePrimitive()
 	++m_SphereCount;
 
 	IndexData indexData;
-	indexData.start	= offset;
-	indexData.vertexNum		= GraphicsManager::ONE_SPHERE_VERTEX_NUM;
-	indexData.face	= GraphicsManager::ONE_SPHERE_FACE_NUM;
+	indexData.start		= offset;
+	indexData.vertexNum	= GraphicsManager::ONE_SPHERE_VERTEX_NUM;
+	indexData.face		= GraphicsManager::ONE_SPHERE_FACE_NUM;
 
 
 	BufferResource* newResouce = NEW BufferResource();

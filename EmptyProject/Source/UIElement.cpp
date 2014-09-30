@@ -43,6 +43,7 @@ UIElement::UIElement(U32 _id, UIType _type)
 //-------------------------------------------------------------
 UIElement::~UIElement()
 {
+	GraphicsManager::GetInstance()->EraseShaderObject(m_ElemntFont);
 	SAFE_DELETE(m_ElemntFont);
 }
 //=======================================================================================
