@@ -81,52 +81,57 @@ If /you choose　to / write your own system,
 
 (like 
 　more than / one touch at / a time).
-一度に？何回ものタッチすることとか。
+複数タッチとか。
 
-Writing a GUI / from / scratch is / not an easy / thing to do. 
+Writing a GUI /
+	from scratch / is not an easy / thing to do. 
 GUIシステムを一から作るのは簡単じゃない。
 
-I am not going / to create / some kind of / super-trooper complex system / that will handle everything. 
+I am not going / to create /
+	some kind of / super-trooper complex system /
+		that will handle everything. 
 いくつかの種類のすべてを処理するとても複雑なシステムを作るつもりはない。？
 
-Our designed GUI / will be used / for static game menu controls / and / in-game menus.
-デザインされたGUIはゲームメニューやインゲームのメニューに使われる
+Our designed GUI /
+	will be used /
+		for static game menu controls / and / in-game menus.
+よくできたGUIはゲームメニューやインゲームのメニューに使われる
 
-You can show scores, / lives / and other info / with this system.
-今までに見たことあるでしょ的な？
+You can show scores, / lives / and / other info / with this system.
+scoresを見ることが出来る     生活　　　　と　　　　他の情報　　　　　　システムを使って？
+
 
 An example / of / what can be created / with this simple system / can be seen / in figures 1 and 2. 
 作れるもののサンプル　簡単なシステムで　1と2から分かる
-このシステムで作れることがこの1と2の画像から分かる
+このシステムで作れることがこの1と2の画像から分かります
 
 Those are actuals screen-shots / from / engines / and / games / I have created / with this.
-そのスクリーンショット　エンジン　と ゲーム　から　このシステムで作った
+そのスクリーンショットはエンジン　と ゲーム　から　このシステムで作った
+1と2のスクリーンショットは私が作ったエンジンとゲームの画像です。
 
 Our GUI / will be created / in C++ / and / will work / with either / OpenGL / or / DirectX. 
-このGUIはC++とOpenGLかDirectXで作った。
+このGUIはC++とOpenGLかDirectXを使えば作れるよ
 
 We are not using / any API-specific things.
 API固有のものは使用していない
 
-Apart / from plain C++,/ we also will need / some libraries / that make things easier / for us. 
-ただのc++じゃない、簡単に作るためにいくつかのライブラリが必要になるだろう
+Apart from / plain C++,/ we also will need / some libraries / that make things easier / for us. 
+ただのc++のほかに、簡単に作るためにいくつかのライブラリが必要になるだろう
 
 One of the best “library”
 最高の一つのライブラリ
 
-(it's really just a single header file)
-ほんとに一つのヘッダーファイルでてきてる。
-- FastDelegate - will be used / for function pointers (we will use this for triggers). 
-- FastDelegate - は関数ポインタのために使われる。
+	(it's really just a single header file)
+	ほんとに一つのヘッダーファイルでてきてる。
+		
+		- FastDelegate - will be used / for function pointers (we will use this for triggers). 
+		- FastDelegate - は関数ポインタに使われる。　　　　　　　　　　　　　　　　　それをきっかけとして使う？
 
-For rendering / of fonts, I have decided to use / the FreeType2 library. 
+For rendering / of fonts,/ I have decided to use / the FreeType2 library. 
 フォント描画のために”FreeType2”ライブラリを使うことにした。
 
-It's a little more complex,/ but it's worth it. 
-”FreeType2”はすこし難しいけど価値がある
-
-That is / pretty much / all you need.
-それはあなたのためだ。
+It's a little more complex,/ but it's worth it./That is / pretty much / all you need.
+”FreeType2”はすこし難しいけどあなたのためになう。
 
 If you want,/ you can also add support / for various image formats (jpg, png...). 
 jpgとかpngとかを使いたいなら追加できる？
@@ -135,10 +140,7 @@ For simplicity / I am using tga (my own parser) / and / png (via not so fast,/ b
 簡単にするために私はtga（読み込みは自分で作った）とpngを使っている。（”LodePNG”を使うとそんなに早くないけど簡単にできる）
 
 Ok. 
-よし
 
 You have read / some opening sentences / and / it's time / to dig / into details.
-
-
-
-
+　　　　　　　　　　　　　　オープニング文章				と　　　　　詳細を掘り下げる時だ
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　詳しく見ていこう？
