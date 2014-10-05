@@ -144,7 +144,9 @@ void CALLBACK OnFrameMove( double fTime, float fElapsedTime, void* pUserContext 
 
 	g_Root->UpdateNodeTree();
 	g_Root->GetStopWatch()->Update(fElapsedTime);
-	
+	AK::Sound::SoundManager::GetInstance()->Update(fElapsedTime);
+
+
 	AK::Event::KeyDownTriggerTracker::GetInstance()->Update();
 	AK::Event::KeyUPTriggerTracker::GetInstance()->Update();
 	AK::Event::KeyLeftTriggerTracker::GetInstance()->Update();

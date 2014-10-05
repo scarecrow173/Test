@@ -29,7 +29,7 @@ public:
 	RTTI_IS_A(BlockSystem);
 	virtual void Update();
 	virtual void Start();
-	bool CreateStageBlocks(const std::string& filePath, Graphics::AbsShaderObject* shader, Graphics::UIStepAdd* addStep);
+	bool CreateStageBlocks(const std::string& filePath, Graphics::AbsShaderObject* shader, Graphics::AbsShaderObject* addStep);
 	bool Clear();
 
 	bool DeleteBlock(Collision::AbsCollisionObject* obj);

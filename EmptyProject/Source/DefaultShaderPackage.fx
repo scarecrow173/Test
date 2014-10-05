@@ -293,6 +293,7 @@ technique SimpleColor
 		AlphaBlendEnable	= True;
 		SrcBlend			= SrcAlpha;
 		DestBlend			= InvSrcAlpha;
+		ZEnable				= False;
 		VertexShader		= compile vs_2_0 DefaultVS();
 		PixelShader			= compile ps_2_0 SimpleColorPS();
 	}

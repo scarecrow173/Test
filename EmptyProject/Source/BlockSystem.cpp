@@ -63,7 +63,7 @@ void BlockSystem::Start()
 //!	@param[in]	: —ñ”
 //!	@return		: ì¬‚É¬Œ÷‚µ‚½‚ç true
 //-------------------------------------------------------------
-bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject* shader, UIStepAdd* addStep)
+bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject* shader, AbsShaderObject* addStep)
 {
 	assert(m_Ball);
 
@@ -82,9 +82,11 @@ bool BlockSystem::CreateStageBlocks(const std::string& filePath, AbsShaderObject
 		Block* block = NEW Block(this, vec3, StageData[i].GetInteger());
 		block->SetSEHandle((i % 7) + 1);
 		this->AttachNode(block);
+		
 		shader->AddRenderer(block->GetRenderer());
-		addStep->AddRenderer(block->GetEffectRenderer());
-		addStep->AddRenderer(block->GetHardEffectRenderer());
+		addStep->AddRenderer(block->GetRingRenderer()->GetRenderer());
+		//addStep->AddRenderer(block->GetEffectRenderer());
+		//addStep->AddRenderer(block->GetHardEffectRenderer());
 		m_Ball->GetCollision()->PushCollisionList(block->GetCollision());
 		m_BlockList.push_back(block);
 	}

@@ -58,7 +58,7 @@ Stage1::Stage1(AbsNode* parent, U32 stageCount)
 	,	m_StageCount	(stageCount)
 	,	m_Shader		(NULL)
 	,	m_FadeShader	(NULL)
-	,	m_Phong			(NULL)
+	,	m_Simple		(NULL)
 	,	m_CookTorrance	(NULL)
 	,	m_FadeRenderer	(NULL)
 	,	m_LStageFont	(NULL)
@@ -148,8 +148,11 @@ SceneNode*	Stage1::NextScene()
 		return NEW Title(m_Parent);
 
 	if (m_IsStageClear)
+	{
+		SoundManager::GetInstance()->m_delta.Stop();
+		SoundManager::GetInstance()->m_delta.Reset();
 		return NEW Stage1(m_Parent, ++m_StageCount);
-
+	}
 	return this;
 }
 //-------------------------------------------------------------
@@ -168,6 +171,8 @@ bool Stage1::Initialize()
 
 	SoundManager::GetInstance()->SetVolumeBGM(STAGE_BGM_NUM, 1.f);
 	SoundManager::GetInstance()->PlayBGM(STAGE_BGM_NUM, TRUE);
+	SoundManager::GetInstance()->m_delta.Reset();
+	SoundManager::GetInstance()->m_delta.Start();
 	
 	m_Shader = NEW DefaultShader();
 	m_Shader->Initilize();
@@ -179,6 +184,10 @@ bool Stage1::Initialize()
 	m_CookTorrance = NEW DefaultShader();
 	m_CookTorrance->Initilize();
 	m_CookTorrance->SetShaderTechniqueByName("HalfLambert");
+
+	m_Simple = NEW DefaultShader();
+	m_Simple->Initilize();
+	m_Simple->SetShaderTechniqueByName("SimpleColor");
 
 	m_OpacityStep	= NEW UIStepDefault();
 	m_OpacityStep->Initilize();
@@ -213,6 +222,7 @@ bool Stage1::Initialize()
 
 	GraphicsManager::GetInstance()->AddShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->AddShaderObject(m_AddStep);
+	GraphicsManager::GetInstance()->AddShaderObject(m_Simple);
 	//GraphicsManager::GetInstance()->AddShaderObject(m_LStageFont);
 	//GraphicsManager::GetInstance()->AddShaderObject(m_RStageFont);
 	//GraphicsManager::GetInstance()->AddShaderObject(m_StartFont);
@@ -473,7 +483,7 @@ bool Stage1::CreateBlock()
  	m_BlockSystem = NEW BlockSystem(this);
 	m_Ball[0]->SetBlockSystem(m_BlockSystem);
 	m_BlockSystem->SetBall(m_Ball[0]);
-	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader, m_AddStep);
+	m_BlockSystem->CreateStageBlocks(StageDataPath[m_StageCount], m_Shader, m_Simple);
 	return true;
 }
 //-------------------------------------------------------------

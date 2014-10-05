@@ -118,6 +118,7 @@ enum RTTI_ID
 	SceneNode,
 	RootNode,
 	Title,
+	Result,
 	Stage1,
 
 	BlockSystem,

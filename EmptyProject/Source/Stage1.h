@@ -123,7 +123,7 @@ private:
 	F32								m_FadeVolume;
 	Graphics::AbsShaderObject*		m_Shader;
 	Graphics::ScreenEffect*			m_FadeShader;
-	Graphics::AbsShaderObject*		m_Phong;
+	Graphics::DefaultShader*		m_Simple;
 	Graphics::DefaultShader*		m_CookTorrance;
 	Graphics::DrawFonts*			m_LStageFont;
 	Graphics::DrawFonts*			m_RStageFont;

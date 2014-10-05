@@ -45,11 +45,12 @@ static bool					g_InitializedMaterials = false;
 //!	@brief		: コンストラクタ
 //-------------------------------------------------------------
 Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
-	:	GameObject	(parent, pos)
-	,	m_LifeCount	(lifeCount)
-	,	m_SEHandle		(0)
-	,	m_DeadStep		(DeadStep::StopedStep)
-	,	m_HardEffectStep(HardBlockStep::StopedHardEffectStep)
+	:	GameObject			(parent, pos)
+	,	m_LifeCount			(lifeCount)
+	,	m_SEHandle			(0)
+	,	m_DeadStep			(DeadStep::StopedStep)
+	,	m_HardEffectStep	(HardBlockStep::StopedHardEffectStep)
+	,	m_RingEffect		(nullptr)
 {
 	if (!g_InitializedMaterials)
 	{
@@ -75,31 +76,36 @@ Block::Block(AbsNode* parent, Vector3 pos, U32 lifeCount)
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:BOX-Box01"));
 	m_Renderer->SetMaterial(BlockStrengthMaterial[m_BlockLevel]);
 
-	m_EffectContoroller	= NEW TextureAnimationController(4096, 1024, 7, 2, 0.032f);
-	m_Effect			= NEW UITextureRenderer(m_EffectContoroller);
-	m_Effect->Initialize();
-	m_Effect->SetActive(false);
-	m_Effect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitN.png"));
+	//m_EffectContoroller	= NEW TextureAnimationController(4096, 1024, 7, 2, 0.032f);
+	//m_Effect			= NEW UITextureRenderer(m_EffectContoroller);
+	//m_Effect->Initialize();
+	//m_Effect->SetActive(false);
+	//m_Effect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_hitN.png"));
 
-	m_HardEffectContoroller	= NEW TextureAnimationController(1024, 1024, 4, 3, 0.032f);
-	m_HardEffect			= NEW UITextureRenderer(m_HardEffectContoroller);
-	m_HardEffect->Initialize();
-	m_HardEffect->SetActive(false);
-	m_HardEffect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_lightR.png"));
+	//m_HardEffectContoroller	= NEW TextureAnimationController(1024, 1024, 4, 3, 0.032f);
+	//m_HardEffect			= NEW UITextureRenderer(m_HardEffectContoroller);
+	//m_HardEffect->Initialize();
+	//m_HardEffect->SetActive(false);
+	//m_HardEffect->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/gra_effect_lightR.png"));
 
 	m_Transform = std::make_shared<TransformObject>(pos, Vector3(WIDTH, HEIGHT, 50.f));
 
 	m_Renderer->SetTransform(m_Transform);
 
 	m_Collision = NEW CollisionBox(pos, Vector3(0.f, 0.f, 0.f), Vector3(0.f, 0.f, 0.f), WIDTH, HEIGHT, 50.f);
+	m_RingEffect = NEW Util::RingWaveEffect();
+	m_RingEffect->SetActive(false);
+	Material* RingMaterial = NEW Material(*(Material*)BlockStrengthMaterial[m_BlockLevel].GetSharedObject());
+	m_RingEffect->SetMaterial(RefCountedObjectPtr(RingMaterial));
 }
 //-------------------------------------------------------------
 //!	@brief		: デストラクタ
 //-------------------------------------------------------------
 Block::~Block()
 {
-	SAFE_DELETE(m_Effect);
-	SAFE_DELETE(m_HardEffect);
+	SAFE_DELETE(m_RingEffect);
+	//SAFE_DELETE(m_Effect);
+	//SAFE_DELETE(m_HardEffect);
 }
 //=======================================================================================
 //		public method
@@ -206,17 +212,24 @@ void Block::SetSEHandle(const U32 handle)
 //-------------------------------------------------------------
 //!	@brief		: 
 //-------------------------------------------------------------
-UITextureRenderer* Block::GetEffectRenderer() const
+Util::RingWaveEffect*	Block::GetRingRenderer() const
 {
-	return m_Effect;
+	return m_RingEffect;
 }
-//-------------------------------------------------------------
-//!	@brief		: 
-//-------------------------------------------------------------
-UITextureRenderer* Block::GetHardEffectRenderer() const
-{
-	return m_HardEffect;
-}
+////-------------------------------------------------------------
+////!	@brief		: 
+////-------------------------------------------------------------
+//UITextureRenderer* Block::GetEffectRenderer() const
+//{
+//	return m_Effect;
+//}
+////-------------------------------------------------------------
+////!	@brief		: 
+////-------------------------------------------------------------
+//UITextureRenderer* Block::GetHardEffectRenderer() const
+//{
+//	return m_HardEffect;
+//}
 //=======================================================================================
 //		protected method
 //=======================================================================================
@@ -231,8 +244,11 @@ void Block::StartDeadStep()
 {
 	m_Renderer->SetActive(false);
 	m_Collision->SetActive(false);
-	m_Effect->SetActive(true);
-	m_Effect->SetTransform(std::make_shared<TransformObject>(GetTransformTo2D()));
+	//m_Effect->SetActive(true);
+	//m_Effect->SetTransform(std::make_shared<TransformObject>(GetTransformTo2D()));
+	
+	m_RingEffect->SetTransform(m_Transform);
+	m_RingEffect->SetActive(true);
 
 	m_DeadStep = DeadStep::UpdateEffectStep;
 }
@@ -241,17 +257,24 @@ void Block::StartDeadStep()
 //-------------------------------------------------------------
 void Block::UpdateEffectStep()
 {
-	if (m_EffectContoroller->IsEnd())
+	//if (m_EffectContoroller->IsEnd())
+	//{
+	//	m_Effect->SetActive(false);
+	//	m_DeadStep = DeadStep::EndDeadStep;
+	//}
+	if (m_RingEffect->IsEnd())
 	{
-		m_Effect->SetActive(false);
 		m_DeadStep = DeadStep::EndDeadStep;
 	}
+	if (m_RingEffect)
+		m_RingEffect->Update(0.016f);
 }
 //-------------------------------------------------------------
 //!	@brief		: 
 //-------------------------------------------------------------
 void Block::EndDeadStep()
 {
+	m_RingEffect->SetActive(false);
 	SetActive(false);
 }
 //-------------------------------------------------------------

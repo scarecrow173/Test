@@ -68,7 +68,8 @@ void SoundManager::PlaySE(U32 streamNum, BOOL restart)
 {
 	assert(m_SEList.size() > streamNum);
 	m_SENum = streamNum;
-	BASS_ChannelPlay(m_SEList[streamNum], restart);
+	m_PlaySE.push_back(SEHandle(streamNum, restart));
+	//BASS_ChannelPlay(m_SEList[streamNum], restart);
 }
 //-------------------------------------------------------------
 //!	@brief		: BGMÄ¶
@@ -143,6 +144,28 @@ bool SoundManager::IsActiveBGM(U32 streamNum)
 	assert(m_BGMList.size() > streamNum);
 
 	return BASS_ChannelIsActive(m_BGMList[streamNum]) != 0;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void SoundManager::Update(F32 _dt)
+{
+	m_delta.Update(_dt);
+	static const F32 bpm = ((60.f / (149.f * 16.f)));
+	if (m_delta.GetTime() > bpm)
+	{
+		m_delta.Reset();
+		m_delta.Update(m_delta.GetTime() - bpm);
+
+		for (auto it = m_PlaySE.begin(); it != m_PlaySE.end(); ++it)
+		{
+			BASS_ChannelPlay(m_SEList[it->m_SEHandle], it->m_Restart);
+		}
+			
+		m_PlaySE.clear();
+	}
 }
 //=======================================================================================
 //		protected method

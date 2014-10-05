@@ -10,6 +10,7 @@
 #include "SoundManager.h"
 #include "TextureAnimationController.h"
 #include "UITextureRenderer.h"
+#include "RingWaveEffect.h"
 namespace AK
 {
 enum BlockLevel
@@ -64,9 +65,9 @@ public:
 
 	bool	Death();
 	void	SetSEHandle(const U32 handle);
-	Graphics::UITextureRenderer* GetEffectRenderer() const;
-	Graphics::UITextureRenderer* GetHardEffectRenderer() const;
-
+	//Graphics::UITextureRenderer* GetEffectRenderer() const;
+	//Graphics::UITextureRenderer* GetHardEffectRenderer() const;
+	Graphics::Util::RingWaveEffect*	GetRingRenderer() const;
 
 private:
 	void			StartDeadStep();
@@ -85,12 +86,13 @@ private:
 	Graphics::IndexData						m_IndexData;
 	Graphics::VertexARGB					m_Color;
 	U32										m_SEHandle;
-	Graphics::UITextureRenderer*			m_Effect;
-	Graphics::TextureAnimationController*	m_EffectContoroller;
-	Graphics::UITextureRenderer*			m_HardEffect;
-	Graphics::TextureAnimationController*	m_HardEffectContoroller;
+	//Graphics::UITextureRenderer*			m_Effect;
+	//Graphics::TextureAnimationController*	m_EffectContoroller;
+	//Graphics::UITextureRenderer*			m_HardEffect;
+	//Graphics::TextureAnimationController*	m_HardEffectContoroller;
 	DeadStep::DeadStep						m_DeadStep;
 	HardBlockStep::HardBlockStep			m_HardEffectStep;
+	Graphics::Util::RingWaveEffect*			m_RingEffect;
 };
 //=======================================================================================
 //		inline method

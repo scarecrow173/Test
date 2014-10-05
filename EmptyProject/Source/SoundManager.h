@@ -6,6 +6,9 @@
 #pragma once
 #include <vector>
 #include "bass.h"
+#include <vector>
+#include "StopWatch.h"
+
 namespace AK
 {
 namespace Sound
@@ -43,6 +46,8 @@ public:
 	void	SetVolumeSE(U32 streamNum, F32 volume);
 	void	SetVolumeBGM(U32 streamNum, F32 volume);
 
+	void	Update(F32 _dt);
+
 	//void	StopSE(U32 streamNum);
 	//void	StopBGM(U32 streamNum);
 
@@ -53,6 +58,7 @@ public:
 	HSTREAM GetStreamHandleSE(U32 streamNum) { return m_SEList[streamNum]; }
 	U32						m_BGMNum;
 	U32						m_SENum;
+	StopWatch				m_delta;
 protected:
 
 private:
@@ -70,7 +76,13 @@ private:
 
 	std::vector<HSTREAM>	m_SEList;
 	std::vector<HSTREAM>	m_BGMList;
-	
+	struct SEHandle
+	{
+		SEHandle(U32 _handle, bool _restart) : m_SEHandle(_handle), m_Restart(_restart){}
+		U32		m_SEHandle;
+		bool	m_Restart;
+	};
+	std::vector<SEHandle>		m_PlaySE;
 
 };
 //=======================================================================================

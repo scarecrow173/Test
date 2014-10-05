@@ -31,27 +31,24 @@ RingWaveEffect::RingWaveEffect(F32 _speed, Vector3 _limit3d )
 	,	m_CurrentFactor		(0)
 	,	m_LimitSize			(_limit3d)
 	,	m_Alpha				(1.f)
+	,	m_IsActive			(true)
+	,	m_IsEnd				(false)
 {
 	m_Renderer = NEW TriangleRenderer();
 	m_Renderer->SetBufferResource(PrimitivePool::GetInstance()->GetResource("data:RING-WaveRing"));
-	m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
+	Material* RingMaterial = NEW Material(*(Material*)MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv").GetSharedObject());
+	m_Renderer->SetMaterial(RefCountedObjectPtr(RingMaterial));
+	//m_Renderer->SetMaterial(MaterialPool::GetInstance()->GetResource("file:Default-Assets/CSV/Material/DefaultBall.csv"));
 	m_Renderer->SetTransform(std::make_shared<TransformObject>(Vector3(0,0,0), Vector3(30, 30, 1.f)));
 	
+	//m_Shader = NEW DefaultShader();
+	//m_Shader->Initilize();
+	//m_Shader->SetShaderTechniqueByName("SimpleColor");
+	
+	//m_Shader->AddRenderer(m_Renderer);
 
-//	m_Renderer->Initialize();
-
-//	m_Transform = std::make_shared<TransformObject>(m_Position, m_Size);
-
-//	m_Renderer->SetTransform(std::make_shared<TransformObject>(m_Position, m_Size));
-
-	m_Shader = NEW DefaultShader();
-	m_Shader->Initilize();
-	m_Shader->SetShaderTechniqueByName("SimpleColor");
-
-	m_Shader->AddRenderer(m_Renderer);
-
-	m_Shader->SetActive(true);
-	GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
+	//m_Shader->SetActive(m_IsActive);
+	//GraphicsManager::GetInstance()->AddShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->ReCreateVertexBuffer();
 	GraphicsManager::GetInstance()->SetAllStreamSource();
 	
@@ -61,9 +58,9 @@ RingWaveEffect::RingWaveEffect(F32 _speed, Vector3 _limit3d )
 //-------------------------------------------------------------
 RingWaveEffect::~RingWaveEffect()
 {
-	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
+//	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 
-	SAFE_DELETE(m_Shader);
+//	SAFE_DELETE(m_Shader);
 	SAFE_DELETE(m_Renderer);
 
 }
@@ -77,14 +74,18 @@ RingWaveEffect::~RingWaveEffect()
 //-------------------------------------------------------------
 void RingWaveEffect::Update(F32 _deltaTime)
 {
-	if (m_CurrentFactor >= 1.f)
+	if (!m_IsActive)
 		return;
-
+	if (m_CurrentFactor >= 1.f)
+	{
+		m_IsEnd = true;
+		return;
+	}
 	m_CurrentFactor += m_ScalingSpeedFactor;
 
 	Math::LinearInterpolation(&m_Size.x,	m_Size.x,	m_LimitSize.x,	m_CurrentFactor);
 	Math::LinearInterpolation(&m_Size.y,	m_Size.y,	m_LimitSize.y,	m_CurrentFactor);
-	Math::LinearInterpolation(&m_Renderer->GetMaterial()->m_Diffuse.a,		m_Renderer->GetMaterial()->m_Diffuse.a,	0.f,			m_CurrentFactor);
+	Math::LinearInterpolation(&m_Renderer->GetMaterial()->m_Diffuse.a,	m_Renderer->GetMaterial()->m_Diffuse.a,	0.f, m_CurrentFactor);
 
 	if (m_LimitSize.x <= m_Size.x)
 		m_Size.x = m_LimitSize.x;
@@ -124,6 +125,43 @@ void RingWaveEffect::SetTransform(std::shared_ptr<TransformObject> transform)
 {
 	assert(m_Renderer);
 	m_Renderer->SetTransform(transform);
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+AbsRenderer* RingWaveEffect::GetRenderer() const
+{
+	return m_Renderer;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+void RingWaveEffect::SetActive(const bool _active)
+{
+	m_IsActive = _active;
+	m_Renderer->SetActive(_active);
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+bool RingWaveEffect::IsActivce() const
+{
+	return m_IsActive;
+}
+//-------------------------------------------------------------
+//!	@brief		: example
+//!	@param[in]	: example
+//!	@return		: example
+//-------------------------------------------------------------
+bool RingWaveEffect::IsEnd() const
+{
+	return m_IsEnd;
 }
 //=======================================================================================
 //		protected method
