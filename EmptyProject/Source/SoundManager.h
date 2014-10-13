@@ -8,7 +8,8 @@
 #include "bass.h"
 #include <vector>
 #include "StopWatch.h"
-
+#include "BGMHandle.h"
+//#define _USE_MIDI_SE_
 namespace AK
 {
 namespace Sound
@@ -54,7 +55,7 @@ public:
 	bool	IsActiveSE(U32 streamNum);
 	bool	IsActiveBGM(U32 streamNum);
 
-	HSTREAM GetStreamHandle(U32 streamNum) { return m_BGMList[streamNum]; }
+	HSTREAM GetStreamHandle(U32 streamNum) { return m_BGMList[streamNum]->GetHandle(); }
 	HSTREAM GetStreamHandleSE(U32 streamNum) { return m_SEList[streamNum]; }
 	U32						m_BGMNum;
 	U32						m_SENum;
@@ -68,14 +69,12 @@ private:
 	bool	LoadSEList();
 	bool	LoadBGMList();
 
-
-
 	static SoundManager*	m_Instance;
 
 
 
 	std::vector<HSTREAM>	m_SEList;
-	std::vector<HSTREAM>	m_BGMList;
+	std::vector<BGMHandle*>	m_BGMList;
 	struct SEHandle
 	{
 		SEHandle(U32 _handle, bool _restart) : m_SEHandle(_handle), m_Restart(_restart){}

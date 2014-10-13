@@ -6,9 +6,20 @@
 //!	@par	:	example
 //!	@note	:	example
 //=======================================================================================
-
 #include "SoundManager.h"
+
 #include "CSVReader.h"
+
+#ifdef _USE_MIDI_SE_
+#pragma comment(lib, "MIDIIO.lib")
+#pragma comment(lib, "MIDIStatus.lib")
+#include "MIDIClock.h"
+#include "MIDIIO.h"
+#include "MIDIStatus.h"
+static MIDIOut* pMIDIOut = nullptr;
+static MIDIStatus* pMIDIStatus = nullptr;
+#endif
+
 using namespace AK;
 using namespace Sound;
 
@@ -57,6 +68,12 @@ void SoundManager::Destroy()
 bool SoundManager::Initalize()
 {
 	BASS_Init(-1, 44100, 0, DXUTGetHWND(), 0);
+#ifdef _USE_MIDI_SE_
+	pMIDIOut = MIDIOut_OpenA("Microsoft GS Wavetable Synth");
+	pMIDIStatus = MIDIStatus_Create(MIDISTATUS_MODENATIVE, 0, 0);
+	unsigned char cMIDIMessage[] = { 0xF0, 0x7F, 0x7F, 0x04, 0x01, 0x00, 0x7F, 0xF7 };
+	MIDIStatus_PutMIDIMessage(pMIDIStatus, cMIDIMessage, 8);
+#endif
 	return LoadSEList() && LoadBGMList();
 }
 //-------------------------------------------------------------
@@ -81,7 +98,8 @@ void SoundManager::PlayBGM(U32 streamNum, BOOL restart)
 	assert(m_BGMList.size() > streamNum);
 	PauseBGM(m_BGMNum);
 	m_BGMNum = streamNum;
-	BASS_ChannelPlay(m_BGMList[streamNum], restart);
+	m_BGMList[streamNum]->Play(restart);
+	//BASS_ChannelPlay(m_BGMList[streamNum], restart);
 }
 //-------------------------------------------------------------
 //!	@brief		: 停止
@@ -101,7 +119,7 @@ void SoundManager::PauseSE(U32 streamNum)
 void SoundManager::PauseBGM(U32 streamNum)
 {
 	assert(m_BGMList.size() > streamNum);
-	BASS_ChannelPause(m_BGMList[streamNum]);
+	m_BGMList[streamNum]->Pause();
 }
 //-------------------------------------------------------------
 //!	@brief		: ボリューム変更
@@ -111,7 +129,7 @@ void SoundManager::PauseBGM(U32 streamNum)
 void SoundManager::SetVolumeSE(U32 streamNum, F32 volume)
 {
 	assert(m_SEList.size() > streamNum);
-	BASS_ChannelSetAttribute(m_BGMList[streamNum], BASS_ATTRIB_VOL, volume);
+	BASS_ChannelSetAttribute(m_SEList[streamNum], BASS_ATTRIB_VOL, volume);
 }
 //-------------------------------------------------------------
 //!	@brief		: ボリューム変更
@@ -122,7 +140,8 @@ void SoundManager::SetVolumeBGM(U32 streamNum, F32 volume)
 {
 	assert(m_BGMList.size() > streamNum);
 	
-	BASS_ChannelSetAttribute(m_BGMList[streamNum], BASS_ATTRIB_VOL, volume);
+	m_BGMList[streamNum]->SetVolume(volume);
+	//BASS_ChannelSetAttribute(m_BGMList[streamNum], BASS_ATTRIB_VOL, volume);
 }					
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -143,7 +162,7 @@ bool SoundManager::IsActiveBGM(U32 streamNum)
 {
 	assert(m_BGMList.size() > streamNum);
 
-	return BASS_ChannelIsActive(m_BGMList[streamNum]) != 0;
+	return BASS_ChannelIsActive(m_BGMList[streamNum]->GetHandle()) != 0;
 }
 //-------------------------------------------------------------
 //!	@brief		: example
@@ -152,20 +171,51 @@ bool SoundManager::IsActiveBGM(U32 streamNum)
 //-------------------------------------------------------------
 void SoundManager::Update(F32 _dt)
 {
+#ifdef _USE_MIDI_SE_
+	static unsigned char byMIDIMessage1[3] = { 0x90, 0x3C, 0x64 };  /* NoteOn Ch=0 Key=60 Vel=100 */
+	static unsigned char byMIDIMessage2[3] = { 0x90, 0x3C, 0x00 };  /* NoteOn Ch=0 Key=60 Vel=0 */
+	static unsigned char byMIDIMessage3[3] = { 0xB0, 0x07, 0x7F };
+	static		 F32 stop = 0.f;
+	static const F32 stopcount = 3.f;
+	static bool      isPlaySE = false;
+
+	MIDIOut_PutMIDIMessage(pMIDIOut, byMIDIMessage3, 3); /* ボリューム変更 */
+
+#endif
 	m_delta.Update(_dt);
 	static const F32 bpm = ((60.f / (149.f * 16.f)));
-	if (m_delta.GetTime() > bpm)
+	auto tmp = m_BGMList[m_BGMNum]->GetBPM() * 16;
+	const long t_bpm = 60000 / tmp;
+	long current = m_BGMList[m_BGMNum]->GetMillSec() / t_bpm;
+	static U32 beforeCount = 0;
+	if (current > beforeCount)
 	{
 		m_delta.Reset();
 		m_delta.Update(m_delta.GetTime() - bpm);
 
 		for (auto it = m_PlaySE.begin(); it != m_PlaySE.end(); ++it)
 		{
+#ifdef _USE_MIDI_SE_
+			MIDIOut_PutMIDIMessage(pMIDIOut, byMIDIMessage1, 3); /* ドの音を押す */
+			isPlaySE = true;
+#else
 			BASS_ChannelPlay(m_SEList[it->m_SEHandle], it->m_Restart);
+#endif
 		}
 			
 		m_PlaySE.clear();
 	}
+	beforeCount = current;
+#ifdef _USE_MIDI_SE_
+	if (isPlaySE)
+		stop += _dt;
+	if (stop >= stopcount)
+	{
+		isPlaySE = false;
+		stop = 0.f;
+ 		MIDIOut_PutMIDIMessage(pMIDIOut, byMIDIMessage2, 3); /* ドの音を離す */
+	}
+#endif
 }
 //=======================================================================================
 //		protected method
@@ -201,11 +251,15 @@ bool SoundManager::LoadBGMList()
 {
 	CSVReader BGMList;
 	BGMList.Load("Assets/CSV/SoundList/BGMList.csv");	
-	for (U32 i = 0; i < BGMList.column * BGMList.row; ++i)
+	for (U32 i = 0; i < BGMList.column * BGMList.row; i += 2)
 	{
-		auto handle = BASS_StreamCreateFile(FALSE, BGMList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT | BASS_SAMPLE_LOOP);
-		assert(handle);
+		auto handle = NEW BGMHandle(BGMList[i].GetString());
+		handle->SetBPM(BGMList[i + 1].GetInteger());
 		m_BGMList.push_back(handle);
+		//auto handle = BASS_StreamCreateFile(FALSE, BGMList[i].GetString(), 0, 0, BASS_SAMPLE_FLOAT | BASS_SAMPLE_LOOP);
+		//assert(handle);
+		//m_BGMList.push_back(handle);
+		
 	}
 	return true;
 }
