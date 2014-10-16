@@ -101,14 +101,20 @@ void UpdateDebugConsole()
 //-------------------------------------------------------------
 void __setTraceLevel(U32 level)
 {
+#if defined(DEBUG) || defined(_DEBUG)
 	TraceLevel = level;
+#endif
 }
 //-------------------------------------------------------------
 //!	@brief		: トレースレベル取得
 //-------------------------------------------------------------
 U32	 GetTraceLevel()
 {
+#if defined(DEBUG) || defined(_DEBUG)
 	return TraceLevel;
+#else
+	return 0;
+#endif
 }
 
 

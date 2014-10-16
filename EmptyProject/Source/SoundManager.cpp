@@ -184,7 +184,7 @@ void SoundManager::Update(F32 _dt)
 #endif
 	m_delta.Update(_dt);
 	static const F32 bpm = ((60.f / (149.f * 16.f)));
-	auto tmp = m_BGMList[m_BGMNum]->GetBPM() * 16;
+	auto tmp = m_BGMList[m_BGMNum]->GetBPM() * 4;
 	const long t_bpm = 60000 / tmp;
 	long current = m_BGMList[m_BGMNum]->GetMillSec() / t_bpm;
 	static U32 beforeCount = 0;

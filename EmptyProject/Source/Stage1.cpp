@@ -101,6 +101,7 @@ Stage1::~Stage1()
 	GraphicsManager::GetInstance()->EraseShaderObject(m_ScoreNumFont);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_OpacityStep);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_AddStep);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_Simple);
 
 	SAFE_DELETE(m_Shader);
 	SAFE_DELETE(m_FadeShader);
