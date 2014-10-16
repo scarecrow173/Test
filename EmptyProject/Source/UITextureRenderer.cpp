@@ -20,7 +20,7 @@ using namespace Graphics;
 UITextureRenderer::UITextureRenderer(TextureAnimationController* info)
 	:	m_TextureRect	(info)
 {
-	m_Color = 0x8FFFFFFF;
+	m_Color = 0xFFFFFFFF;
 	m_RenderState = (D3DRENDERSTATETYPE)0;
 }
 //-------------------------------------------------------------

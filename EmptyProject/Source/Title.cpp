@@ -67,7 +67,7 @@ Title::~Title()
 {
 	GraphicsManager::GetInstance()->EraseShaderObject(m_Shader);
 	GraphicsManager::GetInstance()->EraseShaderObject(m_FadeOutScreen);
-		GraphicsManager::GetInstance()->EraseShaderObject(m_OpacityStep);
+	GraphicsManager::GetInstance()->EraseShaderObject(m_OpacityStep);
 	auto it = m_TitleBlock.begin();
 	while(it != m_TitleBlock.end())
 	{
@@ -207,6 +207,11 @@ bool Title::Initialize()
 	m_TitleText->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/TitleText.png"));
 	m_OpacityStep->AddRenderer(m_TitleText);
 
+	//m_testNumber = NEW NumberPlateRenderer();
+	//m_testNumber->SetNumber(10);
+	//m_testNumber->SetTransform(std::make_shared<TransformObject>(Vector3(230.f, 10.f, 0.f), Vector3(1.f, 1.f, 1.f)));
+	//m_testNumber->SetTexture(TexturePool::GetInstance()->GetResource("file:DefaultTexture-Assets/Texture/number.png"));
+	//m_OpacityStep->AddRenderer(m_testNumber);
 	//LoadTitleBlock();
 
 	/*GraphicsManager::GetInstance()->AddShaderObject(Font);*/

@@ -27,6 +27,7 @@
 #include "RootNode.h"
 #include "TexturePool.h"
 #include "RingWaveEffect.h"
+#include "Result.h"
 
 using namespace AK;
 using namespace Graphics;
@@ -152,7 +153,7 @@ SceneNode*	Stage1::NextScene()
 	{
 		SoundManager::GetInstance()->m_delta.Stop();
 		SoundManager::GetInstance()->m_delta.Reset();
-		return NEW Stage1(m_Parent, ++m_StageCount);
+		return NEW Result(m_Parent, ++m_StageCount, RootNode::GetInstance()->GetStopWatch()->GetTime(), RootNode::GetInstance()->GetScorer()->GetScore());
 	}
 	return this;
 }
@@ -708,6 +709,7 @@ void Stage1::StartStageClear()
 	SoundManager::GetInstance()->PlaySE(CLEAR_JINGLE, TRUE);
 	SoundManager::GetInstance()->PauseBGM(STAGE_BGM_NUM);
 
+	RootNode::GetInstance()->GetStopWatch()->Stop();
 	SetChildrenActive(false);
 	
 	m_IsGameClear = m_StageCount >= STAGE_MAX;

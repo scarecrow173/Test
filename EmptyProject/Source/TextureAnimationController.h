@@ -32,7 +32,7 @@ public:
 
 	TextureAnimationController& operator = (const TextureAnimationController& other);
 
-	void							Update(F32 elapsedTime);
+	virtual void					Update(F32 elapsedTime);
 
 	void							SetType(const AnimationType::AnimationType type);
 	AnimationType::AnimationType	GetType()		const;
@@ -42,7 +42,7 @@ public:
 	RECT							GetRect()		const;
 	bool							IsEnd()			const;
 
-private:
+protected:
 	RECT							m_Rect;
 	const U32						m_TextureWidth;
 	const U32						m_TextureHeight;

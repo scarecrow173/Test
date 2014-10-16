@@ -13,6 +13,7 @@
 #include "UIStepDefault.h"
 #include "UIStepAdd.h"
 #include "UITextureRenderer.h"
+#include "NumberPlateRenderer.h"
 namespace AK
 {
 //=======================================================================================
@@ -53,6 +54,7 @@ private:
 	Graphics::WindowPolygonRenderer*	m_FadeOutRenderer;
 	Graphics::UIStepDefault*			m_OpacityStep;
 	Graphics::UITextureRenderer*		m_TitleText;
+	Graphics::NumberPlateRenderer*		m_testNumber;
 
 };
 
